@@ -13,23 +13,34 @@ import com.powsybl.commons.json.JsonUtil;
 import com.powsybl.iidm.network.*;
 import com.powsybl.sld.GraphBuilder;
 import com.powsybl.sld.NetworkGraphBuilder;
+import com.powsybl.sld.ZoneDiagram;
+import com.powsybl.sld.ZoneId;
+import com.powsybl.sld.cgmes.dl.iidm.extensions.NetworkDiagramData;
 import com.powsybl.sld.SubstationDiagram;
 import com.powsybl.sld.VoltageLevelDiagram;
-import com.powsybl.sld.cgmes.dl.iidm.extensions.NetworkDiagramData;
 import com.powsybl.sld.cgmes.layout.CgmesSubstationLayoutFactory;
 import com.powsybl.sld.cgmes.layout.CgmesVoltageLevelLayoutFactory;
+import com.powsybl.sld.cgmes.layout.CgmesZoneLayoutFactory;
 import com.powsybl.sld.force.layout.ForceSubstationLayoutFactory;
+import com.powsybl.sld.force.layout.ForceZoneLayoutFactory;
 import com.powsybl.sld.layout.*;
 import com.powsybl.sld.layout.positionbyclustering.PositionByClustering;
 import com.powsybl.sld.library.ComponentLibrary;
 import com.powsybl.sld.library.ResourcesComponentLibrary;
-import com.powsybl.sld.svg.*;
+import com.powsybl.sld.svg.DefaultDiagramInitialValueProvider;
+import com.powsybl.sld.svg.DefaultDiagramStyleProvider;
+import com.powsybl.sld.svg.DefaultNodeLabelConfiguration;
+import com.powsybl.sld.svg.DefaultSVGWriter;
+import com.powsybl.sld.svg.DiagramInitialValueProvider;
+import com.powsybl.sld.svg.DiagramStyleProvider;
+import com.powsybl.sld.svg.NodeLabelConfiguration;
 import com.powsybl.sld.util.NominalVoltageDiagramStyleProvider;
 import com.powsybl.sld.util.TopologicalStyleProvider;
 import com.powsybl.sld.view.AbstractContainerDiagramView;
 import com.powsybl.sld.view.DisplayVoltageLevel;
 import com.powsybl.sld.view.SubstationDiagramView;
 import com.powsybl.sld.view.VoltageLevelDiagramView;
+import com.powsybl.sld.view.ZoneDiagramView;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -47,9 +58,33 @@ import javafx.geometry.Insets;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.CheckBoxTreeItem;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
+import javafx.scene.control.Tooltip;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.CheckBoxTreeCell;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -59,7 +94,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -84,25 +125,42 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
 
     private static final String SELECTED_VOLTAGE_LEVEL_IDS_PROPERTY = "selectedVoltageLevelIds";
     private static final String SELECTED_SUBSTATION_IDS_PROPERTY = "selectedSubstationIds";
+    private static final String SELECTED_ZONE_IDS_PROPERTY = "selectedZoneIds";
+
+    private static final String CLOSE_TAB_ACTION = "Close tab";
+    private static final String CLOSE_ALL_TABS_ACTION = "Close all tabs";
+
+    private static final String CGMES_LAYOUT_NAME = "Cgmes";
+    private static final String SMART_LAYOUT_NAME = "Smart";
+    private static final String SMART_WITH_HORIZONTAL_COMPACTION_LAYOUT_NAME = "Smart with horizontal compaction";
+    private static final String SMART_WITH_VERTICAL_COMPACTION_LAYOUT_NAME = "Smart with vertical compaction";
 
     private Map<String, VoltageLevelLayoutFactory> voltageLevelsLayouts = new LinkedHashMap<>();
 
-    private Map<String, DiagramStyleProvider> styles = new LinkedHashMap<>();
-
     private Map<String, SubstationLayoutFactory> substationsLayouts = new LinkedHashMap<>();
+
+    private Map<String, ZoneLayoutFactory> zonesLayouts = new LinkedHashMap<>();
+
+    private Map<String, DiagramStyleProvider> styles = new LinkedHashMap<>();
 
     private final ComponentLibrary convergenceComponentLibrary = new ResourcesComponentLibrary("/ConvergenceLibrary");
 
     private final Map<String, ComponentLibrary> svgLibraries
             = ImmutableMap.of("CVG Design", convergenceComponentLibrary);
 
+    private final ObservableList<SelectableVoltageLevel> selectableVoltageLevels = FXCollections.observableArrayList();
+
     private final ObservableList<SelectableSubstation> selectableSubstations = FXCollections.observableArrayList();
 
-    private final ObservableList<SelectableVoltageLevel> selectableVoltageLevels = FXCollections.observableArrayList();
+    private final ObservableList<SelectableZone> selectableZones = FXCollections.observableArrayList();
 
     private final TextField filterInput = new TextField();
 
-    private final TreeView<Container> substationsTree = new TreeView<>();
+    private final TreeView<ContainerDiagram> substationsTree = new TreeView<>();
+
+    private List<String> saveSelectedSubstations = new ArrayList<>();
+
+    private List<String> saveSelectedVoltageLevels = new ArrayList<>();
 
     private final TabPane diagramsPane = new TabPane();
     private Tab tabSelected;
@@ -120,9 +178,11 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
 
     private final ObjectMapper objectMapper = JsonUtil.createObjectMapper();
 
-    protected final ComboBox<String> voltageLevelLayoutComboBox = new ComboBox<>();
+    private final ComboBox<String> voltageLevelLayoutComboBox = new ComboBox<>();
 
     private final ComboBox<String> substationLayoutComboBox = new ComboBox<>();
+
+    private final ComboBox<String> zoneLayoutComboBox = new ComboBox<>();
 
     private final ComboBox<String> styleComboBox = new ComboBox<>();
 
@@ -131,6 +191,12 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
     private final CheckBox showNames = new CheckBox("Show names");
 
     private final CheckBox hideSubstations = new CheckBox("Hide substations");
+
+    private final CheckBox zoneBuildMode = new CheckBox("Zone mode");
+
+    private final Button createZone = new Button("Create");
+
+    private final TextField zoneName = new TextField();
 
     private final ComboBox<String> diagramNamesComboBox = new ComboBox<>();
 
@@ -174,7 +240,10 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
 
         private final ChangeListener<LayoutParameters> listener;
 
-        ContainerDiagramPane(Container c) {
+        private final ContainerDiagram diag;
+
+        ContainerDiagramPane(ContainerDiagram c) {
+            diag = c;
             createArea(svgSearchField, svgSearchButton, svgSaveButton, "SVG file", "*.svg", svgTextArea, svgArea, svgSearchStart);
             createArea(metadataSearchField, metadataSearchButton, metadataSaveButton, "JSON file", "*.json", metadataTextArea, metadataArea, metadataSearchStart);
             createArea(jsonSearchField, jsonSearchButton, jsonSaveButton, "JSON file", "*.json", jsonTextArea, jsonArea, jsonSearchStart);
@@ -193,6 +262,10 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
             listener = (observable, oldValue, newValue) -> loadDiagram(c);
             layoutParameters.addListener(new WeakChangeListener<>(listener));
             loadDiagram(c);
+        }
+
+        public ContainerDiagram getDiag() {
+            return diag;
         }
 
         class ContainerDiagramResult {
@@ -237,7 +310,7 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
             return diagramNamesComboBox.getSelectionModel().getSelectedItem();
         }
 
-        private ContainerDiagramResult createContainerDiagramView(Container c) {
+        private ContainerDiagramResult createContainerDiagramView(ContainerDiagram c) {
             String svgData;
             String metadataData;
             String jsonData;
@@ -252,7 +325,7 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
                 String dName = getSelectedDiagramName();
                 LayoutParameters diagramLayoutParameters = new LayoutParameters(layoutParameters.get()).setDiagramName(dName);
                 diagramLayoutParameters.setComponentsSize(getComponentLibrary().getComponentsSize());
-                if (c.getContainerType() == ContainerType.VOLTAGE_LEVEL) {
+                if (c.getContainerDiagramType() == ContainerDiagram.ContainerDiagramType.VOLTAGE_LEVEL) {
                     VoltageLevelDiagram diagram = VoltageLevelDiagram.build(graphBuilder, c.getId(), getVoltageLevelLayoutFactory(), showNames.isSelected(),
                             diagramLayoutParameters.isShowInductorFor3WT());
                     diagram.writeSvg("",
@@ -263,7 +336,7 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
                             svgWriter,
                             metadataWriter);
                     diagram.getGraph().writeJson(jsonWriter);
-                } else if (c.getContainerType() == ContainerType.SUBSTATION) {
+                } else if (c.getContainerDiagramType() == ContainerDiagram.ContainerDiagramType.SUBSTATION) {
                     SubstationDiagram diagram = SubstationDiagram.build(graphBuilder, c.getId(), getSubstationLayoutFactory(), getVoltageLevelLayoutFactory(), showNames.isSelected());
                     diagram.writeSvg("",
                             new DefaultSVGWriter(getComponentLibrary(), diagramLayoutParameters),
@@ -273,6 +346,16 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
                             svgWriter,
                             metadataWriter);
                     diagram.getSubGraph().writeJson(jsonWriter);
+                } else if (c.getContainerDiagramType() == ContainerDiagram.ContainerDiagramType.ZONE) {
+                    ZoneDiagram diagram = ZoneDiagram.build(graphBuilder, c.getZoneId(), getZoneLayoutFactory(), getSubstationLayoutFactory(), getVoltageLevelLayoutFactory(), showNames.isSelected());
+                    diagram.writeSvg("",
+                            new DefaultSVGWriter(getComponentLibrary(), diagramLayoutParameters),
+                            initProvider,
+                            styleProvider,
+                            nodeLabelConfiguration,
+                            svgWriter,
+                            metadataWriter);
+                    diagram.getZoneGraph().writeJson(jsonWriter);
                 }
 
                 svgWriter.flush();
@@ -287,12 +370,12 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
             AbstractContainerDiagramView diagramView = null;
             try (InputStream svgInputStream = new ByteArrayInputStream(svgData.getBytes(StandardCharsets.UTF_8));
                  InputStream metadataInputStream = new ByteArrayInputStream(metadataData.getBytes(StandardCharsets.UTF_8))) {
-                if (c.getContainerType() == ContainerType.VOLTAGE_LEVEL) {
+                if (c.getContainerDiagramType() == ContainerDiagram.ContainerDiagramType.VOLTAGE_LEVEL) {
                     diagramView = VoltageLevelDiagramView.load(svgInputStream, metadataInputStream, switchId -> handleSwitchPositionchange(c, switchId), AbstractSingleLineDiagramViewer.this);
-                } else if (c.getContainerType() == ContainerType.SUBSTATION) {
+                } else if (c.getContainerDiagramType() == ContainerDiagram.ContainerDiagramType.SUBSTATION) {
                     diagramView = SubstationDiagramView.load(svgInputStream, metadataInputStream, switchId -> handleSwitchPositionchange(c, switchId), AbstractSingleLineDiagramViewer.this);
-                } else {
-                    throw new AssertionError();
+                } else if (c.getContainerDiagramType() == ContainerDiagram.ContainerDiagramType.ZONE) {
+                    diagramView = ZoneDiagramView.load(svgInputStream, metadataInputStream, switchId -> handleSwitchPositionchange(c, switchId), AbstractSingleLineDiagramViewer.this);
                 }
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
@@ -300,15 +383,8 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
             return new ContainerDiagramResult(diagramView, svgData, metadataData, jsonData);
         }
 
-        private void handleSwitchPositionchange(Container c, String switchId) {
-            Switch sw = null;
-            if (c.getContainerType() == ContainerType.VOLTAGE_LEVEL) {
-                VoltageLevel v = (VoltageLevel) c;
-                sw = v.getSubstation().getNetwork().getSwitch(switchId);
-            } else if (c.getContainerType() == ContainerType.SUBSTATION) {
-                Substation s = (Substation) c;
-                sw = s.getNetwork().getSwitch(switchId);
-            }
+        private void handleSwitchPositionchange(ContainerDiagram c, String switchId) {
+            Switch sw = c.getNetwork().getSwitch(switchId);
             if (sw != null) {
                 sw.setOpen(!sw.isOpen());
                 DiagramStyleProvider styleProvider = styles.get(styleComboBox.getSelectionModel().getSelectedItem());
@@ -317,7 +393,7 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
             }
         }
 
-        private void loadDiagram(Container c) {
+        private void loadDiagram(ContainerDiagram c) {
             Service<ContainerDiagramResult> loader = new Service<ContainerDiagramResult>() {
                 @Override
                 protected Task<ContainerDiagramResult> createTask() {
@@ -361,6 +437,11 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
         private SubstationLayoutFactory getSubstationLayoutFactory() {
             String selectedItem = substationLayoutComboBox.getSelectionModel().getSelectedItem();
             return substationsLayouts.get(selectedItem);
+        }
+
+        private ZoneLayoutFactory getZoneLayoutFactory() {
+            String selectedItem = zoneLayoutComboBox.getSelectionModel().getSelectedItem();
+            return zonesLayouts.get(selectedItem);
         }
 
         private void createArea(TextField searchField, Button searchButton, Button saveButton,
@@ -435,17 +516,21 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
 
         protected boolean saveDiagrams = true;
 
+        protected boolean execListener = true;
+
         AbstractSelectableContainer(String id, String name) {
             this.id = id;
             this.name = name;
             checkedProperty.addListener((obs, wasSelected, isNowSelected) -> {
-                if (isNowSelected) {
-                    addDiagramTab();
-                } else {
-                    removeDiagramTab();
-                }
-                if (saveDiagrams) {
-                    saveSelectedDiagrams();
+                if (execListener) {
+                    if (isNowSelected) {
+                        addDiagramTab();
+                    } else {
+                        removeDiagramTab();
+                    }
+                    if (saveDiagrams) {
+                        saveSelectedDiagrams();
+                    }
                 }
             });
         }
@@ -456,8 +541,14 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
 
         abstract void addDiagramTab();
 
+        abstract void closeTab(boolean removeFromSavedSelection);
+
         protected String getId() {
             return id;
+        }
+
+        protected String getName() {
+            return name;
         }
 
         protected String getIdOrName() {
@@ -476,6 +567,14 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
             this.saveDiagrams = saveDiagrams;
         }
 
+        public void setExecListener(boolean execListener) {
+            this.execListener = execListener;
+        }
+
+        public boolean isExecListener() {
+            return execListener;
+        }
+
         @Override
         public String toString() {
             return getIdOrName();
@@ -489,17 +588,18 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
         }
 
         @Override
-        protected void addDiagramTab() {
+        public void addDiagramTab() {
             VoltageLevel vl = networkProperty.get().getVoltageLevel(id);
             if (vl != null) {
-                Tab tab = new Tab(id, new ContainerDiagramPane(vl));
-                tab.setTooltip(new Tooltip(vl.getName()));
-                tab.setOnCloseRequest(e -> closeTab());
+                ContainerDiagram cd = new ContainerDiagram(ContainerDiagram.ContainerDiagramType.VOLTAGE_LEVEL, Collections.singletonList(vl));
+                Tab tab = new Tab(id, new ContainerDiagramPane(cd));
+                tab.setTooltip(new Tooltip(getIdOrName()));
+                tab.setOnCloseRequest(e -> closeTab(true));
 
                 ContextMenu menu = new ContextMenu();
-                MenuItem itemCloseTab = new MenuItem("Close tab");
-                itemCloseTab.setOnAction(e -> closeTab());
-                MenuItem itemCloseAllTabs = new MenuItem("Close all tabs");
+                MenuItem itemCloseTab = new MenuItem(CLOSE_TAB_ACTION);
+                itemCloseTab.setOnAction(e -> closeTab(true));
+                MenuItem itemCloseAllTabs = new MenuItem(CLOSE_ALL_TABS_ACTION);
                 itemCloseAllTabs.setOnAction(e -> closeAllTabs());
 
                 menu.getItems().add(itemCloseTab);
@@ -512,9 +612,13 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
             }
         }
 
-        public void closeTab() {
+        @Override
+        public void closeTab(boolean removeFromSavedSelection) {
             checkedProperty.set(false);
             checkvItemTree(id, false);
+            if (removeFromSavedSelection) {
+                saveSelectedVoltageLevels.remove(id);
+            }
         }
     }
 
@@ -524,18 +628,19 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
         }
 
         @Override
-        protected void addDiagramTab() {
+        public void addDiagramTab() {
             Substation s = networkProperty.get().getSubstation(id);
             if (s != null) {
-                Tab tab = new Tab(id, new ContainerDiagramPane(s));
-                tab.setTooltip(new Tooltip(s.getName()));
-                tab.setOnCloseRequest(e -> closeTab());
+                ContainerDiagram cd = new ContainerDiagram(ContainerDiagram.ContainerDiagramType.SUBSTATION, Collections.singletonList(s));
+                Tab tab = new Tab(id, new ContainerDiagramPane(cd));
+                tab.setTooltip(new Tooltip(getIdOrName()));
+                tab.setOnCloseRequest(e -> closeTab(true));
 
                 ContextMenu menu = new ContextMenu();
-                MenuItem itemCloseTab = new MenuItem("Close tab");
-                itemCloseTab.setOnAction(e -> closeTab());
+                MenuItem itemCloseTab = new MenuItem(CLOSE_TAB_ACTION);
+                itemCloseTab.setOnAction(e -> closeTab(true));
 
-                MenuItem itemCloseAllTabs = new MenuItem("Close all tabs");
+                MenuItem itemCloseAllTabs = new MenuItem(CLOSE_ALL_TABS_ACTION);
                 itemCloseAllTabs.setOnAction(e -> closeAllTabs());
 
                 menu.getItems().add(itemCloseTab);
@@ -548,17 +653,63 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
             }
         }
 
-        private void checksItemTree(String id, boolean selected) {
-            substationsTree.getRoot().getChildren().stream().forEach(child -> {
-                if (child.getValue().getId().equals(id)) {
-                    ((CheckBoxTreeItem) child).setSelected(selected);
-                }
-            });
-        }
-
-        public void closeTab() {
+        @Override
+        public void closeTab(boolean removeFromSavedSelection) {
             checkedProperty.set(false);
             checksItemTree(id, false);
+            if (removeFromSavedSelection) {
+                saveSelectedSubstations.remove(id);
+            }
+        }
+    }
+
+    private class SelectableZone extends AbstractSelectableContainer {
+        private ZoneId zoneId;
+
+        SelectableZone(ZoneId zoneId, String name) {
+            super(null, name);
+            this.zoneId = zoneId;
+        }
+
+        public ZoneId getZoneId() {
+            return zoneId;
+        }
+
+        @Override
+        public void addDiagramTab() {
+            List<String> ids = zoneId.getSubstationsIds();
+            List<Container> containerList = new ArrayList<>();
+            ids.forEach(sid -> {
+                Substation s = networkProperty.get().getSubstation(sid);
+                if (s != null) {
+                    containerList.add(s);
+                } else {
+                    LOGGER.warn("Substation {} not found", sid);
+                }
+            });
+
+            ContainerDiagram cd = new ContainerDiagram(ContainerDiagram.ContainerDiagramType.ZONE, containerList);
+            cd.setContainerName(getName());
+            Tab tab = new Tab(getName(), new ContainerDiagramPane(cd));
+            tab.setTooltip(new Tooltip(showNames.isSelected() ? cd.getName() : cd.getId()));
+            tab.setOnCloseRequest(e -> closeTab(true));
+
+            ContextMenu menu = new ContextMenu();
+            MenuItem itemCloseTab = new MenuItem(CLOSE_TAB_ACTION);
+            itemCloseTab.setOnAction(e -> closeTab(true));
+
+            MenuItem itemCloseAllTabs = new MenuItem(CLOSE_ALL_TABS_ACTION);
+            itemCloseAllTabs.setOnAction(e -> closeAllTabs());
+
+            menu.getItems().add(itemCloseTab);
+            menu.getItems().add(itemCloseAllTabs);
+            tab.setContextMenu(menu);
+            checkedDiagramsPane.getTabs().add(tab);
+            checkedDiagramsPane.getSelectionModel().select(tab);
+        }
+
+        public void closeTab(boolean removeFromSavedSelection) {
+            checkedProperty.set(false);
         }
     }
 
@@ -672,6 +823,13 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
 
         parametersPane.add(new Label("VoltageLevel Layout:"), 0, rowIndex++);
         parametersPane.add(voltageLevelLayoutComboBox, 0, rowIndex++);
+
+        // zone layout list
+        zoneLayoutComboBox.getItems().addAll(zonesLayouts.keySet());
+        zoneLayoutComboBox.getSelectionModel().selectFirst();
+        zoneLayoutComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> refreshDiagram());
+        parametersPane.add(new Label("Zone Layout:"), 0, rowIndex++);
+        parametersPane.add(zoneLayoutComboBox, 0, rowIndex++);
 
         //CGMES-DL diagrams names list
         parametersPane.add(new Label("CGMES-DL Diagrams:"), 0, ++rowIndex);
@@ -790,15 +948,53 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
         }
     }
 
+    private void loadSelectedZonesDiagrams() {
+        String selectedPropertyValue = preferences.get(SELECTED_ZONE_IDS_PROPERTY, null);
+
+        if (selectedPropertyValue != null) {
+            try {
+                Set<String> selectedZoneIds = new HashSet<>(objectMapper.readValue(selectedPropertyValue, new TypeReference<List<String>>() {
+                }));
+                selectedZoneIds.forEach(s -> {
+                    // Get the zone name and the zone substations ids
+                    String zoneName = StringUtils.substringBefore(s, "[");
+                    String[] substationsIds = StringUtils.split(StringUtils.substringBetween(s, "[", "]"), "\n");
+                    SelectableZone sZone = new SelectableZone(ZoneId.create(Arrays.asList(substationsIds)), zoneName);
+                    selectableZones.add(sZone);
+                    sZone.setSaveDiagrams(false);
+                    sZone.setCheckedProperty(true);
+                    sZone.setSaveDiagrams(true);
+                });
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
+    }
+
     /*
         Handling the display of names/id in the substations tree
      */
     private void initTreeCellFactory() {
         substationsTree.setCellFactory(param -> {
-            CheckBoxTreeCell<Container> treeCell = new CheckBoxTreeCell<>();
-            StringConverter<TreeItem<Container>> strConvert = new StringConverter<TreeItem<Container>>() {
+            CheckBoxTreeCell<ContainerDiagram> treeCell = new CheckBoxTreeCell<ContainerDiagram>() {
                 @Override
-                public String toString(TreeItem<Container> c) {
+                public void updateItem(ContainerDiagram item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item != null) {
+                        if (zoneBuildMode.isSelected()) {
+                            CheckBoxTreeItem<ContainerDiagram> value = (CheckBoxTreeItem<ContainerDiagram>) treeItemProperty().getValue();
+                            this.disableProperty().set(value.isLeaf());
+                        } else {
+                            this.disableProperty().set(false);
+                        }
+                    }
+                }
+            };
+
+            StringConverter<TreeItem<ContainerDiagram>> strConvert = new StringConverter<TreeItem<ContainerDiagram>>() {
+                @Override
+                public String toString(TreeItem<ContainerDiagram> c) {
                     if (c.getValue() != null) {
                         return showNames.isSelected() ? c.getValue().getName() : c.getValue().getId();
                     } else {
@@ -807,7 +1003,7 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
                 }
 
                 @Override
-                public TreeItem<Container> fromString(String string) {
+                public TreeItem<ContainerDiagram> fromString(String string) {
                     return null;
                 }
             };
@@ -831,6 +1027,95 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
         hideSubstations.selectedProperty().addListener((observable, oldValue, newValue) -> {
             initSubstationsTree();
             substationsTree.refresh();
+            zoneBuildMode.setDisable(newValue);
+            zoneName.setDisable(newValue);
+            createZone.setDisable(newValue);
+        });
+
+        zoneBuildMode.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {  // Entering zone building mode
+                // Saving the actual list of selected substations and voltage levels in the tree
+                // Clearing all selections in the tree without closing the current displayed diagrams
+                // Allowing substations selection, but with no display/undisplay feature
+                // Disallowing voltage levels selection
+                saveSelectedSubstations.clear();
+                saveSelectedVoltageLevels.clear();
+
+                selectableSubstations.forEach(s -> {
+                    s.setExecListener(false);
+                    if (s.checkedProperty().get()) {
+                        s.closeTab(false);
+                        saveSelectedSubstations.add(s.getId());
+                    }
+                });
+                selectableVoltageLevels.forEach(v -> {
+                    v.setExecListener(false);
+                    if (v.checkedProperty().get()) {
+                        v.closeTab(false);
+                        saveSelectedVoltageLevels.add(v.getId());
+                    }
+                });
+
+                createZone.setDisable(false);
+                substationsTree.refresh();
+            } else {  // Leaving zone building mode
+                // Deselecting the currently selected substations
+                selectableSubstations.stream().filter(s -> s.checkedProperty().get()).forEach(s -> s.closeTab(false));
+
+                // Restoring the previously saved selections of substations and voltage levels in the tree, but with no display feature
+                selectableSubstations.forEach(s -> {
+                    if (saveSelectedSubstations.contains(s.getId())) {
+                        s.checkedProperty().set(true);
+                        checksItemTree(s.getId(), true);
+                    }
+                    s.setExecListener(true);
+                });
+                selectableVoltageLevels.forEach(v -> {
+                    if (saveSelectedVoltageLevels.contains(v.getId())) {
+                        v.checkedProperty().set(true);
+                        checkvItemTree(v.getId(), true);
+                    }
+                    v.setExecListener(true);
+                });
+
+                createZone.setDisable(true);
+                substationsTree.refresh();
+            }
+        });
+
+        createZone.setOnAction(evh -> {
+            List<String> substationsIds = selectableSubstations.stream().filter(s -> s.checkedProperty().get()).map(SelectableSubstation::getId).collect(Collectors.toList());
+            if (substationsIds.isEmpty()) {
+                new Alert(Alert.AlertType.ERROR, "At least one substation must be selected", ButtonType.CANCEL).show();
+                return;
+            }
+            if (StringUtils.isEmpty(zoneName.getText())) {
+                new Alert(Alert.AlertType.ERROR, "A zone name is required", ButtonType.CANCEL).show();
+                return;
+            }
+
+            boolean zoneExist = false;
+            for (Tab tab : checkedDiagramsPane.getTabs()) {
+                if (!zoneExist && tab.getText().equals(zoneName.getText())) {
+                    zoneExist = true;
+                    break;
+                }
+            }
+            if (zoneExist) {
+                new Alert(Alert.AlertType.ERROR, "A zone with the same name already exists", ButtonType.CANCEL).show();
+                return;
+            }
+
+            SelectableZone sZone = new SelectableZone(ZoneId.create(substationsIds), zoneName.getText());
+            selectableZones.add(sZone);
+            sZone.setCheckedProperty(true);
+
+            // clearing all selections in the tree
+            selectableSubstations.forEach(s -> {
+                if (s.checkedProperty().get()) {
+                    s.closeTab(false);
+                }
+            });
         });
 
         filterInput.textProperty().addListener(obs ->
@@ -839,6 +1124,7 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
 
         // handling the change of the network
         networkProperty.addListener((observable, oldNetwork, newNetwork) -> {
+            selectableZones.clear();
             if (newNetwork == null) {
                 selectableVoltageLevels.clear();
                 selectableSubstations.clear();
@@ -860,19 +1146,33 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
 
         BorderPane voltageLevelPane = new BorderPane();
         Label filterLabel = new Label("Filter:");
-        filterLabel.setMinWidth(40);
+        filterLabel.setMinWidth(60);
         GridPane voltageLevelToolBar = new GridPane();
         voltageLevelToolBar.setHgap(5);
         voltageLevelToolBar.setVgap(5);
         voltageLevelToolBar.setPadding(new Insets(5, 5, 5, 5));
         voltageLevelToolBar.add(showNames, 0, 0, 2, 1);
         voltageLevelToolBar.add(hideSubstations, 0, 1, 2, 1);
-        voltageLevelToolBar.add(filterLabel, 0, 2);
-        voltageLevelToolBar.add(filterInput, 1, 2);
+        voltageLevelToolBar.add(filterLabel, 0, 2, 1, 1);
+        voltageLevelToolBar.add(filterInput, 1, 2, 1, 1);
         ColumnConstraints c0 = new ColumnConstraints();
         ColumnConstraints c1 = new ColumnConstraints();
         c1.setHgrow(Priority.ALWAYS);
         voltageLevelToolBar.getColumnConstraints().addAll(c0, c1);
+
+        VBox boxZone = new VBox(10);
+        createZone.setDisable(true);
+        HBox boxZoneName = new HBox(10);
+        Label zoneLabel = new Label("Name:");
+        zoneLabel.setMinWidth(50);
+        boxZoneName.getChildren().addAll(zoneLabel, zoneName);
+
+        boxZone.getChildren().addAll(zoneBuildMode, boxZoneName, createZone);
+        TitledPane zoneToolBar = new TitledPane("Zone", boxZone);
+        zoneToolBar.setCollapsible(false);
+
+        voltageLevelToolBar.add(zoneToolBar, 0, 3, 2, 1);
+
         voltageLevelPane.setTop(voltageLevelToolBar);
         voltageLevelPane.setCenter(substationsTree);
 
@@ -885,7 +1185,7 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
         mainPane.setCenter(splitPane);
         mainPane.setTop(casePane);
 
-        // selected voltegeLevels diagrams reloading
+        // selected voltageLevels diagrams reloading
         selectableVoltageLevels.addListener(new ListChangeListener<SelectableVoltageLevel>() {
             @Override
             public void onChanged(Change<? extends SelectableVoltageLevel> c) {
@@ -904,13 +1204,13 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
         });
 
         // Handling selection of a substation or a voltageLevel in the substations tree
-        substationsTree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<Container>>() {
+        substationsTree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<ContainerDiagram>>() {
             @Override
-            public void changed(ObservableValue<? extends TreeItem<Container>> observable, TreeItem<Container> oldValue, TreeItem<Container> newValue) {
+            public void changed(ObservableValue<? extends TreeItem<ContainerDiagram>> observable, TreeItem<ContainerDiagram> oldValue, TreeItem<ContainerDiagram> newValue) {
                 if (newValue == null) {
                     return;
                 }
-                Container c = newValue.getValue();
+                ContainerDiagram c = newValue.getValue();
                 selectedDiagramPane.setCenter(new ContainerDiagramPane(c));
             }
         });
@@ -947,12 +1247,12 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
                 .forEach(selectableSubstation -> selectableSubstation.setCheckedProperty(checked));
     }
 
-    private void initVoltageLevelsTree(TreeItem<Container> rootItem,
+    private void initVoltageLevelsTree(TreeItem<ContainerDiagram> rootItem,
                                        Substation s, String filter, boolean emptyFilter,
                                        Map<String, SelectableSubstation> mapSubstations,
                                        Map<String, SelectableVoltageLevel> mapVoltageLevels) {
         boolean firstVL = true;
-        CheckBoxTreeItem<Container> sItem = null;
+        CheckBoxTreeItem<ContainerDiagram> sItem = null;
 
         for (VoltageLevel v : s.getVoltageLevels()) {
             boolean vlOk = showNames.isSelected() ? v.getName().contains(filter) : v.getId().contains(filter);
@@ -961,14 +1261,16 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
                 continue;
             }
 
-            CheckBoxTreeItem<Container> vItem = new CheckBoxTreeItem<>(v);
+            ContainerDiagram cdv = new ContainerDiagram(ContainerDiagram.ContainerDiagramType.VOLTAGE_LEVEL, Collections.singletonList(v));
+            CheckBoxTreeItem<ContainerDiagram> vItem = new CheckBoxTreeItem<>(cdv);
             vItem.setIndependent(true);
             if (mapVoltageLevels.containsKey(v.getId()) && mapVoltageLevels.get(v.getId()).checkedProperty().get()) {
                 vItem.setSelected(true);
             }
 
             if (firstVL && !hideSubstations.isSelected()) {
-                sItem = new CheckBoxTreeItem<>(s);
+                ContainerDiagram cds = new ContainerDiagram(ContainerDiagram.ContainerDiagramType.SUBSTATION, Collections.singletonList(s));
+                sItem = new CheckBoxTreeItem<>(cds);
                 sItem.setIndependent(true);
                 sItem.setExpanded(true);
                 if (mapSubstations.containsKey(s.getId()) && mapSubstations.get(s.getId()).checkedProperty().get()) {
@@ -998,7 +1300,7 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
         boolean emptyFilter = StringUtils.isEmpty(filter);
 
         Network n = networkProperty.get();
-        TreeItem<Container> rootItem = new TreeItem<>();
+        TreeItem<ContainerDiagram> rootItem = new TreeItem<>();
         rootItem.setExpanded(true);
 
         Map<String, SelectableSubstation> mapSubstations = selectableSubstations.stream()
@@ -1030,7 +1332,8 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
                 }
             });
         } else if (diagramsPane.getSelectionModel().getSelectedItem() == tabSelected) {
-            selectedDiagramPane.setCenter(new ContainerDiagramPane(v));
+            ContainerDiagram cd = new ContainerDiagram(ContainerDiagram.ContainerDiagramType.VOLTAGE_LEVEL, Collections.singletonList(v));
+            selectedDiagramPane.setCenter(new ContainerDiagramPane(cd));
         }
     }
 
@@ -1044,27 +1347,43 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
         );
     }
 
+    private void checksItemTree(String id, boolean selected) {
+        substationsTree.getRoot().getChildren().stream().forEach(child -> {
+            if (child.getValue().getId().equals(id)) {
+                ((CheckBoxTreeItem) child).setSelected(selected);
+            }
+        });
+    }
+
     public void saveSelectedDiagrams() {
         try {
-            String selectedVoltageLevelIdsPropertyValue = objectMapper.writeValueAsString(selectableVoltageLevels.stream()
-                    .filter(selectableVoltageLevel -> selectableVoltageLevel.checkedProperty().get())
-                    .map(SelectableVoltageLevel::getId)
+            String selectedVoltageLevelIdsPropertyValue = objectMapper.writeValueAsString(checkedDiagramsPane.getTabs().stream()
+                    .filter(tab -> ((ContainerDiagramPane) tab.getContent()).getDiag().getContainerDiagramType() == ContainerDiagram.ContainerDiagramType.VOLTAGE_LEVEL)
+                    .map(tab -> ((ContainerDiagramPane) tab.getContent()).getDiag().getId())
                     .collect(Collectors.toList()));
             preferences.put(SELECTED_VOLTAGE_LEVEL_IDS_PROPERTY, selectedVoltageLevelIdsPropertyValue);
 
-            String selectedSubstationIdsPropertyValue = objectMapper.writeValueAsString(selectableSubstations.stream()
-                    .filter(selectableSubstation -> selectableSubstation.checkedProperty().get())
-                    .map(SelectableSubstation::getId)
+            String selectedSubstationIdsPropertyValue = objectMapper.writeValueAsString(checkedDiagramsPane.getTabs().stream()
+                    .filter(tab -> ((ContainerDiagramPane) tab.getContent()).getDiag().getContainerDiagramType() == ContainerDiagram.ContainerDiagramType.SUBSTATION)
+                    .map(tab -> ((ContainerDiagramPane) tab.getContent()).getDiag().getId())
                     .collect(Collectors.toList()));
             preferences.put(SELECTED_SUBSTATION_IDS_PROPERTY, selectedSubstationIdsPropertyValue);
+
+            String selectedZoneIdsPropertyValue = objectMapper.writeValueAsString(checkedDiagramsPane.getTabs().stream()
+                    .filter(tab -> ((ContainerDiagramPane) tab.getContent()).getDiag().getContainerDiagramType() == ContainerDiagram.ContainerDiagramType.ZONE)
+                    .map(tab -> ((ContainerDiagramPane) tab.getContent()).getDiag().getId())
+                    .collect(Collectors.toList()));
+            preferences.put(SELECTED_ZONE_IDS_PROPERTY, selectedZoneIdsPropertyValue);
+
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
     private void closeAllTabs() {
-        selectableVoltageLevels.stream().filter(s -> s.checkedProperty().get()).forEach(s -> s.closeTab());
-        selectableSubstations.stream().filter(s -> s.checkedProperty().get()).forEach(s -> s.closeTab());
+        selectableVoltageLevels.stream().filter(s -> s.checkedProperty().get()).forEach(s -> s.closeTab(true));
+        selectableSubstations.stream().filter(s -> s.checkedProperty().get()).forEach(s -> s.closeTab(true));
+        selectableZones.stream().filter(s -> s.checkedProperty().get()).forEach(s -> s.closeTab(true));
     }
 
     protected void setNetwork(Network network) {
@@ -1074,29 +1393,39 @@ public abstract class AbstractSingleLineDiagramViewer extends Application implem
         networkProperty.setValue(network);
         initSubstationsTree();
         setDiagramsNamesContent(network, true);
+        loadSelectedZonesDiagrams();
     }
 
     private void initLayoutsFactory() {
-        voltageLevelsLayouts.put("Smart", null);
+        voltageLevelsLayouts.put(SMART_LAYOUT_NAME, null);
         voltageLevelsLayouts.put("Auto extensions", new PositionVoltageLevelLayoutFactory(new PositionFromExtension()));
         voltageLevelsLayouts.put("Auto without extensions", new PositionVoltageLevelLayoutFactory(new PositionFree()));
         voltageLevelsLayouts.put("Auto without extensions Clustering", new PositionVoltageLevelLayoutFactory(new PositionByClustering()));
         voltageLevelsLayouts.put("Random", new RandomVoltageLevelLayoutFactory(500, 500));
-        voltageLevelsLayouts.put("Cgmes", null);
+        voltageLevelsLayouts.put(CGMES_LAYOUT_NAME, null);
 
         substationsLayouts.put("Horizontal", new HorizontalSubstationLayoutFactory());
         substationsLayouts.put("Vertical", new VerticalSubstationLayoutFactory());
-        substationsLayouts.put("Cgmes", null);
-        substationsLayouts.put("Smart", new ForceSubstationLayoutFactory(ForceSubstationLayoutFactory.CompactionType.NONE));
-        substationsLayouts.put("Smart with horizontal compaction", new ForceSubstationLayoutFactory(ForceSubstationLayoutFactory.CompactionType.HORIZONTAL));
-        substationsLayouts.put("Smart with vertical compaction", new ForceSubstationLayoutFactory(ForceSubstationLayoutFactory.CompactionType.VERTICAL));
+
+        substationsLayouts.put(CGMES_LAYOUT_NAME, null);
+        substationsLayouts.put(SMART_LAYOUT_NAME, new ForceSubstationLayoutFactory(CompactionType.NONE));
+        substationsLayouts.put(SMART_WITH_HORIZONTAL_COMPACTION_LAYOUT_NAME, new ForceSubstationLayoutFactory(CompactionType.HORIZONTAL));
+        substationsLayouts.put(SMART_WITH_VERTICAL_COMPACTION_LAYOUT_NAME, new ForceSubstationLayoutFactory(CompactionType.VERTICAL));
+
+        zonesLayouts.put(SMART_LAYOUT_NAME, new ForceZoneLayoutFactory(CompactionType.NONE));
+        zonesLayouts.put(SMART_WITH_HORIZONTAL_COMPACTION_LAYOUT_NAME, new ForceZoneLayoutFactory(CompactionType.HORIZONTAL));
+        zonesLayouts.put(SMART_WITH_VERTICAL_COMPACTION_LAYOUT_NAME, new ForceZoneLayoutFactory(CompactionType.VERTICAL));
+
+        zonesLayouts.put(CGMES_LAYOUT_NAME, null);
     }
 
     private void updateLayoutsFactory(Network network) {
-        voltageLevelsLayouts.put("Smart", new SmartVoltageLevelLayoutFactory(network));
-        voltageLevelsLayouts.put("Cgmes", new CgmesVoltageLevelLayoutFactory(network));
+        voltageLevelsLayouts.put(SMART_LAYOUT_NAME, new SmartVoltageLevelLayoutFactory(network));
+        voltageLevelsLayouts.put(CGMES_LAYOUT_NAME, new CgmesVoltageLevelLayoutFactory(network));
 
-        substationsLayouts.put("Cgmes", new CgmesSubstationLayoutFactory(network));
+        substationsLayouts.put(CGMES_LAYOUT_NAME, new CgmesSubstationLayoutFactory(network));
+
+        zonesLayouts.put(CGMES_LAYOUT_NAME, new CgmesZoneLayoutFactory(network));
     }
 
     private void initStylesProvider() {

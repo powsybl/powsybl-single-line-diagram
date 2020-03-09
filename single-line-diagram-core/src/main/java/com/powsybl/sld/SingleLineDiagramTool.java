@@ -18,6 +18,9 @@ import com.powsybl.sld.library.ComponentLibrary;
 import com.powsybl.sld.library.ResourcesComponentLibrary;
 import com.powsybl.sld.svg.DefaultDiagramInitialValueProvider;
 import com.powsybl.sld.svg.DefaultDiagramStyleProvider;
+import com.powsybl.sld.svg.DefaultNodeLabelConfiguration;
+import com.powsybl.sld.svg.DefaultSVGWriter;
+import com.powsybl.sld.svg.SVGWriter;
 import com.powsybl.tools.Command;
 import com.powsybl.tools.Tool;
 import com.powsybl.tools.ToolOptions;
@@ -26,9 +29,13 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
@@ -110,16 +117,38 @@ public class SingleLineDiagramTool implements Tool {
         }
     }
 
+    private void generateSvg(Diagram diag, SVGWriter writer, Network network,
+                             String svgFileName, Path dir, Path svgFile) {
+        try (Writer svgWriter = Files.newBufferedWriter(svgFile, StandardCharsets.UTF_8);
+             Writer metadataWriter = Files.newBufferedWriter(dir.resolve(svgFileName.replace(".svg", "_metadata.json")), StandardCharsets.UTF_8)) {
+
+            diag.writeSvg("",
+                    writer,
+                    new DefaultDiagramInitialValueProvider(network),
+                    new DefaultDiagramStyleProvider(),
+                    new DefaultNodeLabelConfiguration(writer.getComponentLibrary()),
+                    svgWriter,
+                    metadataWriter);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
     private void generateVoltageLevelSvg(ToolRunningContext context, Path outputDir, SvgGenerationConfig generationConfig,
                                          VoltageLevel vl, GraphBuilder graphBuilder, Network network) {
         Path svgFile = getSvgFile(outputDir, vl);
         context.getOutputStream().println("Generating '" + svgFile + "' (" + vl.getNominalV() + ")");
         try {
-            VoltageLevelDiagram.build(graphBuilder, vl.getId(), generationConfig.voltageLevelLayoutFactory, true, generationConfig.parameters.isShowInductorFor3WT())
-                    .writeSvg("", generationConfig.componentLibrary, generationConfig.parameters,
-                            new DefaultDiagramInitialValueProvider(network),
-                            new DefaultDiagramStyleProvider(),
-                            svgFile);
+            Diagram vlDiag = VoltageLevelDiagram.build(graphBuilder, vl.getId(), generationConfig.voltageLevelLayoutFactory, true, generationConfig.parameters.isShowInductorFor3WT());
+
+            SVGWriter writer = new DefaultSVGWriter(generationConfig.componentLibrary, generationConfig.parameters);
+            Path dir = svgFile.toAbsolutePath().getParent();
+            String svgFileName = svgFile.getFileName().toString();
+            if (!svgFileName.endsWith(".svg")) {
+                svgFileName = svgFileName + ".svg";
+            }
+
+            generateSvg(vlDiag, writer, network, svgFileName, dir, svgFile);
         } catch (Exception e) {
             e.printStackTrace(context.getErrorStream());
         }
@@ -130,11 +159,16 @@ public class SingleLineDiagramTool implements Tool {
         Path svgFile = getSvgFile(outputDir, s);
         context.getOutputStream().println("Generating '" + svgFile + "'");
         try {
-            SubstationDiagram.build(graphBuilder, s.getId(), generationConfig.substationLayoutFactory, generationConfig.voltageLevelLayoutFactory, true)
-                    .writeSvg("", generationConfig.componentLibrary, generationConfig.parameters,
-                            new DefaultDiagramInitialValueProvider(network),
-                            new DefaultDiagramStyleProvider(),
-                            svgFile);
+            Diagram substDiag = SubstationDiagram.build(graphBuilder, s.getId(), generationConfig.substationLayoutFactory, generationConfig.voltageLevelLayoutFactory, true);
+
+            SVGWriter writer = new DefaultSVGWriter(generationConfig.componentLibrary, generationConfig.parameters);
+            Path dir = svgFile.toAbsolutePath().getParent();
+            String svgFileName = svgFile.getFileName().toString();
+            if (!svgFileName.endsWith(".svg")) {
+                svgFileName = svgFileName + ".svg";
+            }
+
+            generateSvg(substDiag, writer, network, svgFileName, dir, svgFile);
         } catch (Exception e) {
             e.printStackTrace(context.getErrorStream());
         }

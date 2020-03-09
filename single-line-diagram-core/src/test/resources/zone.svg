@@ -280,7 +280,7 @@
      </g>
 <text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">20</text>
         </g>
-        <polyline class="LINE Line" points="70.0,700.0,70.0,850.0,170.0,850.0,170.0,1000.0" id="idLine"/>
+        <polyline class="LINE LINE_VoltageLevel12" points="70.0,700.0,70.0,850.0,170.0,850.0,170.0,1000.0" id="idVoltageLevel12_95_VoltageLevel21_95_Wire0"/>
         <g id="LABEL_VL_VoltageLevel11">
             <text x="0.0" font-size="12" y="-10.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">VoltageLevel11</text>
         </g>

@@ -24,6 +24,12 @@ public class LineEdge extends Edge {
         this.lineId = Objects.requireNonNull(lineId);
     }
 
+    public LineEdge(LineEdge other) {
+        super(other);
+        lineId = other.lineId;
+        points = new ArrayList<>(other.points);
+    }
+
     public String getLineId() {
         return lineId;
     }
@@ -40,7 +46,7 @@ public class LineEdge extends Edge {
         return points;
     }
 
-    public class Point {
+    public static class Point {
 
         private double x;
         private double y;
@@ -65,7 +71,5 @@ public class LineEdge extends Edge {
         public void setY(double y) {
             this.y = y;
         }
-
     }
-
 }

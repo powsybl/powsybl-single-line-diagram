@@ -17,6 +17,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 
+import com.powsybl.sld.ZoneId;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -49,6 +50,7 @@ import com.powsybl.sld.model.ZoneGraph;
 /**
  *
  * @author Massimo Ferraro <massimo.ferraro@techrain.eu>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 public class CgmesZoneLayoutTest {
 
@@ -218,8 +220,8 @@ public class CgmesZoneLayoutTest {
     public void test() {
         Network network = createNetwork();
         addDiagramData(network);
-        List<String> zone = Arrays.asList(SUBSTATION_1_ID, SUBSTATION_2_ID);
-        ZoneGraph graph = new NetworkGraphBuilder(network).buildZoneGraph(zone, false);
+        ZoneId zoneId = ZoneId.create(Arrays.asList(SUBSTATION_1_ID, SUBSTATION_2_ID));
+        ZoneGraph graph = new NetworkGraphBuilder(network).buildZoneGraph(zoneId, false);
         LayoutParameters layoutParameters = new LayoutParameters();
         layoutParameters.setScaleFactor(2);
         layoutParameters.setDiagramName(DIAGRAM_ID);

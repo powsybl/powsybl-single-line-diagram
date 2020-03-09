@@ -30,6 +30,7 @@ import com.powsybl.sld.model.ZoneGraph;
 /**
  *
  * @author Massimo Ferraro <massimo.ferraro@techrain.eu>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 public class CgmesZoneLayout extends AbstractCgmesLayout implements ZoneLayout {
 
@@ -51,7 +52,7 @@ public class CgmesZoneLayout extends AbstractCgmesLayout implements ZoneLayout {
 
     @Override
     public void run(LayoutParameters layoutParam) {
-        if (graph.getZone().isEmpty()) {
+        if (graph.getZoneId().isEmpty()) {
             LOG.warn("No substations in the zone: skipping coordinates assignment");
             return;
         }

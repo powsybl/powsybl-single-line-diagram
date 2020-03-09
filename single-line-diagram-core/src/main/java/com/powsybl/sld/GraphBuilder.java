@@ -6,8 +6,6 @@
  */
 package com.powsybl.sld;
 
-import java.util.List;
-
 import com.powsybl.sld.model.Graph;
 import com.powsybl.sld.model.SubstationGraph;
 import com.powsybl.sld.model.ZoneGraph;
@@ -25,6 +23,5 @@ public interface GraphBuilder {
     SubstationGraph buildSubstationGraph(String id,
                                          boolean useName);
 
-    ZoneGraph buildZoneGraph(List<String> substationIds, boolean useName);
-
+    ZoneGraph buildZoneGraph(ZoneId zoneId, boolean useName);
 }

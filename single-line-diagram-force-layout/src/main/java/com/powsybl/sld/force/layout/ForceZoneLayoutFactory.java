@@ -7,23 +7,25 @@
 package com.powsybl.sld.force.layout;
 
 import com.powsybl.sld.layout.CompactionType;
-import com.powsybl.sld.layout.SubstationLayout;
 import com.powsybl.sld.layout.SubstationLayoutFactory;
 import com.powsybl.sld.layout.VoltageLevelLayoutFactory;
-import com.powsybl.sld.model.SubstationGraph;
+import com.powsybl.sld.layout.ZoneLayout;
+import com.powsybl.sld.layout.ZoneLayoutFactory;
+import com.powsybl.sld.model.ZoneGraph;
 
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
-public class ForceSubstationLayoutFactory implements SubstationLayoutFactory {
+public class ForceZoneLayoutFactory implements ZoneLayoutFactory {
+
     private CompactionType compactionType;
 
-    public ForceSubstationLayoutFactory(CompactionType compactionType) {
+    public ForceZoneLayoutFactory(CompactionType compactionType) {
         this.compactionType = compactionType;
     }
 
     @Override
-    public SubstationLayout create(SubstationGraph substationGraph, VoltageLevelLayoutFactory vLayoutFactory) {
-        return new ForceSubstationLayout(substationGraph, vLayoutFactory, compactionType);
+    public ZoneLayout create(ZoneGraph graph, SubstationLayoutFactory sLayoutFactory, VoltageLevelLayoutFactory vLayoutFactory) {
+        return new ForceZoneLayout(graph, sLayoutFactory, vLayoutFactory, compactionType);
     }
 }

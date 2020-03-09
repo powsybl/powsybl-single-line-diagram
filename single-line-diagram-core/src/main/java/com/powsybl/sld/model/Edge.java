@@ -9,6 +9,7 @@ package com.powsybl.sld.model;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,6 +28,10 @@ public class Edge {
      */
     public Edge(Node...nodes) {
         this.nodes = Arrays.asList(nodes);
+    }
+
+    public Edge(Edge other) {
+        nodes = new ArrayList<>(other.nodes);
     }
 
     public Node getNode(int index) {

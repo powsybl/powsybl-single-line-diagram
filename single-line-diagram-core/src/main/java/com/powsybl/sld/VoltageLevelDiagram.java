@@ -6,14 +6,10 @@
  */
 package com.powsybl.sld;
 
-import com.powsybl.sld.layout.LayoutParameters;
 import com.powsybl.sld.layout.VoltageLevelLayout;
 import com.powsybl.sld.layout.VoltageLevelLayoutFactory;
-import com.powsybl.sld.library.ComponentLibrary;
 import com.powsybl.sld.model.Graph;
-import com.powsybl.sld.svg.DefaultNodeLabelConfiguration;
 import com.powsybl.sld.svg.GraphMetadata;
-import com.powsybl.sld.svg.DefaultSVGWriter;
 import com.powsybl.sld.svg.NodeLabelConfiguration;
 import com.powsybl.sld.svg.SVGWriter;
 import com.powsybl.sld.svg.DiagramInitialValueProvider;
@@ -21,12 +17,7 @@ import com.powsybl.sld.svg.DiagramStyleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.io.Writer;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Objects;
 
 /**
@@ -35,7 +26,7 @@ import java.util.Objects;
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
-public final class VoltageLevelDiagram {
+public final class VoltageLevelDiagram implements Diagram {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VoltageLevelDiagram.class);
 
@@ -64,39 +55,6 @@ public final class VoltageLevelDiagram {
 
     public Graph getGraph() {
         return graph;
-    }
-
-    public void writeSvg(String prefixId,
-                         ComponentLibrary componentLibrary,
-                         LayoutParameters layoutParameters,
-                         DiagramInitialValueProvider initialValueProvider,
-                         DiagramStyleProvider styleProvider,
-                         Path svgFile) {
-        SVGWriter writer = new DefaultSVGWriter(componentLibrary, layoutParameters);
-        writeSvg(prefixId, writer,
-                initialValueProvider,
-                styleProvider,
-                new DefaultNodeLabelConfiguration(writer.getComponentLibrary()),
-                svgFile);
-    }
-
-    public void writeSvg(String prefixId,
-                         SVGWriter writer,
-                         DiagramInitialValueProvider initProvider,
-                         DiagramStyleProvider styleProvider,
-                         NodeLabelConfiguration nodeLabelConfiguration,
-                         Path svgFile) {
-        Path dir = svgFile.toAbsolutePath().getParent();
-        String svgFileName = svgFile.getFileName().toString();
-        if (!svgFileName.endsWith(".svg")) {
-            svgFileName = svgFileName + ".svg";
-        }
-        try (Writer svgWriter = Files.newBufferedWriter(svgFile, StandardCharsets.UTF_8);
-                Writer metadataWriter = Files.newBufferedWriter(dir.resolve(svgFileName.replace(".svg", "_metadata.json")), StandardCharsets.UTF_8)) {
-            writeSvg(prefixId, writer, initProvider, styleProvider, nodeLabelConfiguration, svgWriter, metadataWriter);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
     }
 
     public void writeSvg(String prefixId,

@@ -15,6 +15,7 @@ import java.util.Objects;
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
  * @author Nicolas Duchene
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 public final class VoltageLevelDiagramView extends AbstractContainerDiagramView {
     private VoltageLevelDiagramView(Group svgImage) {

@@ -7,6 +7,7 @@
 package com.powsybl.sld.view;
 
 import com.powsybl.sld.force.layout.ForceSubstationLayout;
+import com.powsybl.sld.layout.InfoCalcPoints;
 import com.powsybl.sld.layout.LayoutParameters;
 import com.powsybl.sld.library.ComponentSize;
 import com.powsybl.sld.model.BaseNode;
@@ -18,8 +19,6 @@ import javafx.scene.shape.Polyline;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static com.powsybl.sld.library.ComponentTypeName.BUSBAR_SECTION;
 
@@ -117,12 +116,7 @@ public class VoltageLevelHandler implements BaseNode {
     }
 
     private void redrawSnakeLines() {
-        // redraw the snakeLines between the voltage levels
-        //
-        Map<String, Map<BusCell.Direction, Integer>> nbSnakeLinesTopBottom = new HashMap<>();
-        nodeHandlers.stream().forEach(n -> nbSnakeLinesTopBottom.put(n.getVId(), EnumSet.allOf(BusCell.Direction.class).stream().collect(Collectors.toMap(Function.identity(), v -> 0))));
-        Map<String, Integer> nbSnakeLinesBetween = new HashMap<>();
-
+        // trying to redraw the snakeLines between the voltage levels
         Map<String, Coord> posVL = new HashMap<>();
 
         List<WireHandler> whSnakeLines = new ArrayList<>();
@@ -141,26 +135,17 @@ public class VoltageLevelHandler implements BaseNode {
                     whSnakeLines.add(wh);
                 }
             }
-            nbSnakeLinesBetween.put(nh.getVId(), 0);
         }
 
         for (WireHandler wh : whSnakeLines) {
-            List<Double> pol = calculatePolylineSnakeLine(metadata.getLayoutParameters(),
-                    wh,
-                    posVL,
-                    nbSnakeLinesTopBottom,
-                    nbSnakeLinesBetween);
+            List<Double> pol = calculatePolylineSnakeLine(metadata.getLayoutParameters(), wh, posVL);
             if (!pol.isEmpty()) {
                 ((Polyline) wh.getNode()).getPoints().setAll(pol);
             }
         }
     }
 
-    private List<Double> calculatePolylineSnakeLine(LayoutParameters layoutParam,
-                                                    WireHandler wh,
-                                                    Map<String, Coord> posVL,
-                                                    Map<String, Map<BusCell.Direction, Integer>> nbSnakeLinesTopBottom,
-                                                    Map<String, Integer> nbSnakeLinesBetween) {
+    private List<Double> calculatePolylineSnakeLine(LayoutParameters layoutParam, WireHandler wh, Map<String, Coord> posVL) {
         NodeHandler nh1 = wh.getNodeHandler1();
         NodeHandler nh2 = wh.getNodeHandler2();
 
@@ -187,14 +172,12 @@ public class VoltageLevelHandler implements BaseNode {
         double x2 = nh2.getX();
         double y2 = nh2.getY();
 
-        ForceSubstationLayout.ForceInfoCalcPoints info = new ForceSubstationLayout.ForceInfoCalcPoints();
+        InfoCalcPoints info = new InfoCalcPoints();
         info.setLayoutParam(layoutParam);
-        info.setVId1(nh1.getVId());
-        info.setVId2(nh2.getVId());
+        info.setGraphId1(nh1.getVId());
+        info.setGraphId2(nh2.getVId());
         info.setdNode1(dNode1);
         info.setdNode2(dNode2);
-        info.setNbSnakeLinesTopBottom(nbSnakeLinesTopBottom);
-        info.setNbSnakeLinesBetween(nbSnakeLinesBetween);
         info.setX1(x1);
         info.setX2(x2);
         info.setY1(y1);
@@ -204,6 +187,6 @@ public class VoltageLevelHandler implements BaseNode {
         info.setxMaxGraph(xMaxGraph);
         info.setIdMaxGraph(idMaxGraph);
 
-        return ForceSubstationLayout.calculatePolylinePoints(info);
+        return new ForceSubstationLayout(null, null, null).calculatePolylinePoints(info);
     }
 }

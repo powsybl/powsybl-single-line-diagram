@@ -339,6 +339,31 @@ public abstract class AbstractTestCase {
         }
     }
 
+    public void compareMetadata(ZoneDiagram diagram, LayoutParameters layoutParameters,
+                                String refMetdataName,
+                                DiagramInitialValueProvider initValueProvider,
+                                DiagramStyleProvider styleProvider) {
+        try (StringWriter writer = new StringWriter();
+             StringWriter metadataWriter = new StringWriter()) {
+            diagram.writeSvg("",
+                    new DefaultSVGWriter(componentLibrary, layoutParameters),
+                    initValueProvider,
+                    styleProvider,
+                    new DefaultNodeLabelConfiguration(componentLibrary),
+                    writer, metadataWriter);
+
+//            FileWriter fw = new FileWriter(System.getProperty("user.home") + refMetdataName);
+//            fw.write(metadataWriter.toString());
+//            fw.close();
+
+            String refMetadata = normalizeLineSeparator(new String(ByteStreams.toByteArray(getClass().getResourceAsStream(refMetdataName)), StandardCharsets.UTF_8));
+            String metadata = normalizeLineSeparator(metadataWriter.toString());
+            assertEquals(refMetadata, metadata);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
     public void compareMetadata(SubstationDiagram diagram, LayoutParameters layoutParameters,
                                 String refMetdataName,
                                 DiagramInitialValueProvider initValueProvider,
@@ -393,6 +418,25 @@ public abstract class AbstractTestCase {
     }
 
     public String toJson(SubstationGraph graph, String filename, boolean generateCoordsInJson) {
+        graph.setGenerateCoordsInJson(generateCoordsInJson);
+        return toJson(graph, filename);
+    }
+
+    public String toJson(ZoneGraph graph, String filename) {
+        try (StringWriter writer = new StringWriter()) {
+            graph.writeJson(writer);
+
+//            FileWriter fw = new FileWriter(System.getProperty("user.home") + filename);
+//            fw.write(writer.toString());
+//            fw.close();
+
+            return normalizeLineSeparator(writer.toString());
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    public String toJson(ZoneGraph graph, String filename, boolean generateCoordsInJson) {
         graph.setGenerateCoordsInJson(generateCoordsInJson);
         return toJson(graph, filename);
     }

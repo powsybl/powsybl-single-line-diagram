@@ -8,13 +8,7 @@ package com.powsybl.sld.model;
 
 import java.util.*;
 import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.io.Writer;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 /**
@@ -23,7 +17,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
  *
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
-public final class SubstationGraph {
+public final class SubstationGraph extends AbstractGraph {
 
     private String substationId;
 
@@ -34,8 +28,6 @@ public final class SubstationGraph {
     private final Map<String, Graph> nodesById = new HashMap<>();
 
     private List<Node> multiTermNodes = new ArrayList<>();
-
-    private boolean generateCoordsInJson = true;
 
     /**
      * Constructor
@@ -80,7 +72,8 @@ public final class SubstationGraph {
     public boolean graphAdjacents(Graph g1, Graph g2) {
         int nbNodes = nodes.size();
         for (int i = 0; i < nbNodes; i++) {
-            if (nodes.get(i) == g1 && i < (nbNodes - 1) && nodes.get(i + 1) == g2) {
+            if ((nodes.get(i) == g1 && i < (nbNodes - 1) && nodes.get(i + 1) == g2)
+                    || (nodes.get(i) == g2 && i < (nbNodes - 1) && nodes.get(i + 1) == g1)) {
                 return true;
             }
         }
@@ -99,32 +92,20 @@ public final class SubstationGraph {
         return multiTermNodes;
     }
 
-    public void writeJson(Path file) {
-        try (Writer writer = Files.newBufferedWriter(file, StandardCharsets.UTF_8)) {
-            writeJson(writer);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+    @Override
+    public void writeJson(JsonGenerator generator)  throws IOException {
+        generator.writeStartArray();
+        for (Graph graph : nodes) {
+            graph.setGenerateCoordsInJson(generateCoordsInJson);
+            graph.writeJson(generator);
         }
-    }
+        generator.writeEndArray();
 
-    public void writeJson(Writer writer) {
-        Objects.requireNonNull(writer);
-        try (JsonGenerator generator = new JsonFactory()
-                .createGenerator(writer)
-                .useDefaultPrettyPrinter()) {
-            generator.writeStartArray();
-            for (Graph graph : nodes) {
-                graph.setGenerateCoordsInJson(generateCoordsInJson);
-                graph.writeJson(generator);
-            }
-
-            generator.writeEndArray();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+        generator.writeStartObject();
+        if (generateCoordsInJson) {
+            generator.writeNumberField("x", x);
+            generator.writeNumberField("y", y);
         }
-    }
-
-    public void setGenerateCoordsInJson(boolean generateCoordsInJson) {
-        this.generateCoordsInJson = generateCoordsInJson;
+        generator.writeEndObject();
     }
 }

@@ -25,6 +25,12 @@ public class TwtEdge extends Edge {
         this.componentType = componentType;
     }
 
+    public TwtEdge(TwtEdge other) {
+        super(other);
+        componentType = other.componentType;
+        snakeLine = new ArrayList<>(other.snakeLine);
+    }
+
     public List<Double> getSnakeLine() {
         return snakeLine;
     }

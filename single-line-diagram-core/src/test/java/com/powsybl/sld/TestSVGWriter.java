@@ -77,7 +77,7 @@ public class TestSVGWriter extends AbstractTestCase {
 
         // First voltage level graph :
         //
-        g1 = Graph.create("vl1", "vl1", 400, false, true, false);
+        g1 = Graph.create("vl1", "vl1", 400, "subst", false, true, false);
         g1.setX(0);
         g1.setY(20);
 
@@ -190,7 +190,7 @@ public class TestSVGWriter extends AbstractTestCase {
 
         // Second voltage level graph :
         //
-        g2 = Graph.create("vl2", "vl2", 225, false, true, false);
+        g2 = Graph.create("vl2", "vl2", 225, "subst", false, true, false);
         g2.setX(550);
         g2.setY(20);
 
@@ -269,7 +269,7 @@ public class TestSVGWriter extends AbstractTestCase {
 
         // Third voltage level graph :
         //
-        g3 = Graph.create("vl3", "vl3", 63, false, true, false);
+        g3 = Graph.create("vl3", "vl3", 63, "subst", false, true, false);
         g3.setX(850);
         g3.setY(20);
 
@@ -335,7 +335,7 @@ public class TestSVGWriter extends AbstractTestCase {
 
         // First voltage level graph :
         //
-        Graph g1Graph = Graph.create("vl1", "vl1", 400, false, true, false);
+        Graph g1Graph = Graph.create("vl1", "vl1", 400, "subst", false, true, false);
         g1Graph.setX(0);
         g1Graph.setY(20);
 
@@ -425,7 +425,7 @@ public class TestSVGWriter extends AbstractTestCase {
 
         // Second voltage level graph :
         //
-        Graph g2Graph = Graph.create("vl2", "vl2", 225, false, true, false);
+        Graph g2Graph = Graph.create("vl2", "vl2", 225, "subst", false, true, false);
         g2Graph.setX(550);
         g2Graph.setY(20);
 
@@ -492,7 +492,7 @@ public class TestSVGWriter extends AbstractTestCase {
 
         // Third voltage level graph :
         //
-        Graph g3Graph = Graph.create("vl3", "vl3", 63, false, true, false);
+        Graph g3Graph = Graph.create("vl3", "vl3", 63, "subst", false, true, false);
         g3Graph.setX(850);
         g3Graph.setY(20);
 
@@ -573,7 +573,7 @@ public class TestSVGWriter extends AbstractTestCase {
 
     private void createZoneGraph() {
       //create first voltage level graph
-        Graph vl11Graph = Graph.create(VOLTAGE_LEVEL_11_ID, VOLTAGE_LEVEL_11_ID, VOLTAGE_LEVEL_11_V, false, false, false);
+        Graph vl11Graph = Graph.create(VOLTAGE_LEVEL_11_ID, VOLTAGE_LEVEL_11_ID, VOLTAGE_LEVEL_11_V, SUBSTATION_1_ID, false, false, false);
         BusNode bus11Node = BusNode.create(vl11Graph, BUS_11_ID, BUS_11_ID);
         bus11Node.setX(30);
         bus11Node.setY(200);
@@ -590,7 +590,7 @@ public class TestSVGWriter extends AbstractTestCase {
         vl11Graph.addEdge(bus11Node, loadNode);
         vl11Graph.addEdge(bus11Node, twtSide1Node);
         // create second voltage level graph
-        Graph vl12Graph = Graph.create(VOLTAGE_LEVEL_12_ID, VOLTAGE_LEVEL_12_ID, VOLTAGE_LEVEL_12_V, false, false, false);
+        Graph vl12Graph = Graph.create(VOLTAGE_LEVEL_12_ID, VOLTAGE_LEVEL_12_ID, VOLTAGE_LEVEL_12_V, SUBSTATION_1_ID, false, false, false);
         BusNode bus12Node = BusNode.create(vl12Graph, BUS_12_ID, BUS_12_ID);
         bus12Node.setX(30);
         bus12Node.setY(500);
@@ -607,7 +607,7 @@ public class TestSVGWriter extends AbstractTestCase {
         vl12Graph.addEdge(bus12Node, twtSide2Node);
         vl12Graph.addEdge(bus12Node, lineSide1Node);
         // create third voltage level graph
-        Graph vl21Graph = Graph.create(VOLTAGE_LEVEL_21_ID, VOLTAGE_LEVEL_21_ID, VOLTAGE_LEVEL_21_V, false, false, false);
+        Graph vl21Graph = Graph.create(VOLTAGE_LEVEL_21_ID, VOLTAGE_LEVEL_21_ID, VOLTAGE_LEVEL_21_V, SUBSTATION_2_ID, false, false, false);
         BusNode bus21Node = BusNode.create(vl21Graph, BUS_21_ID, BUS_21_ID);
         bus21Node.setX(130);
         bus21Node.setY(1100);
@@ -644,7 +644,7 @@ public class TestSVGWriter extends AbstractTestCase {
         SubstationGraph s2Graph = SubstationGraph.create(SUBSTATION_2_ID);
         s2Graph.addNode(vl21Graph);
         // create zone graph
-        zGraph = ZoneGraph.create(Arrays.asList(SUBSTATION_1_ID, SUBSTATION_2_ID));
+        zGraph = ZoneGraph.create(ZoneId.create(Arrays.asList(SUBSTATION_1_ID, SUBSTATION_2_ID)));
         zGraph.addNode(s1Graph);
         zGraph.addNode(s2Graph);
         zGraph.addEdge(LINE_ID, lineSide1Node, lineSide2Node);

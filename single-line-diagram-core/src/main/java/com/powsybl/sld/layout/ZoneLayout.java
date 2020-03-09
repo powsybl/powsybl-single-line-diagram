@@ -9,12 +9,12 @@ package com.powsybl.sld.layout;
 /**
  *
  * @author Massimo Ferraro <massimo.ferraro@techrain.eu>
+ * @author Franck Lecuyer <franck.lecuyer@rte-france.com>
  */
 public interface ZoneLayout {
 
     /**
-     * Calculate real coordinates of nodes in the zone
+     * Calculate real coordinates of nodes in the zone graph
      */
     void run(LayoutParameters layoutParam);
-
 }

@@ -18,7 +18,7 @@ import java.util.List;
 public class VerticalSubstationLayout extends AbstractSubstationLayout {
 
     public VerticalSubstationLayout(SubstationGraph graph, VoltageLevelLayoutFactory vLayoutFactory) {
-        super(graph, vLayoutFactory);
+        super(graph, vLayoutFactory, CompactionType.NONE);
     }
 
     /**
@@ -34,19 +34,9 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
      * Calculate polyline points of a snakeLine in the substation graph
      */
     @Override
-    protected List<Double> calculatePolylineSnakeLine(LayoutParameters layoutParam, Node node1, Node node2, InfosNbSnakeLines infosNbSnakeLines,
-                                                      boolean increment) {
-        BusCell.Direction dNode1 = getNodeDirection(node1, 1);
-        BusCell.Direction dNode2 = getNodeDirection(node2, 2);
-
-        double xMinGraph = node1.getGraph().getX() < node2.getGraph().getX() ? node1.getGraph().getX() : node2.getGraph().getX();
-
-        double x1 = node1.getX();
-        double y1 = node1.getY();
-        double initY1 = node1.getInitY() != -1 ? node1.getInitY() : y1;
-        double x2 = node2.getX();
-        double y2 = node2.getY();
-        double initY2 = node2.getInitY() != -1 ? node2.getInitY() : y2;
+    protected List<Double> calculatePolylineSnakeLine(LayoutParameters layoutParam, Node node1, Node node2, boolean increment) {
+        InfoCalcPoints info = new InfoCalcPoints(layoutParam, node1, node2, increment);
+        info.setAdjacentGraphs(graph.graphAdjacents(node1.getGraph(), node2.getGraph()));
 
         int maxH1 = node1.getGraph().getNodeBuses().stream()
                 .mapToInt(nodeBus -> nodeBus.getPosition().getH() + nodeBus.getPosition().getHSpan())
@@ -55,110 +45,94 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
                 .mapToInt(nodeBus -> nodeBus.getPosition().getH() + nodeBus.getPosition().getHSpan())
                 .max().orElse(0);
         double maxH = layoutParam.getTranslateX() +
-                infosNbSnakeLines.getNbSnakeLinesLeftRight().get(Side.LEFT) * layoutParam.getHorizontalSnakeLinePadding() +
+                addAndGetNbSnakeLinesLeftRight(Side.LEFT, 0) * layoutParam.getHorizontalSnakeLinePadding() +
                 layoutParam.getInitialXBus() +
                 (Math.max(maxH1, maxH2)) * layoutParam.getCellWidth();
+        info.setMaxH(maxH);
 
+        return calculatePolylinePoints(info);
+    }
+
+    /*
+     * Calculate polyline points of a snakeLine in the substation graph
+     */
+    @Override
+    public List<Double> calculatePolylinePoints(InfoCalcPoints info) {
         List<Double> pol = new ArrayList<>();
-        switch (dNode1) {
+
+        int valIncr = info.isIncrement() ? 1 : 0;
+
+        switch (info.getdNode1()) {
             case BOTTOM:
-                if (dNode2 == BusCell.Direction.BOTTOM) {  // BOTTOM to BOTTOM
-                    if (increment) {
-                        infosNbSnakeLines.getNbSnakeLinesBottomVL().compute(node1.getGraph().getVoltageLevelId(), (k, v) -> v + 1);
-                        infosNbSnakeLines.getNbSnakeLinesBottomVL().compute(node2.getGraph().getVoltageLevelId(), (k, v) -> v + 1);
-                    }
-                    infosNbSnakeLines.getNbSnakeLinesLeftRight().compute(Side.RIGHT, (k, v) -> v + 1);
-                    double decal1V = infosNbSnakeLines.getNbSnakeLinesBottomVL().get(node1.getGraph().getVoltageLevelId()) * layoutParam.getVerticalSnakeLinePadding();
-                    double decal2V = infosNbSnakeLines.getNbSnakeLinesBottomVL().get(node2.getGraph().getVoltageLevelId()) * layoutParam.getVerticalSnakeLinePadding();
-                    double xSnakeLine = maxH + infosNbSnakeLines.getNbSnakeLinesLeftRight().get(Side.RIGHT) * layoutParam.getHorizontalSnakeLinePadding();
+                if (info.getdNode2() == BusCell.Direction.BOTTOM) {  // BOTTOM to BOTTOM
+                    double decal1V = addAndGetNbSnakeLinesBottomVL(info.getGraphId1(), valIncr) * info.getLayoutParam().getVerticalSnakeLinePadding();
+                    double decal2V = addAndGetNbSnakeLinesBottomVL(info.getGraphId2(), valIncr) * info.getLayoutParam().getVerticalSnakeLinePadding();
+                    double xSnakeLine = info.getMaxH() + addAndGetNbSnakeLinesLeftRight(Side.LEFT, 1) * info.getLayoutParam().getHorizontalSnakeLinePadding();
 
-                    pol.addAll(Arrays.asList(x1, y1,
-                            x1, initY1 + decal1V,
-                            xSnakeLine, initY1 + decal1V,
-                            xSnakeLine, initY2 + decal2V,
-                            x2, initY2 + decal2V,
-                            x2, y2));
+                    pol.addAll(Arrays.asList(info.getX1(), info.getY1(),
+                            info.getX1(), info.getInitY1() + decal1V,
+                            xSnakeLine, info.getInitY1() + decal1V,
+                            xSnakeLine, info.getInitY2() + decal2V,
+                            info.getX2(), info.getInitY2() + decal2V,
+                            info.getX2(), info.getY2()));
                 } else {  // BOTTOM to TOP
-                    if (!graph.graphAdjacents(node1.getGraph(), node2.getGraph())) {
-                        if (increment) {
-                            infosNbSnakeLines.getNbSnakeLinesBottomVL().compute(node1.getGraph().getVoltageLevelId(), (k, v) -> v + 1);
-                            infosNbSnakeLines.getNbSnakeLinesTopVL().compute(node2.getGraph().getVoltageLevelId(), (k, v) -> v + 1);
-                        }
-                        infosNbSnakeLines.getNbSnakeLinesLeftRight().compute(Side.RIGHT, (k, v) -> v + 1);
-                        double decal1V = infosNbSnakeLines.getNbSnakeLinesBottomVL().get(node1.getGraph().getVoltageLevelId()) * layoutParam.getVerticalSnakeLinePadding();
-                        double decal2V = infosNbSnakeLines.getNbSnakeLinesTopVL().get(node2.getGraph().getVoltageLevelId()) * layoutParam.getVerticalSnakeLinePadding();
-                        double xSnakeLine = maxH + infosNbSnakeLines.getNbSnakeLinesLeftRight().get(Side.RIGHT) * layoutParam.getHorizontalSnakeLinePadding();
+                    if (!info.isAdjacentGraphs()) {
+                        double decal1V = addAndGetNbSnakeLinesBottomVL(info.getGraphId1(), valIncr) * info.getLayoutParam().getVerticalSnakeLinePadding();
+                        double decal2V = addAndGetNbSnakeLinesTopVL(info.getGraphId2(), valIncr) * info.getLayoutParam().getVerticalSnakeLinePadding();
+                        double xSnakeLine = info.getMaxH() + addAndGetNbSnakeLinesLeftRight(Side.RIGHT, 1) * info.getLayoutParam().getHorizontalSnakeLinePadding();
 
-                        pol.addAll(Arrays.asList(x1, y1,
-                                x1, initY1 + decal1V,
-                                xSnakeLine, initY1 + decal1V,
-                                xSnakeLine, initY2 - decal2V,
-                                x2, initY2 - decal2V,
-                                x2, y2));
+                        pol.addAll(Arrays.asList(info.getX1(), info.getY1(),
+                                info.getX1(), info.getInitY1() + decal1V,
+                                xSnakeLine, info.getInitY1() + decal1V,
+                                xSnakeLine, info.getInitY2() - decal2V,
+                                info.getX2(), info.getInitY2() - decal2V,
+                                info.getX2(), info.getY2()));
                     } else {  // node1 and node2 adjacent and node1 before node2
-                        if (increment) {
-                            infosNbSnakeLines.getNbSnakeLinesBottomVL().compute(node1.getGraph().getVoltageLevelId(), (k, v) -> v + 1);
-                            infosNbSnakeLines.getNbSnakeLinesTopVL().compute(node2.getGraph().getVoltageLevelId(), (k, v) -> v + 1);
-                        }
-                        double decal1V = infosNbSnakeLines.getNbSnakeLinesBottomVL().get(node1.getGraph().getVoltageLevelId()) * layoutParam.getVerticalSnakeLinePadding();
-                        double decal2V = infosNbSnakeLines.getNbSnakeLinesTopVL().get(node2.getGraph().getVoltageLevelId()) * layoutParam.getVerticalSnakeLinePadding();
-                        double ySnakeLine = Math.max(initY1 + decal1V, initY2 - decal2V);
+                        double decal1V = addAndGetNbSnakeLinesBottomVL(info.getGraphId1(), valIncr) * info.getLayoutParam().getVerticalSnakeLinePadding();
+                        double decal2V = addAndGetNbSnakeLinesTopVL(info.getGraphId2(), valIncr) * info.getLayoutParam().getVerticalSnakeLinePadding();
+                        double ySnakeLine = Math.max(info.getInitY1() + decal1V, info.getInitY2() - decal2V);
 
-                        pol.addAll(Arrays.asList(x1, y1,
-                                x1, ySnakeLine,
-                                x2, ySnakeLine,
-                                x2, y2));
+                        pol.addAll(Arrays.asList(info.getX1(), info.getY1(),
+                                info.getX1(), ySnakeLine,
+                                info.getX2(), ySnakeLine,
+                                info.getX2(), info.getY2()));
                     }
                 }
                 break;
 
             case TOP:
-                if (dNode2 == BusCell.Direction.TOP) {  // TOP to TOP
-                    if (increment) {
-                        infosNbSnakeLines.getNbSnakeLinesTopVL().compute(node1.getGraph().getVoltageLevelId(), (k, v) -> v + 1);
-                        infosNbSnakeLines.getNbSnakeLinesTopVL().compute(node2.getGraph().getVoltageLevelId(), (k, v) -> v + 1);
-                    }
-                    infosNbSnakeLines.getNbSnakeLinesLeftRight().compute(Side.LEFT, (k, v) -> v + 1);
-                    double decal1V = infosNbSnakeLines.getNbSnakeLinesTopVL().get(node1.getGraph().getVoltageLevelId()) * layoutParam.getVerticalSnakeLinePadding();
-                    double decal2V = infosNbSnakeLines.getNbSnakeLinesTopVL().get(node2.getGraph().getVoltageLevelId()) * layoutParam.getVerticalSnakeLinePadding();
-                    double xSnakeLine = xMinGraph - infosNbSnakeLines.getNbSnakeLinesLeftRight().get(Side.LEFT) * layoutParam.getHorizontalSnakeLinePadding();
+                if (info.getdNode2() == BusCell.Direction.TOP) {  // TOP to TOP
+                    double decal1V = addAndGetNbSnakeLinesTopVL(info.getGraphId1(), valIncr) * info.getLayoutParam().getVerticalSnakeLinePadding();
+                    double decal2V = addAndGetNbSnakeLinesTopVL(info.getGraphId2(), valIncr) * info.getLayoutParam().getVerticalSnakeLinePadding();
+                    double xSnakeLine = info.getxMinGraph() - addAndGetNbSnakeLinesLeftRight(Side.LEFT, 1) * info.getLayoutParam().getHorizontalSnakeLinePadding();
 
-                    pol.addAll(Arrays.asList(x1, y1,
-                            x1, initY1 - decal1V,
-                            xSnakeLine, initY1 - decal1V,
-                            xSnakeLine, initY2 - decal2V,
-                            x2, initY2 - decal2V,
-                            x2, y2));
+                    pol.addAll(Arrays.asList(info.getX1(), info.getY1(),
+                            info.getX1(), info.getInitY1() - decal1V,
+                            xSnakeLine, info.getInitY1() - decal1V,
+                            xSnakeLine, info.getInitY2() - decal2V,
+                            info.getX2(), info.getInitY2() - decal2V,
+                            info.getX2(), info.getY2()));
                 } else {  // TOP to BOTTOM
-                    if (!graph.graphAdjacents(node2.getGraph(), node1.getGraph())) {
-                        if (increment) {
-                            infosNbSnakeLines.getNbSnakeLinesTopVL().compute(node1.getGraph().getVoltageLevelId(), (k, v) -> v + 1);
-                            infosNbSnakeLines.getNbSnakeLinesBottomVL().compute(node2.getGraph().getVoltageLevelId(), (k, v) -> v + 1);
-                        }
-                        infosNbSnakeLines.getNbSnakeLinesLeftRight().compute(Side.LEFT, (k, v) -> v + 1);
-                        double decal1V = infosNbSnakeLines.getNbSnakeLinesTopVL().get(node1.getGraph().getVoltageLevelId()) * layoutParam.getVerticalSnakeLinePadding();
-                        double decal2V = infosNbSnakeLines.getNbSnakeLinesBottomVL().get(node2.getGraph().getVoltageLevelId()) * layoutParam.getVerticalSnakeLinePadding();
-                        double xSnakeLine = xMinGraph - infosNbSnakeLines.getNbSnakeLinesLeftRight().get(Side.LEFT) * layoutParam.getHorizontalSnakeLinePadding();
+                    if (!info.isAdjacentGraphs()) {
+                        double decal1V = addAndGetNbSnakeLinesTopVL(info.getGraphId1(), valIncr) * info.getLayoutParam().getVerticalSnakeLinePadding();
+                        double decal2V = addAndGetNbSnakeLinesBottomVL(info.getGraphId2(), valIncr) * info.getLayoutParam().getVerticalSnakeLinePadding();
+                        double xSnakeLine = info.getxMinGraph() - addAndGetNbSnakeLinesLeftRight(Side.LEFT, 1) * info.getLayoutParam().getHorizontalSnakeLinePadding();
 
-                        pol.addAll(Arrays.asList(x1, y1,
-                                x1, initY1 - decal1V,
-                                xSnakeLine, initY1 - decal1V,
-                                xSnakeLine, initY2 + decal2V,
-                                x2, initY2 + decal2V,
-                                x2, y2));
+                        pol.addAll(Arrays.asList(info.getX1(), info.getY1(),
+                                info.getX1(), info.getInitY1() - decal1V,
+                                xSnakeLine, info.getInitY1() - decal1V,
+                                xSnakeLine, info.getInitY2() + decal2V,
+                                info.getX2(), info.getInitY2() + decal2V,
+                                info.getX2(), info.getY2()));
                     } else {  // node1 and node2 adjacent and node2 before node1
-                        if (increment) {
-                            infosNbSnakeLines.getNbSnakeLinesTopVL().compute(node1.getGraph().getVoltageLevelId(), (k, v) -> v + 1);
-                            infosNbSnakeLines.getNbSnakeLinesBottomVL().compute(node2.getGraph().getVoltageLevelId(), (k, v) -> v + 1);
-                        }
-                        double decal1V = infosNbSnakeLines.getNbSnakeLinesTopVL().get(node1.getGraph().getVoltageLevelId()) * layoutParam.getVerticalSnakeLinePadding();
-                        double decal2V = infosNbSnakeLines.getNbSnakeLinesBottomVL().get(node2.getGraph().getVoltageLevelId()) * layoutParam.getVerticalSnakeLinePadding();
-                        double ySnakeLine = Math.max(initY1 - decal1V, initY2 + decal2V);
+                        double decal1V = addAndGetNbSnakeLinesTopVL(info.getGraphId1(), valIncr) * info.getLayoutParam().getVerticalSnakeLinePadding();
+                        double decal2V = addAndGetNbSnakeLinesBottomVL(info.getGraphId2(), valIncr) * info.getLayoutParam().getVerticalSnakeLinePadding();
+                        double ySnakeLine = Math.max(info.getInitY1() - decal1V, info.getInitY2() + decal2V);
 
-                        pol.addAll(Arrays.asList(x1, y1,
-                                x1, ySnakeLine,
-                                x2, ySnakeLine,
-                                x2, y2));
+                        pol.addAll(Arrays.asList(info.getX1(), info.getY1(),
+                                info.getX1(), ySnakeLine,
+                                info.getX2(), ySnakeLine,
+                                info.getX2(), info.getY2()));
                     }
                 }
                 break;
@@ -170,10 +144,5 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
     @Override
     protected double getHorizontalSubstationPadding(LayoutParameters layoutParameters) {
         return 0;
-    }
-
-    @Override
-    protected double getVerticalSubstationPadding(LayoutParameters layoutParameters) {
-        return layoutParameters.getVerticalSubstationPadding();
     }
 }

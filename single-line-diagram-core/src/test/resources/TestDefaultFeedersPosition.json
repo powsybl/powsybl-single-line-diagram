@@ -1060,4 +1060,7 @@
     "node1" : "dgen2",
     "node2" : "FICT_vl1_dgen2Fictif"
   } ]
-} ]
+} ] {
+  "x" : 0.0,
+  "y" : 0.0
+}

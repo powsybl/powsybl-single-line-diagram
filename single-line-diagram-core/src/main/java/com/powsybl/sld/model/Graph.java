@@ -6,7 +6,6 @@
  */
 package com.powsybl.sld.model;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.Pseudograph;
@@ -14,11 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.io.Writer;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -34,7 +28,7 @@ import java.util.stream.Stream;
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
-public final class Graph {
+public final class Graph extends AbstractGraph {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Graph.class);
 
@@ -43,6 +37,8 @@ public final class Graph {
     private String voltageLevelName;
 
     private double voltageLevelNominalV;
+
+    private String substationId;
 
     private final boolean useName;
 
@@ -63,15 +59,10 @@ public final class Graph {
 
     private int cellCounter = 0;
 
-    private double x = 0;
-    private double y = 0;
-
     private final boolean forVoltageLevelDiagram;  // true if voltageLevel diagram
                                                    // false if substation diagram
 
     private final boolean showInductorFor3WT;
-
-    private boolean generateCoordsInJson = true;
 
     Function<Node, BusCell.Direction> nodeDirection = node ->
             (node instanceof FeederNode && node.getCell() != null) ? ((ExternCell) node.getCell()).getDirection() : BusCell.Direction.UNDEFINED;
@@ -82,21 +73,24 @@ public final class Graph {
     // (filled and used only when using the adapt cell height to content option)
     private Map<BusCell.Direction, Double> maxCalculatedCellHeight = new EnumMap<>(BusCell.Direction.class);
 
-    private Graph(String id, String name, double nominalV,
+    private Graph(String id, String name, double nominalV, String substationId,
                   boolean useName, boolean forVoltageLevelDiagram, boolean showInductorFor3WT) {
         this.voltageLevelId = Objects.requireNonNull(id);
         this.voltageLevelName = name;
         this.voltageLevelNominalV = nominalV;
+        this.substationId = substationId;
         this.useName = useName;
         this.forVoltageLevelDiagram = forVoltageLevelDiagram;
         this.showInductorFor3WT = showInductorFor3WT;
     }
 
     public static Graph create(String id, String name, double nominalV,
+                               String substationId,
                                boolean useName, boolean forVoltageLevelDiagram,
                                boolean showInductorFor3WT) {
         Objects.requireNonNull(id);
-        return new Graph(id, name, nominalV, useName, forVoltageLevelDiagram, showInductorFor3WT);
+        Objects.requireNonNull(substationId);
+        return new Graph(id, name, nominalV, substationId, useName, forVoltageLevelDiagram, showInductorFor3WT);
     }
 
     public boolean isUseName() {
@@ -461,20 +455,8 @@ public final class Graph {
         return voltageLevelNominalV;
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
+    public String getSubstationId() {
+        return substationId;
     }
 
     public boolean isPositionNodeBusesCalculated() {
@@ -505,25 +487,7 @@ public final class Graph {
                         }));
     }
 
-    public void writeJson(Path file) {
-        try (Writer writer = Files.newBufferedWriter(file, StandardCharsets.UTF_8)) {
-            writeJson(writer);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
-    public void writeJson(Writer writer) {
-        Objects.requireNonNull(writer);
-        try (JsonGenerator generator = new JsonFactory()
-                .createGenerator(writer)
-                .useDefaultPrettyPrinter()) {
-            writeJson(generator);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
+    @Override
     public void writeJson(JsonGenerator generator) throws IOException {
         generator.writeStartObject();
 
@@ -571,10 +535,12 @@ public final class Graph {
         this.maxCalculatedCellHeight = maxCalculatedCellHeight;
     }
 
+    @Override
     public void setGenerateCoordsInJson(boolean generateCoordsInJson) {
         this.generateCoordsInJson = generateCoordsInJson;
     }
 
+    @Override
     public boolean isGenerateCoordsInJson() {
         return generateCoordsInJson;
     }

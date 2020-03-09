@@ -10,8 +10,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Arrays;
-import java.util.List;
 
+import com.powsybl.sld.ZoneId;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -26,6 +26,7 @@ import com.powsybl.sld.NetworkGraphBuilder;
 /**
  *
  * @author Massimo Ferraro <massimo.ferraro@techrain.eu>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 public class ZoneGraphTest {
 
@@ -84,7 +85,7 @@ public class ZoneGraphTest {
 
     @Test
     public void test() {
-        List<String> zone = Arrays.asList(SUBSTATION_ID_1, SUBSTATION_ID_2);
+        ZoneId zone = ZoneId.create(Arrays.asList(SUBSTATION_ID_1, SUBSTATION_ID_2));
         ZoneGraph graph = new NetworkGraphBuilder(createNetwork()).buildZoneGraph(zone, false);
         assertEquals(2, graph.getNodes().size());
         assertEquals(SUBSTATION_ID_1, graph.getNodes().get(0).getSubstationId());

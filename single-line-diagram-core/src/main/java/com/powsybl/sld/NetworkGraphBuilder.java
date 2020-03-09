@@ -100,7 +100,7 @@ public class NetworkGraphBuilder implements GraphBuilder {
         }
 
         // build the graph from the voltage level
-        Graph graph = Graph.create(vl.getId(), vl.getName(), vl.getNominalV(), useName,
+        Graph graph = Graph.create(vl.getId(), vl.getName(), vl.getNominalV(), vl.getSubstation().getId(), useName,
                 forVoltageLevelDiagram, showInductorFor3WT);
         buildGraph(graph, vl);
 
@@ -672,7 +672,7 @@ public class NetworkGraphBuilder implements GraphBuilder {
         substation.getVoltageLevelStream()
                 .sorted(Comparator.comparing(VoltageLevel::getNominalV)
                         .reversed()).forEach(v -> {
-                            Graph vlGraph = Graph.create(v.getId(), v.getName(), v.getNominalV(),
+                            Graph vlGraph = Graph.create(v.getId(), v.getName(), v.getNominalV(), substation.getId(),
                                     useName, false, false);
                             buildGraph(vlGraph, v);
                             graph.addNode(vlGraph);
@@ -724,6 +724,24 @@ public class NetworkGraphBuilder implements GraphBuilder {
 
             graph.addEdge(THREE_WINDINGS_TRANSFORMER, n1, n2, n3);
         }
+
+        // Lines
+        //
+        List<String> lines = new ArrayList<>();
+        substation.getVoltageLevelStream().forEach(voltageLevel ->
+                voltageLevel.getConnectableStream(Line.class).forEach(line -> {
+                    if (!lines.contains(line.getId())) {
+                        Graph vlGraph1 = graph.getNode(line.getTerminal1().getVoltageLevel().getId());
+                        Graph vlGraph2 = graph.getNode(line.getTerminal2().getVoltageLevel().getId());
+                        if (vlGraph1 != null && vlGraph2 != null) {
+                            Node node1 = vlGraph1.getNode(line.getId() + "_" + Branch.Side.ONE);
+                            Node node2 = vlGraph2.getNode(line.getId() + "_" + Branch.Side.TWO);
+                            LOGGER.info("Adding line {} to substation graph", line.getId());
+                            graph.addEdge(LINE, node1, node2);
+                            lines.add(line.getId());
+                        }
+                    }
+                }));
     }
 
     private SwitchNode createSwitchNodeFromSwitch(Graph graph, Switch aSwitch) {
@@ -748,10 +766,12 @@ public class NetworkGraphBuilder implements GraphBuilder {
     }
 
     @Override
-    public ZoneGraph buildZoneGraph(List<String> substationIds, boolean useName) {
-        Objects.requireNonNull(substationIds);
+    public ZoneGraph buildZoneGraph(ZoneId zoneId, boolean useName) {
+        if (zoneId.isEmpty()) {
+            throw new PowsyblException("Zone without any substation");
+        }
 
-        List<Substation> zone = substationIds.stream().map(substationId -> {
+        List<Substation> zone = zoneId.getSubstationsIds().stream().map(substationId -> {
             Substation substation = network.getSubstation(substationId);
             if (substation == null) {
                 throw new PowsyblException("Substation '" + substationId + "' not in network " + network.getId());
@@ -759,7 +779,7 @@ public class NetworkGraphBuilder implements GraphBuilder {
             return substation;
         }).collect(Collectors.toList());
 
-        ZoneGraph graph = ZoneGraph.create(substationIds);
+        ZoneGraph graph = ZoneGraph.create(zoneId);
         buildZoneGraph(graph, zone, useName);
 
         return graph;
@@ -789,21 +809,24 @@ public class NetworkGraphBuilder implements GraphBuilder {
                         String voltageLevelId2 = line.getTerminal2().getVoltageLevel().getId();
                         String substationId1 = line.getTerminal1().getVoltageLevel().getSubstation().getId();
                         String substationId2 = line.getTerminal2().getVoltageLevel().getSubstation().getId();
-                        SubstationGraph sGraph1 = graph.getNode(substationId1);
-                        SubstationGraph sGraph2 = graph.getNode(substationId2);
-                        if (sGraph1 != null && sGraph2 != null) {
-                            Graph vlGraph1 = sGraph1.getNode(voltageLevelId1);
-                            Graph vlGraph2 = sGraph2.getNode(voltageLevelId2);
-                            Node node1 = vlGraph1.getNode(nodeId1);
-                            Node node2 = vlGraph2.getNode(nodeId2);
-                            LOGGER.info("Adding line {} to zone graph", line.getId());
-                            graph.addEdge(line.getId(), node1, node2);
-                            lines.add(line.getId());
+                        if (!substationId1.equals(substationId2)) {
+                            // lines between 2 voltage levels in the same substation are already created
+                            // before in the buildSubstationGraph method
+                            SubstationGraph sGraph1 = graph.getNode(substationId1);
+                            SubstationGraph sGraph2 = graph.getNode(substationId2);
+                            if (sGraph1 != null && sGraph2 != null) {
+                                Graph vlGraph1 = sGraph1.getNode(voltageLevelId1);
+                                Graph vlGraph2 = sGraph2.getNode(voltageLevelId2);
+                                Node node1 = vlGraph1.getNode(nodeId1);
+                                Node node2 = vlGraph2.getNode(nodeId2);
+                                LOGGER.info("Adding line {} to zone graph with node1 {} and node2 {}", line.getId(), nodeId1, nodeId2);
+                                graph.addEdge(line.getId(), node1, node2);
+                                lines.add(line.getId());
+                            }
                         }
                     }
                 })
             )
         );
     }
-
 }

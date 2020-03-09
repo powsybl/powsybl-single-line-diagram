@@ -153,7 +153,7 @@ public class DefaultSVGWriter implements SVGWriter {
         Document document = domImpl.createDocument(SVG_NAMESPACE, SVG_QUALIFIED_NAME, null);
 
         Set<String> listUsedComponentSVG = new HashSet<>();
-        addStyle(document, styleProvider, Collections.singletonList(graph), listUsedComponentSVG, null);
+        addStyle(document, styleProvider, Collections.singletonList(graph), listUsedComponentSVG, null, null);
 
         createDefsSVGComponents(document, listUsedComponentSVG);
 
@@ -165,7 +165,8 @@ public class DefaultSVGWriter implements SVGWriter {
     }
 
     protected void addStyle(Document document, DiagramStyleProvider styleProvider, List<Graph> graphs,
-                            Set<String> listUsedComponentSVG, List<? extends Edge> snakeLines) {
+                            Set<String> listUsedComponentSVG, List<TwtEdge> snakeLines,
+                            List<LineEdge> lines) {
         Element style = document.createElement("style");
 
         StringBuilder graphStyle = new StringBuilder();
@@ -193,6 +194,17 @@ public class DefaultSVGWriter implements SVGWriter {
                 idVLS += e.getNode2().getGraph() != null ? e.getNode2().getGraph().getVoltageLevelId() : "_";
 
                 Optional<String> wireStyle = styleProvider.getWireStyle(e, idVLS, snakeLines.indexOf(e));
+                if (wireStyle.isPresent()) {
+                    graphStyle.append(wireStyle.get()).append("\n");
+                }
+            });
+        }
+
+        if (lines != null) {
+            lines.forEach(e -> {
+                String idVLS = e.getNode1().getGraph().getVoltageLevelId() + "_" + e.getNode2().getGraph().getVoltageLevelId();
+
+                Optional<String> wireStyle = styleProvider.getWireStyle(e, idVLS, lines.indexOf(e));
                 if (wireStyle.isPresent()) {
                     graphStyle.append(wireStyle.get()).append("\n");
                 }
@@ -321,7 +333,7 @@ public class DefaultSVGWriter implements SVGWriter {
         Document document = domImpl.createDocument(SVG_NAMESPACE, SVG_QUALIFIED_NAME, null);
 
         Set<String> listUsedComponentSVG = new HashSet<>();
-        addStyle(document, styleProvider, graph.getNodes(), listUsedComponentSVG, graph.getEdges());
+        addStyle(document, styleProvider, graph.getNodes(), listUsedComponentSVG, graph.getEdges(), null);
         graph.getMultiTermNodes().stream().forEach(n -> listUsedComponentSVG.add(n.getComponentType()));
 
         createDefsSVGComponents(document, listUsedComponentSVG);
@@ -1197,7 +1209,10 @@ public class DefaultSVGWriter implements SVGWriter {
         List<Graph> vlGraphs = graph.getNodes().stream().map(SubstationGraph::getNodes).flatMap(Collection::stream).collect(Collectors.toList());
 
         Set<String> listUsedComponentSVG = new HashSet<>();
-        addStyle(document, styleProvider, vlGraphs, listUsedComponentSVG, graph.getEdges());
+
+        addStyle(document, styleProvider, vlGraphs, listUsedComponentSVG,
+                graph.getNodes().stream().map(SubstationGraph::getEdges).flatMap(Collection::stream).collect(Collectors.toList()),
+                graph.getEdges());
 
         createDefsSVGComponents(document, listUsedComponentSVG);
 
@@ -1258,7 +1273,9 @@ public class DefaultSVGWriter implements SVGWriter {
 
     private void drawLines(String prefixId, Element root, ZoneGraph graph, GraphMetadata metadata) {
         for (LineEdge edge : graph.getEdges()) {
-            String lineId = escapeId(prefixId + edge.getLineId());
+
+            String tmp = edge.getNode1().getGraph().getVoltageLevelId() + "_" + edge.getNode2().getGraph().getVoltageLevelId();
+            String lineId = escapeId(prefixId + tmp + "_" + "Wire" + graph.getEdges().indexOf(edge));
 
             Element g = root.getOwnerDocument().createElement(POLYLINE);
             g.setAttribute("id", lineId);
@@ -1267,7 +1284,8 @@ public class DefaultSVGWriter implements SVGWriter {
                                   .map(point -> (point.getX() + layoutParameters.getTranslateX()) + "," + (point.getY() + layoutParameters.getTranslateY()))
                                   .collect(Collectors.joining(","));
             g.setAttribute(POINTS, polyline);
-            g.setAttribute(CLASS, DiagramStyles.LINE_STYLE_CLASS + " " + escapeClassName(edge.getLineId()));
+            g.setAttribute(CLASS, DiagramStyles.LINE_STYLE_CLASS + " " + DiagramStyles.LINE_STYLE_CLASS + "_" + escapeClassName(edge.getNode1().getGraph().getVoltageLevelId()));
+
             root.appendChild(g);
 
             metadata.addLineMetadata(new GraphMetadata.LineMetadata(lineId,

@@ -8,8 +8,10 @@ package com.powsybl.sld.cgmes.layout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+import com.powsybl.sld.layout.VoltageLevelLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +46,8 @@ public class CgmesSubstationLayout extends AbstractCgmesLayout implements Substa
     }
 
     @Override
-    public void run(LayoutParameters layoutParam) {
+    public void run(LayoutParameters layoutParam, boolean applyVLLayouts,
+                    boolean manageSnakeLines, Map<Graph, VoltageLevelLayout> mapVLayouts) {
         String diagramName = layoutParam.getDiagramName();
         if (!checkDiagram(diagramName, "substation " + graph.getSubstationId())) {
             return;
@@ -104,5 +107,4 @@ public class CgmesSubstationLayout extends AbstractCgmesLayout implements Substa
         // replace the old edges with the new edges in the substation graph
         graph.setEdges(newEdges);
     }
-
 }

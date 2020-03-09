@@ -6,7 +6,10 @@
  */
 package com.powsybl.sld.layout;
 
+import com.powsybl.commons.PowsyblException;
 import com.powsybl.sld.model.BusCell;
+import com.powsybl.sld.model.ExternCell;
+import com.powsybl.sld.model.Node;
 
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
@@ -23,7 +26,38 @@ public class InfoCalcPoints {
     private double initY2;
     private double xMaxGraph;
     private String idMaxGraph;
+    private String idMaxSubstation;
     private boolean increment;
+    private String graphId1;
+    private String graphId2;
+    private String substationId1;
+    private String substationId2;
+    private double maxH;
+    private double xMinGraph;
+    private boolean adjacentGraphs;
+
+    public InfoCalcPoints() {
+    }
+
+    public InfoCalcPoints(LayoutParameters layoutParameters, Node node1, Node node2, boolean increment) {
+        this.layoutParam = layoutParameters;
+        this.graphId1 = node1.getGraph().getVoltageLevelId();
+        this.graphId2 = node2.getGraph().getVoltageLevelId();
+        this.x1 = node1.getX();
+        this.x2 = node2.getX();
+        this.y1 = node1.getY();
+        this.initY1 = node1.getInitY() != -1 ? node1.getInitY() : node1.getY();
+        this.y2 = node2.getY();
+        this.initY2 = node2.getInitY() != -1 ? node2.getInitY() : node2.getY();
+        this.xMaxGraph = Math.max(node1.getGraph().getX(), node2.getGraph().getX());
+        this.idMaxGraph = node1.getGraph().getX() > node2.getGraph().getX()
+                ? node1.getGraph().getVoltageLevelId()
+                : node2.getGraph().getVoltageLevelId();
+        this.xMinGraph = Math.min(node1.getGraph().getX(), node2.getGraph().getX());
+        this.dNode1 = getNodeDirection(node1, 1);
+        this.dNode2 = getNodeDirection(node2, 2);
+        this.increment = increment;
+    }
 
     public LayoutParameters getLayoutParam() {
         return layoutParam;
@@ -113,11 +147,78 @@ public class InfoCalcPoints {
         this.idMaxGraph = idMaxGraph;
     }
 
+    public String getIdMaxSubstation() {
+        return idMaxSubstation;
+    }
+
+    public void setIdMaxSubstation(String idMaxSubstation) {
+        this.idMaxSubstation = idMaxSubstation;
+    }
+
     public boolean isIncrement() {
         return increment;
     }
 
-    public void setIncrement(boolean increment) {
-        this.increment = increment;
+    public String getGraphId1() {
+        return graphId1;
+    }
+
+    public void setGraphId1(String graphId1) {
+        this.graphId1 = graphId1;
+    }
+
+    public String getGraphId2() {
+        return graphId2;
+    }
+
+    public void setGraphId2(String graphId2) {
+        this.graphId2 = graphId2;
+    }
+
+    public String getSubstationId1() {
+        return substationId1;
+    }
+
+    public void setSubstationId1(String substationId1) {
+        this.substationId1 = substationId1;
+    }
+
+    public String getSubstationId2() {
+        return substationId2;
+    }
+
+    public void setSubstationId2(String substationId2) {
+        this.substationId2 = substationId2;
+    }
+
+    public double getMaxH() {
+        return maxH;
+    }
+
+    public void setMaxH(double maxH) {
+        this.maxH = maxH;
+    }
+
+    public double getxMinGraph() {
+        return xMinGraph;
+    }
+
+    public boolean isAdjacentGraphs() {
+        return adjacentGraphs;
+    }
+
+    public void setAdjacentGraphs(boolean adjacentGraphs) {
+        this.adjacentGraphs = adjacentGraphs;
+    }
+
+    private BusCell.Direction getNodeDirection(Node node, int nb) {
+        if (node.getType() != Node.NodeType.FEEDER) {
+            throw new PowsyblException("Node " + nb + " is not a feeder node");
+        }
+        BusCell.Direction dNode = node.getCell() != null ? ((ExternCell) node.getCell()).getDirection() : BusCell.Direction.TOP;
+        if (dNode != BusCell.Direction.TOP && dNode != BusCell.Direction.BOTTOM) {
+            throw new PowsyblException("Node " + nb + " cell direction not TOP or BOTTOM");
+        }
+        return dNode;
     }
 }

@@ -6,6 +6,7 @@
  */
 package com.powsybl.sld.util;
 
+import static com.powsybl.sld.svg.DiagramStyles.LINE_STYLE_CLASS;
 import static com.powsybl.sld.svg.DiagramStyles.WIRE_STYLE_CLASS;
 import static com.powsybl.sld.svg.DiagramStyles.escapeClassName;
 import static com.powsybl.sld.svg.DiagramStyles.escapeId;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import com.powsybl.sld.model.Edge;
 import com.powsybl.sld.model.Feeder2WTNode;
 import com.powsybl.sld.model.Fictitious3WTNode;
+import com.powsybl.sld.model.LineEdge;
 import com.powsybl.sld.model.Node;
 import com.powsybl.sld.svg.DefaultDiagramStyleProvider;
 
@@ -95,7 +97,7 @@ public class NominalVoltageDiagramStyleProvider extends DefaultDiagramStyleProvi
 
         String color = getColor(nominalV, null).orElse(DEFAULT_COLOR);
         StringBuilder style = new StringBuilder();
-        style.append(".").append(WIRE_STYLE_CLASS).append("_").append(escapeClassName(vlId)).append(" {stroke:").append(color).append(";stroke-width:1;}");
+        style.append(".").append(!(edge instanceof LineEdge) ? WIRE_STYLE_CLASS : LINE_STYLE_CLASS).append("_").append(escapeClassName(vlId)).append(" {stroke:").append(color).append(";stroke-width:1;}");
         return Optional.of(style.toString());
     }
 }
