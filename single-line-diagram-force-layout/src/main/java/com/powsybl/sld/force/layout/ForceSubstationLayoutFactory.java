@@ -6,7 +6,7 @@
  */
 package com.powsybl.sld.force.layout;
 
-import com.powsybl.sld.layout.SubstationLayout;
+import com.powsybl.sld.layout.Layout;
 import com.powsybl.sld.layout.SubstationLayoutFactory;
 import com.powsybl.sld.layout.VoltageLevelLayoutFactory;
 import com.powsybl.sld.model.SubstationGraph;
@@ -29,7 +29,7 @@ public class ForceSubstationLayoutFactory implements SubstationLayoutFactory {
     }
 
     @Override
-    public SubstationLayout create(SubstationGraph substationGraph, VoltageLevelLayoutFactory vLayoutFactory) {
+    public Layout create(SubstationGraph substationGraph, VoltageLevelLayoutFactory vLayoutFactory) {
         return new ForceSubstationLayout(substationGraph, vLayoutFactory, compactionType);
     }
 }

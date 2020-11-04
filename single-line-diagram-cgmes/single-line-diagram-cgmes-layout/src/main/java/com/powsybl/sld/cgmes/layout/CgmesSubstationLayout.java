@@ -6,25 +6,24 @@
  */
 package com.powsybl.sld.cgmes.layout;
 
-import java.util.List;
-import java.util.Objects;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.VoltageLevel;
+import com.powsybl.sld.layout.Layout;
 import com.powsybl.sld.layout.LayoutParameters;
-import com.powsybl.sld.layout.SubstationLayout;
 import com.powsybl.sld.model.Graph;
 import com.powsybl.sld.model.Node;
 import com.powsybl.sld.model.SubstationGraph;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Massimo Ferraro <massimo.ferraro@techrain.eu>
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
-public class CgmesSubstationLayout extends AbstractCgmesLayout implements SubstationLayout {
+public class CgmesSubstationLayout extends AbstractCgmesLayout implements Layout {
 
     private static final Logger LOG = LoggerFactory.getLogger(CgmesSubstationLayout.class);
 

@@ -6,8 +6,8 @@
  */
 package com.powsybl.sld;
 
+import com.powsybl.sld.layout.Layout;
 import com.powsybl.sld.layout.LayoutParameters;
-import com.powsybl.sld.layout.VoltageLevelLayout;
 import com.powsybl.sld.layout.VoltageLevelLayoutFactory;
 import com.powsybl.sld.library.ComponentLibrary;
 import com.powsybl.sld.model.Graph;
@@ -35,9 +35,9 @@ public final class VoltageLevelDiagram extends AbstractDiagram {
 
     private final Graph graph;
 
-    private final VoltageLevelLayout vlLayout;
+    private final Layout vlLayout;
 
-    private VoltageLevelDiagram(Graph graph, VoltageLevelLayout layout) {
+    private VoltageLevelDiagram(Graph graph, Layout layout) {
         this.graph = Objects.requireNonNull(graph);
         this.vlLayout = Objects.requireNonNull(layout);
     }
@@ -51,7 +51,7 @@ public final class VoltageLevelDiagram extends AbstractDiagram {
 
         Graph graph = graphBuilder.buildVoltageLevelGraph(voltageLevelId, useName, true);
 
-        VoltageLevelLayout layout = layoutFactory.create(graph);
+        Layout layout = layoutFactory.create(graph);
 
         return new VoltageLevelDiagram(graph, layout);
     }

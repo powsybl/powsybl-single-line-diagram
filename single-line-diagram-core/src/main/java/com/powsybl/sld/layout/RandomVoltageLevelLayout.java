@@ -6,9 +6,9 @@
  */
 package com.powsybl.sld.layout;
 
+import com.powsybl.sld.model.BusNode;
 import com.powsybl.sld.model.Graph;
 import com.powsybl.sld.model.Node;
-import com.powsybl.sld.model.BusNode;
 
 import java.util.Objects;
 import java.util.Random;
@@ -18,7 +18,7 @@ import java.util.Random;
  * @author Nicolas Duchene
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  */
-public class RandomVoltageLevelLayout implements VoltageLevelLayout {
+public class RandomVoltageLevelLayout implements Layout {
 
     private final Graph graph;
 

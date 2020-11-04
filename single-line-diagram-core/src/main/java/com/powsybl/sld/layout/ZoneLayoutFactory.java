@@ -14,6 +14,6 @@ import com.powsybl.sld.model.ZoneGraph;
  */
 public interface ZoneLayoutFactory {
 
-    ZoneLayout create(ZoneGraph graph, SubstationLayoutFactory sLayoutFactory, VoltageLevelLayoutFactory vLayoutFactory);
+    Layout create(ZoneGraph graph, SubstationLayoutFactory sLayoutFactory, VoltageLevelLayoutFactory vLayoutFactory);
 
 }

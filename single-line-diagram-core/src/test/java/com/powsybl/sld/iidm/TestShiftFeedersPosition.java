@@ -102,7 +102,7 @@ public class TestShiftFeedersPosition extends AbstractTestCaseIidm {
     @Test
     public void test2() {
         LayoutParameters layoutParameters = new LayoutParameters();
-        VoltageLevelLayoutFactory fakeVoltageLevelLayoutFactory = graph -> (VoltageLevelLayout) layoutParam -> {
+        VoltageLevelLayoutFactory fakeVoltageLevelLayoutFactory = graph -> (Layout) layoutParam -> {
         };
 
         // build substation graph

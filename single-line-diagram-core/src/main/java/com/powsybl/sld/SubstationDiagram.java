@@ -24,15 +24,15 @@ import java.util.Objects;
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
-public final class SubstationDiagram {
+public final class SubstationDiagram extends AbstractDiagram {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SubstationDiagram.class);
 
     private final SubstationGraph subGraph;
 
-    private final SubstationLayout subLayout;
+    private final Layout subLayout;
 
-    private SubstationDiagram(SubstationGraph graph, SubstationLayout layout) {
+    private SubstationDiagram(SubstationGraph graph, Layout layout) {
         this.subGraph = Objects.requireNonNull(graph);
         this.subLayout = Objects.requireNonNull(layout);
     }
@@ -58,7 +58,7 @@ public final class SubstationDiagram {
 
         SubstationGraph graph = graphBuilder.buildSubstationGraph(substationId, useName);
 
-        SubstationLayout layout = sLayoutFactory.create(graph, vLayoutFactory);
+        Layout layout = sLayoutFactory.create(graph, vLayoutFactory);
 
         return new SubstationDiagram(graph, layout);
     }
@@ -66,11 +66,12 @@ public final class SubstationDiagram {
     public void writeSvg(String prefixId, ComponentLibrary componentLibrary, LayoutParameters layoutParameters,
                          DiagramLabelProvider initProvider, DiagramStyleProvider styleProvider, Path svgFile) {
         SVGWriter writer = new DefaultSVGWriter(componentLibrary, layoutParameters);
-        writeSvg(prefixId, writer, svgFile, initProvider, styleProvider);
+        writeSvg(prefixId, writer, initProvider, styleProvider, svgFile);
     }
 
-    public void writeSvg(String prefixId, SVGWriter writer, Path svgFile, DiagramLabelProvider initProvider,
-                         DiagramStyleProvider styleProvider) {
+    @Override
+    public void writeSvg(String prefixId, SVGWriter writer, DiagramLabelProvider initProvider,
+                         DiagramStyleProvider styleProvider, Path svgFile) {
         Path dir = svgFile.toAbsolutePath().getParent();
         String svgFileName = svgFile.getFileName().toString();
         if (!svgFileName.endsWith(".svg")) {
@@ -95,6 +96,7 @@ public final class SubstationDiagram {
                 metadataWriter);
     }
 
+    @Override
     public void writeSvg(String prefixId,
                          SVGWriter writer,
                          DiagramLabelProvider initProvider,
