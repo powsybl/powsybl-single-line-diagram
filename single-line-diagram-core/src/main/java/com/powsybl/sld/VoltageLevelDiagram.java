@@ -29,7 +29,7 @@ import java.util.Objects;
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
-public final class VoltageLevelDiagram {
+public final class VoltageLevelDiagram extends AbstractDiagram {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VoltageLevelDiagram.class);
 
@@ -73,6 +73,7 @@ public final class VoltageLevelDiagram {
                 svgFile);
     }
 
+    @Override
     public void writeSvg(String prefixId,
                          SVGWriter writer,
                          DiagramLabelProvider initProvider,
@@ -91,6 +92,7 @@ public final class VoltageLevelDiagram {
         }
     }
 
+    @Override
     public void writeSvg(String prefixId,
                          SVGWriter writer,
                          DiagramLabelProvider initProvider,
