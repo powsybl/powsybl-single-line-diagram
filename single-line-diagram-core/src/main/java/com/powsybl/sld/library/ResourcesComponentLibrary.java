@@ -59,6 +59,10 @@ public class ResourcesComponentLibrary implements ComponentLibrary {
         styleSheet = styleSheetBuilder.toString();
     }
 
+    public static ComponentLibrary getDefault() {
+        return new ResourcesComponentLibrary("/ConvergenceLibrary");
+    }
+
     private void loadLibrary(String directory, StringBuilder styleSheetBuilder) {
         LOGGER.info("Loading component library from {}...", directory);
 

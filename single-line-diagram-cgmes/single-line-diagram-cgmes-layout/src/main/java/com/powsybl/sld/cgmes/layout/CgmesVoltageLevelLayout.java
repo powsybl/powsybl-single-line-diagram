@@ -6,22 +6,21 @@
  */
 package com.powsybl.sld.cgmes.layout;
 
-import java.util.Objects;
-
+import com.powsybl.iidm.network.Network;
+import com.powsybl.iidm.network.VoltageLevel;
+import com.powsybl.sld.layout.Layout;
+import com.powsybl.sld.layout.LayoutParameters;
+import com.powsybl.sld.model.Graph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.powsybl.iidm.network.Network;
-import com.powsybl.iidm.network.VoltageLevel;
-import com.powsybl.sld.layout.LayoutParameters;
-import com.powsybl.sld.layout.VoltageLevelLayout;
-import com.powsybl.sld.model.Graph;
+import java.util.Objects;
 
 /**
  *
  * @author Massimo Ferraro <massimo.ferraro@techrain.eu>
  */
-public class CgmesVoltageLevelLayout extends AbstractCgmesLayout implements VoltageLevelLayout {
+public class CgmesVoltageLevelLayout extends AbstractCgmesLayout implements Layout {
 
     private static final Logger LOG = LoggerFactory.getLogger(CgmesVoltageLevelLayout.class);
 

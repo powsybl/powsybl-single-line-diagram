@@ -10,11 +10,14 @@ package com.powsybl.sld.layout;
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
  * @author Nicolas Duchene
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
+ * @author Massimo Ferraro <massimo.ferraro@techrain.eu>
  */
-public interface VoltageLevelLayout {
+public interface Layout {
 
     /**
-     * Calculate real coordinate of busbar and blocks connected to busbar
+     * Calculate real coordinates of nodes in the voltage level / substation / zone
      */
     void run(LayoutParameters layoutParam);
+
 }

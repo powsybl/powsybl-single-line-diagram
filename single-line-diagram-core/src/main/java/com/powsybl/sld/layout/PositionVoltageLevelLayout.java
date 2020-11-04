@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
-public class PositionVoltageLevelLayout implements VoltageLevelLayout {
+public class PositionVoltageLevelLayout implements Layout {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PositionVoltageLevelLayout.class);
 

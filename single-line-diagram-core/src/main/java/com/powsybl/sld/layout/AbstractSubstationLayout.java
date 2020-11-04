@@ -6,34 +6,22 @@
  */
 package com.powsybl.sld.layout;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import com.powsybl.commons.PowsyblException;
+import com.powsybl.sld.model.*;
+import com.powsybl.sld.model.BusCell.Direction;
+
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.powsybl.commons.PowsyblException;
-import com.powsybl.sld.model.BusCell;
-import com.powsybl.sld.model.BusCell.Direction;
-import com.powsybl.sld.model.Coord;
-import com.powsybl.sld.model.Edge;
-import com.powsybl.sld.model.ExternCell;
-import com.powsybl.sld.model.Graph;
-import com.powsybl.sld.model.Node;
-import com.powsybl.sld.model.Side;
-import com.powsybl.sld.model.SubstationGraph;
-import com.powsybl.sld.model.TwtEdge;
-
-import static com.powsybl.sld.model.Coord.Dimension.*;
+import static com.powsybl.sld.model.Coord.Dimension.X;
+import static com.powsybl.sld.model.Coord.Dimension.Y;
 
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  * @author Massimo Ferraro <massimo.ferraro@techrain.eu>
  */
-public abstract class AbstractSubstationLayout implements SubstationLayout {
+public abstract class AbstractSubstationLayout implements Layout {
 
     protected SubstationGraph graph;
     protected VoltageLevelLayoutFactory vLayoutFactory;
@@ -94,7 +82,7 @@ public abstract class AbstractSubstationLayout implements SubstationLayout {
             vlGraph.setY(graphY);
 
             // Calculate the objects coordinates inside the voltageLevel graph
-            VoltageLevelLayout vLayout = vLayoutFactory.create(vlGraph);
+            Layout vLayout = vLayoutFactory.create(vlGraph);
             vLayout.run(layoutParameters);
 
             // Calculate the global coordinate of the voltageLevel graph

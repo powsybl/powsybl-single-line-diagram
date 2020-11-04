@@ -90,7 +90,7 @@ public class LayoutToCgmesExtensionsConverter {
         //apply the specified layout
         NetworkGraphBuilder graphBuilder = new NetworkGraphBuilder(network);
         SubstationGraph sgraph = graphBuilder.buildSubstationGraph(substationId, showNames);
-        SubstationLayout sLayout = sFactory.create(sgraph, vFactory);
+        Layout sLayout = sFactory.create(sgraph, vFactory);
         sLayout.run(lparams);
 
         LayoutInfo subsBoundary = new LayoutInfo(0.0, 0.0);

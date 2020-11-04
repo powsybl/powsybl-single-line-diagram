@@ -84,7 +84,7 @@ public class PositionVoltageLevelLayoutFactory implements VoltageLevelLayoutFact
     }
 
     @Override
-    public VoltageLevelLayout create(Graph graph) {
+    public Layout create(Graph graph) {
         // detect cells
         new ImplicitCellDetector(removeUnnecessaryFictitiousNodes, substituteSingularFictitiousByFeederNode, exceptionIfPatternNotHandled)
                 .detectCells(graph);
