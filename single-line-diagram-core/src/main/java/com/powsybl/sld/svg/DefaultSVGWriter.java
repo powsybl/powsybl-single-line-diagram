@@ -680,9 +680,26 @@ public class DefaultSVGWriter implements SVGWriter {
                     }
                 }
             } else {  // 3 windings transformer
-                Node n2 = adjacentNodes.get(1);
-                if (n2.getCell() != null && ((ExternCell) n2.getCell()).getDirection() == BusCell.Direction.BOTTOM) {
-                    node.setRotationAngle(180.);  // rotation if middle node cell orientation is BOTTOM
+                List<Edge> edges = node.getAdjacentEdges();
+                List<Point> pol1 = ((BranchEdge) edges.get(0)).getSnakeLine();
+                List<Point> pol2 = ((BranchEdge) edges.get(1)).getSnakeLine();
+                List<Point> pol3 = ((BranchEdge) edges.get(2)).getSnakeLine();
+                if (!(pol1.isEmpty() || pol2.isEmpty() || pol3.isEmpty())) {
+                    // get points for the line supporting the svg component
+                    Point coord1 = pol1.get(pol1.size() - 2); // abscissa of the first polyline second last point
+                    Point coord2 = pol2.get(1);  // abscissa of the second polyline second point
+                    Point coord3 = pol3.get(1);  // abscissa of the third polyline second point
+                    if (coord1.getY() == coord3.getY()) {
+                        if (coord2.getY() < coord1.getY()) {
+                            node.setRotationAngle(180.);  // rotation if middle node cell orientation is BOTTOM
+                        }
+                    } else {
+                        if (coord2.getX() == coord1.getX()) {
+                            node.setRotationAngle(coord3.getX() > coord1.getX() ? 270. : 90.);
+                        } else if (coord2.getX() == coord3.getX()) {
+                            node.setRotationAngle(coord1.getX() > coord3.getX() ? 270. : 90.);
+                        }
+                    }
                 }
             }
         }

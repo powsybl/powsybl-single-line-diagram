@@ -78,8 +78,8 @@ public class SubstationGraph extends AbstractBaseGraph {
             return true;
         } else {
             int nbNodes = nodes.size();
-            for (int i = 0; i < nbNodes; i++) {
-                if (nodes.get(i) == g1 && i < (nbNodes - 1) && nodes.get(i + 1) == g2) {
+            for (int i = 0; i < nbNodes - 1; i++) {
+                if (nodes.get(i) == g1 && nodes.get(i + 1) == g2) {
                     return true;
                 }
             }

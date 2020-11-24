@@ -46,7 +46,7 @@ public class AnchorPoint extends Point {
      * Rotate the anchorPoints
      */
     public AnchorPoint rotate(Double rotationAngle) {
-        if (rotationAngle == 90.) {
+        if (rotationAngle == 90. || rotationAngle == 270) {
             switch (orientation) {
                 case VERTICAL:
                     return new AnchorPoint(getY(), getX(), AnchorOrientation.HORIZONTAL);

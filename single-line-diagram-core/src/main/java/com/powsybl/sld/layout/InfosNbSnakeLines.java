@@ -89,4 +89,8 @@ public final class InfosNbSnakeLines {
     public Map<String, Integer> getNbSnakeLinesTopVL() {
         return nbSnakeLinesTopVL;
     }
+
+    public Map<String, Integer> getNbSnakeLinesVL(BusCell.Direction direction) {
+        return direction == BusCell.Direction.BOTTOM ? nbSnakeLinesBottomVL : nbSnakeLinesTopVL;
+    }
 }
