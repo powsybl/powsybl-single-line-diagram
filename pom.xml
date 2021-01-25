@@ -92,7 +92,7 @@
             **/generated/**/*, **/com/powsybl/sld/view/**/*
         </sonar.exclusions>
 
-        <powsyblcore.version>4.0.0-RC1</powsyblcore.version>
+        <powsyblcore.version>4.0.0-RC2</powsyblcore.version>
         <javafx.version>11.0.2</javafx.version>
     </properties>
 
