@@ -9,10 +9,8 @@ package com.powsybl.sld.util;
 import com.powsybl.iidm.network.Bus;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.VoltageLevel;
-import com.powsybl.sld.model.Edge;
-import com.powsybl.sld.model.Node;
+import com.powsybl.sld.model.*;
 import com.powsybl.sld.model.Node.NodeType;
-import com.powsybl.sld.model.VoltageLevelInfos;
 import com.powsybl.sld.styles.BaseVoltageStyle;
 import com.powsybl.sld.svg.DiagramStyles;
 
@@ -69,10 +67,14 @@ public class TopologicalStyleProvider extends AbstractBaseVoltageDiagramStylePro
         return styleMap;
     }
 
+    private String getStyleMapKey(Node node) {
+        return node instanceof FeederWithSideNode ? node.getEquipmentId() + "_" + ((FeederWithSideNode) node).getSide().name() : node.getEquipmentId();
+    }
+
     private Optional<String> getNodeTopologicalStyle(String baseVoltageLevelStyle, VoltageLevelInfos voltageLevelInfos, Node node) {
         Map<String, String> styleMap = getVoltageLevelStyleMap(baseVoltageLevelStyle, voltageLevelInfos);
         String nodeTopologicalStyle = styleMap.computeIfAbsent(
-            node.getEquipmentId(), id -> findConnectedStyle(baseVoltageLevelStyle, voltageLevelInfos, node));
+                getStyleMapKey(node), id -> findConnectedStyle(baseVoltageLevelStyle, voltageLevelInfos, node));
         return Optional.ofNullable(nodeTopologicalStyle);
     }
 

@@ -278,7 +278,7 @@ polyline {fill: none}
             </g>
             <g class="sld-two-wt sld-top-feeder sld-constant-color" id="idtrf1_95_ONE" transform="translate(135.0,130.5)">
                 <circle class="sld-vl300to500-0" cx="5" cy="10" r="5"/>
-                <circle class="sld-vl180to300-0" cx="5" cy="5" r="5"/>
+                <circle class="sld-disconnected" cx="5" cy="5" r="5"/>
                 <text class="sld-label" id="trf1_ONE_N_LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">trf1</text>
             </g>
             <g class="sld-wire sld-constant-color sld-vl300to500-0" id="_95_vl1_95_bbs1_95_dtrf11">
@@ -324,7 +324,7 @@ polyline {fill: none}
             </g>
             <g class="sld-two-wt sld-top-feeder sld-constant-color" id="idtrf5_95_ONE" transform="translate(375.0,130.5)">
                 <circle class="sld-vl300to500-0" cx="5" cy="10" r="5"/>
-                <circle class="sld-vl50to70-0" cx="5" cy="5" r="5"/>
+                <circle class="sld-disconnected" cx="5" cy="5" r="5"/>
                 <text class="sld-label" id="trf5_ONE_N_LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">trf5</text>
             </g>
             <g class="sld-wire sld-constant-color sld-vl300to500-0" id="_95_vl1_95_bbs1_95_dtrf15">
@@ -366,8 +366,8 @@ polyline {fill: none}
                 <circle cx="4" cy="4" r="4"/>
             </g>
             <g class="sld-three-wt sld-constant-color" id="idFICT_95_vl1_95_trf6_95_fictif" transform="translate(492.0,193.0)">
-                <circle class="sld-vl180to300-0" cx="5" cy="5" r="5"/>
-                <circle class="sld-vl50to70-0" cx="11" cy="5" r="5"/>
+                <circle class="sld-disconnected" cx="5" cy="5" r="5"/>
+                <circle class="sld-disconnected" cx="11" cy="5" r="5"/>
                 <circle class="sld-vl300to500-0" cx="8" cy="9" r="5"/>
             </g>
             <g class="sld-line sld-top-feeder sld-constant-color sld-vl300to500-0" id="idtrf6_95_TWO" transform="translate(460.0,138.0)">
@@ -479,7 +479,7 @@ polyline {fill: none}
             </g>
             <g class="sld-two-wt sld-top-feeder sld-constant-color" id="idtrf2_95_ONE" transform="translate(1175.0,130.5)">
                 <circle class="sld-vl300to500-0" cx="5" cy="10" r="5"/>
-                <circle class="sld-vl180to300-0" cx="5" cy="5" r="5"/>
+                <circle class="sld-disconnected" cx="5" cy="5" r="5"/>
                 <text class="sld-label" id="trf2_ONE_N_LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">trf2</text>
             </g>
             <g class="sld-wire sld-constant-color sld-vl300to500-0" id="_95_vl1_95_bbs2_95_dtrf12">
@@ -521,8 +521,8 @@ polyline {fill: none}
                 <circle cx="4" cy="4" r="4"/>
             </g>
             <g class="sld-three-wt sld-constant-color" id="idFICT_95_vl1_95_trf8_95_fictif" transform="translate(972.0,193.0)">
-                <circle class="sld-vl180to300-0" cx="5" cy="5" r="5"/>
-                <circle class="sld-vl50to70-0" cx="11" cy="5" r="5"/>
+                <circle class="sld-disconnected" cx="5" cy="5" r="5"/>
+                <circle class="sld-disconnected" cx="11" cy="5" r="5"/>
                 <circle class="sld-vl300to500-0" cx="8" cy="9" r="5"/>
             </g>
             <g class="sld-line sld-top-feeder sld-constant-color sld-vl300to500-0" id="idtrf8_95_TWO" transform="translate(940.0,138.0)">
@@ -634,7 +634,7 @@ polyline {fill: none}
             </g>
             <g class="sld-two-wt sld-bottom-feeder sld-constant-color" id="idtrf3_95_ONE" transform="translate(295.0,499.5)">
                 <circle class="sld-vl300to500-1" cx="5" cy="10" r="5" transform="rotate(180.0,5.0,7.5)"/>
-                <circle class="sld-vl180to300-0" cx="5" cy="5" r="5" transform="rotate(180.0,5.0,7.5)"/>
+                <circle class="sld-disconnected" cx="5" cy="5" r="5" transform="rotate(180.0,5.0,7.5)"/>
                 <text class="sld-label" id="trf3_ONE_S_LABEL" transform="rotate(0,0,0)" x="-5.0" y="20.0">trf3</text>
             </g>
             <g class="sld-wire sld-constant-color sld-vl300to500-1" id="_95_vl1_95_bbs3_95_dtrf13">
@@ -676,8 +676,8 @@ polyline {fill: none}
                 <circle cx="4" cy="4" r="4"/>
             </g>
             <g class="sld-three-wt sld-constant-color" id="idFICT_95_vl1_95_trf7_95_fictif" transform="translate(652.0,438.0)">
-                <circle class="sld-vl50to70-0" cx="5" cy="5" r="5" transform="rotate(180.0,8.0,7.0)"/>
-                <circle class="sld-vl180to300-0" cx="11" cy="5" r="5" transform="rotate(180.0,8.0,7.0)"/>
+                <circle class="sld-disconnected" cx="5" cy="5" r="5" transform="rotate(180.0,8.0,7.0)"/>
+                <circle class="sld-disconnected" cx="11" cy="5" r="5" transform="rotate(180.0,8.0,7.0)"/>
                 <circle class="sld-vl300to500-1" cx="8" cy="9" r="5" transform="rotate(180.0,8.0,7.0)"/>
             </g>
             <g class="sld-line sld-bottom-feeder sld-constant-color sld-vl300to500-1" id="idtrf7_95_TWO" transform="translate(620.0,507.0)">
@@ -789,7 +789,7 @@ polyline {fill: none}
             </g>
             <g class="sld-two-wt sld-bottom-feeder sld-constant-color" id="idtrf4_95_ONE" transform="translate(1095.0,499.5)">
                 <circle class="sld-vl300to500-1" cx="5" cy="10" r="5" transform="rotate(180.0,5.0,7.5)"/>
-                <circle class="sld-vl180to300-0" cx="5" cy="5" r="5" transform="rotate(180.0,5.0,7.5)"/>
+                <circle class="sld-disconnected" cx="5" cy="5" r="5" transform="rotate(180.0,5.0,7.5)"/>
                 <text class="sld-label" id="trf4_ONE_S_LABEL" transform="rotate(0,0,0)" x="-5.0" y="20.0">trf4</text>
             </g>
             <g class="sld-wire sld-constant-color sld-vl300to500-1" id="_95_vl1_95_bbs4_95_dtrf14">

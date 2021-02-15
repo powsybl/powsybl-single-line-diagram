@@ -38,7 +38,7 @@ public class TopologyVisitorId implements TopologyVisitor {
 
     @Override
     public void visitLine(Line e, Branch.Side s) {
-        idFunction.accept(e.getId());
+        idFunction.accept(e.getId() + "_" + s.name());
     }
 
     @Override
@@ -59,11 +59,11 @@ public class TopologyVisitorId implements TopologyVisitor {
     @Override
     public void visitThreeWindingsTransformer(ThreeWindingsTransformer e,
                                               ThreeWindingsTransformer.Side s) {
-        idFunction.accept(e.getId());
+        idFunction.accept(e.getId() + "_" + s.name());
     }
 
     @Override
     public void visitTwoWindingsTransformer(TwoWindingsTransformer e, Branch.Side s) {
-        idFunction.accept(e.getId());
+        idFunction.accept(e.getId() + "_" + s.name());
     }
 }
