@@ -357,7 +357,7 @@ public class VoltageLevelGraph extends AbstractBaseGraph {
         removeEdge(busNode, feederNode);
 
         // Create nodes
-        SwitchNode fNodeToBus = SwitchNode.createFictitious(VoltageLevelGraph.this, feederNode.getId() + "fSwitch", false);
+        BusConnection fNodeToBus = new BusConnection(VoltageLevelGraph.this, feederNode.getId() + "fBc");
         InternalNode fNodeToSw1 = new InternalNode(VoltageLevelGraph.this, feederNode.getId() + INTERNAL_NODE_ID_SUFFIX + "1");
         InternalNode fNodeToSw2 = new InternalNode(VoltageLevelGraph.this, feederNode.getId() + INTERNAL_NODE_ID_SUFFIX + "2");
 
@@ -421,10 +421,10 @@ public class VoltageLevelGraph extends AbstractBaseGraph {
                     .filter(n2 -> n2.getType() == Node.NodeType.BUS)
                     .forEach(n2 -> {
                         removeEdge(n1, n2);
-                        SwitchNode fSwToBus1 = SwitchNode.createFictitious(this, n1.getId() + "fSwitch1", false);
+                        BusConnection fSwToBus1 = new BusConnection(this, n1.getId() + "fBc");
                         InternalNode internalNode1 = new InternalNode(this, n1.getId() + INTERNAL_NODE_ID_SUFFIX + "1");
                         InternalNode internalNode2 = new InternalNode(this, n2.getId() + INTERNAL_NODE_ID_SUFFIX + "2");
-                        SwitchNode fSwToBus2 = SwitchNode.createFictitious(this, n2.getId() + "fSwitch2", false);
+                        BusConnection fSwToBus2 = new BusConnection(this, n2.getId() + "fBc");
                         addEdge(n1, fSwToBus1);
                         addEdge(fSwToBus1, internalNode1);
                         addEdge(internalNode1, internalNode2);
@@ -451,7 +451,7 @@ public class VoltageLevelGraph extends AbstractBaseGraph {
 
     private void addDoubleNode(BusNode busNode, Node node, String suffix) {
         removeEdge(busNode, node);
-        SwitchNode fNodeToBus = SwitchNode.createFictitious(VoltageLevelGraph.this, node.getId() + "fSwitch" + suffix, node.isOpen());
+        BusConnection fNodeToBus = new BusConnection(VoltageLevelGraph.this, node.getId() + "fBc" + suffix);
         addNode(fNodeToBus);
         InternalNode fNodeToSw = new InternalNode(VoltageLevelGraph.this, node.getId() + INTERNAL_NODE_ID_SUFFIX + suffix);
         addNode(fNodeToSw);

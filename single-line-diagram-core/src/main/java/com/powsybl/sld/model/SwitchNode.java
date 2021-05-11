@@ -12,8 +12,6 @@ import com.powsybl.commons.PowsyblException;
 import java.io.IOException;
 import java.util.Objects;
 
-import static com.powsybl.sld.library.ComponentTypeName.NODE;
-
 /**
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
  * @author Nicolas Duchene
@@ -34,10 +32,6 @@ public class SwitchNode extends Node {
         super(NodeType.SWITCH, id, name, id, componentType, fictitious, graph);
         this.kind = Objects.requireNonNull(kind);
         setOpen(open);
-    }
-
-    public static SwitchNode createFictitious(VoltageLevelGraph graph, String id, boolean open) {
-        return new SwitchNode(id, id, NODE, true, graph, SwitchKind.DISCONNECTOR, open);
     }
 
     public SwitchKind getKind() {
