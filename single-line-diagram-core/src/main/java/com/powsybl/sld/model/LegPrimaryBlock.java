@@ -47,9 +47,13 @@ public class LegPrimaryBlock extends AbstractPrimaryBlock implements LegBlock {
     private boolean checkConsistency() {
         return nodes.size() == 3
                 && nodes.get(0).getType() == BUS
-                && nodes.get(1).getType() == SWITCH
-                && (nodes.get(2).getType() == FICTITIOUS
-                || nodes.get(2).getType() == SHUNT);
+                && checkMiddleNode(nodes.get(1))
+                && (nodes.get(2).getType() == FICTITIOUS || nodes.get(2).getType() == SHUNT);
+    }
+
+    private boolean checkMiddleNode(Node node) {
+        return node instanceof BusConnection
+            || (node instanceof SwitchNode && ((SwitchNode) node).getKind() == SwitchNode.SwitchKind.DISCONNECTOR);
     }
 
     public BusNode getBusNode() {
@@ -61,8 +65,8 @@ public class LegPrimaryBlock extends AbstractPrimaryBlock implements LegBlock {
         return Collections.singletonList(getBusNode());
     }
 
-    private SwitchNode getSwNode() {
-        return (SwitchNode) nodes.get(1);
+    private Node getNodeOnBus() {
+        return nodes.get(1);
     }
 
     public void addStackableBlock(LegPrimaryBlock block) {
@@ -98,15 +102,15 @@ public class LegPrimaryBlock extends AbstractPrimaryBlock implements LegBlock {
 
     @Override
     public void coordHorizontalCase(LayoutParameters layoutParam) {
-        getSwNode().setX(getCoord().get(X) + getCoord().getSpan(X) / 2);
-        getSwNode().setY(getBusNode().getY(), false);
+        getNodeOnBus().setX(getCoord().get(X) + getCoord().getSpan(X) / 2);
+        getNodeOnBus().setY(getBusNode().getY(), false);
         getLegNode().setY(getBusNode().getY(), false);
     }
 
     @Override
     public void coordVerticalCase(LayoutParameters layoutParam) {
-        getSwNode().setX(getCoord().get(X));
-        getSwNode().setY(getBusNode().getY(), false);
+        getNodeOnBus().setX(getCoord().get(X));
+        getNodeOnBus().setY(getBusNode().getY(), false);
 
         getLegNode().setX(getCoord().get(X));
         if (getCell().getType() == INTERN && ((InternCell) getCell()).checkisShape(UNILEG)) {
