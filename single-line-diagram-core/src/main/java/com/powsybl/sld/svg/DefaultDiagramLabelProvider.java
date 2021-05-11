@@ -193,7 +193,8 @@ public class DefaultDiagramLabelProvider implements DiagramLabelProvider {
         String positionName = "";
         if (node.getCell() != null) {
             BusCell.Direction direction = ((BusCell) node.getCell()).getDirection();
-            yShift = direction.toOrientation().progressionSign() * (componentLibrary.getSize(node.getComponentType()).getHeight() + DECORATOR_OFFSET);
+            int excessHeight3wt = 10;
+            yShift = direction.toOrientation().progressionSign() * (componentLibrary.getSize(node.getComponentType()).getHeight() - 1.5 * excessHeight3wt + DECORATOR_OFFSET);
             positionName = direction == BusCell.Direction.TOP ? "N" : "S";
         }
 
