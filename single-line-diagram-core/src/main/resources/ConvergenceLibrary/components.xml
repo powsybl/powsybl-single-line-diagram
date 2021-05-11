@@ -79,7 +79,7 @@
     </component>
     <component>
         <metadata type="THREE_WINDINGS_TRANSFORMER">
-            <size width="16" height="14"/>
+            <size width="16" height="24"/>
             <styleClass>sld-three-wt</styleClass>
             <subComponent name="WINDING1">
                 <fileName>3-windings-transformer-winding1.svg</fileName>
@@ -90,9 +90,9 @@
             <subComponent name="WINDING3">
                 <fileName>3-windings-transformer-winding3.svg</fileName>
             </subComponent>
-            <anchorPoint x="-7" y="-5" orientation="HORIZONTAL"/>
-            <anchorPoint x="7" y="-5" orientation="HORIZONTAL"/>
-            <anchorPoint x="0" y="7" orientation="VERTICAL"/>
+            <anchorPoint x="-7" y="0" orientation="HORIZONTAL"/>
+            <anchorPoint x="7" y="0" orientation="HORIZONTAL"/>
+            <anchorPoint x="0" y="12" orientation="VERTICAL"/>
             <allowRotation>true</allowRotation>
         </metadata>
     </component>
