@@ -456,20 +456,9 @@ public class NetworkGraphBuilder implements GraphBuilder {
             this.nodesByBusId = Objects.requireNonNull(nodesByBusId);
         }
 
-        private Node createBusBreakerConnexionNodeFromTerminal(VoltageLevelGraph graph, Terminal terminal) {
-            Objects.requireNonNull(graph);
-            Objects.requireNonNull(terminal);
-            Bus bus = terminal.getBusBreakerView().getConnectableBus();
-            String id = bus.getId() + "_" + terminal.getConnectable().getId();
-            return new BusBreakerConnection(graph, id);
-        }
-
         private void connectToBus(Node node, Terminal terminal) {
-            Node nodeBusBreakerConnexion = createBusBreakerConnexionNodeFromTerminal(graph, terminal);
-            graph.addNode(nodeBusBreakerConnexion);
             String busId = terminal.getBusBreakerView().getConnectableBus().getId();
-            graph.addEdge(nodesByBusId.get(busId), nodeBusBreakerConnexion);
-            graph.addEdge(nodeBusBreakerConnexion, node);
+            graph.addEdge(nodesByBusId.get(busId), node);
         }
 
         protected void addFeeder(FeederNode node, Terminal terminal) {
@@ -501,16 +490,6 @@ public class NetworkGraphBuilder implements GraphBuilder {
         }
     }
 
-    protected Node connectToBus(VoltageLevelGraph graph, SwitchNode sw, Bus bus) {
-        Objects.requireNonNull(graph);
-        Objects.requireNonNull(sw);
-        String id = bus.getId() + "_" + sw.getId();
-        Node newNode = new BusBreakerConnection(graph, id);
-        graph.addNode(newNode);
-        graph.addEdge(newNode, sw);
-        return newNode;
-    }
-
     private void buildBusBreakerGraph(VoltageLevelGraph graph, VoltageLevel vl) {
         Map<String, Node> nodesByBusId = new HashMap<>();
 
@@ -530,12 +509,10 @@ public class NetworkGraphBuilder implements GraphBuilder {
             SwitchNode n = createSwitchNodeFromSwitch(graph, sw);
 
             Bus bus1 = vl.getBusBreakerView().getBus1(sw.getId());
-            Node cnode1 = connectToBus(graph, n, bus1);
             Bus bus2 = vl.getBusBreakerView().getBus2(sw.getId());
-            Node cnode2 = connectToBus(graph, n, bus2);
             graph.addNode(n);
-            graph.addEdge(nodesByBusId.get(bus1.getId()), cnode2);
-            graph.addEdge(cnode1, nodesByBusId.get(bus2.getId()));
+            graph.addEdge(nodesByBusId.get(bus1.getId()), n);
+            graph.addEdge(n, nodesByBusId.get(bus2.getId()));
         }
     }
 

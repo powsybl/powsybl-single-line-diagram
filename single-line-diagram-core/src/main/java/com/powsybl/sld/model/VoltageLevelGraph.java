@@ -104,7 +104,7 @@ public class VoltageLevelGraph extends AbstractBaseGraph {
 
     public void removeUnnecessaryFictitiousNodes() {
         List<Node> fictitiousNodesToRemove = nodes.stream()
-                .filter(node -> node.getType() == Node.NodeType.FICTITIOUS && !(node instanceof BusBreakerConnection))
+                .filter(node -> node.getType() == Node.NodeType.FICTITIOUS)
                 .collect(Collectors.toList());
         for (Node n : fictitiousNodesToRemove) {
             if (n.getAdjacentEdges().size() == 2) {

@@ -14,7 +14,7 @@ public final class ComponentTypeName {
     public static final String BUSBAR_SECTION = "BUSBAR_SECTION";
     public static final String BREAKER = "BREAKER";
     public static final String DISCONNECTOR = "DISCONNECTOR";
-    public static final String BUSBREAKER_CONNECTION = "BUSBREAKER_CONNECTION";
+    public static final String BUS_CONNECTION = "BUS_CONNECTION";
     public static final String GENERATOR = "GENERATOR";
     public static final String LINE = "LINE";
     public static final String LOAD = "LOAD";

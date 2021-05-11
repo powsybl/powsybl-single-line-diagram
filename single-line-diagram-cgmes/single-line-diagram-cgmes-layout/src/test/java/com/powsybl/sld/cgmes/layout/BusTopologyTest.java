@@ -351,55 +351,40 @@ public class BusTopologyTest extends AbstractCgmesVoltageLevelLayoutTest {
 
     @Override
     protected void checkGraph(VoltageLevelGraph graph) {
-        assertEquals(9, graph.getNodes().size());
+        assertEquals(5, graph.getNodes().size());
 
         assertEquals(Node.NodeType.BUS, graph.getNodes().get(0).getType());
         assertEquals(Node.NodeType.FEEDER, graph.getNodes().get(1).getType());
-        assertEquals(Node.NodeType.FICTITIOUS, graph.getNodes().get(2).getType());
+        assertEquals(Node.NodeType.FEEDER, graph.getNodes().get(2).getType());
         assertEquals(Node.NodeType.FEEDER, graph.getNodes().get(3).getType());
-        assertEquals(Node.NodeType.FICTITIOUS, graph.getNodes().get(4).getType());
-        assertEquals(Node.NodeType.FEEDER, graph.getNodes().get(5).getType());
-        assertEquals(Node.NodeType.FICTITIOUS, graph.getNodes().get(6).getType());
-        assertEquals(Node.NodeType.FEEDER, graph.getNodes().get(7).getType());
-        assertEquals(Node.NodeType.FICTITIOUS, graph.getNodes().get(8).getType());
+        assertEquals(Node.NodeType.FEEDER, graph.getNodes().get(4).getType());
 
         assertEquals("Bus1", graph.getNodes().get(0).getId());
         assertEquals("Load", graph.getNodes().get(1).getId());
-        assertEquals("Shunt", graph.getNodes().get(3).getId());
-        assertEquals("DanglingLine", graph.getNodes().get(5).getId());
-        assertEquals("Transformer_ONE", graph.getNodes().get(7).getId());
+        assertEquals("Shunt", graph.getNodes().get(2).getId());
+        assertEquals("DanglingLine", graph.getNodes().get(3).getId());
+        assertEquals("Transformer_ONE", graph.getNodes().get(4).getId());
 
         assertEquals(BUSBAR_SECTION, graph.getNodes().get(0).getComponentType());
         assertEquals(LOAD, graph.getNodes().get(1).getComponentType());
-        assertEquals(CAPACITOR, graph.getNodes().get(3).getComponentType());
-        assertEquals(DANGLING_LINE, graph.getNodes().get(5).getComponentType());
-        assertTrue(graph.getNodes().get(7).getComponentType().equals(TWO_WINDINGS_TRANSFORMER) ||
-                graph.getNodes().get(7).getComponentType().equals(LINE));
+        assertEquals(CAPACITOR, graph.getNodes().get(2).getComponentType());
+        assertEquals(DANGLING_LINE, graph.getNodes().get(3).getComponentType());
+        assertTrue(graph.getNodes().get(4).getComponentType().equals(TWO_WINDINGS_TRANSFORMER) ||
+                graph.getNodes().get(4).getComponentType().equals(LINE));
 
         assertEquals(4, graph.getNodes().get(0).getAdjacentNodes().size());
-        checkAdjacentNodes(graph.getNodes().get(0), Arrays.asList("FICT_VoltageLevel1_Bus1_Load", "FICT_VoltageLevel1_Bus1_Shunt",
-            "FICT_VoltageLevel1_Bus1_DanglingLine", "FICT_VoltageLevel1_Bus1_Transformer"));
-        checkFictConnectorConnectionToBusBar(graph.getNodes().get(2));
-        checkFictConnectorConnectionToBusBar(graph.getNodes().get(4));
-        checkFictConnectorConnectionToBusBar(graph.getNodes().get(6));
-        checkFictConnectorConnectionToBusBar(graph.getNodes().get(8));
+        checkAdjacentNodes(graph.getNodes().get(0), Arrays.asList("Load", "Shunt", "DanglingLine", "Transformer_ONE"));
+        checkBusConnection(graph.getNodes().get(1));
+        checkBusConnection(graph.getNodes().get(2));
+        checkBusConnection(graph.getNodes().get(3));
+        checkBusConnection(graph.getNodes().get(4));
 
-        checkFictConnectorConnection(graph.getNodes().get(1));
-        checkFictConnectorConnection(graph.getNodes().get(3));
-        checkFictConnectorConnection(graph.getNodes().get(5));
-        checkFictConnectorConnection(graph.getNodes().get(7));
-
-        assertEquals(8, graph.getEdges().size());
+        assertEquals(4, graph.getEdges().size());
     }
 
-    private void checkFictConnectorConnectionToBusBar(Node node) {
-        assertEquals(2, node.getAdjacentNodes().size());
-        assertEquals("Bus1", node.getAdjacentNodes().get(0).getId());
-    }
-
-    private void checkFictConnectorConnection(Node node) {
+    private void checkBusConnection(Node node) {
         assertEquals(1, node.getAdjacentNodes().size());
-        assertEquals("FICT_VoltageLevel1_Bus1_" + node.getName(), node.getAdjacentNodes().get(0).getId());
+        assertEquals("Bus1", node.getAdjacentNodes().get(0).getId());
     }
 
     @Override
@@ -411,41 +396,39 @@ public class BusTopologyTest extends AbstractCgmesVoltageLevelLayoutTest {
         assertEquals(20, graph.getNodes().get(1).getX(), 0);
         assertEquals(30, graph.getNodes().get(1).getY(), 0);
         assertTrue(graph.getNodes().get(1).isRotated());
-        assertEquals(30, graph.getNodes().get(3).getX(), 0);
-        assertEquals(100, graph.getNodes().get(3).getY(), 0);
+        assertEquals(30, graph.getNodes().get(2).getX(), 0);
+        assertEquals(100, graph.getNodes().get(2).getY(), 0);
+        assertTrue(graph.getNodes().get(2).isRotated());
+        assertEquals(160, graph.getNodes().get(3).getX(), 0);
+        assertEquals(110, graph.getNodes().get(3).getY(), 0);
         assertTrue(graph.getNodes().get(3).isRotated());
-        assertEquals(160, graph.getNodes().get(5).getX(), 0);
-        assertEquals(110, graph.getNodes().get(5).getY(), 0);
-        assertTrue(graph.getNodes().get(5).isRotated());
-        assertEquals(200, graph.getNodes().get(7).getX(), 0);
-        assertEquals(20, graph.getNodes().get(7).getY(), 0);
-        assertFalse(graph.getNodes().get(7).isRotated());
+        assertEquals(200, graph.getNodes().get(4).getX(), 0);
+        assertEquals(20, graph.getNodes().get(4).getY(), 0);
+        assertFalse(graph.getNodes().get(4).isRotated());
     }
 
     private void checkGraphVl2(VoltageLevelGraph graph) {
-        assertEquals(5, graph.getNodes().size());
+        assertEquals(3, graph.getNodes().size());
 
         assertEquals(Node.NodeType.BUS, graph.getNodes().get(0).getType());
         assertEquals(Node.NodeType.FEEDER, graph.getNodes().get(1).getType());
-        assertEquals(Node.NodeType.FICTITIOUS, graph.getNodes().get(2).getType());
-        assertEquals(Node.NodeType.FEEDER, graph.getNodes().get(3).getType());
-        assertEquals(Node.NodeType.FICTITIOUS, graph.getNodes().get(4).getType());
+        assertEquals(Node.NodeType.FEEDER, graph.getNodes().get(2).getType());
 
         assertEquals("Bus2", graph.getNodes().get(0).getId());
         assertEquals("Svc", graph.getNodes().get(1).getId());
-        assertEquals("Transformer_TWO", graph.getNodes().get(3).getId());
+        assertEquals("Transformer_TWO", graph.getNodes().get(2).getId());
 
         assertEquals(BUSBAR_SECTION, graph.getNodes().get(0).getComponentType());
         assertEquals(STATIC_VAR_COMPENSATOR, graph.getNodes().get(1).getComponentType());
-        assertEquals(LINE, graph.getNodes().get(3).getComponentType());
+        assertEquals(LINE, graph.getNodes().get(2).getComponentType());
 
         assertEquals(2, graph.getNodes().get(0).getAdjacentNodes().size());
-        assertEquals("FICT_VoltageLevel2_Bus2_Svc", graph.getNodes().get(0).getAdjacentNodes().get(0).getId());
-        assertEquals("FICT_VoltageLevel2_Bus2_Transformer", graph.getNodes().get(0).getAdjacentNodes().get(1).getId());
+        assertEquals("Svc", graph.getNodes().get(0).getAdjacentNodes().get(0).getId());
+        assertEquals("Transformer_TWO", graph.getNodes().get(0).getAdjacentNodes().get(1).getId());
         assertEquals(1, graph.getNodes().get(1).getAdjacentNodes().size());
-        assertEquals("FICT_VoltageLevel2_Bus2_Svc", graph.getNodes().get(1).getAdjacentNodes().get(0).getId());
-        assertEquals(2, graph.getNodes().get(2).getAdjacentNodes().size());
-        assertEquals("FICT_VoltageLevel2_Bus2_Transformer", graph.getNodes().get(3).getAdjacentNodes().get(0).getId());
+        assertEquals("Bus2", graph.getNodes().get(1).getAdjacentNodes().get(0).getId());
+        assertEquals(1, graph.getNodes().get(2).getAdjacentNodes().size());
+        assertEquals("Bus2", graph.getNodes().get(2).getAdjacentNodes().get(0).getId());
     }
 
     private void checkCoordinatesVl2(VoltageLevelGraph graph) {
@@ -456,34 +439,32 @@ public class BusTopologyTest extends AbstractCgmesVoltageLevelLayoutTest {
         assertEquals(280, graph.getNodes().get(1).getX(), 0);
         assertEquals(20, graph.getNodes().get(1).getY(), 0);
         assertTrue(graph.getNodes().get(1).isRotated());
-        assertEquals(200, graph.getNodes().get(3).getX(), 0);
-        assertEquals(20, graph.getNodes().get(3).getY(), 0);
+        assertEquals(200, graph.getNodes().get(2).getX(), 0);
+        assertEquals(20, graph.getNodes().get(2).getY(), 0);
         assertFalse(graph.getNodes().get(2).isRotated());
     }
 
     private void checkGraphVl3(VoltageLevelGraph graph) {
-        assertEquals(5, graph.getNodes().size());
+        assertEquals(3, graph.getNodes().size());
 
         assertEquals(Node.NodeType.BUS, graph.getNodes().get(0).getType());
         assertEquals(Node.NodeType.FEEDER, graph.getNodes().get(1).getType());
-        assertEquals(Node.NodeType.FICTITIOUS, graph.getNodes().get(2).getType());
-        assertEquals(Node.NodeType.FEEDER, graph.getNodes().get(3).getType());
-        assertEquals(Node.NodeType.FICTITIOUS, graph.getNodes().get(4).getType());
+        assertEquals(Node.NodeType.FEEDER, graph.getNodes().get(2).getType());
 
         assertEquals("Bus3", graph.getNodes().get(0).getId());
         assertEquals("Generator", graph.getNodes().get(1).getId());
-        assertEquals("Transformer_THREE", graph.getNodes().get(3).getId());
+        assertEquals("Transformer_THREE", graph.getNodes().get(2).getId());
 
         assertEquals(BUSBAR_SECTION, graph.getNodes().get(0).getComponentType());
         assertEquals(GENERATOR, graph.getNodes().get(1).getComponentType());
-        assertEquals(LINE, graph.getNodes().get(3).getComponentType());
+        assertEquals(LINE, graph.getNodes().get(2).getComponentType());
 
         assertEquals(2, graph.getNodes().get(0).getAdjacentNodes().size());
-        assertEquals("FICT_VoltageLevel3_Bus3_Generator", graph.getNodes().get(0).getAdjacentNodes().get(0).getId());
-        assertEquals("FICT_VoltageLevel3_Bus3_Transformer", graph.getNodes().get(0).getAdjacentNodes().get(1).getId());
+        assertEquals("Generator", graph.getNodes().get(0).getAdjacentNodes().get(0).getId());
+        assertEquals("Transformer_THREE", graph.getNodes().get(0).getAdjacentNodes().get(1).getId());
         assertEquals(1, graph.getNodes().get(1).getAdjacentNodes().size());
-        assertEquals("FICT_VoltageLevel3_Bus3_Generator", graph.getNodes().get(1).getAdjacentNodes().get(0).getId());
-        assertEquals(1, graph.getNodes().get(3).getAdjacentNodes().size());
+        assertEquals("Bus3", graph.getNodes().get(1).getAdjacentNodes().get(0).getId());
+        assertEquals(1, graph.getNodes().get(2).getAdjacentNodes().size());
         assertEquals("Bus3", graph.getNodes().get(2).getAdjacentNodes().get(0).getId());
     }
 
@@ -494,8 +475,8 @@ public class BusTopologyTest extends AbstractCgmesVoltageLevelLayoutTest {
         assertFalse(graph.getNodes().get(0).isRotated());
         assertEquals(200, graph.getNodes().get(1).getX(), 0);
         assertEquals(110, graph.getNodes().get(1).getY(), 0);
-        assertEquals(200, graph.getNodes().get(3).getX(), 0);
-        assertEquals(20, graph.getNodes().get(3).getY(), 0);
+        assertEquals(200, graph.getNodes().get(2).getX(), 0);
+        assertEquals(20, graph.getNodes().get(2).getY(), 0);
         assertFalse(graph.getNodes().get(2).isRotated());
     }
 
