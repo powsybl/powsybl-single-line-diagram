@@ -1,5 +1,6 @@
 .sld-constant-color {fill: none}
 .sld-node.sld-constant-color {stroke: none; fill: black}
+.sld-bus-connection.sld-constant-color {stroke: black}
 .sld-breaker.sld-constant-color {stroke: blue; fill: white}
 .sld-disconnector.sld-constant-color {stroke: black}
 .sld-label {fill: black; stroke: none;}
