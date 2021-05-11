@@ -251,17 +251,18 @@ public class DefaultSVGWriter implements SVGWriter {
         g.setAttribute("id", cellId);
         g.setAttribute(CLASS, "cell " + cellId);
 
-        drawNodes(prefixId, g, graph, metadata, anchorPointProvider, initProvider, styleProvider,
-                cell.getNodes().stream()
-                        .filter(n -> !(n instanceof BusNode || n instanceof SwitchNode)).collect(Collectors.toList()));
+        List<Node> nodesToDrawBefore = cell.getNodes().stream()
+            .filter(n -> !(n instanceof BusNode || n instanceof SwitchNode || n instanceof BusConnection))
+            .collect(Collectors.toList());
+        drawNodes(prefixId, g, graph, metadata, anchorPointProvider, initProvider, styleProvider, nodesToDrawBefore);
 
         List<Edge> edgesToDraw = cell.getNodes().stream().filter(n -> !(n instanceof BusNode))
                 .flatMap(n -> n.getAdjacentEdges().stream())
                 .distinct().collect(Collectors.toList());
         drawEdges(prefixId, g, graph, edgesToDraw, metadata, anchorPointProvider, initProvider, styleProvider);
 
-        drawNodes(prefixId, g, graph, metadata, anchorPointProvider, initProvider, styleProvider,
-                cell.getNodes().stream().filter(n -> n instanceof SwitchNode).collect(Collectors.toList()));
+        List<Node> nodesToDrawAfter = cell.getNodes().stream().filter(n -> n instanceof SwitchNode || n instanceof BusConnection).collect(Collectors.toList());
+        drawNodes(prefixId, g, graph, metadata, anchorPointProvider, initProvider, styleProvider, nodesToDrawAfter);
         root.appendChild(g);
         return edgesToDraw;
     }
@@ -622,7 +623,8 @@ public class DefaultSVGWriter implements SVGWriter {
                 && node.getComponentType().equals(THREE_WINDINGS_TRANSFORMER)
                 || node.getComponentType().equals(TWO_WINDINGS_TRANSFORMER)
                 || node.getComponentType().equals(PHASE_SHIFT_TRANSFORMER)
-                || node.getComponentType().equals(NODE));
+                || node.getComponentType().equals(NODE)
+                || node.getComponentType().equals(BUS_CONNECTION));
     }
 
     protected void incorporateComponents(String prefixId, Node node, Element g, DiagramStyleProvider styleProvider) {
