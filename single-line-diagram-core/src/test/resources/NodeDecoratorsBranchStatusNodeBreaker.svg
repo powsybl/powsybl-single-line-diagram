@@ -16,14 +16,14 @@ polyline {fill: none}
 .sld-wire.sld-constant-color {stroke: #c80000}
 .sld-line.sld-constant-color {stroke: blue}
 .sld-node.sld-constant-color {stroke: none; fill: black}
-.sld-busbreaker-connection.sld-constant-color {stroke: black}
+.sld-bus-connection.sld-constant-color {stroke: black}
 .sld-busbar-section.sld-constant-color {stroke: black}
 .sld-disconnector.sld-constant-color {stroke: black}
 .sld-label {stroke: none; fill: black}
 .sld-busbar-section {stroke-width: 3}
 .sld-breaker {stroke-width: 2; fill:white}
 .sld-disconnector {stroke-width: 3}
-.sld-busbreaker-connection {stroke-width: 4}
+.sld-bus-connection {stroke-width: 4}
 .sld-vsc {font-size: 7.43px}
 .sld-grid {stroke: #003700; stroke-dasharray: 1,10}
 .sld-arrow-p {fill:black}

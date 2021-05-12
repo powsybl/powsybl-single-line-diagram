@@ -8,6 +8,16 @@
   "y" : 0.0,
   "nodes" : [ {
     "type" : "FICTITIOUS",
+    "id" : "FICT_vl_line_ONEfBc",
+    "name" : "line_ONEfBc",
+    "equipmentId" : "line_ONEfBc",
+    "componentType" : "BUS_CONNECTION",
+    "fictitious" : true,
+    "x" : 25.0,
+    "y" : 260.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
     "id" : "FICT_vl_line_ONEfNode1",
     "name" : "line_ONEfNode1",
     "equipmentId" : "line_ONEfNode1",
@@ -65,17 +75,6 @@
       "name" : "OTHER",
       "nominalVoltage" : 0.0
     }
-  }, {
-    "type" : "SWITCH",
-    "id" : "line_ONEfSwitch",
-    "name" : "line_ONEfSwitch",
-    "equipmentId" : "line_ONEfSwitch",
-    "componentType" : "NODE",
-    "fictitious" : true,
-    "x" : 25.0,
-    "y" : 260.0,
-    "open" : false,
-    "kind" : "DISCONNECTOR"
   } ],
   "cells" : [ {
     "type" : "EXTERN",
@@ -122,7 +121,7 @@
           "xSpan" : 50.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ "bbs", "line_ONEfSwitch", "FICT_vl_line_ONEfNode1" ]
+        "nodes" : [ "bbs", "FICT_vl_line_ONEfBc", "FICT_vl_line_ONEfNode1" ]
       }, {
         "type" : "BODYPRIMARY",
         "cardinalities" : [ {
@@ -170,9 +169,9 @@
   } ],
   "edges" : [ {
     "node1" : "bbs",
-    "node2" : "line_ONEfSwitch"
+    "node2" : "FICT_vl_line_ONEfBc"
   }, {
-    "node1" : "line_ONEfSwitch",
+    "node1" : "FICT_vl_line_ONEfBc",
     "node2" : "FICT_vl_line_ONEfNode1"
   }, {
     "node1" : "FICT_vl_line_ONEfNode1",

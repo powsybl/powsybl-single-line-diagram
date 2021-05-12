@@ -30,6 +30,26 @@
     "open" : false
   }, {
     "type" : "FICTITIOUS",
+    "id" : "FICT_vl_ds1fBc0",
+    "name" : "ds1fBc0",
+    "equipmentId" : "ds1fBc0",
+    "componentType" : "BUS_CONNECTION",
+    "fictitious" : true,
+    "x" : 50.0,
+    "y" : 260.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl_ds1fBc1",
+    "name" : "ds1fBc1",
+    "equipmentId" : "ds1fBc1",
+    "componentType" : "BUS_CONNECTION",
+    "fictitious" : true,
+    "x" : 100.0,
+    "y" : 260.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
     "id" : "FICT_vl_ds1fNode0",
     "name" : "ds1fNode0",
     "equipmentId" : "ds1fNode0",
@@ -49,6 +69,26 @@
     "x" : 100.0,
     "y" : 260.0,
     "rotationAngle" : 90.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl_ds2fBc0",
+    "name" : "ds2fBc0",
+    "equipmentId" : "ds2fBc0",
+    "componentType" : "BUS_CONNECTION",
+    "fictitious" : true,
+    "x" : 50.0,
+    "y" : 285.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl_ds2fBc1",
+    "name" : "ds2fBc1",
+    "equipmentId" : "ds2fBc1",
+    "componentType" : "BUS_CONNECTION",
+    "fictitious" : true,
+    "x" : 100.0,
+    "y" : 285.0,
     "open" : false
   }, {
     "type" : "FICTITIOUS",
@@ -196,28 +236,6 @@
     "kind" : "DISCONNECTOR"
   }, {
     "type" : "SWITCH",
-    "id" : "ds1fSwitch0",
-    "name" : "ds1fSwitch0",
-    "equipmentId" : "ds1fSwitch0",
-    "componentType" : "NODE",
-    "fictitious" : true,
-    "x" : 50.0,
-    "y" : 260.0,
-    "open" : false,
-    "kind" : "DISCONNECTOR"
-  }, {
-    "type" : "SWITCH",
-    "id" : "ds1fSwitch1",
-    "name" : "ds1fSwitch1",
-    "equipmentId" : "ds1fSwitch1",
-    "componentType" : "NODE",
-    "fictitious" : true,
-    "x" : 100.0,
-    "y" : 260.0,
-    "open" : false,
-    "kind" : "DISCONNECTOR"
-  }, {
-    "type" : "SWITCH",
     "id" : "ds2",
     "name" : "ds2",
     "equipmentId" : "ds2",
@@ -226,28 +244,6 @@
     "x" : 75.0,
     "y" : 285.0,
     "rotationAngle" : 90.0,
-    "open" : false,
-    "kind" : "DISCONNECTOR"
-  }, {
-    "type" : "SWITCH",
-    "id" : "ds2fSwitch0",
-    "name" : "ds2fSwitch0",
-    "equipmentId" : "ds2fSwitch0",
-    "componentType" : "NODE",
-    "fictitious" : true,
-    "x" : 50.0,
-    "y" : 285.0,
-    "open" : false,
-    "kind" : "DISCONNECTOR"
-  }, {
-    "type" : "SWITCH",
-    "id" : "ds2fSwitch1",
-    "name" : "ds2fSwitch1",
-    "equipmentId" : "ds2fSwitch1",
-    "componentType" : "NODE",
-    "fictitious" : true,
-    "x" : 100.0,
-    "y" : 285.0,
     "open" : false,
     "kind" : "DISCONNECTOR"
   } ],
@@ -383,7 +379,7 @@
           "xSpan" : 0.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ "bbs1.2", "ds1fSwitch1", "FICT_vl_ds1fNode1" ]
+        "nodes" : [ "bbs1.2", "FICT_vl_ds1fBc1", "FICT_vl_ds1fNode1" ]
       }, {
         "type" : "BODYPRIMARY",
         "cardinalities" : [ {
@@ -425,7 +421,7 @@
           "xSpan" : 0.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ "bbs1.1", "ds1fSwitch0", "FICT_vl_ds1fNode0" ]
+        "nodes" : [ "bbs1.1", "FICT_vl_ds1fBc0", "FICT_vl_ds1fNode0" ]
       } ]
     }
   }, {
@@ -472,7 +468,7 @@
           "xSpan" : 0.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ "bbs2.2", "ds2fSwitch1", "FICT_vl_ds2fNode1" ]
+        "nodes" : [ "bbs2.2", "FICT_vl_ds2fBc1", "FICT_vl_ds2fNode1" ]
       }, {
         "type" : "BODYPRIMARY",
         "cardinalities" : [ {
@@ -514,7 +510,7 @@
           "xSpan" : 0.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ "bbs2.1", "ds2fSwitch0", "FICT_vl_ds2fNode0" ]
+        "nodes" : [ "bbs2.1", "FICT_vl_ds2fBc0", "FICT_vl_ds2fNode0" ]
       } ]
     }
   } ],
@@ -538,36 +534,36 @@
     "node2" : "FICT_vl_d2Fictif"
   }, {
     "node1" : "bbs1.1",
-    "node2" : "ds1fSwitch0"
+    "node2" : "FICT_vl_ds1fBc0"
   }, {
-    "node1" : "ds1fSwitch0",
+    "node1" : "FICT_vl_ds1fBc0",
     "node2" : "FICT_vl_ds1fNode0"
   }, {
     "node1" : "FICT_vl_ds1fNode0",
     "node2" : "ds1"
   }, {
     "node1" : "bbs1.2",
-    "node2" : "ds1fSwitch1"
+    "node2" : "FICT_vl_ds1fBc1"
   }, {
-    "node1" : "ds1fSwitch1",
+    "node1" : "FICT_vl_ds1fBc1",
     "node2" : "FICT_vl_ds1fNode1"
   }, {
     "node1" : "FICT_vl_ds1fNode1",
     "node2" : "ds1"
   }, {
     "node1" : "bbs2.1",
-    "node2" : "ds2fSwitch0"
+    "node2" : "FICT_vl_ds2fBc0"
   }, {
-    "node1" : "ds2fSwitch0",
+    "node1" : "FICT_vl_ds2fBc0",
     "node2" : "FICT_vl_ds2fNode0"
   }, {
     "node1" : "FICT_vl_ds2fNode0",
     "node2" : "ds2"
   }, {
     "node1" : "bbs2.2",
-    "node2" : "ds2fSwitch1"
+    "node2" : "FICT_vl_ds2fBc1"
   }, {
-    "node1" : "ds2fSwitch1",
+    "node1" : "FICT_vl_ds2fBc1",
     "node2" : "FICT_vl_ds2fNode1"
   }, {
     "node1" : "FICT_vl_ds2fNode1",
