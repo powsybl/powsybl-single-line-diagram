@@ -42,5 +42,6 @@ public class RandomVoltageLevelLayout extends AbstractVoltageLevelLayout {
                 ((BusNode) node).setPxWidth(50);
             }
         }
+        getGraph().setSize(width, height); // TODO: add margin + avoid bus going outside
     }
 }

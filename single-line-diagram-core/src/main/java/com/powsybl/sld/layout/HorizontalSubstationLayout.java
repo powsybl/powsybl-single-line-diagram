@@ -6,7 +6,10 @@
  */
 package com.powsybl.sld.layout;
 
-import com.powsybl.sld.model.*;
+import com.powsybl.sld.model.Node;
+import com.powsybl.sld.model.Point;
+import com.powsybl.sld.model.SubstationGraph;
+import com.powsybl.sld.model.VoltageLevelGraph;
 
 import java.util.List;
 
@@ -30,23 +33,23 @@ public class HorizontalSubstationLayout extends AbstractSubstationLayout {
     }
 
     /**
-     * Calculate relative coordinate of voltageLevel in the substation
+     * Calculate relative coordinate of voltageLevels in the substation
      */
     @Override
-    protected Coord calculateCoordVoltageLevel(LayoutParameters layoutParam, VoltageLevelGraph vlGraph) {
-        double elementaryWidth = layoutParam.getCellWidth() / 2; // the elementary step within a voltageLevel Graph is half a cell width
-        int maxH = vlGraph.getMaxH();
-        int betweenVlHSpan = 4; // to leave enough space for lines and transformer between voltage levels
-        return new Coord(layoutParam.getInitialXBus() + (maxH + betweenVlHSpan) * elementaryWidth, 0);
-    }
+    protected void calculateCoordVoltageLevels(LayoutParameters layoutParameters) {
+        double totalWidth = layoutParameters.getHorizontalSubstationPadding();
+        double maxHeight = 0;
+        for (VoltageLevelGraph vlGraph : getGraph().getNodes()) {
+            vlGraph.setCoord(totalWidth, 0);
 
-    @Override
-    protected double getHorizontalSubstationPadding(LayoutParameters layoutParameters) {
-        return layoutParameters.getHorizontalSubstationPadding();
-    }
+            // Calculate the objects coordinates inside the voltageLevel graph
+            VoltageLevelLayout vLayout = vLayoutFactory.create(vlGraph);
+            vLayout.run(layoutParameters);
 
-    @Override
-    protected double getVerticalSubstationPadding(LayoutParameters layoutParameters) {
-        return 0;
+            totalWidth += vlGraph.getWidth() + layoutParameters.getHorizontalSubstationPadding();
+            maxHeight = Math.max(maxHeight, vlGraph.getHeight());
+        }
+
+        getGraph().setSize(totalWidth + layoutParameters.getTranslateX(), maxHeight + layoutParameters.getTranslateY());
     }
 }

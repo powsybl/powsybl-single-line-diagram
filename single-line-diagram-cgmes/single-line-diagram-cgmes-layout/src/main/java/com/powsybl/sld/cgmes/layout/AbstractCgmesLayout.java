@@ -369,12 +369,9 @@ public abstract class AbstractCgmesLayout {
     }
 
     protected void setVoltageLevelCoord(VoltageLevelGraph vlGraph) {
-        vlGraph.setX(vlGraph.getNodes().stream()
-                .mapToDouble(Node::getX)
-                .min().orElse(0));
-        vlGraph.setY(vlGraph.getNodes().stream()
-                .mapToDouble(Node::getY)
-                .min().orElse(0));
+        double minNodeX = vlGraph.getNodes().stream().mapToDouble(Node::getX).min().orElse(0);
+        double minNodeY = vlGraph.getNodes().stream().mapToDouble(Node::getY).min().orElse(0);
+        vlGraph.setCoord(minNodeX, minNodeY);
     }
 
     public static void removeFictitiousSwitchNodes(VoltageLevelGraph graph, VoltageLevel vl) {

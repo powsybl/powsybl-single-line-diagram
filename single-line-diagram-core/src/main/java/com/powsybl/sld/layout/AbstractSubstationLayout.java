@@ -6,14 +6,9 @@
  */
 package com.powsybl.sld.layout;
 
-import com.powsybl.sld.model.Coord;
 import com.powsybl.sld.model.SubstationGraph;
-import com.powsybl.sld.model.VoltageLevelGraph;
 
 import java.util.Objects;
-
-import static com.powsybl.sld.model.Coord.Dimension.X;
-import static com.powsybl.sld.model.Coord.Dimension.Y;
 
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
@@ -36,33 +31,13 @@ public abstract class AbstractSubstationLayout extends AbstractLayout implements
     @Override
     public void run(LayoutParameters layoutParameters) {
         // Calculate all the coordinates for the voltageLevel graphs in the substation graph
-        double graphX = layoutParameters.getHorizontalSubstationPadding();
-        double graphY = layoutParameters.getVerticalSubstationPadding();
-
-        for (VoltageLevelGraph vlGraph : getGraph().getNodes()) {
-            vlGraph.setX(graphX);
-            vlGraph.setY(graphY);
-
-            // Calculate the objects coordinates inside the voltageLevel graph
-            VoltageLevelLayout vLayout = vLayoutFactory.create(vlGraph);
-            vLayout.run(layoutParameters);
-
-            // Calculate the global coordinate of the voltageLevel graph
-            Coord posVLGraph = calculateCoordVoltageLevel(layoutParameters, vlGraph);
-
-            graphX += posVLGraph.get(X) + getHorizontalSubstationPadding(layoutParameters);
-            graphY += posVLGraph.get(Y) + getVerticalSubstationPadding(layoutParameters);
-        }
+        calculateCoordVoltageLevels(layoutParameters);
 
         // Calculate all the coordinates for the middle nodes and the snake lines between the voltageLevel graphs
         manageSnakeLines(layoutParameters);
     }
 
-    protected abstract Coord calculateCoordVoltageLevel(LayoutParameters layoutParameters, VoltageLevelGraph vlGraph);
-
-    protected abstract double getHorizontalSubstationPadding(LayoutParameters layoutParameters);
-
-    protected abstract double getVerticalSubstationPadding(LayoutParameters layoutParameters);
+    protected abstract void calculateCoordVoltageLevels(LayoutParameters layoutParameters);
 
     @Override
     public void manageSnakeLines(LayoutParameters layoutParameters) {

@@ -11,7 +11,6 @@ import com.powsybl.sld.NetworkGraphBuilder;
 import com.powsybl.sld.SubstationDiagram;
 import com.powsybl.sld.iidm.extensions.ConnectablePosition;
 import com.powsybl.sld.layout.*;
-import com.powsybl.sld.model.VoltageLevelGraph;
 import com.powsybl.sld.model.SubstationGraph;
 import com.powsybl.sld.svg.DefaultDiagramLabelProvider;
 import com.powsybl.sld.svg.DefaultDiagramStyleProvider;
@@ -219,9 +218,6 @@ public class TestCase11SubstationGraph extends AbstractTestCaseIidm {
     public void testHorizontal() {
 
         // build substation graph
-        VoltageLevelGraph gvl = graphBuilder.buildVoltageLevelGraph("vl1", true, true);
-        new PositionVoltageLevelLayoutFactory().create(gvl).run(getLayoutParameters());
-
         SubstationGraph g = graphBuilder.buildSubstationGraph(substation.getId(), false);
 
         // write Json and compare to reference (with horizontal substation layout)

@@ -31,9 +31,21 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
      * Calculate relative coordinate of voltageLevels in the substation
      */
     @Override
-    protected Coord calculateCoordVoltageLevel(LayoutParameters layoutParam, VoltageLevelGraph vlGraph) {
-        int maxV = vlGraph.getMaxV();
-        return new Coord(0, layoutParam.getInitialYBus() + layoutParam.getStackHeight() + layoutParam.getExternCellHeight() + layoutParam.getVerticalSpaceBus() * (maxV + 2));
+    protected void calculateCoordVoltageLevels(LayoutParameters layoutParameters) {
+        double maxWidth = 0;
+        double totalHeight = layoutParameters.getVerticalSubstationPadding();
+        for (VoltageLevelGraph vlGraph : getGraph().getNodes()) {
+            vlGraph.setCoord(0, totalHeight);
+
+            // Calculate the objects coordinates inside the voltageLevel graph
+            VoltageLevelLayout vLayout = vLayoutFactory.create(vlGraph);
+            vLayout.run(layoutParameters);
+
+            maxWidth = Math.max(maxWidth, vlGraph.getWidth());
+            totalHeight += vlGraph.getHeight() + layoutParameters.getVerticalSubstationPadding();
+        }
+
+        getGraph().setSize(maxWidth + layoutParameters.getTranslateX(), totalHeight + layoutParameters.getTranslateY());
     }
 
     /*
@@ -157,15 +169,5 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
         BusCell.Direction dNode2 = getNodeDirection(node2, 2);
         return (dNode1 == BusCell.Direction.BOTTOM && dNode2 == BusCell.Direction.TOP && getGraph().graphAdjacents(node1.getGraph(), node2.getGraph()))
             || (dNode1 == BusCell.Direction.TOP && dNode2 == BusCell.Direction.BOTTOM && getGraph().graphAdjacents(node2.getGraph(), node1.getGraph()));
-    }
-
-    @Override
-    protected double getHorizontalSubstationPadding(LayoutParameters layoutParameters) {
-        return 0;
-    }
-
-    @Override
-    protected double getVerticalSubstationPadding(LayoutParameters layoutParameters) {
-        return layoutParameters.getVerticalSubstationPadding();
     }
 }

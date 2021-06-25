@@ -301,6 +301,7 @@ public class DefaultSVGWriter implements SVGWriter {
 
         Document document = domImpl.createDocument(SVG_NAMESPACE, SVG_QUALIFIED_NAME, null);
 
+        setDocumentSize(graph, document);
         Set<String> listUsedComponentSVG = new HashSet<>();
         addStyle(document, styleProvider, labelProvider, graph.getNodes(), listUsedComponentSVG);
         graph.getMultiTermNodes().forEach(n -> listUsedComponentSVG.add(n.getComponentType()));
@@ -312,6 +313,11 @@ public class DefaultSVGWriter implements SVGWriter {
         DomUtil.transformDocument(document, writer);
 
         return metadata;
+    }
+
+    private void setDocumentSize(SubstationGraph graph, Document document) {
+        document.getDocumentElement().setAttribute("width", Double.toString(graph.getWidth()));
+        document.getDocumentElement().setAttribute("height", Double.toString(graph.getHeight()));
     }
 
     @Override

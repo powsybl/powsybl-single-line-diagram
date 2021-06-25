@@ -6,9 +6,7 @@
  */
 package com.powsybl.sld.layout;
 
-import com.powsybl.sld.model.BusCell;
-import com.powsybl.sld.model.Cell;
-import com.powsybl.sld.model.VoltageLevelGraph;
+import com.powsybl.sld.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +40,16 @@ public class PositionVoltageLevelLayout extends AbstractVoltageLevelLayout {
 
         // Calculate all the coordinates for the middle nodes and the snake lines in the voltageLevel graph
         manageSnakeLines(layoutParam);
+
+        Point size = calculateSize(getGraph(), layoutParam);
+        getGraph().setSize(size.getX(), size.getY());
+    }
+
+    private Point calculateSize(VoltageLevelGraph graph, LayoutParameters layoutParam) {
+        double elementaryWidth = layoutParam.getCellWidth() / 2; // the elementary step within a voltageLevel Graph is half a cell width
+        double width = layoutParam.getInitialXBus() + graph.getMaxH() * elementaryWidth;
+        double height = layoutParam.getInitialYBus() + layoutParam.getStackHeight() + layoutParam.getExternCellHeight() + layoutParam.getVerticalSpaceBus() * graph.getMaxV();
+        return new Point(width, height);
     }
 
     private void calculateBusNodeCoord(VoltageLevelGraph graph, LayoutParameters layoutParam) {

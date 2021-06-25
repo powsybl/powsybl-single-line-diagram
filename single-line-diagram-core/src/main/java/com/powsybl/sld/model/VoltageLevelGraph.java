@@ -553,20 +553,17 @@ public class VoltageLevelGraph extends AbstractBaseGraph {
         return coord;
     }
 
+    public void setCoord(double x, double y) {
+        coord.setX(x);
+        coord.setY(y);
+    }
+
     public double getX() {
         return coord.getX();
     }
 
-    public void setX(double x) {
-        coord.setX(x);
-    }
-
     public double getY() {
         return coord.getY();
-    }
-
-    public void setY(double y) {
-        coord.setY(y);
     }
 
     public boolean isPositionNodeBusesCalculated() {

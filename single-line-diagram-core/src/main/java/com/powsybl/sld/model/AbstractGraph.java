@@ -23,6 +23,7 @@ import java.util.Objects;
 public abstract class AbstractGraph implements Graph {
 
     private boolean generateCoordsInJson = true;
+    private Point dims;
 
     @Override
     public void setGenerateCoordsInJson(boolean generateCoordsInJson) {
@@ -56,4 +57,16 @@ public abstract class AbstractGraph implements Graph {
     }
 
     protected abstract void writeJson(JsonGenerator generator) throws IOException;
+
+    public double getWidth() {
+        return dims != null ? dims.getX() : 0;
+    }
+
+    public double getHeight() {
+        return dims != null ? dims.getY() : 0;
+    }
+
+    public void setSize(double width, double height) {
+        dims = new Point(width, height);
+    }
 }

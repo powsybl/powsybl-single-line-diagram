@@ -67,8 +67,7 @@ public class TestSVGWriter extends AbstractTestCaseIidm {
 
     protected static VoltageLevelGraph createVoltageLevelGraph1() {
         VoltageLevelGraph g1 = VoltageLevelGraph.create(new VoltageLevelInfos("vl1", "vl1", 400), false, true);
-        g1.setX(0);
-        g1.setY(20);
+        g1.setCoord(0, 20);
 
         VoltageLevelInfos voltageLevelInfosLeg1 = new VoltageLevelInfos("vl1", "vl1", 400.);
         VoltageLevelInfos voltageLevelInfosLeg2 = new VoltageLevelInfos("vl2", "vl2", 225);
@@ -175,8 +174,7 @@ public class TestSVGWriter extends AbstractTestCaseIidm {
 
     private static VoltageLevelGraph createVoltageLevelGraph2() {
         VoltageLevelGraph g2 = VoltageLevelGraph.create(new VoltageLevelInfos("vl2", "vl2", 225), false, true);
-        g2.setX(550);
-        g2.setY(20);
+        g2.setCoord(550, 20);
 
         VoltageLevelInfos voltageLevelInfosLeg1 = new VoltageLevelInfos("vl1", "vl1", 400.);
         VoltageLevelInfos voltageLevelInfosLeg2 = new VoltageLevelInfos("vl2", "vl2", 225);
@@ -260,8 +258,7 @@ public class TestSVGWriter extends AbstractTestCaseIidm {
 
     private static VoltageLevelGraph createVoltageLevelGraph3() {
         VoltageLevelGraph g3 = VoltageLevelGraph.create(new VoltageLevelInfos("vl3", "vl3", 63), false, true);
-        g3.setX(850);
-        g3.setY(20);
+        g3.setCoord(850, 20);
 
         VoltageLevelInfos voltageLevelInfosLeg1 = new VoltageLevelInfos("vl1", "vl1", 400.);
         VoltageLevelInfos voltageLevelInfosLeg2 = new VoltageLevelInfos("vl2", "vl2", 225);
@@ -333,8 +330,7 @@ public class TestSVGWriter extends AbstractTestCaseIidm {
         //
         VoltageLevelInfos vl1Infos = new VoltageLevelInfos("vl1", "vl1", 400);
         VoltageLevelGraph g1Graph = VoltageLevelGraph.create(vl1Infos, false, true);
-        g1Graph.setX(0);
-        g1Graph.setY(20);
+        g1Graph.setCoord(0, 20);
 
         BusNode vl1Bbs1 = BusNode.create(g1Graph, "vl1_bbs1", "vl1_bbs1");
         vl1Bbs1.setX(0);
@@ -424,8 +420,7 @@ public class TestSVGWriter extends AbstractTestCaseIidm {
         //
         VoltageLevelInfos vl2Infos = new VoltageLevelInfos("vl2", "vl2", 225);
         VoltageLevelGraph g2Graph = VoltageLevelGraph.create(vl2Infos, false, true);
-        g2Graph.setX(550);
-        g2Graph.setY(20);
+        g2Graph.setCoord(550, 20);
 
         BusNode vl2Bbs1 = BusNode.create(g2Graph, "vl2_bbs1", "vl2_bbs1");
         vl2Bbs1.setX(0);
@@ -492,8 +487,7 @@ public class TestSVGWriter extends AbstractTestCaseIidm {
         //
         VoltageLevelInfos vl3Infos = new VoltageLevelInfos("vl3", "vl3", 63);
         VoltageLevelGraph g3Graph = VoltageLevelGraph.create(vl3Infos, false, true);
-        g3Graph.setX(850);
-        g3Graph.setY(20);
+        g3Graph.setCoord(850, 20);
 
         BusNode vl3Bbs1 = BusNode.create(g3Graph, "vl3_bbs1", "vl3_bbs1");
         vl3Bbs1.setX(0);
