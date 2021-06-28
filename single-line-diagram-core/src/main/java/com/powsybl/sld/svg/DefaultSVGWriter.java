@@ -1394,12 +1394,9 @@ public class DefaultSVGWriter implements SVGWriter {
                                 Element root,
                                 VoltageLevelGraph graph,
                                 DiagramStyleProvider styleProvider) {
-        double xInitPos = graph.getNodes().stream()
-                .filter(n -> n.getType() == Node.NodeType.BUS)
-                .mapToDouble(Node::getX).min().orElse(0) + layoutParameters.getPaddingLeft() + CIRCLE_RADIUS_NODE_INFOS_SIZE;
 
-        double maxY = graph.getNodes().stream().mapToDouble(Node::getY).max().orElse(0);
-        double yPos = graph.getY() + graph.getFirstBusY(layoutParameters) + maxY - 120;
+        double xInitPos = layoutParameters.getPaddingLeft() + CIRCLE_RADIUS_NODE_INFOS_SIZE;
+        double yPos = graph.getY() + graph.getHeight();
 
         List<ElectricalNodeInfo> nodes = styleProvider.getElectricalNodesInfos(graph);
 
