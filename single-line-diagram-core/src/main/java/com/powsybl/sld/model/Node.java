@@ -49,8 +49,6 @@ public class Node implements BaseNode {
 
     private final Point position = new Point(-1, -1);
 
-    private double initY = -1;  // y value before shifting the feeders height, if asked
-
     private Cell cell;
 
     private Double rotationAngle;
@@ -198,14 +196,6 @@ public class Node implements BaseNode {
         position.setY(y + (addYGraph ? graph.getY() : 0));
     }
 
-    public double getInitY() {
-        return initY;
-    }
-
-    public void setInitY(double initY) {
-        this.initY = initY;
-    }
-
     public NodeType getType() {
         return this.type;
     }
@@ -281,7 +271,6 @@ public class Node implements BaseNode {
     public void resetCoords() {
         position.setX(-1);
         position.setY(-1);
-        initY = -1;
     }
 
     public void shiftY(double yShift) {

@@ -18,8 +18,6 @@ public class InfoCalcPoints {
     private BusCell.Direction dNode2;
     private Point coord1;
     private Point coord2;
-    private double initY1;
-    private double initY2;
     private double xMaxGraph;
     private String idMaxGraph;
     private boolean increment;
@@ -62,22 +60,6 @@ public class InfoCalcPoints {
 
     public void setCoord2(Point coord2) {
         this.coord2 = coord2;
-    }
-
-    public double getInitY1() {
-        return initY1;
-    }
-
-    public void setInitY1(double initY1) {
-        this.initY1 = initY1;
-    }
-
-    public double getInitY2() {
-        return initY2;
-    }
-
-    public void setInitY2(double initY2) {
-        this.initY2 = initY2;
     }
 
     public double getxMaxGraph() {
