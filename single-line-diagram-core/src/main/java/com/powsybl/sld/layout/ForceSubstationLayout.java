@@ -201,8 +201,6 @@ public class ForceSubstationLayout extends AbstractSubstationLayout {
         info.setNbSnakeLinesBetween(nbSnakeLinesBetween);
         info.setCoord1(node1.getCoordinates());
         info.setCoord2(node2.getCoordinates());
-        info.setInitY1(node1.getInitY() != -1 ? node1.getInitY() : node1.getY());
-        info.setInitY2(node2.getInitY() != -1 ? node2.getInitY() : node2.getY());
         info.setxMaxGraph(Math.max(node1.getGraph().getX(), node2.getGraph().getX()));
         info.setIdMaxGraph(node1.getGraph().getX() > node2.getGraph().getX() ? node1.getGraph().getVoltageLevelInfos().getId() : node2.getGraph().getVoltageLevelInfos().getId());
 
@@ -232,8 +230,6 @@ public class ForceSubstationLayout extends AbstractSubstationLayout {
         double x2 = coord2.getX();
         double y1 = coord1.getY();
         double y2 = coord2.getY();
-        double initY1 = info.getInitY1();
-        double initY2 = info.getInitY2();
         double xMaxGraph = info.getxMaxGraph();
         String idMaxGraph = info.getIdMaxGraph();
 
@@ -244,42 +240,42 @@ public class ForceSubstationLayout extends AbstractSubstationLayout {
         switch (dNode1) {
             case BOTTOM:
                 if (dNode2 == BusCell.Direction.BOTTOM) {  // BOTTOM to BOTTOM
-                    double yDecal = Math.max(initY1 + decalV1, initY2 + decalV2);
+                    double yDecal = Math.max(y1 + decalV1, y2 + decalV2);
                     pol.add(new Point(x1, yDecal));
                     pol.add(new Point(x2, yDecal));
                 } else {  // BOTTOM to TOP
                     if (y1 < y2) {
-                        double yDecal = Math.max(initY1 + decalV1, initY2 - decalV2);
+                        double yDecal = Math.max(y1 + decalV1, y2 - decalV2);
                         pol.add(new Point(x1, yDecal));
                         pol.add(new Point(x2, yDecal));
                     } else {
                         nbSnakeLinesBetween.compute(idMaxGraph, (k, v) -> v + 1);
                         double xBetweenGraph = xMaxGraph - (nbSnakeLinesBetween.get(idMaxGraph) * layoutParam.getHorizontalSnakeLinePadding());
-                        pol.addAll(Point.createPointsList(x1, initY1 + decalV1,
-                                xBetweenGraph, initY1 + decalV1,
-                                xBetweenGraph, initY2 - decalV2,
-                                x2, initY2 - decalV2));
+                        pol.addAll(Point.createPointsList(x1, y1 + decalV1,
+                                xBetweenGraph, y1 + decalV1,
+                                xBetweenGraph, y2 - decalV2,
+                                x2, y2 - decalV2));
                     }
                 }
                 break;
 
             case TOP:
                 if (dNode2 == BusCell.Direction.TOP) {  // TOP to TOP
-                    double yDecal = Math.min(initY1 - decalV1, initY2 - decalV2);
+                    double yDecal = Math.min(y1 - decalV1, y2 - decalV2);
                     pol.add(new Point(x1, yDecal));
                     pol.add(new Point(x2, yDecal));
                 } else {  // TOP to BOTTOM
                     if (y1 > y2) {
-                        double yDecal = Math.min(initY1 - decalV1, initY2 + decalV2);
+                        double yDecal = Math.min(y1 - decalV1, y2 + decalV2);
                         pol.add(new Point(x1, yDecal));
                         pol.add(new Point(x2, yDecal));
                     } else {
                         nbSnakeLinesBetween.compute(idMaxGraph, (k, v) -> v + 1);
                         double xBetweenGraph = xMaxGraph - (nbSnakeLinesBetween.get(idMaxGraph) * layoutParam.getHorizontalSnakeLinePadding());
-                        pol.addAll(Point.createPointsList(x1, initY1 - decalV1,
-                                xBetweenGraph, initY1 - decalV1,
-                                xBetweenGraph, initY2 + decalV2,
-                                x2, initY2 + decalV2));
+                        pol.addAll(Point.createPointsList(x1, y1 - decalV1,
+                                xBetweenGraph, y1 - decalV1,
+                                xBetweenGraph, y2 + decalV2,
+                                x2, y2 + decalV2));
                     }
                 }
                 break;
