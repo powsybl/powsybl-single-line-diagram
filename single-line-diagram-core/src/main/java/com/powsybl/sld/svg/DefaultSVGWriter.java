@@ -389,12 +389,8 @@ public class DefaultSVGWriter implements SVGWriter {
      * Drawing the grid lines (if required)
      */
     protected Element drawGrid(String prefixId, VoltageLevelGraph graph, Document document, GraphMetadata metadata) {
-        int maxH = graph.getNodeBuses().stream()
-                .mapToInt(nodeBus -> (nodeBus.getPosition().get(H) + nodeBus.getPosition().getSpan(H)) / 2)
-                .max().orElse(0);
-        int maxV = graph.getNodeBuses().stream()
-                .mapToInt(nodeBus -> nodeBus.getPosition().get(V))
-                .max().orElse(1) - 1;
+        int maxH = graph.getMaxH();
+        int maxV = graph.getMaxV();
 
         Element gridRoot = document.createElement(GROUP);
 
@@ -404,9 +400,9 @@ public class DefaultSVGWriter implements SVGWriter {
         gridRoot.setAttribute(TRANSFORM,
                 TRANSLATE + "(" + layoutParameters.getPaddingLeft() + "," + layoutParameters.getPaddingTop() + ")");
         // vertical lines
-        for (int i = 0; i < maxH + 1; i++) {
+        for (int iCell = 0; iCell < maxH / 2 + 1; iCell++) {
             gridRoot.appendChild(drawGridVerticalLine(document, graph, maxV,
-                    graph.getX() + i * layoutParameters.getCellWidth()));
+                    graph.getX() + iCell * layoutParameters.getCellWidth()));
         }
 
         // StackHeight Horizontal lines
@@ -436,7 +432,7 @@ public class DefaultSVGWriter implements SVGWriter {
 
     protected Element drawGridHorizontalLine(Document document, VoltageLevelGraph graph, int maxH, double y) {
         return drawGridLine(document,
-                graph.getX(), y, maxH * layoutParameters.getCellWidth() + graph.getX(), y);
+                graph.getX(), y, maxH / 2. * layoutParameters.getCellWidth() + graph.getX(), y);
     }
 
     protected Element drawGridVerticalLine(Document document, VoltageLevelGraph graph, int maxV, double x) {

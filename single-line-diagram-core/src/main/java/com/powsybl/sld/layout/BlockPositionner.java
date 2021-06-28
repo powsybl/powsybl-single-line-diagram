@@ -25,9 +25,11 @@ class BlockPositionner {
         int maxV = graph.getMaxVerticalBusPosition();
         List<InternCell> nonFlatCellsToClose = new ArrayList<>();
 
-        Subsection prevSs = new Subsection(maxV);
-        graph.getNodeBuses().forEach(nodeBus -> nodeBus.getPosition().set(V, nodeBus.getBusbarIndex()));
+        // Set vertical position of node buses based on busbarIndex
+        // Note that busbarIndex starts at 1 but positions start at 0
+        graph.getNodeBuses().forEach(nodeBus -> nodeBus.getPosition().set(V, nodeBus.getBusbarIndex() - 1));
 
+        Subsection prevSs = new Subsection(maxV);
         for (Subsection ss : subsections) {
             updateNodeBuses(prevSs, ss, hPos, hSpace, Side.RIGHT); // close nodeBuses
             updateNodeBuses(prevSs, ss, hPos, hSpace, Side.LEFT); // open nodeBuses
