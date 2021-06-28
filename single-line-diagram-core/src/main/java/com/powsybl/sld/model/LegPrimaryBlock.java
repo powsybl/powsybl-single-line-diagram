@@ -101,25 +101,20 @@ public class LegPrimaryBlock extends AbstractPrimaryBlock implements LegBlock {
 
     @Override
     public void coordHorizontalCase(LayoutParameters layoutParam) {
-        getSwNode().setX(getCoord().get(X) + getCoord().getSpan(X) / 2);
-        getSwNode().setY(getBusNode().getY(), false);
-        getLegNode().setY(getBusNode().getY(), false);
+        getSwNode().setCoordinates(getCoord().get(X) + getCoord().getSpan(X) / 2, getBusNode().getVlY());
+        getLegNode().setY(getBusNode().getVlY());
     }
 
     @Override
     public void coordVerticalCase(LayoutParameters layoutParam) {
-        getSwNode().setX(getCoord().get(X));
-        getSwNode().setY(getBusNode().getY(), false);
+        getSwNode().setCoordinates(getCoord().get(X), getBusNode().getVlY());
 
-        getLegNode().setX(getCoord().get(X));
         if (getCell().getType() == INTERN && ((InternCell) getCell()).checkisShape(UNILEG)) {
             InternCell cell = (InternCell) getCell();
-            if (getOrientation() == UP) {
-                getLegNode().setY(- layoutParam.getInternCellHeight());
-            } else {
-                getLegNode().setY(layoutParam.getInternCellHeight()
-                        + (cell.getGraph().getMaxVerticalBusPosition() - 1) * layoutParam.getVerticalSpaceBus());
-            }
+            double yLeg = getOrientation() == UP
+                ? -layoutParam.getInternCellHeight()
+                : layoutParam.getInternCellHeight() + (cell.getGraph().getMaxVerticalBusPosition() - 1) * layoutParam.getVerticalSpaceBus();
+            getLegNode().setCoordinates(getCoord().get(X), yLeg);
         }
     }
 

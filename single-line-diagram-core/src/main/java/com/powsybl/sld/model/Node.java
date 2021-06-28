@@ -161,39 +161,55 @@ public class Node implements BaseNode {
 
     @Override
     public Point getCoordinates() {
-        return position;
+        return graph != null ? position.getShiftedPoint(graph.getCoord()) : position;
     }
 
     public void setCoordinates(Point coord) {
-        setCoordinates(coord, true);
+        position.setCoordinates(coord);
     }
 
-    public void setCoordinates(Point coord, boolean addGraph) {
-        position.setCoordinates(addGraph ? coord.getShiftedPoint(graph.getCoord()) : coord);
+    public void setCoordinates(double x, double y) {
+        position.setCoordinates(x, y);
     }
 
-    public double getX() {
+    /**
+     * Get abscissa within current voltage level
+     * @return abscissa within voltage level
+     */
+    public double getVlX() {
         return position.getX();
     }
 
-    public double getY() {
+    /**
+     * Get ordinate within current voltage level
+     * @return ordinate within voltage level
+     */
+    public double getVlY() {
         return position.getY();
     }
 
-    public void setX(double x) {
-        setX(x, true);
+    /**
+     * Get abscissa within the diagram
+     * @return abscissa within diagram
+     */
+    public double getX() {
+        return graph != null ? position.getX() + graph.getX() : position.getX();
     }
 
-    public void setX(double x, boolean addXGraph) {
-        position.setX(x + (addXGraph ? graph.getX() : 0));
+    /**
+     * Get ordinate within the diagram
+     * @return ordinate within diagram
+     */
+    public double getY() {
+        return graph != null ? position.getY() + graph.getY() : position.getY();
+    }
+
+    public void setX(double x) {
+        position.setX(x);
     }
 
     public void setY(double y) {
-        setY(y, true);
-    }
-
-    public void setY(double y, boolean addYGraph) {
-        position.setY(y + (addYGraph ? graph.getY() : 0));
+        position.setY(y);
     }
 
     public NodeType getType() {

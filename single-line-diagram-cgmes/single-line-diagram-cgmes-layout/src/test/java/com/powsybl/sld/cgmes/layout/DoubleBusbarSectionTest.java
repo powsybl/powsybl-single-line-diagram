@@ -98,33 +98,33 @@ public class DoubleBusbarSectionTest {
     }
 
     private void checkNodeCoordinates(VoltageLevelGraph graph, boolean isVoltageLevelDataEnabled) {
-        assertEquals(20, graph.getNodes().get(0).getX(), 0);
-        assertEquals(10, graph.getNodes().get(0).getY(), 0);
+        assertEquals(20, graph.getNodes().get(0).getVlX(), 0);
+        assertEquals(10, graph.getNodes().get(0).getVlY(), 0);
         assertEquals(160, ((BusNode) graph.getNodes().get(0)).getPxWidth(), 0);
         assertFalse(graph.getNodes().get(0).isRotated());
 
-        assertEquals(20, graph.getNodes().get(1).getX(), 0);
-        assertEquals(40, graph.getNodes().get(1).getY(), 0);
+        assertEquals(20, graph.getNodes().get(1).getVlX(), 0);
+        assertEquals(40, graph.getNodes().get(1).getVlY(), 0);
         assertEquals(160, ((BusNode) graph.getNodes().get(1)).getPxWidth(), 0);
         assertFalse(graph.getNodes().get(1).isRotated());
 
-        assertEquals(80, graph.getNodes().get(2).getX(), 0);
-        assertEquals(100, graph.getNodes().get(2).getY(), 0);
+        assertEquals(80, graph.getNodes().get(2).getVlX(), 0);
+        assertEquals(100, graph.getNodes().get(2).getVlY(), 0);
 
-        assertEquals(isVoltageLevelDataEnabled ? 80 : -1, graph.getNodes().get(3).getX(), 0);
-        assertEquals(isVoltageLevelDataEnabled ? 45 : -1, graph.getNodes().get(3).getY(), 0);
+        assertEquals(isVoltageLevelDataEnabled ? 80 : -1, graph.getNodes().get(3).getVlX(), 0);
+        assertEquals(isVoltageLevelDataEnabled ? 45 : -1, graph.getNodes().get(3).getVlY(), 0);
         assertFalse(graph.getNodes().get(3).isRotated());
 
-        assertEquals(75, graph.getNodes().get(4).getX(), 0);
-        assertEquals(10, graph.getNodes().get(4).getY(), 0);
+        assertEquals(75, graph.getNodes().get(4).getVlX(), 0);
+        assertEquals(10, graph.getNodes().get(4).getVlY(), 0);
         assertFalse(graph.getNodes().get(4).isRotated());
 
-        assertEquals(75, graph.getNodes().get(5).getX(), 0);
-        assertEquals(40, graph.getNodes().get(5).getY(), 0);
+        assertEquals(75, graph.getNodes().get(5).getVlX(), 0);
+        assertEquals(40, graph.getNodes().get(5).getVlY(), 0);
         assertFalse(graph.getNodes().get(5).isRotated());
 
-        assertEquals(80, graph.getNodes().get(6).getX(), 0);
-        assertEquals(50, graph.getNodes().get(6).getY(), 0);
+        assertEquals(80, graph.getNodes().get(6).getVlX(), 0);
+        assertEquals(50, graph.getNodes().get(6).getVlY(), 0);
         assertFalse(graph.getNodes().get(6).isRotated());
     }
 

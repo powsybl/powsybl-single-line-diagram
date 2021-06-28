@@ -29,7 +29,7 @@ public class LayoutParameters {
     private double paddingBottom = 20;
 
     private double verticalSpaceBus = 25;
-    private double horizontalBusPadding = 20;
+    private double horizontalBusPadding = 10;
 
     private double cellWidth = 50;
 

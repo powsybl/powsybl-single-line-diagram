@@ -45,10 +45,10 @@ public class BusNode extends Node {
     }
 
     public void calculateCoord(LayoutParameters layoutParameters) {
-        setY(getGraph().getFirstBusY(layoutParameters) + position.get(V) * layoutParameters.getVerticalSpaceBus());
-        setX((double) position.get(H) / 2 * layoutParameters.getCellWidth()
-                + layoutParameters.getHorizontalBusPadding() / 2);
-        setPxWidth(position.getSpan(H) * layoutParameters.getCellWidth() / 2 - layoutParameters.getHorizontalBusPadding());
+        double elementaryWidth = layoutParameters.getCellWidth() / 2; // the elementary step within a voltageLevel Graph is half a cell width
+        setCoordinates(position.get(H) * elementaryWidth + layoutParameters.getHorizontalBusPadding(),
+            getGraph().getFirstBusY(layoutParameters) + position.get(V) * layoutParameters.getVerticalSpaceBus());
+        setPxWidth(position.getSpan(H) * elementaryWidth - 2 * layoutParameters.getHorizontalBusPadding());
     }
 
     @Override

@@ -59,8 +59,8 @@ public class LayoutToCgmesExtensionsConverter {
     }
 
     private NodeDiagramData setNodeDiagramPoints(NodeDiagramData diagramData, BusNode busNode, OffsetPoint offsetPoint, String diagramName) {
-        double x1 = busNode.getX();
-        double y1 = busNode.getY();
+        double x1 = busNode.getVlX();
+        double y1 = busNode.getVlY();
         double x2 = x1;
         double y2 = y1;
         double pxWidth = busNode.getPxWidth();
@@ -109,11 +109,11 @@ public class LayoutToCgmesExtensionsConverter {
                     .filter(this::isNodeSurroundedbySwitchesOrFeeders)
                     .collect(Collectors.toList());
             fictitiousNodes.stream().filter(fNode -> StringUtils.isNumeric(fNode.getName())).forEach(fNode ->
-                VoltageLevelDiagramData.addInternalNodeDiagramPoint(voltageLevel, diagramName, Integer.parseInt(fNode.getName()), new DiagramPoint(fNode.getX(), fNode.getY(), 0))
+                VoltageLevelDiagramData.addInternalNodeDiagramPoint(voltageLevel, diagramName, Integer.parseInt(fNode.getName()), new DiagramPoint(fNode.getVlX(), fNode.getVlY(), 0))
             );
 
-            double vlNodeMaxX = vlGraph.getNodes().stream().map(Node::getX).sorted(Collections.reverseOrder()).findFirst().orElse(0.0);
-            double vlNodeMaxY = vlGraph.getNodes().stream().map(Node::getY).sorted(Collections.reverseOrder()).findFirst().orElse(0.0);
+            double vlNodeMaxX = vlGraph.getNodes().stream().map(Node::getVlX).sorted(Collections.reverseOrder()).findFirst().orElse(0.0);
+            double vlNodeMaxY = vlGraph.getNodes().stream().map(Node::getVlY).sorted(Collections.reverseOrder()).findFirst().orElse(0.0);
             subsBoundary.update(vlNodeMaxX, vlNodeMaxY);
 
             List<String> componentTypeList = vlGraph.getNodes().stream().map(Node::getComponentType).collect(Collectors.toList());
@@ -122,7 +122,7 @@ public class LayoutToCgmesExtensionsConverter {
             //iterate over the voltage level's equipments, and fill the IIDM CGMES DL extensions with the computed layout info
             voltageLevel.getLoadStream().filter(load -> vlGraph.getNode(load.getId()) != null).forEach(load -> {
                 Node node = vlGraph.getNode(load.getId());
-                DiagramPoint lDiagramPoint = offsetPoint.newDiagramPoint(node.getX(), node.getY(), 0);
+                DiagramPoint lDiagramPoint = offsetPoint.newDiagramPoint(node.getVlX(), node.getVlY(), 0);
                 InjectionDiagramData<Load> loadIidmDiagramData = new InjectionDiagramData<>(load);
                 InjectionDiagramData.InjectionDiagramDetails diagramDetails = loadIidmDiagramData.new InjectionDiagramDetails(lDiagramPoint, 0);
                 loadIidmDiagramData.addData(diagramName, diagramDetails);
@@ -132,7 +132,7 @@ public class LayoutToCgmesExtensionsConverter {
 
             voltageLevel.getGeneratorStream().filter(generator -> vlGraph.getNode(generator.getId()) != null).forEach(generator -> {
                 Node node = vlGraph.getNode(generator.getId());
-                DiagramPoint gDiagramPoint = offsetPoint.newDiagramPoint(node.getX(), node.getY(), 0);
+                DiagramPoint gDiagramPoint = offsetPoint.newDiagramPoint(node.getVlX(), node.getVlY(), 0);
                 InjectionDiagramData<Generator> gIidmDiagramData = new InjectionDiagramData<>(generator);
                 InjectionDiagramData.InjectionDiagramDetails diagramDetails = gIidmDiagramData.new InjectionDiagramDetails(gDiagramPoint, 0);
                 gIidmDiagramData.addData(diagramName, diagramDetails);
@@ -142,7 +142,7 @@ public class LayoutToCgmesExtensionsConverter {
 
             voltageLevel.getShuntCompensatorStream().filter(shuntCompensator -> vlGraph.getNode(shuntCompensator.getId()) != null).forEach(shuntCompensator -> {
                 Node node = vlGraph.getNode(shuntCompensator.getId());
-                DiagramPoint scDiagramPoint = offsetPoint.newDiagramPoint(node.getX(), node.getY(), 0);
+                DiagramPoint scDiagramPoint = offsetPoint.newDiagramPoint(node.getVlX(), node.getVlY(), 0);
                 InjectionDiagramData<ShuntCompensator> scDiagramData = new InjectionDiagramData<>(shuntCompensator);
                 InjectionDiagramData.InjectionDiagramDetails diagramDetails = scDiagramData.new InjectionDiagramDetails(scDiagramPoint, 0);
                 scDiagramData.addData(diagramName, diagramDetails);
@@ -152,7 +152,7 @@ public class LayoutToCgmesExtensionsConverter {
 
             voltageLevel.getStaticVarCompensatorStream().filter(staticVarCompensator -> vlGraph.getNode(staticVarCompensator.getId()) != null).forEach(staticVarCompensator -> {
                 Node node = vlGraph.getNode(staticVarCompensator.getId());
-                DiagramPoint svcDiagramPoint = offsetPoint.newDiagramPoint(node.getX(), node.getY(), 0);
+                DiagramPoint svcDiagramPoint = offsetPoint.newDiagramPoint(node.getVlX(), node.getVlY(), 0);
                 InjectionDiagramData<StaticVarCompensator> svcDiagramData = new InjectionDiagramData<>(staticVarCompensator);
                 InjectionDiagramData.InjectionDiagramDetails diagramDetails = svcDiagramData.new InjectionDiagramDetails(svcDiagramPoint, 0);
                 svcDiagramData.addData(diagramName, diagramDetails);
@@ -168,7 +168,7 @@ public class LayoutToCgmesExtensionsConverter {
                         if (line != null) {
                             LineDiagramData<Line> lineDiagramData = LineDiagramData.getOrCreateDiagramData(line);
                             int lineSeq = getMaxSeq(lineDiagramData.getPoints(diagramName)) + 1;
-                            DiagramPoint linePoint = offsetPoint.newDiagramPoint(lineNode.getX(), lineNode.getY(), lineSeq);
+                            DiagramPoint linePoint = offsetPoint.newDiagramPoint(lineNode.getVlX(), lineNode.getVlY(), lineSeq);
                             lineDiagramData.addPoint(diagramName, linePoint);
 
                             LOG.debug("setting CGMES DL IIDM extensions for Line {} ({}), new point {}", line.getId(), line.getName(), linePoint);
@@ -181,7 +181,7 @@ public class LayoutToCgmesExtensionsConverter {
                         if (danglingLine != null) {
                             LineDiagramData<DanglingLine> danglingLineDiagramData = LineDiagramData.getOrCreateDiagramData(danglingLine);
                             int danglingLineSeq = getMaxSeq(danglingLineDiagramData.getPoints(diagramName)) + 1;
-                            DiagramPoint danglingLinePoint = offsetPoint.newDiagramPoint(danglingLineNode.getX(), danglingLineNode.getY(), danglingLineSeq);
+                            DiagramPoint danglingLinePoint = offsetPoint.newDiagramPoint(danglingLineNode.getVlX(), danglingLineNode.getVlY(), danglingLineSeq);
                             danglingLineDiagramData.addPoint(diagramName, danglingLinePoint);
 
                             LOG.debug("setting CGMES DL IIDM extensions for Dangling line {} ({}),  point {}", danglingLine.getId(), danglingLine.getName(), danglingLinePoint);
@@ -217,7 +217,7 @@ public class LayoutToCgmesExtensionsConverter {
                     Node swNode = vlGraph.getNode(sw.getId());
                     if (checkSwitchNode(swNode)) {
                         CouplingDeviceDiagramData<Switch> switchIidmDiagramData = new CouplingDeviceDiagramData<>(sw);
-                        CouplingDeviceDiagramData.CouplingDeviceDiagramDetails diagramDetails = switchIidmDiagramData.new CouplingDeviceDiagramDetails(offsetPoint.newDiagramPoint(swNode.getX(), swNode.getY(), 0), switchRotationValue(swNode));
+                        CouplingDeviceDiagramData.CouplingDeviceDiagramDetails diagramDetails = switchIidmDiagramData.new CouplingDeviceDiagramDetails(offsetPoint.newDiagramPoint(swNode.getVlX(), swNode.getVlY(), 0), switchRotationValue(swNode));
                         switchIidmDiagramData.addData(diagramName, diagramDetails);
                         LOG.debug("setting CGMES DL IIDM extensions for Switch {}, {}", sw.getId(), switchIidmDiagramData);
                         sw.addExtension(CouplingDeviceDiagramData.class, switchIidmDiagramData);
@@ -228,7 +228,7 @@ public class LayoutToCgmesExtensionsConverter {
 
         substation.getTwoWindingsTransformerStream().forEach(twoWindingsTransformer -> sgraph.getMultiTermNodes().stream()
                 .filter(node -> checkNode(twoWindingsTransformer, node)).findFirst().ifPresent(node -> {
-                    DiagramPoint tDiagramPoint = offsetPoint.newDiagramPoint(node.getX(), node.getY(), 0);
+                    DiagramPoint tDiagramPoint = offsetPoint.newDiagramPoint(node.getVlX(), node.getVlY(), 0);
                     CouplingDeviceDiagramData<TwoWindingsTransformer> transformerIidmDiagramData = new CouplingDeviceDiagramData<>(twoWindingsTransformer);
                     CouplingDeviceDiagramData.CouplingDeviceDiagramDetails diagramDetails = transformerIidmDiagramData.new CouplingDeviceDiagramDetails(tDiagramPoint, rotationValue(node));
                     transformerIidmDiagramData.addData(diagramName, diagramDetails);
@@ -239,7 +239,7 @@ public class LayoutToCgmesExtensionsConverter {
 
         substation.getThreeWindingsTransformerStream().forEach(threeWindingsTransformer -> sgraph.getMultiTermNodes().stream()
                 .filter(node -> checkNode(threeWindingsTransformer, node)).findFirst().ifPresent(node -> {
-                    DiagramPoint tDiagramPoint = offsetPoint.newDiagramPoint(node.getX(), node.getY(), 0);
+                    DiagramPoint tDiagramPoint = offsetPoint.newDiagramPoint(node.getVlX(), node.getVlY(), 0);
                     ThreeWindingsTransformerDiagramData transformerIidmDiagramData = new ThreeWindingsTransformerDiagramData(threeWindingsTransformer);
                     ThreeWindingsTransformerDiagramData.ThreeWindingsTransformerDiagramDataDetails diagramDetails = transformerIidmDiagramData.new ThreeWindingsTransformerDiagramDataDetails(tDiagramPoint, rotationValue(node));
                     transformerIidmDiagramData.addData(diagramName, diagramDetails);

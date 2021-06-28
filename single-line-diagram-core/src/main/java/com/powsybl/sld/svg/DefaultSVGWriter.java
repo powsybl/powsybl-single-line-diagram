@@ -34,7 +34,6 @@ import java.util.stream.IntStream;
 
 import static com.powsybl.sld.library.ComponentTypeName.*;
 import static com.powsybl.sld.model.Position.Dimension.H;
-import static com.powsybl.sld.model.Position.Dimension.V;
 import static com.powsybl.sld.svg.DiagramStyles.*;
 
 /**
@@ -200,10 +199,8 @@ public class DefaultSVGWriter implements SVGWriter {
                 BusNode busbarSectionNode = (BusNode) graph.getNode(id);
                 List<AnchorPoint> result = new ArrayList<>();
                 result.add(new AnchorPoint(0, 0, AnchorOrientation.HORIZONTAL));
-                for (int i = 1; i < busbarSectionNode.getPosition().getSpan(H); i++) {
-                    result.add(new AnchorPoint(
-                            ((double) i / 2) * layoutParameters.getCellWidth() - layoutParameters.getHorizontalBusPadding() / 2,
-                            0, AnchorOrientation.VERTICAL));
+                for (int iCell = 0; iCell < busbarSectionNode.getPosition().getSpan(H) / 2; iCell++) {
+                    result.add(new AnchorPoint((iCell + 0.5) * layoutParameters.getCellWidth() - layoutParameters.getHorizontalBusPadding(), 0, AnchorOrientation.VERTICAL));
                 }
                 result.add(new AnchorPoint(busbarSectionNode.getPxWidth(), 0, AnchorOrientation.HORIZONTAL));
                 return result;
@@ -637,7 +634,7 @@ public class DefaultSVGWriter implements SVGWriter {
             }
         } else {  // node outside any graph
             List<Node> adjacentNodes = node.getAdjacentNodes();
-            adjacentNodes.sort(Comparator.comparingDouble(Node::getX));
+            adjacentNodes.sort(Comparator.comparingDouble(Node::getVlX));
             if (adjacentNodes.size() == 2) {  // 2 windings transformer
                 FeederWithSideNode node1 = (FeederWithSideNode) adjacentNodes.get(0);
                 FeederWithSideNode node2 = (FeederWithSideNode) adjacentNodes.get(1);
@@ -653,7 +650,7 @@ public class DefaultSVGWriter implements SVGWriter {
                         // vertical line supporting the svg component
                         FeederWithSideNode nodeWinding1 = node1.getSide() == FeederWithSideNode.Side.ONE ? node1 : node2;
                         FeederWithSideNode nodeWinding2 = node1.getSide() == FeederWithSideNode.Side.TWO ? node1 : node2;
-                        if (nodeWinding2.getY() > nodeWinding1.getY()) {
+                        if (nodeWinding2.getVlY() > nodeWinding1.getVlY()) {
                             // permutation here, because in the svg component library, circle for winding1 is below circle for winding2
                             node.setRotationAngle(180.);
                         }

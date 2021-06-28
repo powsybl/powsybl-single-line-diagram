@@ -268,8 +268,8 @@ public class CgmesZoneLayoutTest {
     }
 
     private void checkNodeCoordinates(Node node, double x, double y, boolean rotated) {
-        assertEquals(x, node.getX(), 0);
-        assertEquals(y, node.getY(), 0);
+        assertEquals(x, node.getVlX(), 0);
+        assertEquals(y, node.getVlY(), 0);
         if (rotated) {
             assertTrue(node.isRotated());
         } else {

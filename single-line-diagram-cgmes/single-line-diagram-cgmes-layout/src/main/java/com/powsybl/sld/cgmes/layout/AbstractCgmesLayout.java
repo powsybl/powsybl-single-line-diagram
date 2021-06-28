@@ -344,7 +344,7 @@ public abstract class AbstractCgmesLayout {
         }
         Node adjacentNode = adjacentNodes.get(0); // as we are working on a single voltage level a line node should be connected to only 1 node
         // a line should not be connected to another line, so I should already have the coordinates of the adjacent node
-        return new DiagramPoint(adjacentNode.getX(), adjacentNode.getY(), 0);
+        return new DiagramPoint(adjacentNode.getVlX(), adjacentNode.getVlY(), 0);
     }
 
     protected DiagramPoint getLinePoint(LineDiagramData<?> lineDiagramData, boolean isLastPointCloser, String diagramName) {
@@ -355,13 +355,13 @@ public abstract class AbstractCgmesLayout {
     }
 
     protected void shiftNodeCoordinates(Node node, double scaleFactor) {
-        node.setX(node.getX() - minX + (X_MARGIN / scaleFactor));
-        node.setY(node.getY() - minY + (Y_MARGIN / scaleFactor));
+        node.setX(node.getVlX() - minX + (X_MARGIN / scaleFactor));
+        node.setY(node.getVlY() - minY + (Y_MARGIN / scaleFactor));
     }
 
     protected void scaleNodeCoordinates(Node node, double scaleFactor) {
-        node.setX(node.getX() * scaleFactor);
-        node.setY(node.getY() * scaleFactor);
+        node.setX(node.getVlX() * scaleFactor);
+        node.setY(node.getVlY() * scaleFactor);
         if (node.getType() == NodeType.BUS) {
             BusNode nodeBus = (BusNode) node;
             nodeBus.setPxWidth(nodeBus.getPxWidth() * scaleFactor);
@@ -369,8 +369,8 @@ public abstract class AbstractCgmesLayout {
     }
 
     protected void setVoltageLevelCoord(VoltageLevelGraph vlGraph) {
-        double minNodeX = vlGraph.getNodes().stream().mapToDouble(Node::getX).min().orElse(0);
-        double minNodeY = vlGraph.getNodes().stream().mapToDouble(Node::getY).min().orElse(0);
+        double minNodeX = vlGraph.getNodes().stream().mapToDouble(Node::getVlX).min().orElse(0);
+        double minNodeY = vlGraph.getNodes().stream().mapToDouble(Node::getVlY).min().orElse(0);
         vlGraph.setCoord(minNodeX, minNodeY);
     }
 

@@ -128,7 +128,7 @@ public abstract class AbstractLayout {
         int iMiddle1 = points.size() / 2;
 
         Point pointSplit = points.get(iMiddle0).getMiddlePoint(points.get(iMiddle1));
-        multiNode.setCoordinates(pointSplit, false);
+        multiNode.setCoordinates(pointSplit);
 
         List<Point> part1 = new ArrayList<>(points.subList(0, iMiddle1));
         part1.add(new Point(pointSplit));
@@ -152,7 +152,7 @@ public abstract class AbstractLayout {
         List<Point> part3 = new ArrayList<>(points2.subList(1, points2.size()));
 
         // the fictitious node point is the second to last point of the original first polyline (or the second of the original seond polyline)
-        coord.setCoordinates(points2.get(1), false);
+        coord.setCoordinates(points2.get(1));
 
         return Arrays.asList(part1, part2, part3);
     }
