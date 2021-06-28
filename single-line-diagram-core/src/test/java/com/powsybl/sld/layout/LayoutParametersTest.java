@@ -20,10 +20,7 @@ public class LayoutParametersTest {
     @Test
     public void test() {
         LayoutParameters layoutParameters = new LayoutParameters()
-                .setTranslateX(25)
-                .setTranslateY(60)
-                .setInitialXBus(10)
-                .setInitialYBus(280)
+                .setPaddings(20, 60, 20, 60)
                 .setVerticalSpaceBus(20)
                 .setHorizontalBusPadding(30)
                 .setCellWidth(70)
@@ -55,10 +52,10 @@ public class LayoutParametersTest {
                 .setFeederArrowSymmetry(true);
         LayoutParameters layoutParameters2 = new LayoutParameters(layoutParameters);
 
-        assertEquals(layoutParameters.getTranslateX(), layoutParameters2.getTranslateX(), 0);
-        assertEquals(layoutParameters.getTranslateY(), layoutParameters2.getTranslateY(), 0);
-        assertEquals(layoutParameters.getInitialXBus(), layoutParameters2.getInitialXBus(), 0);
-        assertEquals(layoutParameters.getInitialYBus(), layoutParameters2.getInitialYBus(), 0);
+        assertEquals(layoutParameters.getPaddingLeft(), layoutParameters2.getPaddingLeft(), 0);
+        assertEquals(layoutParameters.getPaddingTop(), layoutParameters2.getPaddingTop(), 0);
+        assertEquals(layoutParameters.getPaddingRight(), layoutParameters2.getPaddingRight(), 0);
+        assertEquals(layoutParameters.getPaddingBottom(), layoutParameters2.getPaddingBottom(), 0);
         assertEquals(layoutParameters.getVerticalSpaceBus(), layoutParameters2.getVerticalSpaceBus(), 0);
         assertEquals(layoutParameters.getHorizontalBusPadding(), layoutParameters2.getHorizontalBusPadding(), 0);
         assertEquals(layoutParameters.getCellWidth(), layoutParameters2.getCellWidth(), 0);

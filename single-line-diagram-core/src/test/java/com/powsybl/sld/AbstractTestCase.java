@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
  */
 public abstract class AbstractTestCase {
 
-    protected boolean writeFile = false;
+    protected boolean writeFile = true;
 
     protected final ResourcesComponentLibrary componentLibrary = getResourcesComponentLibrary();
 
@@ -35,10 +35,7 @@ public abstract class AbstractTestCase {
 
     protected static LayoutParameters createDefaultLayoutParameters() {
         return new LayoutParameters()
-            .setTranslateX(20)
-            .setTranslateY(50)
-            .setInitialXBus(0)
-            .setInitialYBus(260)
+            .setPaddings(20, 50, 20, 50)
             .setVerticalSpaceBus(25)
             .setHorizontalBusPadding(20)
             .setCellWidth(50)

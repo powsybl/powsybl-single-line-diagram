@@ -50,6 +50,6 @@ public class HorizontalSubstationLayout extends AbstractSubstationLayout {
             maxHeight = Math.max(maxHeight, vlGraph.getHeight());
         }
 
-        getGraph().setSize(totalWidth + layoutParameters.getTranslateX(), maxHeight + layoutParameters.getTranslateY());
+        getGraph().setSize(totalWidth, maxHeight);
     }
 }

@@ -8,6 +8,7 @@ package com.powsybl.sld.model;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.powsybl.sld.layout.LayoutParameters;
+import com.powsybl.sld.layout.PositionVoltageLevelLayout;
 
 import java.io.IOException;
 import java.util.*;
@@ -151,7 +152,7 @@ public abstract class AbstractBlock implements Block {
     }
 
     double hToX(LayoutParameters layoutParameters, int h) {
-        return layoutParameters.getInitialXBus() + layoutParameters.getCellWidth() * h / 2;
+        return layoutParameters.getCellWidth() * h / 2;
     }
 
     @Override
@@ -173,22 +174,15 @@ public abstract class AbstractBlock implements Block {
         if (cell.getType() == INTERN) {
             ySpan = position.getSpan(V) / 2. * layoutParam.getInternCellHeight();
         } else {
-            // The Y span of root block does not consider the space needed for the FeederPrimaryBlock
-            // nor the one needed for the LegPrimaryBlock.
-            if (layoutParam.isAdaptCellHeightToContent()) {
-                // In this case, corresponds to the previously calculated maximum height of all extern cells having the same direction
-                ySpan = getGraph().getMaxCalculatedCellHeight(((BusCell) cell).getDirection());
-            } else {
-                ySpan = layoutParam.getExternCellHeight() - getFeederSpan(layoutParam);
-            }
+            ySpan = getRootBlockSpan(layoutParam);
         }
         return ySpan;
     }
 
-    public static double getFeederSpan(LayoutParameters layoutParam) {
-        // The space needed between the feeder and the node connected to it corresponds to the space for feeder arrows
-        // + half the height of the feeder component + half the height of that node component
-        return layoutParam.getMinSpaceForFeederArrows() + layoutParam.getMaxComponentHeight();
+    private double getRootBlockSpan(LayoutParameters layoutParam) {
+        // The Y span of root block does not consider the space needed for the FeederPrimaryBlock (feeder span)
+        // nor the one needed for the LegPrimaryBlock (layoutParam.getStackHeight())
+        return getGraph().getExternCellHeight(((BusCell) cell).getDirection()) - PositionVoltageLevelLayout.getFeederSpan(layoutParam);
     }
 
     private double getRootYCoord(double spanY, LayoutParameters layoutParam) {
@@ -200,16 +194,16 @@ public abstract class AbstractBlock implements Block {
         } else {
             dyToBus = spanY / 2 + layoutParam.getStackHeight();
         }
+        double firstBusY = cell.getGraph().getFirstBusY(layoutParam);
         switch (((BusCell) cell).getDirection()) {
             case BOTTOM:
-                return layoutParam.getInitialYBus()
+                return firstBusY
                     + (cell.getGraph().getMaxVerticalBusPosition() - 1) * layoutParam.getVerticalSpaceBus()
                     + dyToBus;
             case TOP:
-                return layoutParam.getInitialYBus() - dyToBus;
+                return firstBusY - dyToBus;
             case MIDDLE:
-                return layoutParam.getInitialYBus()
-                    + (getPosition().get(V) - 1) * layoutParam.getVerticalSpaceBus();
+                return firstBusY + (getPosition().get(V) - 1) * layoutParam.getVerticalSpaceBus();
             default:
                 return 0;
         }

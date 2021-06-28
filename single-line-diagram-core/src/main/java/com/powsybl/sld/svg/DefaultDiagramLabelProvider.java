@@ -10,6 +10,7 @@ import com.powsybl.commons.extensions.Extendable;
 import com.powsybl.iidm.network.*;
 import com.powsybl.sld.iidm.extensions.BranchStatus;
 import com.powsybl.sld.layout.LayoutParameters;
+import com.powsybl.sld.layout.PositionVoltageLevelLayout;
 import com.powsybl.sld.library.ComponentLibrary;
 import com.powsybl.sld.model.*;
 
@@ -180,7 +181,7 @@ public class DefaultDiagramLabelProvider implements DiagramLabelProvider {
         String positionName = "";
         if (node.getCell() != null) {
             BusCell.Direction direction = ((BusCell) node.getCell()).getDirection();
-            yShift = -direction.toOrientation().progressionSign() * AbstractBlock.getFeederSpan(layoutParameters);
+            yShift = -direction.toOrientation().progressionSign() * PositionVoltageLevelLayout.getFeederSpan(layoutParameters);
             positionName = direction == BusCell.Direction.TOP ? "N" : "S";
         }
 

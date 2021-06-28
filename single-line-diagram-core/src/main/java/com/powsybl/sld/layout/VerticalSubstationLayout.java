@@ -45,7 +45,7 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
             totalHeight += vlGraph.getHeight() + layoutParameters.getVerticalSubstationPadding();
         }
 
-        getGraph().setSize(maxWidth + layoutParameters.getTranslateX(), totalHeight + layoutParameters.getTranslateY());
+        getGraph().setSize(maxWidth + layoutParameters.getPaddingLeft(), totalHeight + layoutParameters.getPaddingTop());
     }
 
     /*
@@ -139,9 +139,7 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
 
     private double getXSnakeLine(Node node, Side side, LayoutParameters layoutParam) {
         int maxVlH = getGraph().getNodes().stream().mapToInt(VoltageLevelGraph::getMaxH).max().orElse(0);
-        double maxH = layoutParam.getTranslateX() +
-            layoutParam.getInitialXBus() +
-            (maxVlH + 1) * layoutParam.getCellWidth() / 2;
+        double maxH = layoutParam.getPaddingLeft() + (maxVlH + 1) * layoutParam.getCellWidth() / 2;
         double shiftLeftRight = infosNbSnakeLines.getNbSnakeLinesLeftRight().compute(side, (k, v) -> v + 1) * layoutParam.getHorizontalSnakeLinePadding();
         return side == Side.LEFT
             ? layoutParam.getHorizontalSubstationPadding() - shiftLeftRight
@@ -158,7 +156,7 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
                 return node.getCoordinates().getY() - decalV;
             } else {
                 VoltageLevelGraph vlAbove = vls.get(iVl - 1);
-                return vlAbove.getY() + layoutParam.getInitialYBus() + layoutParam.getVerticalSpaceBus() * (vlAbove.getMaxV() - 1) + layoutParam.getStackHeight() + layoutParam.getExternCellHeight()
+                return vlAbove.getY() + layoutParam.getVerticalSpaceBus() * (vlAbove.getMaxV() - 1) + layoutParam.getStackHeight() + layoutParam.getExternCellHeight()
                     + decalV;
             }
         }

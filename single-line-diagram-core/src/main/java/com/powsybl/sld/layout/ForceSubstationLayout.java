@@ -70,34 +70,28 @@ public class ForceSubstationLayout extends AbstractSubstationLayout {
         // Narrowing / Spreading the voltage levels in the horizontal direction
         // (if no compaction, one voltage level only in a column
         //  if horizontal compaction, a voltage level is positioned horizontally at the middle of the preceding voltage level)
-        double graphX = layoutParameters.getHorizontalSubstationPadding();
+        double width = layoutParameters.getHorizontalSubstationPadding();
         for (VoltageLevelGraph g : graphsX) {
-            g.setCoord(graphX ,g.getY());
-            int maxH = g.getMaxH();
-            graphX += layoutParameters.getInitialXBus() + (maxH + 2) * layoutParameters.getCellWidth()
-                    + layoutParameters.getHorizontalSubstationPadding();
+            g.setCoord(width ,g.getY());
+            width += g.getWidth() + layoutParameters.getHorizontalSubstationPadding();
             if (compactionType == ForceSubstationLayoutFactory.CompactionType.HORIZONTAL) {
-                graphX /= 2;
+                width /= 2;
             }
         }
 
         // Narrowing / Spreading the voltage levels in the vertical direction
         // (if no compaction, one voltage level only in a line
         //  if vertical compaction, a voltage level is positioned vertically at the middle of the preceding voltage level)
-        double graphY = layoutParameters.getVerticalSubstationPadding();
+        double height = layoutParameters.getVerticalSubstationPadding();
         for (VoltageLevelGraph g : graphsY) {
-            g.setCoord(g.getX(), graphY);
-            int maxV = g.getMaxV();
-            graphY += layoutParameters.getInitialYBus() + layoutParameters.getStackHeight()
-                    + layoutParameters.getExternCellHeight()
-                    + layoutParameters.getVerticalSpaceBus() * (maxV + 2)
-                    + layoutParameters.getVerticalSubstationPadding();
+            g.setCoord(g.getX(), height);
+            height += g.getHeight() + layoutParameters.getVerticalSubstationPadding();
             if (compactionType == ForceSubstationLayoutFactory.CompactionType.VERTICAL) {
-                graphY /= 2;
+                height /= 2;
             }
         }
 
-        getGraph().setSize(graphX + layoutParameters.getTranslateX(), graphY + layoutParameters.getTranslateY());
+        getGraph().setSize(width, height);
 
         infosNbSnakeLines = InfosNbSnakeLinesForce.create(getGraph(), compactionType);
     }
@@ -171,7 +165,7 @@ public class ForceSubstationLayout extends AbstractSubstationLayout {
                 } else {
                     String vlAboveId = vls.get(iVl - 1);
                     VoltageLevelGraph vlAbove = getGraph().getNodeStream().filter(voltageLevelGraph -> voltageLevelGraph.getId().equals(vlAboveId)).findFirst().orElseThrow();
-                    return vlAbove.getY() + layoutParam.getInitialYBus() + layoutParam.getVerticalSpaceBus() * (vlAbove.getMaxV() - 1) + layoutParam.getStackHeight() + layoutParam.getExternCellHeight()
+                    return vlAbove.getY() + layoutParam.getVerticalSpaceBus() * (vlAbove.getMaxV() - 1) + layoutParam.getStackHeight() + layoutParam.getExternCellHeight()
                         + decalV;
                 }
             } else {

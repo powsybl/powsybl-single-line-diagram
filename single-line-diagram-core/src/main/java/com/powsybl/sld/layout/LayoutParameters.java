@@ -23,10 +23,11 @@ import java.util.Objects;
  */
 public class LayoutParameters {
 
-    private double translateX = 20;
-    private double translateY = 50;
-    private double initialXBus = 0;
-    private double initialYBus = 260;
+    private double paddingLeft = 20;
+    private double paddingRight = 20;
+    private double paddingTop = 20;
+    private double paddingBottom = 20;
+
     private double verticalSpaceBus = 25;
     private double horizontalBusPadding = 20;
 
@@ -83,10 +84,10 @@ public class LayoutParameters {
     }
 
     @JsonCreator
-    public LayoutParameters(@JsonProperty("translateX") double translateX,
-                            @JsonProperty("translateY") double translateY,
-                            @JsonProperty("initialXBus") double initialXBus,
-                            @JsonProperty("initialYBus") double initialYBus,
+    public LayoutParameters(@JsonProperty("paddingLeft") double paddingLeft,
+                            @JsonProperty("paddingRight") double paddingRight,
+                            @JsonProperty("paddingTop") double paddingTop,
+                            @JsonProperty("paddingBottom") double paddingBottom,
                             @JsonProperty("verticalSpaceBus") double verticalSpaceBus,
                             @JsonProperty("horizontalBusPadding") double horizontalBusPadding,
                             @JsonProperty("cellWidth") double cellWidth,
@@ -116,10 +117,6 @@ public class LayoutParameters {
                             @JsonProperty("highlightLineState") boolean highlightLineState,
                             @JsonProperty("addNodesInfos") boolean addNodesInfos,
                             @JsonProperty("feederArrowSymmetry") boolean feederArrowSymmetry) {
-        this.translateX = translateX;
-        this.translateY = translateY;
-        this.initialXBus = initialXBus;
-        this.initialYBus = initialYBus;
         this.verticalSpaceBus = verticalSpaceBus;
         this.horizontalBusPadding = horizontalBusPadding;
         this.cellWidth = cellWidth;
@@ -153,10 +150,10 @@ public class LayoutParameters {
 
     public LayoutParameters(LayoutParameters other) {
         Objects.requireNonNull(other);
-        translateX = other.translateX;
-        translateY = other.translateY;
-        initialXBus = other.initialXBus;
-        initialYBus = other.initialYBus;
+        paddingLeft = other.paddingLeft;
+        paddingTop = other.paddingTop;
+        paddingRight = other.paddingRight;
+        paddingBottom = other.paddingBottom;
         verticalSpaceBus = other.verticalSpaceBus;
         horizontalBusPadding = other.horizontalBusPadding;
         cellWidth = other.cellWidth;
@@ -189,39 +186,31 @@ public class LayoutParameters {
         feederArrowSymmetry = other.feederArrowSymmetry;
     }
 
-    public double getTranslateX() {
-        return translateX;
+    public double getPaddingLeft() {
+        return paddingLeft;
     }
 
-    public LayoutParameters setTranslateX(double translateX) {
-        this.translateX = translateX;
-        return this;
+    public double getPaddingTop() {
+        return paddingTop;
     }
 
-    public double getTranslateY() {
-        return translateY;
+    public double getPaddingRight() {
+        return paddingRight;
     }
 
-    public LayoutParameters setTranslateY(double translateY) {
-        this.translateY = translateY;
-        return this;
+    public double getPaddingBottom() {
+        return paddingBottom;
     }
 
-    public double getInitialXBus() {
-        return initialXBus;
+    public LayoutParameters setPaddings(double padding) {
+        return setPaddings(padding, padding, padding, padding);
     }
 
-    public LayoutParameters setInitialXBus(double initialXBus) {
-        this.initialXBus = initialXBus;
-        return this;
-    }
-
-    public double getInitialYBus() {
-        return initialYBus;
-    }
-
-    public LayoutParameters setInitialYBus(double initialYBus) {
-        this.initialYBus = initialYBus;
+    public LayoutParameters setPaddings(double paddingLeft, double paddingTop, double paddingRight, double paddingBottom) {
+        this.paddingLeft = paddingLeft;
+        this.paddingTop = paddingTop;
+        this.paddingRight = paddingRight;
+        this.paddingBottom = paddingBottom;
         return this;
     }
 
