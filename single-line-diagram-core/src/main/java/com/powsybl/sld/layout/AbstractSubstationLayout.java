@@ -39,10 +39,4 @@ public abstract class AbstractSubstationLayout extends AbstractLayout implements
 
     protected abstract void calculateCoordVoltageLevels(LayoutParameters layoutParameters);
 
-    @Override
-    public void manageSnakeLines(LayoutParameters layoutParameters) {
-        getGraph().getNodes().forEach(g -> manageSnakeLines(g, layoutParameters));
-        manageSnakeLines(graph, layoutParameters);
-    }
-
 }

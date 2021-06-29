@@ -48,6 +48,15 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
         getGraph().setSize(maxWidth + layoutParameters.getPaddingLeft(), totalHeight + layoutParameters.getPaddingTop());
     }
 
+    @Override
+    public void manageSnakeLines(LayoutParameters layoutParameters) {
+        InfosNbSnakeLines infosNbSnakeLines1 = InfosNbSnakeLines.create(getGraph());
+
+        getGraph().getNodes().forEach(g -> manageSnakeLines(g, layoutParameters, infosNbSnakeLines1));
+        manageSnakeLines(getGraph(), layoutParameters, infosNbSnakeLines1);
+
+    }
+
     /*
      * Calculate polyline points of a snakeLine in the substation graph
      */

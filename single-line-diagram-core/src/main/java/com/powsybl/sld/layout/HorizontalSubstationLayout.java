@@ -6,10 +6,7 @@
  */
 package com.powsybl.sld.layout;
 
-import com.powsybl.sld.model.Node;
-import com.powsybl.sld.model.Point;
-import com.powsybl.sld.model.SubstationGraph;
-import com.powsybl.sld.model.VoltageLevelGraph;
+import com.powsybl.sld.model.*;
 
 import java.util.List;
 
@@ -51,5 +48,24 @@ public class HorizontalSubstationLayout extends AbstractSubstationLayout {
         }
 
         getGraph().setSize(totalWidth, maxHeight);
+    }
+
+    @Override
+    public void manageSnakeLines(LayoutParameters layoutParameters) {
+
+        getGraph().getNodes().forEach(g -> manageSnakeLines(g, layoutParameters));
+        manageSnakeLines(getGraph(), layoutParameters);
+
+        double heightSnakeLinesTop = infosNbSnakeLines.getNbSnakeLinesTopBottom().get(BusCell.Direction.TOP) * layoutParameters.getVerticalSnakeLinePadding();
+        double heightSnakeLinesBottom = infosNbSnakeLines.getNbSnakeLinesTopBottom().get(BusCell.Direction.BOTTOM) * layoutParameters.getVerticalSnakeLinePadding();
+        getGraph().setSize(getGraph().getWidth(), getGraph().getHeight() + heightSnakeLinesTop + heightSnakeLinesBottom);
+
+        if (heightSnakeLinesTop > 0) {
+            getGraph().getNodes().forEach(g -> g.setCoord(g.getX(), g.getY() + heightSnakeLinesTop));
+
+            infosNbSnakeLines.reset();
+            getGraph().getNodes().forEach(g -> manageSnakeLines(g, layoutParameters));
+            manageSnakeLines(getGraph(), layoutParameters);
+        }
     }
 }
