@@ -66,7 +66,7 @@ public class SubstationGraph extends AbstractBaseGraph {
     }
 
     public Stream<VoltageLevelGraph> getNodeStream() {
-        return getNodes().stream();
+        return nodes.stream();
     }
 
     public List<BranchEdge> getEdges() {

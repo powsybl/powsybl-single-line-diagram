@@ -235,7 +235,7 @@ public class TestCase11SubstationGraph extends AbstractTestCaseIidm {
         SubstationGraph g = graphBuilder.buildSubstationGraph(substation.getId(), false);
 
         // write Json and compare to reference (with vertical substation layout)
-        new VerticalSubstationLayoutFactory().create(g, new PositionVoltageLevelLayoutFactory()).run(getLayoutParameters());
+        new VerticalSubstationLayoutFactory().create(g, new PositionVoltageLevelLayoutFactory()).run(getLayoutParameters().setVerticalSubstationPadding(150));
         assertEquals(toString("/TestCase11SubstationGraphV.json"), toJson(g, "/TestCase11SubstationGraphV.json"));
     }
 
