@@ -11,9 +11,7 @@ import com.powsybl.sld.model.VoltageLevelGraph;
 import com.powsybl.sld.model.Side;
 import com.powsybl.sld.model.SubstationGraph;
 
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,22 +23,22 @@ import java.util.stream.Stream;
 public final class InfosNbSnakeLines {
 
     private Map<BusCell.Direction, Integer> nbSnakeLinesTopBottom;
-    private Map<String, Integer> nbSnakeLinesBetween;
+    private Map<String, Integer> nbSnakeLinesVerticalBetween;
     private Map<Side, Integer> nbSnakeLinesLeftRight;
-    private Map<String, Integer> nbSnakeLinesBottomVL;
-    private Map<String, Integer> nbSnakeLinesTopVL;
+    private final List<String> vlYSorted;
+    private final int[] nbSnakeLinesHorizontalBetween;
 
     static InfosNbSnakeLines create(SubstationGraph substationGraph) {
         // used only for horizontal layout
         Map<BusCell.Direction, Integer> nbSnakeLinesTopBottom = EnumSet.allOf(BusCell.Direction.class).stream().collect(Collectors.toMap(Function.identity(), v -> 0));
-        Map<String, Integer> nbSnakeLinesBetween = substationGraph.getNodes().stream().collect(Collectors.toMap(g -> g.getVoltageLevelInfos().getId(), v -> 0));
+        Map<String, Integer> nbSnakeLinesVerticalBetween = substationGraph.getNodeStream().collect(Collectors.toMap(g -> g.getVoltageLevelInfos().getId(), v -> 0));
 
         // used only for vertical layout
         Map<Side, Integer> nbSnakeLinesLeftRight = EnumSet.allOf(Side.class).stream().collect(Collectors.toMap(Function.identity(), v -> 0));
-        Map<String, Integer> nbSnakeLinesBottomVL = substationGraph.getNodes().stream().collect(Collectors.toMap(g -> g.getVoltageLevelInfos().getId(), v -> 0));
-        Map<String, Integer> nbSnakeLinesTopVL = substationGraph.getNodes().stream().collect(Collectors.toMap(g -> g.getVoltageLevelInfos().getId(), v -> 0));
+        List<String> vlYSorted = substationGraph.getNodeStream().sorted(Comparator.comparingDouble(VoltageLevelGraph::getY)).map(VoltageLevelGraph::getId).collect(Collectors.toList());
+        int[] nbSnakeLinesHorizontalBetween = new int[(int) substationGraph.getNodeStream().count() + 1];
 
-        return new InfosNbSnakeLines(nbSnakeLinesTopBottom, nbSnakeLinesBetween, nbSnakeLinesLeftRight, nbSnakeLinesBottomVL, nbSnakeLinesTopVL);
+        return new InfosNbSnakeLines(nbSnakeLinesTopBottom, nbSnakeLinesVerticalBetween, nbSnakeLinesLeftRight, vlYSorted, nbSnakeLinesHorizontalBetween);
     }
 
     static InfosNbSnakeLines create(VoltageLevelGraph graph) {
@@ -52,45 +50,50 @@ public final class InfosNbSnakeLines {
     }
 
     private InfosNbSnakeLines(Map<BusCell.Direction, Integer> nbSnakeLinesTopBottom,
-                              Map<String, Integer> nbSnakeLinesBetween,
+                              Map<String, Integer> nbSnakeLinesVerticalBetween,
                               Map<Side, Integer> nbSnakeLinesLeftRight,
-                              Map<String, Integer> nbSnakeLinesBottomVL,
-                              Map<String, Integer> nbSnakeLinesTopVL) {
+                              List<String> vlYSorted,
+                              int[] nbSnakeLinesHorizontalBetween) {
         this.nbSnakeLinesTopBottom = nbSnakeLinesTopBottom;
-        this.nbSnakeLinesBetween = nbSnakeLinesBetween;
+        this.nbSnakeLinesVerticalBetween = nbSnakeLinesVerticalBetween;
         this.nbSnakeLinesLeftRight = nbSnakeLinesLeftRight;
-        this.nbSnakeLinesBottomVL = nbSnakeLinesBottomVL;
-        this.nbSnakeLinesTopVL = nbSnakeLinesTopVL;
+        this.vlYSorted = vlYSorted;
+        this.nbSnakeLinesHorizontalBetween = nbSnakeLinesHorizontalBetween;
     }
 
     private InfosNbSnakeLines(Map<BusCell.Direction, Integer> nbSnakeLinesTopBottom,
-                              Map<String, Integer> nbSnakeLinesBetween) {
-        this(nbSnakeLinesTopBottom, nbSnakeLinesBetween,
+                              Map<String, Integer> nbSnakeLinesVerticalBetween) {
+        this(nbSnakeLinesTopBottom, nbSnakeLinesVerticalBetween,
                 EnumSet.allOf(Side.class).stream().collect(Collectors.toMap(Function.identity(), v -> 0)),
-                Collections.emptyMap(), Collections.emptyMap());
+                Collections.emptyList(), new int[0]);
     }
 
     public Map<BusCell.Direction, Integer> getNbSnakeLinesTopBottom() {
         return nbSnakeLinesTopBottom;
     }
 
-    public Map<String, Integer> getNbSnakeLinesBetween() {
-        return nbSnakeLinesBetween;
+    public Map<String, Integer> getNbSnakeLinesVerticalBetween() {
+        return nbSnakeLinesVerticalBetween;
     }
 
     public Map<Side, Integer> getNbSnakeLinesLeftRight() {
         return nbSnakeLinesLeftRight;
     }
 
-    public Map<String, Integer> getNbSnakeLinesBottomVL() {
-        return nbSnakeLinesBottomVL;
+    private int getSnakeLinesIndex(BusCell.Direction direction, String vlId) {
+        int vlIndex = vlYSorted.indexOf(vlId);
+        return direction == BusCell.Direction.BOTTOM ? vlIndex + 1 : vlIndex;
     }
 
-    public Map<String, Integer> getNbSnakeLinesTopVL() {
-        return nbSnakeLinesTopVL;
+    public int getNbSnakeLinesHorizontalBetween(String vlId, BusCell.Direction direction) {
+        return nbSnakeLinesHorizontalBetween[getSnakeLinesIndex(direction, vlId)];
     }
 
-    public Map<String, Integer> getNbSnakeLinesVL(BusCell.Direction direction) {
-        return direction == BusCell.Direction.BOTTOM ? nbSnakeLinesBottomVL : nbSnakeLinesTopVL;
+    public void setNbSnakeLinesHorizontalBetween(String vlId, BusCell.Direction direction, int nbSnakeLines) {
+        nbSnakeLinesHorizontalBetween[getSnakeLinesIndex(direction, vlId)] = nbSnakeLines;
+    }
+
+    public int incrementAndGetNbSnakeLinesHorizontalBetween(String vlId, BusCell.Direction direction) {
+        return ++nbSnakeLinesHorizontalBetween[getSnakeLinesIndex(direction, vlId)];
     }
 }

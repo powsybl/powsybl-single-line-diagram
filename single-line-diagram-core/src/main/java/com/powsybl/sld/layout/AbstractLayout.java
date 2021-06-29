@@ -88,7 +88,7 @@ public abstract class AbstractLayout {
         info.setdNode1(dNode1);
         info.setdNode2(dNode2);
         info.setNbSnakeLinesTopBottom(infosNbSnakeLines.getNbSnakeLinesTopBottom());
-        info.setNbSnakeLinesBetween(infosNbSnakeLines.getNbSnakeLinesBetween());
+        info.setNbSnakeLinesBetween(infosNbSnakeLines.getNbSnakeLinesVerticalBetween());
         info.setCoord1(node1.getCoordinates());
         info.setCoord2(node2.getCoordinates());
         info.setxMaxGraph(xMaxGraph);
