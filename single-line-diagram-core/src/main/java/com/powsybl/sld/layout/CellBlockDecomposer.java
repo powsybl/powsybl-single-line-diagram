@@ -224,24 +224,23 @@ final class CellBlockDecomposer {
 
             if (!alreadyTreated.contains(node2)) {
 
-                // Piling up switches starting from node2
-                List<SwitchNode> switches = new ArrayList<>();
-                Node currentNode = node2;
-                Node parentCurrentNode = firstNode;
-                while (currentNode instanceof SwitchNode) {
-                    switches.add((SwitchNode) currentNode);
-                    List<Node> adjacentNodes = currentNode.getAdjacentNodes();
-                    Node nextNode = adjacentNodes.get(adjacentNodes.get(0).equals(parentCurrentNode) ? 1 : 0);
-                    parentCurrentNode = currentNode;
-                    currentNode = nextNode;
-                }
-                Node lastNode = currentNode; // first non-switch node (corresponds to node2 if node2 is not a switch)
-
-                // The nodes pattern for a PrimaryBlock
                 List<Node> primaryPattern = new ArrayList<>();
-                primaryPattern.add(firstNode);   // BUS|FICTITIOUS|FEEDER|SHUNT
-                primaryPattern.addAll(switches); // n * SWITCH (with n >= 0)
-                primaryPattern.add(lastNode);    // BUS|FICTITIOUS|FEEDER|SHUNT
+                if (node2 instanceof BusConnection) {
+                    // Specific case of bus connection component
+                    primaryPattern.add(firstNode);  // BUS|FICTITIOUS
+                    primaryPattern.add(node2);      // BUS_CONNECTION
+                    primaryPattern.add(getNextNode(node2, firstNode));  // FICTITIOUS|BUS
+                } else {
+
+                    // Piling up switches starting from node2
+                    List<SwitchNode> switches = new ArrayList<>();
+                    Node firstNonSwitchNode = pileUpSwitches(firstNode, node2, switches);
+
+                    // The generic nodes pattern for a PrimaryBlock
+                    primaryPattern.add(firstNode);   // BUS|FICTITIOUS|FEEDER|SHUNT
+                    primaryPattern.addAll(switches); // n * SWITCH (with n >= 0)
+                    primaryPattern.add(firstNonSwitchNode);    // BUS|FICTITIOUS|FEEDER|SHUNT
+                }
 
                 // Create a PrimaryBlock from that pattern
                 PrimaryBlock primaryBlock = AbstractPrimaryBlock.createPrimaryBlock(primaryPattern, busCell);
@@ -252,6 +251,7 @@ final class CellBlockDecomposer {
                 alreadyTreated.addAll(primaryPattern);
 
                 // Continue to search for other blocks
+                Node lastNode = primaryPattern.get(primaryPattern.size() - 1);
                 if (lastNode.getType() != Node.NodeType.BUS) {
                     // If we reach a busbar, we know we do not need to go further:
                     // we're either in another BusCell or back to the busbar we started the search with
@@ -259,5 +259,30 @@ final class CellBlockDecomposer {
                 }
             }
         });
+    }
+
+    /**
+     * Pile up switches encountered in given array, starting from node in the direction opposite to parentNode, stopping
+     * when encountering a node which is not a switch and returning that node.
+     * @param parentNode Parent node for direction
+     * @param node Node on which to start
+     * @param switches The list where to add encountered switches
+     * @return the first non-switch node encountered
+     */
+    private static Node pileUpSwitches(Node parentNode, Node node, List<SwitchNode> switches) {
+        Node currentNode = node;
+        Node parentCurrentNode = parentNode;
+        while (currentNode instanceof SwitchNode) {
+            switches.add((SwitchNode) currentNode);
+            Node nextNode = getNextNode(currentNode, parentCurrentNode);
+            parentCurrentNode = currentNode;
+            currentNode = nextNode;
+        }
+        return currentNode;
+    }
+
+    private static Node getNextNode(Node currentNode, Node parentCurrentNode) {
+        List<Node> adjacentNodes = currentNode.getAdjacentNodes();
+        return adjacentNodes.get(adjacentNodes.get(0).equals(parentCurrentNode) ? 1 : 0);
     }
 }

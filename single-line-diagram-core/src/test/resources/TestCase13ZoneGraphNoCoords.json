@@ -25,14 +25,6 @@
           "vSpan" : 0
         }
       }, {
-        "type" : "FICTITIOUS",
-        "id" : "FICT_VoltageLevel1_Bus1_Line",
-        "name" : "Bus1_Line",
-        "equipmentId" : "Bus1_Line",
-        "componentType" : "BUSBREAKER_CONNECTION",
-        "fictitious" : true,
-        "open" : false
-      }, {
         "type" : "FEEDER",
         "id" : "Line_ONE",
         "name" : "Line",
@@ -52,9 +44,6 @@
       "cells" : [ ],
       "edges" : [ {
         "node1" : "Bus1",
-        "node2" : "FICT_VoltageLevel1_Bus1_Line"
-      }, {
-        "node1" : "FICT_VoltageLevel1_Bus1_Line",
         "node2" : "Line_ONE"
       } ],
       "multitermNodes" : [ ],
@@ -90,14 +79,6 @@
           "vSpan" : 0
         }
       }, {
-        "type" : "FICTITIOUS",
-        "id" : "FICT_VoltageLevel2_Bus2_Line",
-        "name" : "Bus2_Line",
-        "equipmentId" : "Bus2_Line",
-        "componentType" : "BUSBREAKER_CONNECTION",
-        "fictitious" : true,
-        "open" : false
-      }, {
         "type" : "FEEDER",
         "id" : "Line_TWO",
         "name" : "Line",
@@ -117,9 +98,6 @@
       "cells" : [ ],
       "edges" : [ {
         "node1" : "Bus2",
-        "node2" : "FICT_VoltageLevel2_Bus2_Line"
-      }, {
-        "node1" : "FICT_VoltageLevel2_Bus2_Line",
         "node2" : "Line_TWO"
       } ],
       "multitermNodes" : [ ],

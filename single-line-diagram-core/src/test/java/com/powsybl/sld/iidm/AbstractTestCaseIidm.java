@@ -101,6 +101,13 @@ public abstract class AbstractTestCaseIidm extends AbstractTestCase {
                 .add();
     }
 
+    protected static void createInternalConnection(VoltageLevel vl, int node1, int node2) {
+        vl.getNodeBreakerView().newInternalConnection()
+                .setNode1(node1)
+                .setNode2(node2)
+                .add();
+    }
+
     protected static void createBusBarSection(VoltageLevel vl, String id, String name, int node, int busbarIndex, int sectionIndex) {
         BusbarSection bbs = vl.getNodeBreakerView().newBusbarSection()
                 .setId(id)

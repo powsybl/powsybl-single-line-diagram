@@ -1,7 +1,7 @@
 .sld-busbar-section {stroke-width: 3}
 .sld-breaker {stroke-width: 2; fill:white}
 .sld-disconnector {stroke-width: 3}
-.sld-busbreaker-connection {stroke-width: 4}
+.sld-bus-connection {stroke-width: 4}
 .sld-vsc {font-size: 7.43px}
 .sld-grid {stroke: #003700; stroke-dasharray: 1,10}
 .sld-arrow-p {fill:black}

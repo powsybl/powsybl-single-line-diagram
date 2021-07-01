@@ -24,14 +24,13 @@ polyline {fill: none}
 .sld-feeder-disconnected-connected {stroke: black; stroke-dasharray: 3,3}
 .sld-constant-color {fill: none}
 .sld-node.sld-constant-color {stroke: none; fill: black}
-.sld-busbreaker-connection.sld-constant-color {stroke: black}
 .sld-breaker.sld-constant-color {stroke: blue; fill: white}
 .sld-disconnector.sld-constant-color {stroke: black}
 .sld-label {fill: black; stroke: none;}
 .sld-busbar-section {stroke-width: 3}
 .sld-breaker {stroke-width: 2; fill:white}
 .sld-disconnector {stroke-width: 3}
-.sld-busbreaker-connection {stroke-width: 4}
+.sld-bus-connection {stroke-width: 4}
 .sld-vsc {font-size: 7.43px}
 .sld-grid {stroke: #003700; stroke-dasharray: 1,10}
 .sld-arrow-p {fill:black}

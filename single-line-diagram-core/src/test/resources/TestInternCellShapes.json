@@ -84,6 +84,26 @@
     "open" : false
   }, {
     "type" : "FICTITIOUS",
+    "id" : "FICT_vl_flatDisconectorfBc0",
+    "name" : "flatDisconectorfBc0",
+    "equipmentId" : "flatDisconectorfBc0",
+    "componentType" : "BUS_CONNECTION",
+    "fictitious" : true,
+    "x" : 150.0,
+    "y" : 260.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl_flatDisconectorfBc1",
+    "name" : "flatDisconectorfBc1",
+    "equipmentId" : "flatDisconectorfBc1",
+    "componentType" : "BUS_CONNECTION",
+    "fictitious" : true,
+    "x" : 200.0,
+    "y" : 260.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
     "id" : "FICT_vl_flatDisconectorfNode0",
     "name" : "flatDisconectorfNode0",
     "equipmentId" : "flatDisconectorfNode0",
@@ -306,28 +326,6 @@
     "kind" : "DISCONNECTOR"
   }, {
     "type" : "SWITCH",
-    "id" : "flatDisconectorfSwitch0",
-    "name" : "flatDisconectorfSwitch0",
-    "equipmentId" : "flatDisconectorfSwitch0",
-    "componentType" : "NODE",
-    "fictitious" : true,
-    "x" : 150.0,
-    "y" : 260.0,
-    "open" : false,
-    "kind" : "DISCONNECTOR"
-  }, {
-    "type" : "SWITCH",
-    "id" : "flatDisconectorfSwitch1",
-    "name" : "flatDisconectorfSwitch1",
-    "equipmentId" : "flatDisconectorfSwitch1",
-    "componentType" : "NODE",
-    "fictitious" : true,
-    "x" : 200.0,
-    "y" : 260.0,
-    "open" : false,
-    "kind" : "DISCONNECTOR"
-  }, {
-    "type" : "SWITCH",
     "id" : "verticalBreaker",
     "name" : "verticalBreaker",
     "equipmentId" : "verticalBreaker",
@@ -383,7 +381,7 @@
           "xSpan" : 0.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ "bbs12", "flatDisconectorfSwitch1", "FICT_vl_flatDisconectorfNode1" ]
+        "nodes" : [ "bbs12", "FICT_vl_flatDisconectorfBc1", "FICT_vl_flatDisconectorfNode1" ]
       }, {
         "type" : "BODYPRIMARY",
         "cardinalities" : [ {
@@ -425,7 +423,7 @@
           "xSpan" : 0.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ "bbs11", "flatDisconectorfSwitch0", "FICT_vl_flatDisconectorfNode0" ]
+        "nodes" : [ "bbs11", "FICT_vl_flatDisconectorfBc0", "FICT_vl_flatDisconectorfNode0" ]
       } ]
     }
   }, {
@@ -830,18 +828,18 @@
     "node2" : "FICT_vl_dCrossOverBk2Fictif"
   }, {
     "node1" : "bbs11",
-    "node2" : "flatDisconectorfSwitch0"
+    "node2" : "FICT_vl_flatDisconectorfBc0"
   }, {
-    "node1" : "flatDisconectorfSwitch0",
+    "node1" : "FICT_vl_flatDisconectorfBc0",
     "node2" : "FICT_vl_flatDisconectorfNode0"
   }, {
     "node1" : "FICT_vl_flatDisconectorfNode0",
     "node2" : "flatDisconector"
   }, {
     "node1" : "bbs12",
-    "node2" : "flatDisconectorfSwitch1"
+    "node2" : "FICT_vl_flatDisconectorfBc1"
   }, {
-    "node1" : "flatDisconectorfSwitch1",
+    "node1" : "FICT_vl_flatDisconectorfBc1",
     "node2" : "FICT_vl_flatDisconectorfNode1"
   }, {
     "node1" : "FICT_vl_flatDisconectorfNode1",

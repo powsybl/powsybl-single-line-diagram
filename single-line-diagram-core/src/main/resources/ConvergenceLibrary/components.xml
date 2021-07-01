@@ -137,16 +137,17 @@
         </metadata>
     </component>
     <component>
-        <metadata type="BUSBREAKER_CONNECTION">
+        <metadata type="BUS_CONNECTION">
             <size height="8" width="8"/>
-            <styleClass>sld-busbreaker-connection</styleClass>
-            <subComponent name="BUSBREAKER_CONNECTION">
-                <fileName>busbreaker_connection.svg</fileName>
+            <styleClass>sld-bus-connection</styleClass>
+            <subComponent name="BUS_CONNECTION">
+                <fileName>bus_connection.svg</fileName>
             </subComponent>
             <anchorPoint x="4" y="0" orientation="HORIZONTAL"/>
             <anchorPoint x="-4" y="0" orientation="HORIZONTAL"/>
             <anchorPoint x="0" y="-4" orientation="VERTICAL"/>
-            <anchorPoint x="0" y="-4" orientation="VERTICAL"/>
+            <anchorPoint x="0" y="4" orientation="VERTICAL"/>
+            <anchorPoint x="0" y="0" orientation="VERTICAL"/>
             <allowRotation>true</allowRotation>
         </metadata>
     </component>

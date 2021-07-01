@@ -43,7 +43,7 @@ public class BodyPrimaryBlock extends AbstractPrimaryBlock {
             getPosition().setSpan(V, 2 * (nodes.size() - 1));
         } else {
             // in the case of horizontal Blocks having 1 switch/1 position => 1 hPos / 2 edges rounded to the superior int
-            getPosition().setSpan(H, 2 * (nodes.size() - 2));
+            getPosition().setSpan(H, 2 * Math.max(1, nodes.size() - 2));
             getPosition().setSpan(V, 2);
         }
     }
@@ -67,9 +67,7 @@ public class BodyPrimaryBlock extends AbstractPrimaryBlock {
         int v = 0;
         for (Node node : nodes) {
             node.setX(getCoord().get(X));
-            if (!(node instanceof BusBreakerConnection)) {
-                node.setY(y0 - yPxStep * v);
-            }
+            node.setY(y0 - yPxStep * v);
             node.setRotationAngle(null);
             v++;
         }
@@ -86,9 +84,7 @@ public class BodyPrimaryBlock extends AbstractPrimaryBlock {
         int h = 0;
         for (Node node : nodes) {
             node.setY(getCoord().get(Y));
-            if (!(node instanceof BusBreakerConnection)) {
-                node.setX(x0 + xPxStep * h);
-            }
+            node.setX(x0 + xPxStep * h);
             node.setRotationAngle(90.);
             h++;
         }

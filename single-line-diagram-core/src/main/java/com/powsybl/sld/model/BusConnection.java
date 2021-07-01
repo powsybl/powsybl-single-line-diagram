@@ -6,14 +6,14 @@
  */
 package com.powsybl.sld.model;
 
-import static com.powsybl.sld.library.ComponentTypeName.BUSBREAKER_CONNECTION;
+import static com.powsybl.sld.library.ComponentTypeName.BUS_CONNECTION;
 
 /**
  * @author Jacques Borsenberger <jacques.borsenberger at rte-france.com>
  */
-public class BusBreakerConnection extends FictitiousNode {
+public class BusConnection extends FictitiousNode {
 
-    public BusBreakerConnection(VoltageLevelGraph graph, String id) {
-        super(graph, id, BUSBREAKER_CONNECTION);
+    public BusConnection(VoltageLevelGraph graph, String id) {
+        super(graph, id, BUS_CONNECTION);
     }
 }
