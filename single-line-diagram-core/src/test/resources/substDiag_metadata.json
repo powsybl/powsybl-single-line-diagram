@@ -1990,9 +1990,9 @@
     "straight" : false,
     "snakeLine" : false
   }, {
-    "id" : "_95_subst_95_trf4_95_ONE_95_trf4_95_ONE_95_trf4_95_TWO",
-    "nodeId1" : "idtrf4_95_ONE",
-    "nodeId2" : "idtrf4_95_ONE_95_trf4_95_TWO",
+    "id" : "idtrf3_95_TWO_95_edge",
+    "nodeId1" : "idtrf3_95_ONE_95_trf3_95_TWO",
+    "nodeId2" : "idtrf3_95_TWO",
     "straight" : false,
     "snakeLine" : true
   }, {
@@ -2002,9 +2002,9 @@
     "straight" : false,
     "snakeLine" : false
   }, {
-    "id" : "_95_subst_95_trf8_95_ONE_95_trf8_95_TWO_95_trf8_95_THREE_95_trf8_95_THREE",
-    "nodeId1" : "idtrf8_95_ONE_95_trf8_95_TWO_95_trf8_95_THREE",
-    "nodeId2" : "idtrf8_95_THREE",
+    "id" : "idtrf6_95_TWO_95_EDGE",
+    "nodeId1" : "idtrf6_95_ONE_95_trf6_95_TWO_95_trf6_95_THREE",
+    "nodeId2" : "idtrf6_95_TWO",
     "straight" : false,
     "snakeLine" : true
   }, {
@@ -2062,6 +2062,12 @@
     "straight" : false,
     "snakeLine" : false
   }, {
+    "id" : "idtrf7_95_ONE_95_EDGE",
+    "nodeId1" : "idtrf7_95_ONE",
+    "nodeId2" : "idtrf7_95_ONE_95_trf7_95_TWO_95_trf7_95_THREE",
+    "straight" : false,
+    "snakeLine" : true
+  }, {
     "id" : "_95_vl3_95_dtrf25_95_FICT_95_vl3_95_dtrf25Fictif",
     "nodeId1" : "iddtrf25",
     "nodeId2" : "idFICT_95_vl3_95_dtrf25Fictif",
@@ -2098,9 +2104,9 @@
     "straight" : false,
     "snakeLine" : false
   }, {
-    "id" : "_95_subst_95_trf2_95_ONE_95_trf2_95_TWO_95_trf2_95_TWO",
-    "nodeId1" : "idtrf2_95_ONE_95_trf2_95_TWO",
-    "nodeId2" : "idtrf2_95_TWO",
+    "id" : "idtrf4_95_ONE_95_edge",
+    "nodeId1" : "idtrf4_95_ONE",
+    "nodeId2" : "idtrf4_95_ONE_95_trf4_95_TWO",
     "straight" : false,
     "snakeLine" : true
   }, {
@@ -2163,18 +2169,6 @@
     "nodeId2" : "idtrf3_95_TWO",
     "straight" : false,
     "snakeLine" : false
-  }, {
-    "id" : "_95_subst_95_trf1_95_ONE_95_trf1_95_ONE_95_trf1_95_TWO",
-    "nodeId1" : "idtrf1_95_ONE",
-    "nodeId2" : "idtrf1_95_ONE_95_trf1_95_TWO",
-    "straight" : false,
-    "snakeLine" : true
-  }, {
-    "id" : "_95_subst_95_trf5_95_ONE_95_trf5_95_TWO_95_trf5_95_TWO",
-    "nodeId1" : "idtrf5_95_ONE_95_trf5_95_TWO",
-    "nodeId2" : "idtrf5_95_TWO",
-    "straight" : false,
-    "snakeLine" : true
   }, {
     "id" : "_95_vl1_95_FICT_95_vl1_95_load2Fictif_95_load2",
     "nodeId1" : "idFICT_95_vl1_95_load2Fictif",
@@ -2242,12 +2236,6 @@
     "straight" : false,
     "snakeLine" : false
   }, {
-    "id" : "_95_subst_95_trf7_95_ONE_95_trf7_95_ONE_95_trf7_95_TWO_95_trf7_95_THREE",
-    "nodeId1" : "idtrf7_95_ONE",
-    "nodeId2" : "idtrf7_95_ONE_95_trf7_95_TWO_95_trf7_95_THREE",
-    "straight" : false,
-    "snakeLine" : true
-  }, {
     "id" : "_95_vl1_95_FICT_95_vl1_95_trf4_95_ONEFictif_95_trf4_95_ONE",
     "nodeId1" : "idFICT_95_vl1_95_trf4_95_ONEFictif",
     "nodeId2" : "idtrf4_95_ONE",
@@ -2266,11 +2254,23 @@
     "straight" : false,
     "snakeLine" : false
   }, {
+    "id" : "idtrf7_95_TWO_95_EDGE",
+    "nodeId1" : "idtrf7_95_ONE_95_trf7_95_TWO_95_trf7_95_THREE",
+    "nodeId2" : "idtrf7_95_TWO",
+    "straight" : false,
+    "snakeLine" : true
+  }, {
     "id" : "_95_vl1_95_btrf18_95_FICT_95_vl1_95_dtrf18Fictif",
     "nodeId1" : "idbtrf18",
     "nodeId2" : "idFICT_95_vl1_95_dtrf18Fictif",
     "straight" : false,
     "snakeLine" : false
+  }, {
+    "id" : "idtrf6_95_ONE_95_EDGE",
+    "nodeId1" : "idtrf6_95_ONE",
+    "nodeId2" : "idtrf6_95_ONE_95_trf6_95_TWO_95_trf6_95_THREE",
+    "straight" : false,
+    "snakeLine" : true
   }, {
     "id" : "_95_vl1_95_btrf11_95_FICT_95_vl1_95_trf1_95_ONEFictif",
     "nodeId1" : "idbtrf11",
@@ -2301,12 +2301,6 @@
     "nodeId2" : "iddtrf36",
     "straight" : false,
     "snakeLine" : false
-  }, {
-    "id" : "_95_subst_95_trf2_95_ONE_95_trf2_95_ONE_95_trf2_95_TWO",
-    "nodeId1" : "idtrf2_95_ONE",
-    "nodeId2" : "idtrf2_95_ONE_95_trf2_95_TWO",
-    "straight" : false,
-    "snakeLine" : true
   }, {
     "id" : "_95_vl3_95_bbs7_95_dtrf37",
     "nodeId1" : "idbbs7",
@@ -2344,17 +2338,17 @@
     "straight" : false,
     "snakeLine" : false
   }, {
+    "id" : "idtrf7_95_THREE_95_EDGE",
+    "nodeId1" : "idtrf7_95_ONE_95_trf7_95_TWO_95_trf7_95_THREE",
+    "nodeId2" : "idtrf7_95_THREE",
+    "straight" : false,
+    "snakeLine" : true
+  }, {
     "id" : "_95_vl1_95_dtrf15_95_FICT_95_vl1_95_dtrf15Fictif",
     "nodeId1" : "iddtrf15",
     "nodeId2" : "idFICT_95_vl1_95_dtrf15Fictif",
     "straight" : false,
     "snakeLine" : false
-  }, {
-    "id" : "_95_subst_95_trf4_95_ONE_95_trf4_95_TWO_95_trf4_95_TWO",
-    "nodeId1" : "idtrf4_95_ONE_95_trf4_95_TWO",
-    "nodeId2" : "idtrf4_95_TWO",
-    "straight" : false,
-    "snakeLine" : true
   }, {
     "id" : "_95_vl2_95_btrf22_95_FICT_95_vl2_95_trf2_95_TWOFictif",
     "nodeId1" : "idbtrf22",
@@ -2362,9 +2356,15 @@
     "straight" : false,
     "snakeLine" : false
   }, {
-    "id" : "_95_subst_95_trf8_95_ONE_95_trf8_95_TWO_95_trf8_95_THREE_95_trf8_95_TWO",
-    "nodeId1" : "idtrf8_95_ONE_95_trf8_95_TWO_95_trf8_95_THREE",
-    "nodeId2" : "idtrf8_95_TWO",
+    "id" : "idtrf2_95_TWO_95_edge",
+    "nodeId1" : "idtrf2_95_ONE_95_trf2_95_TWO",
+    "nodeId2" : "idtrf2_95_TWO",
+    "straight" : false,
+    "snakeLine" : true
+  }, {
+    "id" : "idtrf3_95_ONE_95_edge",
+    "nodeId1" : "idtrf3_95_ONE",
+    "nodeId2" : "idtrf3_95_ONE_95_trf3_95_TWO",
     "straight" : false,
     "snakeLine" : true
   }, {
@@ -2403,6 +2403,12 @@
     "nodeId2" : "idFICT_95_vl3_95_trf7_95_THREEFictif",
     "straight" : false,
     "snakeLine" : false
+  }, {
+    "id" : "idtrf6_95_THREE_95_EDGE",
+    "nodeId1" : "idtrf6_95_ONE_95_trf6_95_TWO_95_trf6_95_THREE",
+    "nodeId2" : "idtrf6_95_THREE",
+    "straight" : false,
+    "snakeLine" : true
   }, {
     "id" : "_95_vl2_95_bgen4_95_FICT_95_vl2_95_dgen4Fictif",
     "nodeId1" : "idbgen4",
@@ -2470,15 +2476,9 @@
     "straight" : false,
     "snakeLine" : false
   }, {
-    "id" : "_95_subst_95_trf3_95_ONE_95_trf3_95_ONE_95_trf3_95_TWO",
-    "nodeId1" : "idtrf3_95_ONE",
-    "nodeId2" : "idtrf3_95_ONE_95_trf3_95_TWO",
-    "straight" : false,
-    "snakeLine" : true
-  }, {
-    "id" : "_95_subst_95_trf6_95_ONE_95_trf6_95_TWO_95_trf6_95_THREE_95_trf6_95_TWO",
-    "nodeId1" : "idtrf6_95_ONE_95_trf6_95_TWO_95_trf6_95_THREE",
-    "nodeId2" : "idtrf6_95_TWO",
+    "id" : "idtrf8_95_ONE_95_EDGE",
+    "nodeId1" : "idtrf8_95_ONE",
+    "nodeId2" : "idtrf8_95_ONE_95_trf8_95_TWO_95_trf8_95_THREE",
     "straight" : false,
     "snakeLine" : true
   }, {
@@ -2494,12 +2494,6 @@
     "straight" : false,
     "snakeLine" : false
   }, {
-    "id" : "_95_subst_95_trf8_95_ONE_95_trf8_95_ONE_95_trf8_95_TWO_95_trf8_95_THREE",
-    "nodeId1" : "idtrf8_95_ONE",
-    "nodeId2" : "idtrf8_95_ONE_95_trf8_95_TWO_95_trf8_95_THREE",
-    "straight" : false,
-    "snakeLine" : true
-  }, {
     "id" : "_95_vl2_95_btrf28_95_FICT_95_vl2_95_dtrf28Fictif",
     "nodeId1" : "idbtrf28",
     "nodeId2" : "idFICT_95_vl2_95_dtrf28Fictif",
@@ -2511,6 +2505,12 @@
     "nodeId2" : "idload4",
     "straight" : false,
     "snakeLine" : false
+  }, {
+    "id" : "idtrf4_95_TWO_95_edge",
+    "nodeId1" : "idtrf4_95_ONE_95_trf4_95_TWO",
+    "nodeId2" : "idtrf4_95_TWO",
+    "straight" : false,
+    "snakeLine" : true
   }, {
     "id" : "_95_vl1_95_btrf16_95_FICT_95_vl1_95_trf6_95_ONEFictif",
     "nodeId1" : "idbtrf16",
@@ -2524,9 +2524,9 @@
     "straight" : false,
     "snakeLine" : false
   }, {
-    "id" : "_95_subst_95_trf7_95_ONE_95_trf7_95_TWO_95_trf7_95_THREE_95_trf7_95_THREE",
-    "nodeId1" : "idtrf7_95_ONE_95_trf7_95_TWO_95_trf7_95_THREE",
-    "nodeId2" : "idtrf7_95_THREE",
+    "id" : "idtrf1_95_ONE_95_edge",
+    "nodeId1" : "idtrf1_95_ONE",
+    "nodeId2" : "idtrf1_95_ONE_95_trf1_95_TWO",
     "straight" : false,
     "snakeLine" : true
   }, {
@@ -2578,17 +2578,17 @@
     "straight" : false,
     "snakeLine" : false
   }, {
+    "id" : "idtrf2_95_ONE_95_edge",
+    "nodeId1" : "idtrf2_95_ONE",
+    "nodeId2" : "idtrf2_95_ONE_95_trf2_95_TWO",
+    "straight" : false,
+    "snakeLine" : true
+  }, {
     "id" : "_95_vl1_95_dgen1_95_FICT_95_vl1_95_dgen1Fictif",
     "nodeId1" : "iddgen1",
     "nodeId2" : "idFICT_95_vl1_95_dgen1Fictif",
     "straight" : false,
     "snakeLine" : false
-  }, {
-    "id" : "_95_subst_95_trf3_95_ONE_95_trf3_95_TWO_95_trf3_95_TWO",
-    "nodeId1" : "idtrf3_95_ONE_95_trf3_95_TWO",
-    "nodeId2" : "idtrf3_95_TWO",
-    "straight" : false,
-    "snakeLine" : true
   }, {
     "id" : "_95_vl1_95_FICT_95_vl1_95_trf7_95_ONEFictif_95_trf7_95_ONE",
     "nodeId1" : "idFICT_95_vl1_95_trf7_95_ONEFictif",
@@ -2601,6 +2601,12 @@
     "nodeId2" : "idtrf2_95_ONE",
     "straight" : false,
     "snakeLine" : false
+  }, {
+    "id" : "idtrf8_95_TWO_95_EDGE",
+    "nodeId1" : "idtrf8_95_ONE_95_trf8_95_TWO_95_trf8_95_THREE",
+    "nodeId2" : "idtrf8_95_TWO",
+    "straight" : false,
+    "snakeLine" : true
   }, {
     "id" : "_95_vl2_95_bbs5_95_dload3",
     "nodeId1" : "idbbs5",
@@ -2643,6 +2649,12 @@
     "nodeId2" : "idload1",
     "straight" : false,
     "snakeLine" : false
+  }, {
+    "id" : "idtrf1_95_TWO_95_edge",
+    "nodeId1" : "idtrf1_95_ONE_95_trf1_95_TWO",
+    "nodeId2" : "idtrf1_95_TWO",
+    "straight" : false,
+    "snakeLine" : true
   }, {
     "id" : "_95_vl2_95_btrf27_95_FICT_95_vl2_95_dtrf27Fictif",
     "nodeId1" : "idbtrf27",
@@ -2692,6 +2704,12 @@
     "straight" : false,
     "snakeLine" : false
   }, {
+    "id" : "idtrf5_95_ONE_95_edge",
+    "nodeId1" : "idtrf5_95_ONE",
+    "nodeId2" : "idtrf5_95_ONE_95_trf5_95_TWO",
+    "straight" : false,
+    "snakeLine" : true
+  }, {
     "id" : "_95_vl2_95_dscpl2_95_bbs6",
     "nodeId1" : "iddscpl2",
     "nodeId2" : "idbbs6",
@@ -2728,12 +2746,6 @@
     "straight" : false,
     "snakeLine" : false
   }, {
-    "id" : "_95_subst_95_trf6_95_ONE_95_trf6_95_ONE_95_trf6_95_TWO_95_trf6_95_THREE",
-    "nodeId1" : "idtrf6_95_ONE",
-    "nodeId2" : "idtrf6_95_ONE_95_trf6_95_TWO_95_trf6_95_THREE",
-    "straight" : false,
-    "snakeLine" : true
-  }, {
     "id" : "_95_vl1_95_dtrct21_95_FICT_95_vl1_95_dsect22Fictif",
     "nodeId1" : "iddtrct21",
     "nodeId2" : "idFICT_95_vl1_95_dsect22Fictif",
@@ -2757,12 +2769,6 @@
     "nodeId2" : "idFICT_95_vl3_95_dload4Fictif",
     "straight" : false,
     "snakeLine" : false
-  }, {
-    "id" : "_95_subst_95_trf1_95_ONE_95_trf1_95_TWO_95_trf1_95_TWO",
-    "nodeId1" : "idtrf1_95_ONE_95_trf1_95_TWO",
-    "nodeId2" : "idtrf1_95_TWO",
-    "straight" : false,
-    "snakeLine" : true
   }, {
     "id" : "_95_vl3_95_dtrf36_95_FICT_95_vl3_95_dtrf36Fictif",
     "nodeId1" : "iddtrf36",
@@ -2806,12 +2812,6 @@
     "straight" : false,
     "snakeLine" : false
   }, {
-    "id" : "_95_subst_95_trf7_95_ONE_95_trf7_95_TWO_95_trf7_95_THREE_95_trf7_95_TWO",
-    "nodeId1" : "idtrf7_95_ONE_95_trf7_95_TWO_95_trf7_95_THREE",
-    "nodeId2" : "idtrf7_95_TWO",
-    "straight" : false,
-    "snakeLine" : true
-  }, {
     "id" : "_95_vl2_95_FICT_95_vl2_95_load3Fictif_95_load3",
     "nodeId1" : "idFICT_95_vl2_95_load3Fictif",
     "nodeId2" : "idload3",
@@ -2854,12 +2854,6 @@
     "straight" : false,
     "snakeLine" : false
   }, {
-    "id" : "_95_subst_95_trf5_95_ONE_95_trf5_95_ONE_95_trf5_95_TWO",
-    "nodeId1" : "idtrf5_95_ONE",
-    "nodeId2" : "idtrf5_95_ONE_95_trf5_95_TWO",
-    "straight" : false,
-    "snakeLine" : true
-  }, {
     "id" : "_95_vl2_95_bbs6_95_dtrf28",
     "nodeId1" : "idbbs6",
     "nodeId2" : "iddtrf28",
@@ -2878,17 +2872,17 @@
     "straight" : false,
     "snakeLine" : false
   }, {
+    "id" : "idtrf8_95_THREE_95_EDGE",
+    "nodeId1" : "idtrf8_95_ONE_95_trf8_95_TWO_95_trf8_95_THREE",
+    "nodeId2" : "idtrf8_95_THREE",
+    "straight" : false,
+    "snakeLine" : true
+  }, {
     "id" : "_95_vl3_95_btrf25_95_FICT_95_vl3_95_dtrf25Fictif",
     "nodeId1" : "idbtrf25",
     "nodeId2" : "idFICT_95_vl3_95_dtrf25Fictif",
     "straight" : false,
     "snakeLine" : false
-  }, {
-    "id" : "_95_subst_95_trf6_95_ONE_95_trf6_95_TWO_95_trf6_95_THREE_95_trf6_95_THREE",
-    "nodeId1" : "idtrf6_95_ONE_95_trf6_95_TWO_95_trf6_95_THREE",
-    "nodeId2" : "idtrf6_95_THREE",
-    "straight" : false,
-    "snakeLine" : true
   }, {
     "id" : "_95_vl1_95_dtrct11_95_FICT_95_vl1_95_dsect11Fictif",
     "nodeId1" : "iddtrct11",
@@ -2901,6 +2895,12 @@
     "nodeId2" : "idFICT_95_vl1_95_dsect12Fictif",
     "straight" : false,
     "snakeLine" : false
+  }, {
+    "id" : "idtrf5_95_TWO_95_edge",
+    "nodeId1" : "idtrf5_95_ONE_95_trf5_95_TWO",
+    "nodeId2" : "idtrf5_95_TWO",
+    "straight" : false,
+    "snakeLine" : true
   }, {
     "id" : "_95_vl1_95_dsect22_95_FICT_95_vl1_95_dsect22Fictif",
     "nodeId1" : "iddsect22",

@@ -69,8 +69,7 @@ public class CgmesSubstationLayout extends AbstractCgmesLayout implements Substa
     private void setMultiNodesCoord() {
         for (Node multiNode : graph.getMultiTermNodes()) {
             List<Node> adjacentNodes = multiNode.getAdjacentNodes();
-            multiNode.setX(adjacentNodes.get(0).getX(), false);
-            multiNode.setY(adjacentNodes.get(0).getY(), false);
+            multiNode.setCoordinates(adjacentNodes.get(0).getCoordinates(), false);
         }
     }
 }

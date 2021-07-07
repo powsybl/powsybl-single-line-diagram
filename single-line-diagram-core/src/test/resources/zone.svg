@@ -114,10 +114,10 @@ polyline {fill: none}
             <circle cx="5" cy="10" r="5" transform="rotate(180.0,5.0,7.5)"/>
             <circle cx="5" cy="5" r="5" transform="rotate(180.0,5.0,7.5)"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_Substation1_95_Transformer_95_ONE_95_Transformer_95_ONE_95_Transformer_95_TWO">
+        <g class="sld-wire sld-constant-color" id="idedge_95_Transformer_95_ONE">
             <polyline points="70.0,350.0,70.0,370.0,70.0,392.0"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_Substation1_95_Transformer_95_ONE_95_Transformer_95_TWO_95_Transformer_95_TWO">
+        <g class="sld-wire sld-constant-color" id="idedge_95_Transformer_95_TWO">
             <polyline points="70.0,408.0,70.0,430.0,70.0,450.0"/>
         </g>
         <g class="sld-busbar-section sld-constant-color" id="idBus21" transform="translate(150.0,1150.0)">

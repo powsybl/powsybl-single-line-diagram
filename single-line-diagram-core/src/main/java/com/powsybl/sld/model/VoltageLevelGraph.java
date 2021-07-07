@@ -58,8 +58,7 @@ public class VoltageLevelGraph extends AbstractBaseGraph {
 
     private int cellCounter = 0;
 
-    private double x = 0;
-    private double y = 0;
+    private final Point coord = new Point(0, 0);
 
     private final boolean forVoltageLevelDiagram;  // true if voltageLevel diagram
     // false if substation diagram
@@ -550,20 +549,24 @@ public class VoltageLevelGraph extends AbstractBaseGraph {
         return voltageLevelInfos;
     }
 
+    public Point getCoord() {
+        return coord;
+    }
+
     public double getX() {
-        return x;
+        return coord.getX();
     }
 
     public void setX(double x) {
-        this.x = x;
+        coord.setX(x);
     }
 
     public double getY() {
-        return y;
+        return coord.getY();
     }
 
     public void setY(double y) {
-        this.y = y;
+        coord.setY(y);
     }
 
     public boolean isPositionNodeBusesCalculated() {
@@ -578,8 +581,8 @@ public class VoltageLevelGraph extends AbstractBaseGraph {
         voltageLevelInfos.writeJsonContent(generator);
 
         if (isGenerateCoordsInJson()) {
-            generator.writeNumberField("x", x);
-            generator.writeNumberField("y", y);
+            generator.writeNumberField("x", getX());
+            generator.writeNumberField("y", getY());
         }
 
         generator.writeArrayFieldStart("nodes");

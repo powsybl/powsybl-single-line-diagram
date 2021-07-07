@@ -593,10 +593,10 @@ polyline {fill: none}
         <g class="sld-wire sld-constant-color" id="idL11">
             <polyline points="195.0,30.0,195.0,-30.0,395.0,-30.0,395.0,30.0"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_VL1_95_T11_95_ONE_95_T11_95_ONE_95_T11_95_TWO">
+        <g class="sld-wire sld-constant-color" id="idT11_95_ONE_95_edge">
             <polyline points="295.0,30.0,295.0,0.0,362.0,0.0"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_VL1_95_T11_95_ONE_95_T11_95_TWO_95_T11_95_TWO">
+        <g class="sld-wire sld-constant-color" id="idT11_95_TWO_95_edge">
             <polyline points="378.0,0.0,445.0,0.0,445.0,30.0"/>
         </g>
     </g>

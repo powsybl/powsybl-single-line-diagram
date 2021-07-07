@@ -6,22 +6,16 @@
  */
 package com.powsybl.sld.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.powsybl.iidm.network.*;
+import com.powsybl.sld.NetworkGraphBuilder;
+import org.joda.time.DateTime;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.joda.time.DateTime;
-import org.junit.Test;
-
-import com.powsybl.iidm.network.Branch;
-import com.powsybl.iidm.network.Country;
-import com.powsybl.iidm.network.Network;
-import com.powsybl.iidm.network.Substation;
-import com.powsybl.iidm.network.TopologyKind;
-import com.powsybl.iidm.network.VoltageLevel;
-import com.powsybl.sld.NetworkGraphBuilder;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  *
@@ -90,8 +84,8 @@ public class ZoneGraphTest {
         assertEquals(SUBSTATION_ID_1, graph.getNodes().get(0).getSubstationId());
         assertEquals(SUBSTATION_ID_2, graph.getNodes().get(1).getSubstationId());
         assertEquals(1, graph.getLineEdges().size());
-        LineEdge edge = graph.getLineEdges().get(0);
-        assertEquals(LINE_ID, edge.getLineId());
+        BranchEdge edge = graph.getLineEdges().get(0);
+        assertEquals(LINE_ID, edge.getId());
         String lineNodeId1 = getLineNodeId(graph, SUBSTATION_ID_1, VOLTAGELEVEL_ID_1, Branch.Side.ONE);
         String lineNodeId2 = getLineNodeId(graph, SUBSTATION_ID_2, VOLTAGELEVEL_ID_2, Branch.Side.TWO);
         assertEquals(lineNodeId1, edge.getNode1().getId());

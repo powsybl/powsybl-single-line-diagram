@@ -18,6 +18,7 @@ import static com.powsybl.sld.library.ComponentTypeName.TWO_WINDINGS_TRANSFORMER
  */
 public class Middle2WTNode extends FictitiousNode {
 
+    private static final String EDGE_SUFFIX = "_edge";
     private final VoltageLevelInfos voltageLevelInfosLeg1;
 
     private final VoltageLevelInfos voltageLevelInfosLeg2;
@@ -31,8 +32,8 @@ public class Middle2WTNode extends FictitiousNode {
     public static Middle2WTNode create(BaseGraph graph, Node node1, Node node2, VoltageLevelInfos vlInfos1, VoltageLevelInfos vlInfos2) {
         Middle2WTNode middleNode = new Middle2WTNode(null, node1.getId() + "_" + node2.getId(), vlInfos1, vlInfos2);
 
-        TwtEdge edge1 = graph.addTwtEdge(node1, middleNode);
-        TwtEdge edge2 = graph.addTwtEdge(middleNode, node2);
+        BranchEdge edge1 = graph.addTwtEdge(node1.getId() + EDGE_SUFFIX, node1, middleNode);
+        BranchEdge edge2 = graph.addTwtEdge(node2.getId() + EDGE_SUFFIX, middleNode, node2);
 
         middleNode.addAdjacentEdge(edge1);
         middleNode.addAdjacentEdge(edge2);

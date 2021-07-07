@@ -6,6 +6,7 @@
  */
 package com.powsybl.sld.layout;
 
+import com.powsybl.sld.model.Point;
 import com.powsybl.sld.model.VoltageLevelGraph;
 import com.powsybl.sld.model.Node;
 
@@ -27,8 +28,8 @@ public abstract class AbstractVoltageLevelLayout extends AbstractLayout implemen
     }
 
     @Override
-    protected List<Double> calculatePolylineSnakeLine(LayoutParameters layoutParam, Node node1, Node node2,
-                                                      InfosNbSnakeLines infosNbSnakeLines, boolean increment) {
+    protected List<Point> calculatePolylineSnakeLine(LayoutParameters layoutParam, Node node1, Node node2,
+                                                     InfosNbSnakeLines infosNbSnakeLines, boolean increment) {
         return calculatePolylineSnakeLineForHorizontalLayout(layoutParam, node1, node2, infosNbSnakeLines, increment);
     }
 

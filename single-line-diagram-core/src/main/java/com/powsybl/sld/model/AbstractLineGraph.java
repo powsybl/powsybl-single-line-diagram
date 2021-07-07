@@ -14,17 +14,17 @@ import java.util.List;
  */
 public abstract class AbstractLineGraph extends AbstractGraph implements LineGraph {
 
-    private final List<LineEdge> lineEdges = new ArrayList<>();
+    private final List<BranchEdge> lineEdges = new ArrayList<>();
 
     @Override
-    public LineEdge addLineEdge(String lineId, Node node1, Node node2) {
-        LineEdge edge = new LineEdge(lineId, node1, node2);
+    public BranchEdge addLineEdge(String lineId, Node node1, Node node2) {
+        BranchEdge edge = new BranchEdge(lineId, node1, node2);
         lineEdges.add(edge);
         return edge;
     }
 
     @Override
-    public List<LineEdge> getLineEdges() {
+    public List<BranchEdge> getLineEdges() {
         return new ArrayList<>(lineEdges);
     }
 }

@@ -20,9 +20,7 @@ public interface BaseNode {
 
     boolean isRotated();
 
-    double getX();
-
-    double getY();
+    Point getCoordinates();
 
     Double getRotationAngle();
 }

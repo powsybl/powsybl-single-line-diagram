@@ -17,12 +17,12 @@ import java.util.List;
  */
 public abstract class AbstractBaseGraph extends AbstractLineGraph implements BaseGraph {
 
-    protected List<TwtEdge> twtEdges = new ArrayList<>();
+    protected List<BranchEdge> twtEdges = new ArrayList<>();
 
     protected List<Node> multiTermNodes = new ArrayList<>();
 
     @Override
-    public List<TwtEdge> getTwtEdges() {
+    public List<BranchEdge> getTwtEdges() {
         return new ArrayList<>(twtEdges);
     }
 
@@ -32,8 +32,8 @@ public abstract class AbstractBaseGraph extends AbstractLineGraph implements Bas
     }
 
     @Override
-    public TwtEdge addTwtEdge(Node node1, Node node2) {
-        TwtEdge edge = new TwtEdge(node1, node2);
+    public BranchEdge addTwtEdge(String id, Node node1, Node node2) {
+        BranchEdge edge = new BranchEdge(id, node1, node2);
         twtEdges.add(edge);
         return edge;
     }
@@ -50,12 +50,12 @@ public abstract class AbstractBaseGraph extends AbstractLineGraph implements Bas
         }
         generator.writeEndArray();
         generator.writeArrayFieldStart("twtEdges");
-        for (TwtEdge edge : twtEdges) {
+        for (BranchEdge edge : twtEdges) {
             edge.writeJson(generator, isGenerateCoordsInJson());
         }
         generator.writeEndArray();
         generator.writeArrayFieldStart("lineEdges");
-        for (LineEdge edge : getLineEdges()) {
+        for (BranchEdge edge : getLineEdges()) {
             edge.writeJson(generator, isGenerateCoordsInJson());
         }
         generator.writeEndArray();

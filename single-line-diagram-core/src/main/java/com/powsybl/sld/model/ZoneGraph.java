@@ -16,10 +16,10 @@ import java.util.*;
  */
 public class ZoneGraph extends AbstractLineGraph {
 
-    private List<String> zone;
-    private List<SubstationGraph> nodes = new ArrayList<>();
-    private Map<String, SubstationGraph> nodesById = new HashMap<>();
-    private Map<String, LineEdge> edgesById = new HashMap<>();
+    private final List<String> zone;
+    private final List<SubstationGraph> nodes = new ArrayList<>();
+    private final Map<String, SubstationGraph> nodesById = new HashMap<>();
+    private final Map<String, BranchEdge> edgesById = new HashMap<>();
 
     protected ZoneGraph(List<String> zone) {
         this.zone = Objects.requireNonNull(zone);
@@ -40,8 +40,8 @@ public class ZoneGraph extends AbstractLineGraph {
     }
 
     @Override
-    public LineEdge addLineEdge(String lineId, Node node1, Node node2) {
-        LineEdge edge = super.addLineEdge(lineId, node1, node2);
+    public BranchEdge addLineEdge(String lineId, Node node1, Node node2) {
+        BranchEdge edge = super.addLineEdge(lineId, node1, node2);
         edgesById.put(lineId, edge);
         return edge;
     }
@@ -65,7 +65,7 @@ public class ZoneGraph extends AbstractLineGraph {
         return nodesById.get(id);
     }
 
-    public LineEdge getLineEdge(String lineId) {
+    public BranchEdge getLineEdge(String lineId) {
         Objects.requireNonNull(lineId);
         return edgesById.get(lineId);
     }
@@ -79,7 +79,7 @@ public class ZoneGraph extends AbstractLineGraph {
         }
         generator.writeEndArray();
         generator.writeArrayFieldStart("lineEdges");
-        for (LineEdge edge : getLineEdges()) {
+        for (BranchEdge edge : getLineEdges()) {
             edge.writeJson(generator, isGenerateCoordsInJson());
         }
         generator.writeEndArray();

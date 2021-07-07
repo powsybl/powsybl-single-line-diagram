@@ -9,11 +9,8 @@ package com.powsybl.sld.util;
 import com.powsybl.iidm.network.Bus;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.VoltageLevel;
-import com.powsybl.sld.model.Edge;
-import com.powsybl.sld.model.LineEdge;
-import com.powsybl.sld.model.Node;
+import com.powsybl.sld.model.*;
 import com.powsybl.sld.model.Node.NodeType;
-import com.powsybl.sld.model.VoltageLevelInfos;
 import com.powsybl.sld.styles.BaseVoltageStyle;
 import com.powsybl.sld.svg.DiagramStyles;
 
@@ -40,11 +37,11 @@ public class TopologicalStyleProvider extends AbstractBaseVoltageDiagramStylePro
 
     @Override
     protected Optional<String> getEdgeStyle(Edge edge) {
-        if (edge instanceof LineEdge) {
-            return getLineEdgeStyle((LineEdge) edge);
+        Node node1 = edge.getNode1();
+        Node node2 = edge.getNode2();
+        if (edge instanceof BranchEdge && (node1 instanceof FeederLineNode || node2 instanceof FeederLineNode)) {
+            return getLineEdgeStyle((BranchEdge) edge);
         } else {
-            Node node1 = edge.getNode1();
-            Node node2 = edge.getNode2();
             if (node1.getType() == NodeType.SWITCH && node1.isOpen()) {
                 return node2.getVoltageLevelInfos() != null ? getVoltageLevelNodeStyle(node2.getVoltageLevelInfos(), node2) : Optional.empty();
             }
@@ -55,9 +52,9 @@ public class TopologicalStyleProvider extends AbstractBaseVoltageDiagramStylePro
         }
     }
 
-    private Optional<String> getLineEdgeStyle(LineEdge edge) {
+    private Optional<String> getLineEdgeStyle(BranchEdge edge) {
         Optional<String> edgeStyle = getVoltageLevelNodeStyle(edge.getNode1().getVoltageLevelInfos(), edge.getNode1());
-        if (edgeStyle.isPresent() && edgeStyle.get().equals(DiagramStyles.DISCONNECTED_STYLE_CLASS) && edge instanceof LineEdge) {
+        if (edgeStyle.isPresent() && edgeStyle.get().equals(DiagramStyles.DISCONNECTED_STYLE_CLASS)) {
             edgeStyle = getVoltageLevelNodeStyle(edge.getNode2().getVoltageLevelInfos(), edge.getNode2());
         }
         return edgeStyle;

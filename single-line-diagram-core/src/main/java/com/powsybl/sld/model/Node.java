@@ -47,8 +47,7 @@ public class Node implements BaseNode {
 
     private final boolean fictitious;
 
-    private double x = -1;
-    private double y = -1;
+    private final Point position = new Point(-1, -1);
 
     private double initY = -1;  // y value before shifting the feeders height, if asked
 
@@ -163,8 +162,24 @@ public class Node implements BaseNode {
     }
 
     @Override
+    public Point getCoordinates() {
+        return position;
+    }
+
+    public void setCoordinates(Point coord) {
+        setCoordinates(coord, true);
+    }
+
+    public void setCoordinates(Point coord, boolean addGraph) {
+        position.setCoordinates(addGraph ? coord.getShiftedPoint(graph.getCoord()) : coord);
+    }
+
     public double getX() {
-        return x;
+        return position.getX();
+    }
+
+    public double getY() {
+        return position.getY();
     }
 
     public void setX(double x) {
@@ -172,12 +187,7 @@ public class Node implements BaseNode {
     }
 
     public void setX(double x, boolean addXGraph) {
-        this.x = x + (addXGraph ? graph.getX() : 0);
-    }
-
-    @Override
-    public double getY() {
-        return y;
+        position.setX(x + (addXGraph ? graph.getX() : 0));
     }
 
     public void setY(double y) {
@@ -185,7 +195,7 @@ public class Node implements BaseNode {
     }
 
     public void setY(double y, boolean addYGraph) {
-        this.y = y + (addYGraph ? graph.getY() : 0);
+        position.setY(y + (addYGraph ? graph.getY() : 0));
     }
 
     public double getInitY() {
@@ -245,8 +255,8 @@ public class Node implements BaseNode {
         generator.writeStringField("componentType", componentType);
         generator.writeBooleanField("fictitious", fictitious);
         if (graph != null && graph.isGenerateCoordsInJson()) {
-            generator.writeNumberField("x", x);
-            generator.writeNumberField("y", y);
+            generator.writeNumberField("x", position.getX());
+            generator.writeNumberField("y", position.getY());
         }
         if (rotationAngle != null) {
             generator.writeNumberField("rotationAngle", rotationAngle);
@@ -269,13 +279,13 @@ public class Node implements BaseNode {
     }
 
     public void resetCoords() {
-        x = -1;
-        y = -1;
+        position.setX(-1);
+        position.setY(-1);
         initY = -1;
     }
 
     public void shiftY(double yShift) {
-        y += yShift;
+        position.shiftY(yShift);
     }
 
     /**

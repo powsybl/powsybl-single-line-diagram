@@ -13,9 +13,9 @@ import java.util.List;
  */
 public interface BaseGraph extends LineGraph {
 
-    TwtEdge addTwtEdge(Node n1, Node n2);
+    BranchEdge addTwtEdge(String id, Node n1, Node n2);
 
-    List<TwtEdge> getTwtEdges();
+    List<BranchEdge> getTwtEdges();
 
     List<Node> getMultiTermNodes();
 

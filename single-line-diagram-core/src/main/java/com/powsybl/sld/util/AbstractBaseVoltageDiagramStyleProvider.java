@@ -79,7 +79,7 @@ public abstract class AbstractBaseVoltageDiagramStyleProvider extends DefaultDia
             if (n.getFeederType() == FeederType.BRANCH || n.getFeederType() == FeederType.TWO_WINDINGS_TRANSFORMER_LEG) {
                 side = n.getSide();
                 otherSide = side == FeederWithSideNode.Side.ONE ? FeederWithSideNode.Side.TWO : FeederWithSideNode.Side.ONE;
-                if (edge instanceof LineEdge) {
+                if (n instanceof FeederLineNode) {
                     side = Boolean.TRUE.equals(connectionStatus.get(side)) ? side : otherSide;
                     otherSide = side == FeederWithSideNode.Side.ONE ? FeederWithSideNode.Side.TWO : FeederWithSideNode.Side.ONE;
                 }

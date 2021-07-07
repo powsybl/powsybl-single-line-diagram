@@ -546,10 +546,10 @@ public class TestSVGWriter extends AbstractTestCaseIidm {
         Node nMulti1 = new Middle2WTNode(null, vl1Trf1.getId() + "_" + vl2Trf1.getId(), vl1Infos, vl2Infos);
         nMulti1.setX(365., false);
         nMulti1.setY(550., false);
-        TwtEdge edge1 = substG.addEdge(vl1Trf1, nMulti1);
-        edge1.setSnakeLine(Arrays.asList(80., 500., 80., 550., 365., 550.));
-        TwtEdge edge2 = substG.addEdge(nMulti1, vl2Trf1);
-        edge2.setSnakeLine(Arrays.asList(365., 550., 650., 550., 650., 500.));
+        BranchEdge edge1 = substG.addEdge("edge_" + vl1Trf1.getId(), vl1Trf1, nMulti1);
+        edge1.setSnakeLine(Point.createPointsList(80., 500., 80., 550., 365., 550.));
+        BranchEdge edge2 = substG.addEdge("edge_" + vl2Trf1.getId(), nMulti1, vl2Trf1);
+        edge2.setSnakeLine(Point.createPointsList(365., 550., 650., 550., 650., 500.));
         nMulti1.addAdjacentEdge(edge1);
         nMulti1.addAdjacentEdge(edge2);
         substG.addMultiTermNode(nMulti1);
@@ -557,12 +557,12 @@ public class TestSVGWriter extends AbstractTestCaseIidm {
         Node nMulti3 = new Middle3WTNode(null, vl1Trf2.getId() + "_" + vl2Trf2.getId() + "_" + vl3Trf2.getId(), vl1Infos, vl2Infos, vl3Infos);
         nMulti3.setX(710., false);
         nMulti3.setY(50., false);
-        TwtEdge edge21 = substG.addEdge(vl1Trf2, nMulti3);
-        edge21.setSnakeLine(Arrays.asList(400., 80., 400., 50., 710., 50.));
-        TwtEdge edge22 = substG.addEdge(nMulti3, vl2Trf2);
-        edge22.setSnakeLine(Arrays.asList(710., 50., 710., 80.));
-        TwtEdge edge23 = substG.addEdge(nMulti3, vl3Trf2);
-        edge23.setSnakeLine(Arrays.asList(710., 50., 1000., 50., 1000., 80.));
+        BranchEdge edge21 = substG.addEdge("edge_" + vl1Trf2.getId(), vl1Trf2, nMulti3);
+        edge21.setSnakeLine(Point.createPointsList(400., 80., 400., 50., 710., 50.));
+        BranchEdge edge22 = substG.addEdge("edge_" + vl2Trf2.getId(), nMulti3, vl2Trf2);
+        edge22.setSnakeLine(Point.createPointsList(710., 50., 710., 80.));
+        BranchEdge edge23 = substG.addEdge("edge_" + vl3Trf2.getId(), nMulti3, vl3Trf2);
+        edge23.setSnakeLine(Point.createPointsList(710., 50., 1000., 50., 1000., 80.));
 
         nMulti3.addAdjacentEdge(edge21);
         nMulti3.addAdjacentEdge(edge22);
@@ -635,10 +635,10 @@ public class TestSVGWriter extends AbstractTestCaseIidm {
         Node nMulti1 = new Middle2WTNode(null, twtSide1Node.getId() + "_" + twtSide2Node.getId(), vl12Infos, vl11Infos);
         nMulti1.setX(50, false);
         nMulti1.setY(350, false);
-        TwtEdge edge1 = s1Graph.addEdge(twtSide1Node, nMulti1);
-        edge1.setSnakeLine(Arrays.asList(50., 300., 50., 320., 50., 350.));
-        TwtEdge edge2 = s1Graph.addEdge(nMulti1, twtSide2Node);
-        edge2.setSnakeLine(Arrays.asList(50., 350., 50., 380., 50., 400.));
+        BranchEdge edge1 = s1Graph.addEdge("edge_" + twtSide1Node.getId(), twtSide1Node, nMulti1);
+        edge1.setSnakeLine(Point.createPointsList(50., 300., 50., 320., 50., 350.));
+        BranchEdge edge2 = s1Graph.addEdge("edge_" + twtSide2Node.getId(), nMulti1, twtSide2Node);
+        edge2.setSnakeLine(Point.createPointsList(50., 350., 50., 380., 50., 400.));
         nMulti1.addAdjacentEdge(edge1);
         nMulti1.addAdjacentEdge(edge2);
         s1Graph.addMultiTermNode(nMulti1);
@@ -651,10 +651,11 @@ public class TestSVGWriter extends AbstractTestCaseIidm {
         zGraph.addNode(s1Graph);
         zGraph.addNode(s2Graph);
         zGraph.addLineEdge(LINE_ID, lineSide1Node, lineSide2Node);
-        zGraph.getLineEdge(LINE_ID).addPoint(50, 650);
-        zGraph.getLineEdge(LINE_ID).addPoint(50, 800);
-        zGraph.getLineEdge(LINE_ID).addPoint(150, 800);
-        zGraph.getLineEdge(LINE_ID).addPoint(150, 950);
+        zGraph.getLineEdge(LINE_ID).setSnakeLine(Point.createPointsList(
+            50, 650,
+            50, 800,
+            150, 800,
+            150, 950));
     }
 
     @Before

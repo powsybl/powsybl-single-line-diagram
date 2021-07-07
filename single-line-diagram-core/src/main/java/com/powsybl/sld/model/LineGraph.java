@@ -12,7 +12,7 @@ import java.util.List;
  * @author Slimane Amar <slimane.amar at rte-france.com>
  */
 public interface LineGraph extends Graph {
-    LineEdge addLineEdge(String lineId, Node n1, Node n2);
+    BranchEdge addLineEdge(String lineId, Node n1, Node n2);
 
-    List<LineEdge> getLineEdges();
+    List<BranchEdge> getLineEdges();
 }

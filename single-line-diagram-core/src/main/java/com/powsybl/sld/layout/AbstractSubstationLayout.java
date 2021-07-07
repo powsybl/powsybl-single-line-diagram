@@ -7,8 +7,8 @@
 package com.powsybl.sld.layout;
 
 import com.powsybl.sld.model.Coord;
-import com.powsybl.sld.model.VoltageLevelGraph;
 import com.powsybl.sld.model.SubstationGraph;
+import com.powsybl.sld.model.VoltageLevelGraph;
 
 import java.util.Objects;
 

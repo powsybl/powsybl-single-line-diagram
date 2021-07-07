@@ -7,6 +7,7 @@
 package com.powsybl.sld.layout;
 
 import com.powsybl.sld.model.BusCell;
+import com.powsybl.sld.model.Point;
 
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
@@ -15,11 +16,9 @@ public class InfoCalcPoints {
     private LayoutParameters layoutParam;
     private BusCell.Direction dNode1;
     private BusCell.Direction dNode2;
-    private double x1;
-    private double x2;
-    private double y1;
+    private Point coord1;
+    private Point coord2;
     private double initY1;
-    private double y2;
     private double initY2;
     private double xMaxGraph;
     private String idMaxGraph;
@@ -49,36 +48,20 @@ public class InfoCalcPoints {
         this.dNode2 = dNode2;
     }
 
-    public double getX1() {
-        return x1;
+    public Point getCoord1() {
+        return coord1;
     }
 
-    public void setX1(double x1) {
-        this.x1 = x1;
+    public void setCoord1(Point coord1) {
+        this.coord1 = coord1;
     }
 
-    public double getX2() {
-        return x2;
+    public Point getCoord2() {
+        return coord2;
     }
 
-    public void setX2(double x2) {
-        this.x2 = x2;
-    }
-
-    public double getY1() {
-        return y1;
-    }
-
-    public void setY1(double y1) {
-        this.y1 = y1;
-    }
-
-    public double getY2() {
-        return y2;
-    }
-
-    public void setY2(double y2) {
-        this.y2 = y2;
+    public void setCoord2(Point coord2) {
+        this.coord2 = coord2;
     }
 
     public double getInitY1() {

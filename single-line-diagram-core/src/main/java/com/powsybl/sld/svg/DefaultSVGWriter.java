@@ -652,12 +652,12 @@ public class DefaultSVGWriter implements SVGWriter {
                 FeederWithSideNode node1 = (FeederWithSideNode) adjacentNodes.get(0);
                 FeederWithSideNode node2 = (FeederWithSideNode) adjacentNodes.get(1);
                 List<Edge> edges = node.getAdjacentEdges();
-                List<Double> pol1 = ((TwtEdge) edges.get(0)).getSnakeLine();
-                List<Double> pol2 = ((TwtEdge) edges.get(1)).getSnakeLine();
+                List<Point> pol1 = ((BranchEdge) edges.get(0)).getSnakeLine();
+                List<Point> pol2 = ((BranchEdge) edges.get(1)).getSnakeLine();
                 if (!(pol1.isEmpty() || pol2.isEmpty())) {
                     // get points for the line supporting the svg component
-                    double x1 = pol1.get(pol1.size() - 4); // absciss of the first polyline second last point
-                    double x2 = pol2.get(2);  // absciss of the second polyline third point
+                    double x1 = pol1.get(pol1.size() - 2).getX(); // absciss of the first polyline second last point
+                    double x2 = pol2.get(1).getX();  // absciss of the second polyline third point
 
                     if (x1 == x2) {
                         // vertical line supporting the svg component
@@ -875,35 +875,27 @@ public class DefaultSVGWriter implements SVGWriter {
         return new double[]{matrixNode[3], -matrixNode[1], -matrixNode[2], matrixNode[0], t1, t2};
     }
 
-    protected void transformArrow(List<Double> points, ComponentSize componentSize, double shift, Element g) {
+    protected void transformArrow(List<Point> points, ComponentSize componentSize, double shift, Element g) {
 
-        double x1 = points.get(0);
-        double y1 = points.get(1);
-        double x2 = points.get(2);
-        double y2 = points.get(3);
-
-        double dx = x2 - x1;
-        double dy = y2 - y1;
-        double distancePoints = Math.sqrt(dx * dx + dy * dy);
+        Point pointA = points.get(0);
+        Point pointB = points.get(1);
+        double distancePoints = pointA.distance(pointB);
 
         // Case of wires with non-direct straight lines: if wire distance between first 2 points is too small to display
         // the arrow, checks if the distance between the 2nd and the 3rd points is big enough
-        if (points.size() > 4 && distancePoints < 3 * componentSize.getHeight()) {
-            double x3 = points.get(4);
-            double y3 = points.get(5);
-            double dx23 = x3 - x2;
-            double dy23 = y3 - y2;
-            double distancePoints23 = Math.sqrt(dx23 * dx23 + dy23 * dy23);
+        if (points.size() > 2 && distancePoints < 3 * componentSize.getHeight()) {
+            double distancePoints23 = points.get(1).distance(points.get(2));
             if (distancePoints23 > 3 * componentSize.getHeight()) {
                 distancePoints = distancePoints23;
-                x1 = x2;
-                y1 = y2;
-                dx = dx23;
-                dy = dy23;
+                pointA = points.get(1);
+                pointB = points.get(2);
             }
         }
 
         if (distancePoints > 0) {
+            double dx = pointB.getX() - pointA.getX();
+            double dy = pointB.getY() - pointA.getY();
+
             // Calculate cos and sin of the angle between the wire line and the abscisse
             double cosAngle = dx / distancePoints;
             double sinAngle = dy / distancePoints;
@@ -911,11 +903,11 @@ public class DefaultSVGWriter implements SVGWriter {
             // If not enough space to have layoutParameters.getArrowDistance() at both sides of the 2 arrows,
             // we compute the distance between feeder anchor and first arrow so that the two arrows are centered.
             double distFeederAnchorToFirstArrowCenter =
-                    distancePoints >= 2 * layoutParameters.getArrowDistance() + 2 * componentSize.getHeight()
-                            ? layoutParameters.getArrowDistance()
-                            : (distancePoints - 2 * componentSize.getHeight()) / 2;
-            double x = x1 + cosAngle * (distFeederAnchorToFirstArrowCenter + shift);
-            double y = y1 + sinAngle * (distFeederAnchorToFirstArrowCenter + shift);
+                distancePoints >= 2 * layoutParameters.getArrowDistance() + 2 * componentSize.getHeight()
+                    ? layoutParameters.getArrowDistance()
+                    : (distancePoints - 2 * componentSize.getHeight()) / 2;
+            double x = pointA.getX() + cosAngle * (distFeederAnchorToFirstArrowCenter + shift);
+            double y = pointA.getY() + sinAngle * (distFeederAnchorToFirstArrowCenter + shift);
 
             double arrowRotationAngle = Math.atan(dy / dx) - Math.PI / 2;
             if (arrowRotationAngle < -Math.PI / 2) {
@@ -961,7 +953,7 @@ public class DefaultSVGWriter implements SVGWriter {
 
     protected void insertArrowsAndLabels(String prefixId,
                                          String wireId,
-                                         List<Double> points,
+                                         List<Point> points,
                                          Element root,
                                          FeederNode feederNode,
                                          GraphMetadata metadata,
@@ -992,7 +984,7 @@ public class DefaultSVGWriter implements SVGWriter {
         });
     }
 
-    private void drawArrowAndLabel(String prefixId, String wireId, List<Double> points, Element root,
+    private void drawArrowAndLabel(String prefixId, String wireId, List<Point> points, Element root,
                                    String labelR, Optional<String> labelL, Optional<Direction> dir, double shift, int iArrow,
                                    GraphMetadata metadata) {
         ComponentMetadata cd = metadata.getComponentMetadata(ARROW);
@@ -1000,15 +992,13 @@ public class DefaultSVGWriter implements SVGWriter {
         double shX = cd.getSize().getWidth() + LABEL_OFFSET;
         double shY = cd.getSize().getHeight() / 2;
 
-        double y1 = points.get(1);
-        double y2 = points.get(3);
-
         Element g = root.getOwnerDocument().createElement(GROUP);
         String arrowWireId = wireId + "_ARROW" + iArrow;
         g.setAttribute("id", arrowWireId);
         transformArrow(points, cd.getSize(), shift, g);
 
-        insertArrowSVGIntoDocumentSVG(prefixId, g, y1 > y2 ? 180 : 0);
+        double rotationAngle =  points.get(0).getY() > points.get(1).getY() ? 180 : 0;
+        insertArrowSVGIntoDocumentSVG(prefixId, g, rotationAngle);
         Element label = createLabelElement(labelR, shX, shY, 0, g);
         g.appendChild(label);
 
@@ -1058,7 +1048,7 @@ public class DefaultSVGWriter implements SVGWriter {
             WireConnection anchorPoints = WireConnection.searchBetterAnchorPoints(anchorPointProvider, edge.getNode1(), edge.getNode2());
 
             // Determine points of the polyline
-            List<Double> pol = anchorPoints.calculatePolylinePoints(edge.getNode1(), edge.getNode2(),
+            List<Point> pol = anchorPoints.calculatePolylinePoints(edge.getNode1(), edge.getNode2(),
                     layoutParameters.isDrawStraightWires());
 
             polyline.setAttribute(POINTS, pointsListToString(pol));
@@ -1085,16 +1075,8 @@ public class DefaultSVGWriter implements SVGWriter {
                             layoutParameters.isFeederArrowSymmetry());
                 }
             } else if (edge.getNode2() instanceof FeederNode) {
-                List<Double> reversePoints = new ArrayList<>();
-
-                for (int i = pol.size() - 1; i >= 0; i--) {
-                    if (i % 2 == 0) {
-                        reversePoints.add(pol.get(i));
-                        reversePoints.add(pol.get(i + 1));
-                    }
-                }
-
-                insertArrowsAndLabels(prefixId, wireId, reversePoints, root, (FeederNode) edge.getNode2(), metadata, initProvider,
+                Collections.reverse(pol);
+                insertArrowsAndLabels(prefixId, wireId, pol, root, (FeederNode) edge.getNode2(), metadata, initProvider,
                         layoutParameters.isFeederArrowSymmetry());
             }
         }
@@ -1106,8 +1088,8 @@ public class DefaultSVGWriter implements SVGWriter {
     protected void drawSnakeLines(String prefixId, Element root, ZoneGraph graph,
                                   GraphMetadata metadata, DiagramStyleProvider styleProvider,
                                   AnchorPointProvider anchorPointProvider) {
-        for (LineEdge edge : graph.getLineEdges()) {
-            drawSnakeLines(edge, escapeId(prefixId + edge.getLineId()), root, metadata, styleProvider, anchorPointProvider);
+        for (BranchEdge edge : graph.getLineEdges()) {
+            drawSnakeLines(edge, prefixId, root, metadata, styleProvider, anchorPointProvider);
         }
     }
 
@@ -1117,25 +1099,26 @@ public class DefaultSVGWriter implements SVGWriter {
     protected void drawSnakeLines(String prefixId, Element root, AbstractBaseGraph graph,
                                   GraphMetadata metadata, DiagramStyleProvider styleProvider,
                                   AnchorPointProvider anchorPointProvider) {
-        for (LineEdge edge : graph.getLineEdges()) {
-            drawSnakeLines(edge, escapeId(prefixId + edge.getLineId()), root, metadata, styleProvider, anchorPointProvider);
+        for (BranchEdge edge : graph.getLineEdges()) {
+            drawSnakeLines(edge, prefixId, root, metadata, styleProvider, anchorPointProvider);
         }
 
-        for (TwtEdge edge : graph.getTwtEdges()) {
-            drawSnakeLines(edge, getWireId(prefixId, graph.getId(), edge), root, metadata, styleProvider, anchorPointProvider);
+        for (BranchEdge edge : graph.getTwtEdges()) {
+            drawSnakeLines(edge, prefixId, root, metadata, styleProvider, anchorPointProvider);
         }
     }
 
-    private void drawSnakeLines(AbstractBranchEdge edge, String wireId, Element root, GraphMetadata metadata, DiagramStyleProvider styleProvider,
+    private void drawSnakeLines(BranchEdge edge, String prefixId, Element root, GraphMetadata metadata, DiagramStyleProvider styleProvider,
                                 AnchorPointProvider anchorPointProvider) {
         Element g = root.getOwnerDocument().createElement(GROUP);
-        g.setAttribute("id", wireId);
+        String snakeLineId = escapeId(prefixId + edge.getId());
+        g.setAttribute("id", snakeLineId);
         List<String> wireStyles = styleProvider.getSvgWireStyles(edge, layoutParameters.isHighlightLineState());
         g.setAttribute(CLASS, String.join(" ", wireStyles));
         root.appendChild(g);
 
         // Get the points of the snakeLine, already calculated during the layout application
-        List<Double> pol = edge.getSnakeLine();
+        List<Point> pol = edge.getSnakeLine();
         if (!pol.isEmpty()) {
             adaptCoordSnakeLine(anchorPointProvider, edge, pol);
         }
@@ -1144,7 +1127,7 @@ public class DefaultSVGWriter implements SVGWriter {
         polyline.setAttribute(POINTS, pointsListToString(pol));
         g.appendChild(polyline);
 
-        metadata.addWireMetadata(new GraphMetadata.WireMetadata(wireId,
+        metadata.addWireMetadata(new GraphMetadata.WireMetadata(snakeLineId,
                 escapeId(edge.getNode1().getId()),
                 escapeId(edge.getNode2().getId()),
                 layoutParameters.isDrawStraightWires(),
@@ -1155,66 +1138,42 @@ public class DefaultSVGWriter implements SVGWriter {
      * Adaptation of the previously calculated snakeLine points, in order to use the anchor points
      * if a node is outside any graph
      */
-    private void adaptCoordSnakeLine(AnchorPointProvider anchorPointProvider, AbstractBranchEdge edge, List<Double> pol) {
+    private void adaptCoordSnakeLine(AnchorPointProvider anchorPointProvider, BranchEdge edge, List<Point> pol) {
         Node n1 = edge.getNode1();
         Node n2 = edge.getNode2();
 
         VoltageLevelGraph g1 = n1.getGraph();
         VoltageLevelGraph g2 = n2.getGraph();
 
-        // Getting the right polyline point from where we need to compute the best anchor point
-        double x;
-        double y;
-        if (g2 == null) {
-            if (pol.size() <= 4) {
-                x = pol.get(0);
-                y = pol.get(1);
-            } else if (pol.size() <= 6) {
-                x = pol.get(2);
-                y = pol.get(3);
-            } else {
-                x = pol.get(pol.size() - 4);
-                y = pol.get(pol.size() - 3);
-            }
-        } else {
-            x = pol.get(2);
-            y = pol.get(3);
-        }
-
-        WireConnection wireC = WireConnection.searchBetterAnchorPoints(anchorPointProvider, g1 == null ? n1 : n2, x, y);
-        AnchorPoint anc1 = wireC.getAnchorPoint1();
-
         int n = pol.size();
 
-        // Replacing the right points coordinates in the original polyline
+        // Getting the right polyline point from where we need to compute the best anchor point
+        Point point;
+        Point prevPoint;
         if (g2 == null) {
-            double xOld = pol.get(n - 2);
-            double yOld = pol.get(n - 1);
-            pol.set(n - 2, xOld + anc1.getX());
-            pol.set(n - 1, yOld + anc1.getY());
-            if (xOld == x) {
-                pol.set(n - 4, xOld + anc1.getX());
-            } else {
-                pol.set(n - 3, yOld + anc1.getY());
-            }
+            point = pol.get(Math.max(n - 2, 0));
+            prevPoint = pol.get(n - 1);
         } else {
-            double xOld = pol.get(0);
-            double yOld = pol.get(1);
-            pol.set(0, xOld + anc1.getX());
-            pol.set(1, yOld + anc1.getY());
-            if (xOld == x) {
-                pol.set(2, xOld + anc1.getX());
-            } else {
-                pol.set(3, yOld + anc1.getY());
-            }
+            point = pol.get(1);
+            prevPoint = pol.get(0);
+        }
+
+        WireConnection wireC = WireConnection.searchBetterAnchorPoints(anchorPointProvider, g1 == null ? n1 : n2, point);
+
+        // Replacing the right points coordinates in the original polyline
+        double xOld = prevPoint.getX();
+        prevPoint.shift(wireC.getAnchorPoint1());
+        if (xOld == point.getX()) {
+            point.setX(prevPoint.getX());
+        } else {
+            point.setY(prevPoint.getY());
         }
     }
 
-    protected String pointsListToString(List<Double> pol) {
-        return IntStream.range(0, pol.size())
-                .mapToObj(n -> n % 2 == 0 ? pol.get(n) + layoutParameters.getTranslateX() : pol.get(n) + layoutParameters.getTranslateY())
-                .map(Object::toString)
-                .collect(Collectors.joining(","));
+    protected String pointsListToString(List<Point> polyline) {
+        return polyline.stream()
+            .map(pt -> (pt.getX() + layoutParameters.getTranslateX()) + "," + (pt.getY() + layoutParameters.getTranslateY()))
+            .collect(Collectors.joining(","));
     }
 
     /**

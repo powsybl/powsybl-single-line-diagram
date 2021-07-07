@@ -189,7 +189,7 @@ public class RawGraphBuilder implements GraphBuilder {
             FeederLineNode feederLineNode2 = vl2.createFeederLineNode(id, vl1.voltageLevelInfos.getId(), TWO, order2, direction2);
             feederLineNodes.put(vl1, feederLineNode1);
             feederLineNodes.put(vl2, feederLineNode2);
-            ssGraph.addTwtEdge(feederLineNode1, feederLineNode2);
+            ssGraph.addLineEdge(id, feederLineNode1, feederLineNode2);
             return feederLineNodes;
         }
 

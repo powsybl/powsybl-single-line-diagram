@@ -8,6 +8,7 @@ package com.powsybl.sld.library;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.powsybl.sld.model.Point;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Objects;
@@ -19,11 +20,7 @@ import java.util.Objects;
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 @XmlJavaTypeAdapter(AnchorPointAdapter.class)
-public class AnchorPoint {
-
-    private final double x;
-
-    private final double y;
+public class AnchorPoint extends Point {
 
     private final AnchorOrientation orientation;
 
@@ -37,17 +34,8 @@ public class AnchorPoint {
     @JsonCreator
     public AnchorPoint(@JsonProperty("x") double x, @JsonProperty("y") double y,
                        @JsonProperty("orientation") AnchorOrientation orientation) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
         this.orientation = Objects.requireNonNull(orientation);
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
     }
 
     public AnchorOrientation getOrientation() {
@@ -61,16 +49,16 @@ public class AnchorPoint {
         if (rotationAngle == 90.) {
             switch (orientation) {
                 case VERTICAL:
-                    return new AnchorPoint(y, x, AnchorOrientation.HORIZONTAL);
+                    return new AnchorPoint(getY(), getX(), AnchorOrientation.HORIZONTAL);
                 case HORIZONTAL:
-                    return new AnchorPoint(y, x, AnchorOrientation.VERTICAL);
+                    return new AnchorPoint(getY(), getX(), AnchorOrientation.VERTICAL);
                 case NONE:
                     return this;
                 default:
                     throw new AssertionError("Unknown anchor orientation " + orientation);
             }
         } else if (rotationAngle == 180.) {
-            return new AnchorPoint(-x, -y, orientation);
+            return new AnchorPoint(-getX(), -getY(), orientation);
         } else {
             return this;
         }
@@ -82,6 +70,6 @@ public class AnchorPoint {
 
     @Override
     public String toString() {
-        return "AnchorPoint(x=" + x + ", y=" + y + ", orientation=" + orientation + ")";
+        return "AnchorPoint(x=" + getX() + ", y=" + getY() + ", orientation=" + orientation + ")";
     }
 }

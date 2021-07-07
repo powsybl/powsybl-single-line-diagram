@@ -93,7 +93,7 @@ public class DefaultDiagramStyleProvider implements DiagramStyleProvider {
     }
 
     @Override
-    public List<String> getZoneLineStyles(LineEdge edge, ComponentLibrary componentLibrary) {
+    public List<String> getZoneLineStyles(BranchEdge edge, ComponentLibrary componentLibrary) {
         List<String> styles = new ArrayList<>();
         styles.add(WIRE_STYLE_CLASS);
         if (isConstantColor(edge)) {

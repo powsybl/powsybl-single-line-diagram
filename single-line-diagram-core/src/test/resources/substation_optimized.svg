@@ -421,19 +421,19 @@ polyline {fill: none}
             <use href="#THREE_WINDINGS_TRANSFORMER-WINDING2"/>
             <use href="#THREE_WINDINGS_TRANSFORMER-WINDING3"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_subst_95_vl1_95_trf1_95_vl1_95_trf1_95_vl2_95_trf1">
+        <g class="sld-wire sld-constant-color" id="idedge_95_vl1_95_trf1">
             <polyline points="100.0,550.0,100.0,600.0,377.0,600.0"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_subst_95_vl1_95_trf1_95_vl2_95_trf1_95_vl2_95_trf1">
+        <g class="sld-wire sld-constant-color" id="idedge_95_vl2_95_trf1">
             <polyline points="393.0,600.0,670.0,600.0,670.0,550.0"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_subst_95_vl1_95_trf2_95_one_95_vl1_95_trf2_95_one_95_vl2_95_trf2_95_one_95_vl3_95_trf2_95_one">
+        <g class="sld-wire sld-constant-color" id="idedge_95_vl1_95_trf2_95_one">
             <polyline points="420.0,130.0,420.0,95.0,723.0,95.0"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_subst_95_vl1_95_trf2_95_one_95_vl2_95_trf2_95_one_95_vl3_95_trf2_95_one_95_vl2_95_trf2_95_one">
+        <g class="sld-wire sld-constant-color" id="idedge_95_vl2_95_trf2_95_one">
             <polyline points="730.0,107.0,730.0,130.0"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_subst_95_vl1_95_trf2_95_one_95_vl2_95_trf2_95_one_95_vl3_95_trf2_95_one_95_vl3_95_trf2_95_one">
+        <g class="sld-wire sld-constant-color" id="idedge_95_vl3_95_trf2_95_one">
             <polyline points="737.0,95.0,1020.0,95.0,1020.0,130.0"/>
         </g>
         <g id="LABEL_VL_vl1">

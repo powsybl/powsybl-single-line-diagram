@@ -7,9 +7,9 @@
 package com.powsybl.sld.svg;
 
 import com.powsybl.sld.library.ComponentLibrary;
+import com.powsybl.sld.model.BranchEdge;
 import com.powsybl.sld.model.Edge;
 import com.powsybl.sld.model.VoltageLevelGraph;
-import com.powsybl.sld.model.LineEdge;
 import com.powsybl.sld.model.Node;
 
 import java.net.URL;
@@ -28,7 +28,7 @@ public interface DiagramStyleProvider {
 
     List<String> getSvgNodeDecoratorStyles(DiagramLabelProvider.NodeDecorator nodeDecorator, Node node, ComponentLibrary componentLibrary);
 
-    List<String> getZoneLineStyles(LineEdge edge, ComponentLibrary componentLibrary);
+    List<String> getZoneLineStyles(BranchEdge edge, ComponentLibrary componentLibrary);
 
     List<String> getSvgNodeSubcomponentStyles(Node node, String subComponentName);
 

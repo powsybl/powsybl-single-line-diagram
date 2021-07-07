@@ -18,6 +18,8 @@ import static com.powsybl.sld.library.ComponentTypeName.THREE_WINDINGS_TRANSFORM
  */
 public class Middle3WTNode extends FictitiousNode {
 
+    private static final String EDGE_SUFFIX = "_EDGE";
+
     private final VoltageLevelInfos voltageLevelInfosLeg1;
 
     private final VoltageLevelInfos voltageLevelInfosLeg2;
@@ -37,9 +39,9 @@ public class Middle3WTNode extends FictitiousNode {
         Middle3WTNode middleNode = new Middle3WTNode(null, node1.getId() + "_" + node2.getId() + "_" + node3.getId(),
                 vlInfos1, vlInfos2, vlInfos3);
 
-        TwtEdge edge1 = ssGraph.addTwtEdge(node1, middleNode);
-        TwtEdge edge2 = ssGraph.addTwtEdge(middleNode, node2);
-        TwtEdge edge3 = ssGraph.addTwtEdge(middleNode, node3);
+        BranchEdge edge1 = ssGraph.addTwtEdge(node1.getId() + EDGE_SUFFIX, node1, middleNode);
+        BranchEdge edge2 = ssGraph.addTwtEdge(node2.getId() + EDGE_SUFFIX, middleNode, node2);
+        BranchEdge edge3 = ssGraph.addTwtEdge(node3.getId() + EDGE_SUFFIX, middleNode, node3);
 
         middleNode.addAdjacentEdge(edge1);
         middleNode.addAdjacentEdge(edge2);

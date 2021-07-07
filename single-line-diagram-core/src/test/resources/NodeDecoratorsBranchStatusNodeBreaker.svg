@@ -588,10 +588,10 @@ polyline {fill: none}
         <g class="sld-wire sld-constant-color" id="idL11">
             <polyline points="245.0,80.0,245.0,20.0,495.0,20.0,495.0,80.0"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_VL1_95_T11_95_ONE_95_T11_95_ONE_95_T11_95_TWO">
+        <g class="sld-wire sld-constant-color" id="idT11_95_ONE_95_edge">
             <polyline points="345.0,80.0,345.0,50.0,437.0,50.0"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_VL1_95_T11_95_ONE_95_T11_95_TWO_95_T11_95_TWO">
+        <g class="sld-wire sld-constant-color" id="idT11_95_TWO_95_edge">
             <polyline points="453.0,50.0,545.0,50.0,545.0,80.0"/>
         </g>
         <g class="sld-busbar-section sld-constant-color" id="idBBS2" transform="translate(830.0,360.0)">
@@ -798,19 +798,19 @@ polyline {fill: none}
         <g class="sld-wire sld-constant-color" id="idL12">
             <polyline points="295.0,80.0,295.0,-70.0,895.0,-70.0,895.0,80.0"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_S1_95_T12_95_ONE_95_T12_95_ONE_95_T12_95_TWO">
+        <g class="sld-wire sld-constant-color" id="idT12_95_ONE_95_edge">
             <polyline points="595.0,80.0,595.0,-10.0,762.0,-10.0"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_S1_95_T12_95_ONE_95_T12_95_TWO_95_T12_95_TWO">
+        <g class="sld-wire sld-constant-color" id="idT12_95_TWO_95_edge">
             <polyline points="778.0,-10.0,945.0,-10.0,945.0,80.0"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_S1_95_T3_95_12_95_ONE_95_T3_95_12_95_ONE_95_T3_95_12_95_TWO_95_T3_95_12_95_THREE">
+        <g class="sld-wire sld-constant-color" id="idT3_95_12_95_ONE_95_EDGE">
             <polyline points="395.0,80.0,395.0,-45.0,638.0,-45.0"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_S1_95_T3_95_12_95_ONE_95_T3_95_12_95_TWO_95_T3_95_12_95_THREE_95_T3_95_12_95_TWO">
+        <g class="sld-wire sld-constant-color" id="idT3_95_12_95_TWO_95_EDGE">
             <polyline points="645.0,-33.0,645.0,80.0"/>
         </g>
-        <g class="sld-wire sld-constant-color" id="_95_S1_95_T3_95_12_95_ONE_95_T3_95_12_95_TWO_95_T3_95_12_95_THREE_95_T3_95_12_95_THREE">
+        <g class="sld-wire sld-constant-color" id="idT3_95_12_95_THREE_95_EDGE">
             <polyline points="652.0,-45.0,995.0,-45.0,995.0,80.0"/>
         </g>
         <g id="LABEL_VL_VL1">
