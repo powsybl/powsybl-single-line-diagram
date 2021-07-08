@@ -42,8 +42,10 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
             // Reset the horizontal layout numbers to current graph numbers
             int currentNbBottom = infosNbSnakeLines.getNbSnakeLinesHorizontalBetween(graphId, BusCell.Direction.BOTTOM);
             int currentNbTop = infosNbSnakeLines.getNbSnakeLinesHorizontalBetween(graphId, BusCell.Direction.TOP);
+            int currentNbLeft = infosNbSnakeLines.getNbSnakeLinesLeftRight().get(Side.LEFT);
             infosNbSnakeLines.getNbSnakeLinesTopBottom().put(BusCell.Direction.BOTTOM, currentNbBottom);
             infosNbSnakeLines.getNbSnakeLinesTopBottom().put(BusCell.Direction.TOP, currentNbTop);
+            infosNbSnakeLines.getNbSnakeLinesVerticalBetween().put(graphId, currentNbLeft);
 
             // Calculate the snakeline as an horizontal layout
             polyline = calculatePolylineSnakeLineForHorizontalLayout(layoutParam, node1, node2, infosNbSnakeLines, increment);
@@ -51,8 +53,10 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
             // Update the vertical layout maps
             Integer updatedNbLinesBottom = infosNbSnakeLines.getNbSnakeLinesTopBottom().get(BusCell.Direction.BOTTOM);
             Integer updatedNbLinesTop = infosNbSnakeLines.getNbSnakeLinesTopBottom().get(BusCell.Direction.TOP);
+            Integer updatedNbLinesLeft = infosNbSnakeLines.getNbSnakeLinesVerticalBetween().get(graphId);
             infosNbSnakeLines.setNbSnakeLinesHorizontalBetween(graphId, BusCell.Direction.BOTTOM, updatedNbLinesBottom);
             infosNbSnakeLines.setNbSnakeLinesHorizontalBetween(graphId, BusCell.Direction.TOP, updatedNbLinesTop);
+            infosNbSnakeLines.getNbSnakeLinesLeftRight().put(Side.LEFT, updatedNbLinesLeft);
 
             return polyline;
 
