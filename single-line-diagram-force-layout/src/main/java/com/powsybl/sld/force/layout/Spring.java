@@ -8,6 +8,7 @@ package com.powsybl.sld.force.layout;
 
 import java.io.PrintWriter;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * @author Mathilde Grapin <mathilde.grapin at rte-france.com>
@@ -57,5 +58,22 @@ public class Spring {
         Vector screenPosition2 = canvas.toScreen(source.getPosition());
         printWriter.printf(Locale.US, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\"/>%n",
             screenPosition1.getX(), screenPosition1.getY(), screenPosition2.getX(), screenPosition2.getY());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Spring spring = (Spring) o;
+        return source == spring.source && target == spring.target;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(source, target);
     }
 }
