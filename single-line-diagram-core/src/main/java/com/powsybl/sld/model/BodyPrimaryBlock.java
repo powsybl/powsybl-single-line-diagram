@@ -43,7 +43,7 @@ public class BodyPrimaryBlock extends AbstractPrimaryBlock {
             getPosition().setSpan(V, 2 * (nodes.size() - 1));
         } else {
             // in the case of horizontal Blocks having 1 switch/1 position => 1 hPos / 2 edges rounded to the superior int
-            getPosition().setSpan(H, 2 * (nodes.size() - 2));
+            getPosition().setSpan(H, 2 * Math.max(1, nodes.size() - 2));
             getPosition().setSpan(V, 2);
         }
     }

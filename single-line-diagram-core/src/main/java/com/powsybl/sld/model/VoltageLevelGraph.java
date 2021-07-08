@@ -35,6 +35,7 @@ import static com.powsybl.sld.model.Position.Dimension.V;
 public class VoltageLevelGraph extends AbstractBaseGraph {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VoltageLevelGraph.class);
+    public static final String INTERNAL_NODE_ID_SUFFIX = "fNode";
 
     private final VoltageLevelInfos voltageLevelInfos;
 
@@ -357,8 +358,8 @@ public class VoltageLevelGraph extends AbstractBaseGraph {
 
         // Create nodes
         SwitchNode fNodeToBus = SwitchNode.createFictitious(VoltageLevelGraph.this, feederNode.getId() + "fSwitch", false);
-        InternalNode fNodeToSw1 = new InternalNode(VoltageLevelGraph.this, feederNode.getId() + "fNode1");
-        InternalNode fNodeToSw2 = new InternalNode(VoltageLevelGraph.this, feederNode.getId() + "fNode2");
+        InternalNode fNodeToSw1 = new InternalNode(VoltageLevelGraph.this, feederNode.getId() + INTERNAL_NODE_ID_SUFFIX + "1");
+        InternalNode fNodeToSw2 = new InternalNode(VoltageLevelGraph.this, feederNode.getId() + INTERNAL_NODE_ID_SUFFIX + "2");
 
         // Nodes will be added afterwards
         nodesToAdd.add(fNodeToBus);
@@ -376,8 +377,8 @@ public class VoltageLevelGraph extends AbstractBaseGraph {
         removeEdge(busDisconnectorNode, feederNode);
 
         // Create nodes
-        InternalNode fNodeToSw1 = new InternalNode(VoltageLevelGraph.this, feederNode.getId() + "fNode1");
-        InternalNode fNodeToSw2 = new InternalNode(VoltageLevelGraph.this, feederNode.getId() + "fNode2");
+        InternalNode fNodeToSw1 = new InternalNode(VoltageLevelGraph.this, feederNode.getId() + INTERNAL_NODE_ID_SUFFIX + "1");
+        InternalNode fNodeToSw2 = new InternalNode(VoltageLevelGraph.this, feederNode.getId() + INTERNAL_NODE_ID_SUFFIX + "2");
 
         // Nodes will be added afterwards
         nodesToAdd.add(fNodeToSw1);
@@ -421,11 +422,13 @@ public class VoltageLevelGraph extends AbstractBaseGraph {
                     .forEach(n2 -> {
                         removeEdge(n1, n2);
                         SwitchNode fSwToBus1 = SwitchNode.createFictitious(this, n1.getId() + "fSwitch1", false);
-                        InternalNode internalNode = new InternalNode(this, "internal" + n1.getId() + n2.getId());
+                        InternalNode internalNode1 = new InternalNode(this, n1.getId() + INTERNAL_NODE_ID_SUFFIX + "1");
+                        InternalNode internalNode2 = new InternalNode(this, n2.getId() + INTERNAL_NODE_ID_SUFFIX + "2");
                         SwitchNode fSwToBus2 = SwitchNode.createFictitious(this, n2.getId() + "fSwitch2", false);
                         addEdge(n1, fSwToBus1);
-                        addEdge(internalNode, fSwToBus1);
-                        addEdge(internalNode, fSwToBus2);
+                        addEdge(fSwToBus1, internalNode1);
+                        addEdge(internalNode1, internalNode2);
+                        addEdge(internalNode2, fSwToBus2);
                         addEdge(n2, fSwToBus2);
                     });
         }
@@ -450,7 +453,7 @@ public class VoltageLevelGraph extends AbstractBaseGraph {
         removeEdge(busNode, node);
         SwitchNode fNodeToBus = SwitchNode.createFictitious(VoltageLevelGraph.this, node.getId() + "fSwitch" + suffix, node.isOpen());
         addNode(fNodeToBus);
-        InternalNode fNodeToSw = new InternalNode(VoltageLevelGraph.this, node.getId() + "fNode" + suffix);
+        InternalNode fNodeToSw = new InternalNode(VoltageLevelGraph.this, node.getId() + INTERNAL_NODE_ID_SUFFIX + suffix);
         addNode(fNodeToSw);
         addEdge(busNode, fNodeToBus);
         addEdge(fNodeToBus, fNodeToSw);
