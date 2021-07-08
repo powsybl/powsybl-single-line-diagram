@@ -24,18 +24,18 @@ public abstract class AbstractLayout {
 
     protected abstract void manageSnakeLines(LayoutParameters layoutParameters);
 
-    protected void manageSnakeLines(AbstractBaseGraph graph, LayoutParameters layoutParameters, InfosNbSnakeLines infos) {
+    protected void manageSnakeLines(AbstractBaseGraph graph, LayoutParameters layoutParameters) {
         for (Node multiNode : graph.getMultiTermNodes()) {
             List<Edge> adjacentEdges = multiNode.getAdjacentEdges();
             List<Node> adjacentNodes = multiNode.getAdjacentNodes();
             if (adjacentNodes.size() == 2) {
-                List<Point> pol = calculatePolylineSnakeLine(layoutParameters, adjacentNodes.get(0), adjacentNodes.get(1), infos, true);
+                List<Point> pol = calculatePolylineSnakeLine(layoutParameters, adjacentNodes.get(0), adjacentNodes.get(1), true);
                 List<List<Point>> pollingSplit = splitPolyline2(pol, multiNode);
                 ((BranchEdge) adjacentEdges.get(0)).setSnakeLine(pollingSplit.get(0));
                 ((BranchEdge) adjacentEdges.get(1)).setSnakeLine(pollingSplit.get(1));
             } else if (adjacentNodes.size() == 3) {
-                List<Point> pol1 = calculatePolylineSnakeLine(layoutParameters, adjacentNodes.get(0), adjacentNodes.get(1), infos, true);
-                List<Point> pol2 = calculatePolylineSnakeLine(layoutParameters, adjacentNodes.get(1), adjacentNodes.get(2), infos, false);
+                List<Point> pol1 = calculatePolylineSnakeLine(layoutParameters, adjacentNodes.get(0), adjacentNodes.get(1), true);
+                List<Point> pol2 = calculatePolylineSnakeLine(layoutParameters, adjacentNodes.get(1), adjacentNodes.get(2), false);
                 List<List<Point>> pollingSplit = splitPolyline3(pol1, pol2, multiNode);
                 for (int i = 0; i < 3; i++) {
                     ((BranchEdge) adjacentEdges.get(i)).setSnakeLine(pollingSplit.get(i));
@@ -45,12 +45,12 @@ public abstract class AbstractLayout {
 
         for (BranchEdge lineEdge : graph.getLineEdges()) {
             List<Node> adjacentNodes = lineEdge.getNodes();
-            lineEdge.setSnakeLine(calculatePolylineSnakeLine(layoutParameters, adjacentNodes.get(0), adjacentNodes.get(1), infos, true));
+            lineEdge.setSnakeLine(calculatePolylineSnakeLine(layoutParameters, adjacentNodes.get(0), adjacentNodes.get(1), true));
         }
     }
 
     protected abstract List<Point> calculatePolylineSnakeLine(LayoutParameters layoutParam, Node node1, Node node2,
-                                                               InfosNbSnakeLines infosNbSnakeLines, boolean increment);
+                                                              boolean increment);
 
     protected static BusCell.Direction getNodeDirection(Node node, int nb) {
         if (node.getType() != Node.NodeType.FEEDER) {
@@ -68,7 +68,7 @@ public abstract class AbstractLayout {
      * This is a default implementation of 'calculatePolylineSnakeLine' for a horizontal layout
      */
     protected static List<Point> calculatePolylineSnakeLineForHorizontalLayout(LayoutParameters layoutParam, Node node1, Node node2,
-                                                                                InfosNbSnakeLines infosNbSnakeLines, boolean increment) {
+                                                                               InfosNbSnakeLinesHorizontal infosNbSnakeLines, boolean increment) {
         BusCell.Direction dNode1 = getNodeDirection(node1, 1);
         BusCell.Direction dNode2 = getNodeDirection(node2, 2);
 

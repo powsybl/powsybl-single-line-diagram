@@ -18,9 +18,11 @@ import java.util.List;
 public abstract class AbstractVoltageLevelLayout extends AbstractLayout implements VoltageLevelLayout {
 
     private final VoltageLevelGraph graph;
+    private final InfosNbSnakeLinesHorizontal infosNbSnakeLines;
 
     protected AbstractVoltageLevelLayout(VoltageLevelGraph graph) {
         this.graph = graph;
+        this.infosNbSnakeLines = InfosNbSnakeLinesHorizontal.create(graph);
     }
 
     public VoltageLevelGraph getGraph() {
@@ -28,15 +30,14 @@ public abstract class AbstractVoltageLevelLayout extends AbstractLayout implemen
     }
 
     @Override
-    protected List<Point> calculatePolylineSnakeLine(LayoutParameters layoutParam, Node node1, Node node2,
-                                                     InfosNbSnakeLines infosNbSnakeLines, boolean increment) {
+    protected List<Point> calculatePolylineSnakeLine(LayoutParameters layoutParam, Node node1, Node node2, boolean increment) {
         return calculatePolylineSnakeLineForHorizontalLayout(layoutParam, node1, node2, infosNbSnakeLines, increment);
     }
 
     @Override
     public void manageSnakeLines(LayoutParameters layoutParameters) {
         if (getGraph().isForVoltageLevelDiagram()) {
-            manageSnakeLines(getGraph(), layoutParameters, InfosNbSnakeLines.create(getGraph()));
+            manageSnakeLines(getGraph(), layoutParameters);
         }
     }
 }

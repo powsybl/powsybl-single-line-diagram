@@ -66,11 +66,8 @@ public abstract class AbstractSubstationLayout extends AbstractLayout implements
 
     @Override
     public void manageSnakeLines(LayoutParameters layoutParameters) {
-        InfosNbSnakeLines infosNbSnakeLines = InfosNbSnakeLines.create(getGraph());
-
-        getGraph().getNodes().forEach(g -> manageSnakeLines(g, layoutParameters, infosNbSnakeLines));
-
-        manageSnakeLines(graph, layoutParameters, infosNbSnakeLines);
+        getGraph().getNodes().forEach(g -> manageSnakeLines(g, layoutParameters));
+        manageSnakeLines(graph, layoutParameters);
     }
 
 }
