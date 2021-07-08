@@ -6,27 +6,29 @@
  */
 package com.powsybl.sld.layout;
 
+import com.powsybl.sld.model.BusCell;
 import com.powsybl.sld.model.Cell;
-import com.powsybl.sld.model.Graph;
-import com.powsybl.sld.model.Node;
+import com.powsybl.sld.model.VoltageLevelGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
+import java.util.EnumSet;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
  * @author Nicolas Duchene
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
-public class PositionVoltageLevelLayout implements VoltageLevelLayout {
+public class PositionVoltageLevelLayout extends AbstractVoltageLevelLayout {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PositionVoltageLevelLayout.class);
 
-    private final Graph graph;
-
-    public PositionVoltageLevelLayout(Graph graph) {
-        this.graph = Objects.requireNonNull(graph);
+    public PositionVoltageLevelLayout(VoltageLevelGraph graph) {
+        super(graph);
     }
 
     /**
@@ -35,22 +37,23 @@ public class PositionVoltageLevelLayout implements VoltageLevelLayout {
     @Override
     public void run(LayoutParameters layoutParam) {
         LOGGER.info("Running voltage level layout");
-        calculateBusNodeCoord(graph, layoutParam);
-        calculateCellCoord(graph, layoutParam);
-        graph.getNodes().stream()
-                .filter(node -> node.getType() != Node.NodeType.BUS)
-                .forEach(Node::finalizeCoord);
-        if (layoutParam.isShiftFeedersPosition()) {
-            graph.shiftFeedersPosition(layoutParam.getScaleShiftFeedersPosition());
-        }
-        calculateSize(graph, layoutParam);
+        calculateBusNodeCoord(getGraph(), layoutParam);
+        calculateCellCoord(getGraph(), layoutParam);
+
+        // Calculate all the coordinates for the middle nodes and the snake lines in the voltageLevel graph
+        manageSnakeLines(layoutParam);
     }
 
-    private void calculateBusNodeCoord(Graph graph, LayoutParameters layoutParam) {
+    private void calculateBusNodeCoord(VoltageLevelGraph graph, LayoutParameters layoutParam) {
         graph.getNodeBuses().forEach(nb -> nb.calculateCoord(layoutParam));
     }
 
-    private void calculateCellCoord(Graph graph, LayoutParameters layoutParam) {
+    private void calculateCellCoord(VoltageLevelGraph graph, LayoutParameters layoutParam) {
+        if (layoutParam.isAdaptCellHeightToContent()) {
+            // when using the adapt cell height to content option, we have to calculate the
+            // maximum height of all the extern cells in each direction (top and bottom)
+            calculateMaxCellHeight(layoutParam);
+        }
         graph.getCells().stream()
                 .filter(cell -> cell.getType() == Cell.CellType.EXTERN
                         || cell.getType() == Cell.CellType.INTERN)
@@ -60,29 +63,22 @@ public class PositionVoltageLevelLayout implements VoltageLevelLayout {
                 .forEach(cell -> cell.calculateCoord(layoutParam));
     }
 
-    private void calculateSize(Graph graph, LayoutParameters layoutParam) {
-        int maxH = graph.getNodeBuses().stream()
-                .mapToInt(nodeBus -> nodeBus.getPosition().getH() + nodeBus.getPosition().getHSpan()).max().orElse(0);
+    /**
+     * Calculating the maximum height of all the extern cells in each direction (top and bottom). This height does not
+     * include the constant stack height.
+     * @param layoutParam the layout parameters
+     */
+    private void calculateMaxCellHeight(LayoutParameters layoutParam) {
+        Map<BusCell.Direction, Double> maxCalculatedCellHeight = EnumSet.allOf(BusCell.Direction.class).stream().collect(Collectors.toMap(Function.identity(), v -> 0.));
 
-        // TODO is this what we want ? for a simple diagram with 1 bus
-        // and 1 cell with the default parameters, we get:
-        // 0..20 20 px left margin
-        // 20..70 50 px cell
-        // 70..150 80 px right margin
-        // It feels weird that the margin is not symmetrical (but right now it helps
-        // because
-        // the names of the feeders are often bigger dans the cells and overflowing on
-        // the right side)
-        double width = layoutParam.getInitialXBus() + (maxH + 2) * layoutParam.getCellWidth();
+        getGraph().getCells().stream()
+                .filter(cell -> cell.getType() == Cell.CellType.EXTERN)
+                .forEach(cell -> maxCalculatedCellHeight.compute(((BusCell) cell).getDirection(), (k, v) -> Math.max(v, cell.calculateHeight(layoutParam))));
 
-        int maxV = graph.getNodeBuses().stream()
-                .mapToInt(nodeBus -> nodeBus.getPosition().getV() + nodeBus.getPosition().getVSpan()).max().orElse(0);
+        // if needed, adjusting the maximum calculated cell height to the minimum extern cell height parameter
+        maxCalculatedCellHeight.compute(BusCell.Direction.TOP, (k, v) -> Math.max(v, layoutParam.getMinExternCellHeight()));
+        maxCalculatedCellHeight.compute(BusCell.Direction.BOTTOM, (k, v) -> Math.max(v, layoutParam.getMinExternCellHeight()));
 
-        // TODO this crops the feeder name
-        double height = layoutParam.getInitialYBus() + layoutParam.getStackHeight() + layoutParam.getExternCellHeight()
-                + layoutParam.getVerticalSpaceBus() * (maxV + 2);
-
-        graph.setWidth(width);
-        graph.setHeigth(height);
+        getGraph().setMaxCalculatedCellHeight(maxCalculatedCellHeight);
     }
 }

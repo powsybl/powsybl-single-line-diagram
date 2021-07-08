@@ -33,6 +33,8 @@ public class AdaptedComponentMetadata {
 
     private ComponentSize size;
 
+    private String styleClass;
+
     private boolean allowRotation;
 
     @XmlElement(name = "subComponent")
@@ -84,5 +86,13 @@ public class AdaptedComponentMetadata {
 
     public void setSubComponents(List<SubComponent> subComponents) {
         this.subComponents = subComponents;
+    }
+
+    public String getStyleClass() {
+        return styleClass;
+    }
+
+    public void setStyleClass(String styleClass) {
+        this.styleClass = styleClass;
     }
 }

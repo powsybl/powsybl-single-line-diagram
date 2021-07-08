@@ -16,13 +16,18 @@ import java.util.*;
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
  * @author Nicolas Duchene
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 public interface Cell {
     enum CellType {
-        INTERN, EXTERN, SHUNT
+        INTERN, EXTERN, SHUNT;
+
+        public boolean isBusCell() {
+            return this == INTERN || this == EXTERN;
+        }
     }
 
-    void addNodes(Collection<Node> nodesToAdd);
+    void addNodes(List<Node> nodesToAdd);
 
     List<Node> getNodes();
 
@@ -36,15 +41,23 @@ public interface Cell {
 
     Block getRootBlock();
 
+    default void blockSizing() {
+        getRootBlock().sizing();
+    }
+
     void setRootBlock(Block rootBlock);
 
     int getNumber();
 
     void calculateCoord(LayoutParameters layoutParam);
 
+    double calculateHeight(LayoutParameters layoutParam);
+
     void writeJson(JsonGenerator generator) throws IOException;
+
+    String getId();
 
     String getFullId();
 
-    Graph getGraph();
+    VoltageLevelGraph getGraph();
 }

@@ -15,7 +15,7 @@ import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.VoltageLevel;
 import com.powsybl.sld.layout.LayoutParameters;
 import com.powsybl.sld.layout.VoltageLevelLayout;
-import com.powsybl.sld.model.Graph;
+import com.powsybl.sld.model.VoltageLevelGraph;
 
 /**
  *
@@ -25,32 +25,26 @@ public class CgmesVoltageLevelLayout extends AbstractCgmesLayout implements Volt
 
     private static final Logger LOG = LoggerFactory.getLogger(CgmesVoltageLevelLayout.class);
 
-    private final Graph graph;
+    private final VoltageLevelGraph graph;
 
-    public CgmesVoltageLevelLayout(Graph graph, Network network) {
+    public CgmesVoltageLevelLayout(VoltageLevelGraph graph, Network network) {
         this.network = Objects.requireNonNull(network);
         Objects.requireNonNull(graph);
-        this.graph = removeFictitiousNodes(graph, network.getVoltageLevel(graph.getVoltageLevelId()));
+        this.graph = removeFictitiousNodes(graph, network.getVoltageLevel(graph.getVoltageLevelInfos().getId()));
     }
 
     @Override
     public void run(LayoutParameters layoutParam) {
-        VoltageLevel vl = network.getVoltageLevel(graph.getVoltageLevelId());
+        VoltageLevel vl = network.getVoltageLevel(graph.getVoltageLevelInfos().getId());
         String diagramName = layoutParam.getDiagramName();
         if (!checkDiagram(diagramName, "voltage level " + vl.getId())) {
             return;
         }
-        LOG.info("Applying CGMES-DL layout to network {}, voltage level {}, diagram name {}", network.getId(), graph.getVoltageLevelId(), diagramName);
+        LOG.info("Applying CGMES-DL layout to network {}, voltage level {}, diagram name {}", network.getId(), graph.getVoltageLevelInfos().getId(), diagramName);
         setNodeCoordinates(vl, graph, diagramName);
         graph.getNodes().forEach(node -> shiftNodeCoordinates(node, layoutParam.getScaleFactor()));
         if (layoutParam.getScaleFactor() != 1) {
             graph.getNodes().forEach(node -> scaleNodeCoordinates(node, layoutParam.getScaleFactor()));
         }
-        if (layoutParam.isShiftFeedersPosition()) {
-            graph.shiftFeedersPosition(layoutParam.getScaleShiftFeedersPosition());
-        }
-        // TODO Try to get width/height from the DL file. If missing, use a generic boundingbox algorithm on the Graph nodes
-        // TODO graph.setWidth(width);
-        // TODO graph.setHeight(height);
     }
 }

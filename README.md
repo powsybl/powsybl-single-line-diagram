@@ -30,32 +30,39 @@ for generating a [single line diagram](https://en.wikipedia.org/wiki/One-line_di
 The main features are:
  - Node/Breaker and bus/breaker topology.
  - [SVG](https://fr.wikipedia.org/wiki/Scalable_Vector_Graphics) diagram to be used in various front-end technologies.
- - Voltage level and substation diagram (and zone diagram soon).
+ - Voltage level, substation and zone diagrams.
  - Highly customizable rendering using equipment component libraries, CSS and configurable labels (position and content).
  - Multiple layout modes: fully automatic, semi-automatic (using relative positions for busbar sections and feeders), CGMES DL.
 
 ![Diagram demo](.github/diagram-demo.svg)
+*The example above corresponds to a CGMES file from the ENTSO-E sample files.*
+*A guide to generate this diagram is available [here](https://www.powsybl.org/pages/documentation/developer/api_guide/single-line-diagram/svg-writing.html).*
 
 ## Getting started
 
 To generate a SVG single line diagram from a voltage level, we first need to add a Maven dependency for the `Network` model 
-and additionally for this example two other ones for the `Network` test case and simple logging capabilities:
+and additionally for this example three other ones: two for the `Network` test case, one for simple logging capabilities:
 
 ```xml
 <dependency>
     <groupId>com.powsybl</groupId>
     <artifactId>powsybl-iidm-impl</artifactId>
-    <version>3.0.0</version>
+    <version>4.2.0</version>
 </dependency>
 <dependency>
     <groupId>com.powsybl</groupId>
     <artifactId>powsybl-iidm-test</artifactId>
-    <version>3.0.0</version>
+    <version>4.2.0</version>
+</dependency>
+<dependency>
+    <groupId>com.powsybl</groupId>
+    <artifactId>powsybl-config-test</artifactId>
+    <version>4.2.0</version>
 </dependency>
 <dependency>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-simple</artifactId>
-    <version>1.7.28</version>
+    <version>1.7.22</version>
 </dependency>
 ```
 
@@ -69,11 +76,11 @@ After adding the single line diagram core module dependency:
 <dependency>
     <groupId>com.powsybl</groupId>
     <artifactId>powsybl-single-line-diagram-core</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>2.2.0</version>
 </dependency>
 ```
 
-We can generate a SVG for the voltage level "C":
+We can generate a SVG for the voltage level `N`:
 ```java
 // "Convergence" style component library
 ComponentLibrary componentLibrary = new ResourcesComponentLibrary("/ConvergenceLibrary");
@@ -81,15 +88,24 @@ ComponentLibrary componentLibrary = new ResourcesComponentLibrary("/ConvergenceL
 // fully automatic layout
 VoltageLevelLayoutFactory voltageLevelLayoutFactory = new PositionVoltageLevelLayoutFactory(new PositionByClustering());
 
-//  create diagram for the voltage level "C"
-VoltageLevelDiagram voltageLevelDiagram = VoltageLevelDiagram.build(new NetworkGraphBuilder(network), "C", voltageLevelLayoutFactory, false, false);
+// create diagram for the voltage level N
+VoltageLevelDiagram voltageLevelDiagram = VoltageLevelDiagram.build(new NetworkGraphBuilder(network), "N", voltageLevelLayoutFactory, false);
+
+// create default parameters for the SVG layout
+// then activating height compaction, tooltip and inclusion of CSS styles in the SVG
+LayoutParameters layoutParameters = new LayoutParameters()
+    .setAdaptCellHeightToContent(true)
+    .setTooltipEnabled(true)
+    .setCssInternal(true);
 
 // generate SVG
 voltageLevelDiagram.writeSvg("",
-                             new DefaultSVGWriter(componentLibrary, new LayoutParameters()),
-                             new DefaultDiagramInitialValueProvider(network),
-                             new NominalVoltageDiagramStyleProvider(network),
-                             new DefaultNodeLabelConfiguration(componentLibrary),
-                             Paths.get("/tmp/c.svg"),
-                             false);
+    new DefaultSVGWriter(componentLibrary, layoutParameters),
+    new DefaultDiagramLabelProvider(network, componentLibrary, layoutParameters),
+    new NominalVoltageDiagramStyleProvider(network),
+    Paths.get("/tmp/n.svg"));
 ```
+
+We obtain the following SVG:
+
+![Diagram demo](.github/example_n.svg)

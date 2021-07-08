@@ -33,7 +33,7 @@ public class Node implements BaseNode {
         OTHER
     }
 
-    protected final Graph graph;
+    protected final VoltageLevelGraph graph;
 
     private NodeType type;
 
@@ -41,19 +41,16 @@ public class Node implements BaseNode {
 
     private final String name;
 
-    private String componentType;
+    private final String equipmentId;
+
+    private final String componentType;
 
     private final boolean fictitious;
 
     private double x = -1;
     private double y = -1;
-    private List<Double> xs = new ArrayList<>();
-    private List<Double> ys = new ArrayList<>();
 
-    private boolean xPriority = false;
-    private boolean yPriority = false;
-
-    private double initY = -1;
+    private double initY = -1;  // y value before shifting the feeders height, if asked
 
     private Cell cell;
 
@@ -68,9 +65,10 @@ public class Node implements BaseNode {
     /**
      * Constructor
      */
-    protected Node(NodeType type, String id, String name, String componentType, boolean fictitious, Graph graph) {
+    protected Node(NodeType type, String id, String name, String equipmentId, String componentType, boolean fictitious, VoltageLevelGraph graph) {
         this.type = Objects.requireNonNull(type);
         this.name = name;
+        this.equipmentId = equipmentId;
         this.componentType = Objects.requireNonNull(componentType);
         this.fictitious = fictitious;
         // graph can be null here : for example, in a substation diagram, a fictitious node is created outside
@@ -80,8 +78,8 @@ public class Node implements BaseNode {
         String tmpId = Objects.requireNonNull(id);
         if (type == NodeType.FICTITIOUS &&
                 graph != null &&
-                !StringUtils.startsWith(tmpId, "FICT_" + this.graph.getVoltageLevelId() + "_")) {
-            this.id = "FICT_" + graph.getVoltageLevelId() + "_" + tmpId;
+                !StringUtils.startsWith(tmpId, "FICT_" + this.graph.getVoltageLevelInfos().getId() + "_")) {
+            this.id = "FICT_" + graph.getVoltageLevelInfos().getId() + "_" + tmpId;
         } else {
             this.id = tmpId;
         }
@@ -95,17 +93,13 @@ public class Node implements BaseNode {
         this.cell = cell;
     }
 
-    public Graph getGraph() {
+    public VoltageLevelGraph getGraph() {
         return graph;
     }
 
     @Override
     public String getComponentType() {
         return componentType;
-    }
-
-    public void setComponentType(String componentType) {
-        this.componentType = componentType;
     }
 
     @Override
@@ -130,11 +124,15 @@ public class Node implements BaseNode {
         return name;
     }
 
+    public String getEquipmentId() {
+        return equipmentId;
+    }
+
     public String getLabel() {
         if (label != null) {
             return label;
         } else {
-            return graph.isUseName() ? name : id;
+            return graph.isUseName() ? name : equipmentId;
         }
     }
 
@@ -170,27 +168,11 @@ public class Node implements BaseNode {
     }
 
     public void setX(double x) {
-        setX(x, false, true);
+        setX(x, true);
     }
 
-    public void setX(double x, boolean xPriority) {
-        setX(x, xPriority, true);
-    }
-
-    public void setX(double x, boolean xPriority, boolean addXGraph) {
-        double xNode = x;
-        if (addXGraph) {
-            xNode += graph.getX();
-        }
-
-        if (!this.xPriority && xPriority) {
-            xs.clear();
-            this.xPriority = true;
-        }
-        if (this.xPriority == xPriority) {
-            this.x = xNode;
-            xs.add(xNode);
-        }
+    public void setX(double x, boolean addXGraph) {
+        this.x = x + (addXGraph ? graph.getX() : 0);
     }
 
     @Override
@@ -199,27 +181,11 @@ public class Node implements BaseNode {
     }
 
     public void setY(double y) {
-        setY(y, false, true);
+        setY(y, true);
     }
 
-    public void setY(double y, boolean yPriority) {
-        setY(y, yPriority, true);
-    }
-
-    public void setY(double y, boolean yPriority, boolean addYGraph) {
-        double yNode = y;
-        if (addYGraph) {
-            yNode += graph.getY();
-        }
-
-        if (!this.yPriority && yPriority) {
-            ys.clear();
-            this.yPriority = true;
-        }
-        if (this.yPriority == yPriority) {
-            this.y = yNode;
-            ys.add(yNode);
-        }
+    public void setY(double y, boolean addYGraph) {
+        this.y = y + (addYGraph ? graph.getY() : 0);
     }
 
     public double getInitY() {
@@ -269,21 +235,19 @@ public class Node implements BaseNode {
                 || (n.getType() == NodeType.FICTITIOUS && n.adjacentEdges.size() == 1);
     }
 
-    public void finalizeCoord() {
-        x = xs.stream().mapToDouble(d -> d).average().orElse(0);
-        y = ys.stream().mapToDouble(d -> d).average().orElse(0);
-    }
-
     protected void writeJsonContent(JsonGenerator generator) throws IOException {
         generator.writeStringField("type", type.name());
         generator.writeStringField("id", id);
         if (name != null) {
             generator.writeStringField("name", name);
         }
+        generator.writeStringField("equipmentId", equipmentId);
         generator.writeStringField("componentType", componentType);
         generator.writeBooleanField("fictitious", fictitious);
-        generator.writeNumberField("x", x);
-        generator.writeNumberField("y", y);
+        if (graph != null && graph.isGenerateCoordsInJson()) {
+            generator.writeNumberField("x", x);
+            generator.writeNumberField("y", y);
+        }
         if (rotationAngle != null) {
             generator.writeNumberField("rotationAngle", rotationAngle);
         }
@@ -301,6 +265,27 @@ public class Node implements BaseNode {
 
     @Override
     public String toString() {
-        return "Node(id='" + getId() + "' name='" + name + "', type= " + type + ")";
+        return type + " " + name + " " + id;
+    }
+
+    public void resetCoords() {
+        x = -1;
+        y = -1;
+        initY = -1;
+    }
+
+    public void shiftY(double yShift) {
+        y += yShift;
+    }
+
+    /**
+     * Get voltage level infos for this node. By default it is the voltage level infos of the graph but it
+     * could be override in case of node that represents an external voltage level.
+     */
+    public VoltageLevelInfos getVoltageLevelInfos() {
+        if (graph != null) {
+            return graph.getVoltageLevelInfos();
+        }
+        return null;
     }
 }

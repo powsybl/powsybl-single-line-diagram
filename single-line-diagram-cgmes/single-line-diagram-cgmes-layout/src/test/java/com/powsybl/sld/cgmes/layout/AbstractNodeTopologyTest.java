@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2019, RTE (http://www.rte-france.com)
+ * Copyright (c) 2019-2020, RTE (http://www.rte-france.com)
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -8,7 +8,7 @@ package com.powsybl.sld.cgmes.layout;
 
 import com.powsybl.sld.cgmes.dl.iidm.extensions.*;
 import com.powsybl.iidm.network.*;
-import com.powsybl.sld.model.Graph;
+import com.powsybl.sld.model.VoltageLevelGraph;
 import com.powsybl.sld.model.Node;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +47,8 @@ public abstract class AbstractNodeTopologyTest extends AbstractCgmesVoltageLevel
         createSecondVoltageLevel(network);
         createLine(network, 3);
         addDiagramData(network);
-        NetworkDiagramData.addDiagramName(network, DIAGRAM_NAME);
+        NetworkDiagramData.addDiagramName(network, DIAGRAM_NAME, "Substation");
+        NetworkDiagramData.addDiagramName(network, DIAGRAM_NAME, "Substation2");
     }
 
     protected void createNetworkWithInternalConnections() {
@@ -92,7 +93,8 @@ public abstract class AbstractNodeTopologyTest extends AbstractCgmesVoltageLevel
         createSecondVoltageLevel(network);
         createLine(network, 11);
         addDiagramData(network);
-        NetworkDiagramData.addDiagramName(network, DIAGRAM_NAME);
+        NetworkDiagramData.addDiagramName(network, DIAGRAM_NAME, "Substation");
+        NetworkDiagramData.addDiagramName(network, DIAGRAM_NAME, "Substation2");
     }
 
     protected VoltageLevel createFirstVoltageLevel(Network network, int busbarNode, int generatorNode, int disconnector1Node1, int disconnector1Node2,
@@ -106,7 +108,6 @@ public abstract class AbstractNodeTopologyTest extends AbstractCgmesVoltageLevel
                 .setTopologyKind(TopologyKind.NODE_BREAKER)
                 .setNominalV(400)
                 .add();
-        voltageLevel1.getNodeBreakerView().setNodeCount(20);
         voltageLevel1.getNodeBreakerView().newBusbarSection()
                 .setId("BusbarSection")
                 .setNode(busbarNode)
@@ -148,8 +149,6 @@ public abstract class AbstractNodeTopologyTest extends AbstractCgmesVoltageLevel
                 .setTopologyKind(TopologyKind.NODE_BREAKER)
                 .setNominalV(400)
                 .add();
-        voltageLevel2.getNodeBreakerView()
-                .setNodeCount(10);
     }
 
     protected void createLine(Network network, int lineNode) {
@@ -208,7 +207,7 @@ public abstract class AbstractNodeTopologyTest extends AbstractCgmesVoltageLevel
     }
 
     @Override
-    protected void checkGraph(Graph graph) {
+    protected void checkGraph(VoltageLevelGraph graph) {
         assertEquals(6, graph.getNodes().size());
 
         assertEquals(Node.NodeType.BUS, graph.getNodes().get(0).getType());

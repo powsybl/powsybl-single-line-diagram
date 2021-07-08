@@ -1,0 +1,187 @@
+{
+  "voltageLevelInfos" : {
+    "id" : "vl",
+    "name" : "vl",
+    "nominalVoltage" : 400.0
+  },
+  "x" : 0.0,
+  "y" : 0.0,
+  "nodes" : [ {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl_line_ONEfNode1",
+    "name" : "line_ONEfNode1",
+    "equipmentId" : "line_ONEfNode1",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 25.0,
+    "y" : 290.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl_line_ONEfNode2",
+    "name" : "line_ONEfNode2",
+    "equipmentId" : "line_ONEfNode2",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 25.0,
+    "y" : 370.0,
+    "open" : false
+  }, {
+    "type" : "BUS",
+    "id" : "bbs",
+    "name" : "bbs",
+    "equipmentId" : "bbs",
+    "componentType" : "BUSBAR_SECTION",
+    "fictitious" : false,
+    "x" : 10.0,
+    "y" : 260.0,
+    "open" : false,
+    "pxWidth" : 30.0,
+    "busbarIndex" : 1,
+    "sectionIndex" : 1,
+    "position" : {
+      "h" : 0,
+      "v" : 1,
+      "hSpan" : 2,
+      "vSpan" : 0
+    }
+  }, {
+    "type" : "SWITCH",
+    "id" : "busDisconnector",
+    "name" : "busDisconnector",
+    "equipmentId" : "busDisconnector",
+    "componentType" : "DISCONNECTOR",
+    "fictitious" : false,
+    "x" : 25.0,
+    "y" : 260.0,
+    "open" : false,
+    "kind" : "DISCONNECTOR"
+  }, {
+    "type" : "FEEDER",
+    "id" : "line_ONE",
+    "name" : "line",
+    "equipmentId" : "line",
+    "componentType" : "LINE",
+    "fictitious" : false,
+    "x" : 25.0,
+    "y" : 432.0,
+    "open" : false,
+    "label" : "line",
+    "feederType" : "BRANCH",
+    "order" : 0,
+    "direction" : "BOTTOM",
+    "side" : "ONE",
+    "otherSideVoltageLevelInfos" : {
+      "id" : "OTHER",
+      "name" : "OTHER",
+      "nominalVoltage" : 0.0
+    }
+  } ],
+  "cells" : [ {
+    "type" : "EXTERN",
+    "number" : 0,
+    "direction" : "BOTTOM",
+    "order" : 0,
+    "rootBlock" : {
+      "type" : "SERIAL",
+      "cardinalities" : [ {
+        "START" : 1
+      }, {
+        "END" : 1
+      } ],
+      "position" : {
+        "h" : 0,
+        "v" : 0,
+        "hSpan" : 2,
+        "vSpan" : 2,
+        "orientation" : "DOWN"
+      },
+      "coord" : {
+        "x" : 25.0,
+        "y" : 330.0,
+        "xSpan" : 50.0,
+        "ySpan" : 80.0
+      },
+      "subBlocks" : [ {
+        "type" : "LEGPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
+        }, {
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 0,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "DOWN"
+        },
+        "coord" : {
+          "x" : 25.0,
+          "y" : 290.0,
+          "xSpan" : 50.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "bbs", "busDisconnector", "FICT_vl_line_ONEfNode1" ]
+      }, {
+        "type" : "BODYPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
+        }, {
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 0,
+          "hSpan" : 2,
+          "vSpan" : 2,
+          "orientation" : "DOWN"
+        },
+        "coord" : {
+          "x" : 25.0,
+          "y" : 330.0,
+          "xSpan" : 50.0,
+          "ySpan" : 80.0
+        },
+        "nodes" : [ "FICT_vl_line_ONEfNode1", "FICT_vl_line_ONEfNode2" ]
+      }, {
+        "type" : "FEEDERPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
+        }, {
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 2,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "DOWN"
+        },
+        "coord" : {
+          "x" : 25.0,
+          "y" : 370.0,
+          "xSpan" : 50.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "FICT_vl_line_ONEfNode2", "line_ONE" ]
+      } ]
+    }
+  } ],
+  "edges" : [ {
+    "node1" : "bbs",
+    "node2" : "busDisconnector"
+  }, {
+    "node1" : "busDisconnector",
+    "node2" : "FICT_vl_line_ONEfNode1"
+  }, {
+    "node1" : "FICT_vl_line_ONEfNode1",
+    "node2" : "FICT_vl_line_ONEfNode2"
+  }, {
+    "node1" : "FICT_vl_line_ONEfNode2",
+    "node2" : "line_ONE"
+  } ],
+  "multitermNodes" : [ ],
+  "twtEdges" : [ ],
+  "lineEdges" : [ ]
+}

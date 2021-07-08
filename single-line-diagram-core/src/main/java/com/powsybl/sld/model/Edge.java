@@ -21,12 +21,8 @@ public class Edge {
 
     private final List<Node> nodes;
 
-    /**
-     * Constructor
-     * @param nodes list of nodes
-     */
-    public Edge(Node...nodes) {
-        this.nodes = Arrays.asList(nodes);
+    public Edge(Node node1, Node node2) {
+        this.nodes = Arrays.asList(node1, node2);
     }
 
     public Node getNode(int index) {
@@ -39,10 +35,6 @@ public class Edge {
 
     public Node getNode2() {
         return getNode(1);
-    }
-
-    public Node getNode3() {
-        return getNode(2);
     }
 
     public List<Node> getNodes() {

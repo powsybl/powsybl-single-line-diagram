@@ -12,6 +12,32 @@ package com.powsybl.sld.model;
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  */
 public enum Orientation {
-    VERTICAL,
-    HORIZONTAL
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+    MIDDLE,
+    UNDEFINED;
+
+    public boolean isVertical() {
+        return this == UP || this == DOWN;
+    }
+
+    public boolean isHorizontal() {
+        return this == LEFT || this == RIGHT;
+    }
+
+    public int progressionSign() {
+        switch (this) {
+            case UP:
+            case LEFT:
+                return -1;
+            case DOWN:
+            case RIGHT:
+                return 1;
+            default:
+                return 0;
+        }
+    }
+
 }

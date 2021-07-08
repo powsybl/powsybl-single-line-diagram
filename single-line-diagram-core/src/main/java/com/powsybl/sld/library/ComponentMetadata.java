@@ -31,6 +31,8 @@ public class ComponentMetadata {
 
     private final ComponentSize size;
 
+    private String styleClass;
+
     private boolean allowRotation;
 
     private final List<SubComponent> subComponents;
@@ -40,12 +42,14 @@ public class ComponentMetadata {
                              @JsonProperty("id") String id,
                              @JsonProperty("anchorPoints") List<AnchorPoint> anchorPoints,
                              @JsonProperty("size") ComponentSize size,
+                             @JsonProperty("style") String styleClass,
                              @JsonProperty("allowRotation") boolean allowRotation,
                              @JsonProperty("subComponents") List<SubComponent> subComponents) {
         this.type = Objects.requireNonNull(type);
         this.id = id;
         this.anchorPoints = Collections.unmodifiableList(Objects.requireNonNull(anchorPoints));
         this.size = Objects.requireNonNull(size);
+        this.styleClass = styleClass;
         this.allowRotation = allowRotation;
         if (subComponents != null) {
             this.subComponents = Collections.unmodifiableList(subComponents);
@@ -76,5 +80,9 @@ public class ComponentMetadata {
 
     public List<SubComponent> getSubComponents() {
         return subComponents;
+    }
+
+    public String getStyleClass() {
+        return styleClass;
     }
 }

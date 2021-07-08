@@ -6,12 +6,15 @@
  */
 package com.powsybl.sld.svg;
 
-import com.powsybl.sld.library.ComponentSize;
+import com.powsybl.sld.library.ComponentLibrary;
 import com.powsybl.sld.model.Edge;
+import com.powsybl.sld.model.VoltageLevelGraph;
+import com.powsybl.sld.model.LineEdge;
 import com.powsybl.sld.model.Node;
 
-import java.util.Map;
-import java.util.Optional;
+import java.net.URL;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Giovanni Ferrari <giovanni.ferrari at techrain.eu>
@@ -19,17 +22,24 @@ import java.util.Optional;
  */
 public interface DiagramStyleProvider {
 
-    Optional<String> getNodeStyle(Node node, boolean avoidSVGComponentsDuplication, boolean isShowInternalNodes);
+    List<String> getSvgWireStyles(Edge edge, boolean highlightLineState);
 
-    String getIdWireStyle(Edge edge);
+    List<String> getSvgNodeStyles(Node node, ComponentLibrary componentLibrary, boolean showInternalNodes);
 
-    Optional<String> getWireStyle(Edge edge, String id, int index);
+    List<String> getSvgNodeDecoratorStyles(DiagramLabelProvider.NodeDecorator nodeDecorator, Node node, ComponentLibrary componentLibrary);
 
-    Map<String, String> getNodeSVGStyle(Node node, ComponentSize size, String nameSubComponent, boolean isShowInternalNodes);
+    List<String> getZoneLineStyles(LineEdge edge, ComponentLibrary componentLibrary);
 
-    Optional<String> getColor(double nominalV, Node node);
-
-    Map<String, String> getAttributesArrow(int num);
+    List<String> getSvgNodeSubcomponentStyles(Node node, String subComponentName);
 
     void reset();
+
+    default List<ElectricalNodeInfo> getElectricalNodesInfos(VoltageLevelGraph graph) {
+        return Collections.emptyList();
+    }
+
+    List<String> getCssFilenames();
+
+    List<URL> getCssUrls();
+
 }

@@ -9,6 +9,7 @@ package com.powsybl.sld.layout;
 import com.google.auto.service.AutoService;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.VoltageLevel;
+import com.powsybl.sld.layout.positionbyclustering.PositionByClustering;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
@@ -30,6 +31,6 @@ public class PositionByClusterVoltageLevelLayoutFactorySmartSelector implements 
 
     @Override
     public VoltageLevelLayoutFactory createFactory(Network network) {
-        return new PositionVoltageLevelLayoutFactory(new PositionFree());
+        return new PositionVoltageLevelLayoutFactory(new PositionByClustering());
     }
 }

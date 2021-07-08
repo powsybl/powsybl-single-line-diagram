@@ -14,6 +14,7 @@ public final class ComponentTypeName {
     public static final String BUSBAR_SECTION = "BUSBAR_SECTION";
     public static final String BREAKER = "BREAKER";
     public static final String DISCONNECTOR = "DISCONNECTOR";
+    public static final String BUSBREAKER_CONNECTION = "BUSBREAKER_CONNECTION";
     public static final String GENERATOR = "GENERATOR";
     public static final String LINE = "LINE";
     public static final String LOAD = "LOAD";
@@ -23,7 +24,9 @@ public final class ComponentTypeName {
     public static final String INDUCTOR = "INDUCTOR";
     public static final String STATIC_VAR_COMPENSATOR = "STATIC_VAR_COMPENSATOR";
     public static final String TWO_WINDINGS_TRANSFORMER = "TWO_WINDINGS_TRANSFORMER";
+    public static final String TWO_WINDINGS_TRANSFORMER_LEG = "TWO_WINDINGS_TRANSFORMER_LEG";
     public static final String THREE_WINDINGS_TRANSFORMER = "THREE_WINDINGS_TRANSFORMER";
+    public static final String THREE_WINDINGS_TRANSFORMER_LEG = "THREE_WINDINGS_TRANSFORMER_LEG";
     public static final String VSC_CONVERTER_STATION = "VSC_CONVERTER_STATION";
     public static final String DANGLING_LINE = "DANGLING_LINE";
     public static final String PHASE_SHIFT_TRANSFORMER = "PHASE_SHIFT_TRANSFORMER";

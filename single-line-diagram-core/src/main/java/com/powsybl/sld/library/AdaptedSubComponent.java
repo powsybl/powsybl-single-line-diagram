@@ -23,6 +23,9 @@ public class AdaptedSubComponent {
     @XmlElement(name = "fileName")
     private String fileName;
 
+    @XmlElement(name = "styleClass")
+    private String styleClass;
+
     public String getName() {
         return name;
     }
@@ -37,5 +40,13 @@ public class AdaptedSubComponent {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getStyleClass() {
+        return styleClass;
+    }
+
+    public void setStyleClass(String styleClass) {
+        this.styleClass = styleClass;
     }
 }

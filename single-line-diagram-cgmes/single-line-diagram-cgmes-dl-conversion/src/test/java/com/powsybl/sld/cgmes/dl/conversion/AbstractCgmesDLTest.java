@@ -196,7 +196,7 @@ public abstract class AbstractCgmesDLTest {
         return createSwitchPropertyBag(identifiedObject, name, x, y, rotation, DEFAULT_DIAGRAM_NAME);
     }
 
-    private PropertyBag createTerminal(String terminal, int terminalSide, String equipment) {
+    protected PropertyBag createTerminal(String terminal, int terminalSide, String equipment) {
         PropertyBag propertyBag = new PropertyBag(Arrays.asList("terminal", "terminalSide", "equipment"));
         propertyBag.put("terminal", terminal);
         propertyBag.put("terminalSide", Integer.toString(terminalSide));
@@ -204,7 +204,7 @@ public abstract class AbstractCgmesDLTest {
         return propertyBag;
     }
 
-    private PropertyBag createBusbarNode(String busbar, String busbarNode) {
+    protected PropertyBag createBusbarNode(String busbar, String busbarNode) {
         PropertyBag propertyBag = new PropertyBag(Arrays.asList("busbarNode", "busbarSection"));
         propertyBag.put("busbarNode", busbarNode);
         propertyBag.put("busbarSection", busbar);

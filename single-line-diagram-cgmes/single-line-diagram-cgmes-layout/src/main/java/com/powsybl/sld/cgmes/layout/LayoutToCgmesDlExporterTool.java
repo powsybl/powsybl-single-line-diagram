@@ -16,6 +16,8 @@ import com.powsybl.sld.AbstractSingleLineDiagramCommand;
 import com.powsybl.sld.cgmes.dl.conversion.CgmesDLExporter;
 import com.powsybl.sld.cgmes.dl.conversion.CgmesDLUtils;
 import com.powsybl.sld.layout.*;
+import com.powsybl.sld.layout.positionbyclustering.PositionByClustering;
+import com.powsybl.sld.layout.positionfromextension.PositionFromExtension;
 import com.powsybl.tools.Command;
 import com.powsybl.tools.Tool;
 import com.powsybl.tools.ToolOptions;
@@ -42,10 +44,11 @@ public class LayoutToCgmesDlExporterTool implements Tool {
     private static final String SUBSTATION_LAYOUT = "substation-layout";
     private static final String DEFAULT_VOLTAGE_LAYOUT = "auto-without-extensions";
     private static final String DEFAULT_SUBSTATION_LAYOUT = "horizontal";
+    private static final String DIAGRAM_NAME = "diagram-name";
 
     private final Map<String, VoltageLevelLayoutFactory> voltageLevelsLayouts
             = ImmutableMap.of("auto-extensions", new PositionVoltageLevelLayoutFactory(new PositionFromExtension()),
-            DEFAULT_VOLTAGE_LAYOUT, new PositionVoltageLevelLayoutFactory(new PositionFree()));
+            DEFAULT_VOLTAGE_LAYOUT, new PositionVoltageLevelLayoutFactory(new PositionByClustering()));
 
     private final Map<String, SubstationLayoutFactory> substationsLayouts
             = ImmutableMap.of(DEFAULT_SUBSTATION_LAYOUT, new HorizontalSubstationLayoutFactory(),
@@ -80,6 +83,11 @@ public class LayoutToCgmesDlExporterTool implements Tool {
                         .hasArg()
                         .argName("SUBSTATION LAYOUT")
                         .build());
+                options.addOption(Option.builder().longOpt(DIAGRAM_NAME)
+                        .desc("diagram name")
+                        .hasArg()
+                        .argName("DIAGRAM NAME")
+                        .build());
                 return options;
             }
 
@@ -113,7 +121,9 @@ public class LayoutToCgmesDlExporterTool implements Tool {
 
         context.getOutputStream().println("Generating layout for the network ...");
         LayoutToCgmesExtensionsConverter lTranslator = new LayoutToCgmesExtensionsConverter(sFactory, vFactory, new LayoutParameters(), true);
-        lTranslator.convertLayout(network, null);
+
+        String diagramName = toolOptions.getValue(DIAGRAM_NAME).orElse(null);
+        lTranslator.convertLayout(network, diagramName);
 
         context.getOutputStream().println("Exporting network data (including the DL file) to " + outputDir);
         TripleStore tStore = CgmesDLUtils.getTripleStore(network);

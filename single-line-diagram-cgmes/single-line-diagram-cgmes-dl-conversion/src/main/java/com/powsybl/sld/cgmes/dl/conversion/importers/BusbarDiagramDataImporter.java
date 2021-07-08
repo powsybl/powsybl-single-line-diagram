@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2019, RTE (http://www.rte-france.com)
+ * Copyright (c) 2019-2020, RTE (http://www.rte-france.com)
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -53,7 +53,7 @@ public class BusbarDiagramDataImporter {
             }
             busbarIidmDiagramData.addData(diagramName, diagramDetails);
             busbar.addExtension(NodeDiagramData.class, busbarIidmDiagramData);
-            NetworkDiagramData.addDiagramName(network, diagramName);
+            NetworkDiagramData.addDiagramName(network, diagramName, busbar.getTerminal().getVoltageLevel().getSubstation().getId());
         } else {
             LOG.warn("Cannot find busbar {}, name {} in network {}: skipping busbar diagram data", busbarId, busbarDiagramData.get("name"), network.getId());
         }

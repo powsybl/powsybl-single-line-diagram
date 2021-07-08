@@ -11,12 +11,16 @@ import com.powsybl.sld.layout.LayoutParameters;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+
+import static com.powsybl.sld.model.Coord.Dimension.*;
 
 /**
  * A block group that cannot be correctly decomposed anymore.
  * All subBlocks are superposed.
  *
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 public class UndefinedBlock extends AbstractComposedBlock {
 
@@ -35,8 +39,8 @@ public class UndefinedBlock extends AbstractComposedBlock {
         for (Block block : subBlocks) {
             block.sizing();
         }
-        if (getPosition().getOrientation() == Orientation.VERTICAL) {
-            // TODO
+        if (getPosition().getOrientation().isVertical()) {
+            // better do nothing
         } else {
             throw new UnsupportedOperationException("Horizontal layout of undefined  block not supported");
         }
@@ -44,22 +48,24 @@ public class UndefinedBlock extends AbstractComposedBlock {
 
     @Override
     public void coordVerticalCase(LayoutParameters layoutParam) {
-        for (Block block : subBlocks) {
-            block.setX(getCoord().getX());
-            block.setY(getCoord().getY());
-            block.setXSpan(getCoord().getXSpan());
-            block.setYSpan(getCoord().getYSpan());
-            block.coordVerticalCase(layoutParam);
-        }
+        replicateCoordInSubblocks(X);
+        replicateCoordInSubblocks(Y);
+        subBlocks.forEach(b -> b.coordVerticalCase(layoutParam));
     }
 
     @Override
     public void coordHorizontalCase(LayoutParameters layoutParam) {
-        throw new UnsupportedOperationException("Horizontal layout of undefined  block not supported");
+        coordVerticalCase(layoutParam);
     }
 
     @Override
-    public String toString() {
-        return "UndefinedBlock(subBlocks=" + subBlocks + ")";
+    public double calculateHeight(Set<Node> encounteredNodes, LayoutParameters layoutParameters) {
+        double blockHeight = 0.;
+        for (int i = 0; i < subBlocks.size(); i++) {
+            Block sub = subBlocks.get(i);
+            // Here, the subBlocks are superposed, so we calculate the max height of all these subBlocks
+            blockHeight = Math.max(blockHeight, sub.calculateHeight(encounteredNodes, layoutParameters));
+        }
+        return blockHeight;
     }
 }

@@ -6,12 +6,15 @@
  */
 package com.powsybl.sld.layout;
 
+import com.powsybl.commons.PowsyblException;
 import com.powsybl.sld.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -21,9 +24,12 @@ import java.util.stream.Collectors;
  * @author Nicolas Duchene
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  */
-public class CellBlockDecomposer {
+final class CellBlockDecomposer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CellBlockDecomposer.class);
+
+    private CellBlockDecomposer() {
+    }
 
     /**
      * Search BlockPrimary and build Block hierarchy by merging blocks together; also
@@ -31,15 +37,16 @@ public class CellBlockDecomposer {
      *
      * @param cell Cell we are working on
      */
-    public void determineBlocks(Cell cell) {
+
+    static void determineBlocks(Cell cell, boolean exceptionIfPatternNotHandled) {
         if (cell.getType() == Cell.CellType.SHUNT) {
             determineShuntCellBlocks((ShuntCell) cell);
         } else {
-            determineBusCellBlocks((BusCell) cell);
+            determineBusCellBlocks((BusCell) cell, exceptionIfPatternNotHandled);
         }
     }
 
-    private void determineBusCellBlocks(BusCell busCell) {
+    private static void determineBusCellBlocks(BusCell busCell, boolean exceptionIfPatternNotHandled) {
         if (busCell.getType() == Cell.CellType.INTERN && busCell.getNodes().size() == 3) {
             SwitchNode switchNode = (SwitchNode) busCell.getNodes().get(1);
             busCell.getGraph().extendSwitchBetweenBus(switchNode);
@@ -50,36 +57,31 @@ public class CellBlockDecomposer {
                     .filter(node -> node != switchNode)
                     .collect(Collectors.toList()));
         }
-        determineComplexCell(busCell);
+        determineComplexCell(busCell, exceptionIfPatternNotHandled);
     }
 
-    private void determineShuntCellBlocks(ShuntCell shuntCell) {
+    private static void determineShuntCellBlocks(ShuntCell shuntCell) {
         BodyPrimaryBlock bpy = new BodyPrimaryBlock(shuntCell.getNodes(), shuntCell);
         shuntCell.setRootBlock(bpy);
     }
 
-    private void determineComplexCell(BusCell busCell) {
+    private static void determineComplexCell(BusCell busCell, boolean exceptionIfPatternNotHandled) {
         List<Block> blocks = createPrimaryBlock(busCell);
-        mergeBlocks(busCell, blocks);
+        mergeBlocks(busCell, blocks, exceptionIfPatternNotHandled);
     }
 
-    private List<Block> createPrimaryBlock(BusCell busCell) {
-        List<Node> alreadyTreated = new ArrayList<>();
+    private static List<Block> createPrimaryBlock(BusCell busCell) {
+        Set<Node> alreadyTreated = new HashSet<>();
         List<Block> blocks = new ArrayList<>();
         Node currentNode = busCell.getBusNodes().get(0);
 
         // Search all primary blocks
-        currentNode.getListNodeAdjInCell(busCell).forEach(n -> {
-            if (!alreadyTreated.contains(n)) {
-                List<Node> blockNodes = new ArrayList<>();
-                blockNodes.add(currentNode);
-                rElaboratePrimaryBlocks(busCell, n, currentNode, alreadyTreated, blockNodes, blocks);
-            }
-        });
+        rElaboratePrimaryBlocks(busCell, currentNode, alreadyTreated, blocks);
+
         return blocks;
     }
 
-    private void mergeBlocks(BusCell busCell, List<Block> blocks) {
+    private static void mergeBlocks(BusCell busCell, List<Block> blocks, boolean exceptionIfPatternNotHandled) {
         // Search all blocks connected to a busbar inside the primary blocks list
         List<LegPrimaryBlock> primaryLegBlocks = blocks.stream()
                 .filter(b -> b instanceof LegPrimaryBlock)
@@ -91,11 +93,15 @@ public class CellBlockDecomposer {
             boolean merged = searchParallelMerge(blocks, busCell);
             merged |= searchSerialMerge(blocks, busCell);
             if (!merged) {
-                LOGGER.warn("{} busCell, cannot merge any additional blocks, {} blocks remains", busCell.getType(), blocks.size());
-                Block undefinedBlock = new UndefinedBlock(new ArrayList<>(blocks), busCell);
-                blocks.clear();
-                blocks.add(undefinedBlock);
-                break;
+                if (exceptionIfPatternNotHandled) {
+                    throw new PowsyblException("Blocks detection impossible for cell " + busCell);
+                } else {
+                    LOGGER.error("{} busCell, cannot merge any additional blocks, {} blocks remains", busCell.getType(), blocks.size());
+                    Block undefinedBlock = new UndefinedBlock(new ArrayList<>(blocks), busCell);
+                    blocks.clear();
+                    blocks.add(undefinedBlock);
+                    break;
+                }
             }
         }
         busCell.blocksSetting(blocks.get(0), primaryLegBlocks);
@@ -107,11 +113,11 @@ public class CellBlockDecomposer {
      * @param blocks list of blocks we can merge
      * @param cell   current cell
      */
-    private boolean searchSerialMerge(List<Block> blocks, Cell cell) {
+    private static boolean searchSerialMerge(List<Block> blocks, Cell cell) {
         int i = 0;
         boolean identifiedMerge = false;
 
-        while (i < blocks.size()) {
+        while (i < blocks.size() - 1) {
             List<Block> blockToRemove = new ArrayList<>();
             boolean chainIdentified = false;
             Block b1 = blocks.get(i);
@@ -128,12 +134,12 @@ public class CellBlockDecomposer {
                 identifiedMerge = true;
                 blocks.removeAll(blockToRemove);
                 blocks.add(i, serialBlock);
+                i = -1; // start again from the beginning
             }
             i++;
         }
         return identifiedMerge;
     }
-
 
     /**
      * Search possibility to merge some blocks into a parallel layout.block and do the merging
@@ -141,7 +147,7 @@ public class CellBlockDecomposer {
      * @param blocks list of blocks we can merge
      * @param cell   current cell
      */
-    private boolean searchParallelMerge(List<Block> blocks, Cell cell) {
+    private static boolean searchParallelMerge(List<Block> blocks, Cell cell) {
         List<List<Block>> blocksBundlesToMerge = new ArrayList<>();
         Node commonNode;
         int i = 0;
@@ -162,13 +168,13 @@ public class CellBlockDecomposer {
             }
         }
         for (List<Block> blocksBundle : blocksBundlesToMerge) {
-            ParallelBlock bPar;
+            Block parallelBlock;
             if (blocksBundle.stream().anyMatch(b -> !(b instanceof LegPrimaryBlock))) {
-                bPar = new BodyParallelBlock(blocksBundle, cell, true);
+                parallelBlock = new BodyParallelBlock(blocksBundle, cell, true);
             } else {
-                bPar = new LegParralelBlock(blocksBundle, cell, true);
+                parallelBlock = new LegParralelBlock(blocksBundle, cell, true);
             }
-            blocks.add(bPar);
+            blocks.add(parallelBlock);
         }
         return !blocksBundlesToMerge.isEmpty();
     }
@@ -180,7 +186,7 @@ public class CellBlockDecomposer {
      * @param block2 layout.block
      * @return true if the two blocks are similar : same start and end
      */
-    private Node checkParallelCriteria(Block block1, Block block2) {
+    private static Node checkParallelCriteria(Block block1, Block block2) {
         Node s1 = block1.getExtremityNode(Block.Extremity.START);
         Node e1 = block1.getExtremityNode(Block.Extremity.END);
         Node s2 = block2.getExtremityNode(Block.Extremity.START);
@@ -199,56 +205,59 @@ public class CellBlockDecomposer {
     }
 
     /**
-     * Search for primaryBlock
-     * a primaryBlock is identified when the the following pattern is detected:
-     * BUS|FICTICIOUS|FEEDER|SHUNT - n * SWITCH - BUS|FICTICIOUS|FEEDER|SHUNT
-     * when there is one BUS, it is instanciated as PrimaryLegBlock with this pattern (only allowed pattern with a bus) :
-     * BUS - SWITCH - FICTICIOUS
-     * otherwise it is instanciated as PrimaryBodyBlock
-     *
-     * @param cell           cell
-     * @param currentNode    currentnode
-     * @param alreadyTreated alreadyTreated
-     * @param blockNodes     blockNodes
-     * @param blocks         blocks
+     * Search for primary blocks. A {@link PrimaryBlock} is identified when the the following pattern is detected:
+     * BUS|FICTITIOUS|FEEDER|SHUNT - n * SWITCH - BUS|FICTITIOUS|FEEDER|SHUNT (with n >= 0).
+     * When there is one BUS, it is instantiated as LegPrimaryBlock with this pattern (only allowed pattern with a bus):
+     * BUS - SWITCH - FICTITIOUS.
+     * When there is one FEEDER, it is instantiated as FeederPrimaryBlock with this pattern (only allowed pattern with a
+     * feeder): FICTITIOUS - FEEDER.
+     * Otherwise it is instantiated as BodyPrimaryBlock.
+     * @param busCell         the busCell on which we elaborate primary blocks
+     * @param firstNode       first node for the primary block (non-switch node)
+     * @param alreadyTreated  set of already treated nodes (we always check the second element of the primary pattern)
+     * @param blocks          the list of elaborated primary blocks
      */
-    private void rElaboratePrimaryBlocks(Cell cell, Node currentNode, Node parentNode,
-                                         List<Node> alreadyTreated,
-                                         List<Node> blockNodes,
-                                         List<Block> blocks) {
-        Node currentNode2 = currentNode;
-        Node parentNode2 = parentNode;
+    private static void rElaboratePrimaryBlocks(BusCell busCell, Node firstNode,
+                                                Set<Node> alreadyTreated, List<Block> blocks) {
 
-        alreadyTreated.add(currentNode2);
-        blockNodes.add(currentNode2);
-        while (currentNode2.getType() == Node.NodeType.SWITCH) {
-            Node nextNode = currentNode2.getAdjacentNodes().get(
-                    currentNode2.getAdjacentNodes().get(0).equals(parentNode2) ? 1 : 0);
-            parentNode2 = currentNode2;
-            currentNode2 = nextNode;
-            if (currentNode2.getType() != Node.NodeType.BUS) {
-                alreadyTreated.add(currentNode2);
+        firstNode.getListNodeAdjInCell(busCell).forEach(node2 -> {
+
+            if (!alreadyTreated.contains(node2)) {
+
+                // Piling up switches starting from node2
+                List<SwitchNode> switches = new ArrayList<>();
+                Node currentNode = node2;
+                Node parentCurrentNode = firstNode;
+                while (currentNode instanceof SwitchNode) {
+                    switches.add((SwitchNode) currentNode);
+                    List<Node> adjacentNodes = currentNode.getAdjacentNodes();
+                    Node nextNode = adjacentNodes.get(adjacentNodes.get(0).equals(parentCurrentNode) ? 1 : 0);
+                    parentCurrentNode = currentNode;
+                    currentNode = nextNode;
+                }
+                Node lastNode = currentNode; // first non-switch node (corresponds to node2 if node2 is not a switch)
+
+                // The nodes pattern for a PrimaryBlock
+                List<Node> primaryPattern = new ArrayList<>();
+                primaryPattern.add(firstNode);   // BUS|FICTITIOUS|FEEDER|SHUNT
+                primaryPattern.addAll(switches); // n * SWITCH (with n >= 0)
+                primaryPattern.add(lastNode);    // BUS|FICTITIOUS|FEEDER|SHUNT
+
+                // Create a PrimaryBlock from that pattern
+                PrimaryBlock primaryBlock = AbstractPrimaryBlock.createPrimaryBlock(primaryPattern, busCell);
+                blocks.add(primaryBlock);
+
+                // Update already treated nodes
+                // We also consider firstNode as alreadyTreated: we do not want to come back to it as the search started from it
+                alreadyTreated.addAll(primaryPattern);
+
+                // Continue to search for other blocks
+                if (lastNode.getType() != Node.NodeType.BUS) {
+                    // If we reach a busbar, we know we do not need to go further:
+                    // we're either in another BusCell or back to the busbar we started the search with
+                    rElaboratePrimaryBlocks(busCell, lastNode, alreadyTreated, blocks);
+                }
             }
-            blockNodes.add(currentNode2);
-        }
-        PrimaryBlock b;
-        if (blockNodes.stream().anyMatch(node -> node.getType() == Node.NodeType.BUS)) {
-            b = new LegPrimaryBlock(blockNodes, cell);
-        } else {
-            b = new BodyPrimaryBlock(blockNodes, cell);
-        }
-        blocks.add(b);
-        // If we did'nt reach a Busbar, continue to search for other
-        // blocks
-        if (currentNode2.getType() != Node.NodeType.BUS) {
-            Node finalCurrentNode = currentNode2;
-            currentNode2.getListNodeAdjInCell(cell)
-                    .filter(node -> !alreadyTreated.contains(node) && !blockNodes.contains(node))
-                    .forEach(node -> {
-                        List<Node> blockNode = new ArrayList<>();
-                        blockNode.add(finalCurrentNode);
-                        rElaboratePrimaryBlocks(cell, node, finalCurrentNode, alreadyTreated, blockNode, blocks);
-                    });
-        }
+        });
     }
 }

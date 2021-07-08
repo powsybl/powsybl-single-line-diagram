@@ -1,11 +1,219 @@
 {
-  "id" : "vl",
+  "voltageLevelInfos" : {
+    "id" : "vl",
+    "name" : "vl",
+    "nominalVoltage" : 380.0
+  },
   "x" : 0.0,
   "y" : 0.0,
+  "nodes" : [ {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl_b1_l",
+    "name" : "b1_l",
+    "equipmentId" : "b1_l",
+    "componentType" : "BUSBREAKER_CONNECTION",
+    "fictitious" : true,
+    "x" : 125.0,
+    "y" : 260.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl_b2_sw",
+    "name" : "b2_sw",
+    "equipmentId" : "b2_sw",
+    "componentType" : "BUSBREAKER_CONNECTION",
+    "fictitious" : true,
+    "x" : 75.0,
+    "y" : 260.0,
+    "rotationAngle" : 90.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl_lFictif",
+    "name" : "lFictif",
+    "equipmentId" : "lFictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 125.0,
+    "y" : 42.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl_swfNode",
+    "name" : "swfNode",
+    "equipmentId" : "swfNode",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 25.0,
+    "y" : 220.0,
+    "rotationAngle" : 90.0,
+    "open" : false
+  }, {
+    "type" : "BUS",
+    "id" : "b1",
+    "name" : "b1",
+    "equipmentId" : "b1",
+    "componentType" : "BUSBAR_SECTION",
+    "fictitious" : false,
+    "x" : 10.0,
+    "y" : 260.0,
+    "open" : false,
+    "pxWidth" : 130.0,
+    "busbarIndex" : 1,
+    "sectionIndex" : 1,
+    "position" : {
+      "h" : 0,
+      "v" : 1,
+      "hSpan" : 6,
+      "vSpan" : 0
+    }
+  }, {
+    "type" : "BUS",
+    "id" : "b2",
+    "name" : "b2",
+    "equipmentId" : "b2",
+    "componentType" : "BUSBAR_SECTION",
+    "fictitious" : false,
+    "x" : 10.0,
+    "y" : 285.0,
+    "open" : false,
+    "pxWidth" : 130.0,
+    "busbarIndex" : 2,
+    "sectionIndex" : 1,
+    "position" : {
+      "h" : 0,
+      "v" : 2,
+      "hSpan" : 6,
+      "vSpan" : 0
+    }
+  }, {
+    "type" : "FEEDER",
+    "id" : "l",
+    "name" : "l",
+    "equipmentId" : "l",
+    "componentType" : "LOAD",
+    "fictitious" : false,
+    "x" : 125.0,
+    "y" : -20.0,
+    "open" : false,
+    "feederType" : "INJECTION",
+    "order" : 1,
+    "direction" : "TOP"
+  }, {
+    "type" : "SWITCH",
+    "id" : "sw",
+    "name" : "sw",
+    "equipmentId" : "sw",
+    "componentType" : "BREAKER",
+    "fictitious" : false,
+    "x" : 50.0,
+    "y" : 220.0,
+    "rotationAngle" : 90.0,
+    "open" : false,
+    "kind" : "BREAKER"
+  }, {
+    "type" : "SWITCH",
+    "id" : "swfSwitch",
+    "name" : "swfSwitch",
+    "equipmentId" : "swfSwitch",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 25.0,
+    "y" : 285.0,
+    "open" : false,
+    "kind" : "DISCONNECTOR"
+  } ],
   "cells" : [ {
-    "type" : "EXTERN",
+    "type" : "INTERN",
     "number" : 0,
     "direction" : "TOP",
+    "rootBlock" : {
+      "type" : "SERIAL",
+      "cardinalities" : [ {
+        "START" : 1
+      }, {
+        "END" : 1
+      } ],
+      "position" : {
+        "h" : -1,
+        "v" : -1,
+        "hSpan" : 0,
+        "vSpan" : 0
+      },
+      "coord" : {
+        "x" : -1.0,
+        "y" : -1.0,
+        "xSpan" : 0.0,
+        "ySpan" : 0.0
+      },
+      "subBlocks" : [ {
+        "type" : "LEGPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
+        }, {
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : -1,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "UP"
+        },
+        "coord" : {
+          "x" : 25.0,
+          "y" : 260.0,
+          "xSpan" : 50.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "b2", "swfSwitch", "FICT_vl_swfNode" ]
+      }, {
+        "type" : "BODYPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
+        }, {
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 0,
+          "hSpan" : 2,
+          "vSpan" : 2,
+          "orientation" : "RIGHT"
+        },
+        "coord" : {
+          "x" : 25.0,
+          "y" : 220.0,
+          "xSpan" : 50.0,
+          "ySpan" : 40.0
+        },
+        "nodes" : [ "FICT_vl_swfNode", "sw", "FICT_vl_b2_sw" ]
+      }, {
+        "type" : "LEGPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
+        }, {
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 2,
+          "v" : -1,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "UP"
+        },
+        "coord" : {
+          "x" : 75.0,
+          "y" : 260.0,
+          "xSpan" : 50.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "b1", "FICT_vl_b2_sw" ]
+      } ]
+    }
+  }, {
+    "type" : "EXTERN",
+    "number" : 1,
     "direction" : "TOP",
     "order" : 1,
     "rootBlock" : {
@@ -16,20 +224,20 @@
         "END" : 1
       } ],
       "position" : {
-        "h" : 0,
+        "h" : 4,
         "v" : 0,
-        "hSpan" : 1,
-        "vSpan" : 1,
-        "orientation" : "VERTICAL"
+        "hSpan" : 2,
+        "vSpan" : 2,
+        "orientation" : "UP"
       },
       "coord" : {
-        "x" : 25.0,
-        "y" : 105.0,
+        "x" : 125.0,
+        "y" : 136.0,
         "xSpan" : 50.0,
-        "ySpan" : 250.0
+        "ySpan" : 188.0
       },
       "subBlocks" : [ {
-        "type" : "PRIMARY",
+        "type" : "LEGPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -38,60 +246,19 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
+          "hSpan" : 2,
           "vSpan" : 0,
-          "orientation" : "VERTICAL"
+          "orientation" : "UP"
         },
         "coord" : {
-          "x" : 25.0,
+          "x" : 125.0,
           "y" : 230.0,
           "xSpan" : 50.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ {
-          "type" : "BUS",
-          "id" : "b1",
-          "name" : "b1",
-          "componentType" : "BUSBAR_SECTION",
-          "fictitious" : false,
-          "x" : 10.0,
-          "y" : 260.0,
-          "open" : false,
-          "pxWidth" : 30.0,
-          "structuralPosition" : {
-            "h" : 1,
-            "v" : 1,
-            "hSpan" : 0,
-            "vSpan" : 0
-          },
-          "position" : {
-            "h" : 0,
-            "v" : 1,
-            "hSpan" : 1,
-            "vSpan" : 0
-          }
-        }, {
-          "type" : "SWITCH",
-          "id" : "b1_l",
-          "name" : "b1_l",
-          "componentType" : "DISCONNECTOR",
-          "fictitious" : false,
-          "x" : 25.0,
-          "y" : 260.0,
-          "open" : false,
-          "kind" : "DISCONNECTOR"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl_b1_lFictif",
-          "name" : "b1_lFictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 25.0,
-          "y" : 230.0,
-          "open" : false
-        } ]
+        "nodes" : [ "b1", "FICT_vl_b1_l" ]
       }, {
-        "type" : "PRIMARY",
+        "type" : "BODYPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -100,48 +267,67 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
-          "vSpan" : 1,
-          "orientation" : "VERTICAL"
+          "hSpan" : 2,
+          "vSpan" : 2,
+          "orientation" : "UP"
         },
         "coord" : {
-          "x" : 25.0,
-          "y" : 105.0,
+          "x" : 125.0,
+          "y" : 136.0,
           "xSpan" : 50.0,
-          "ySpan" : 250.0
+          "ySpan" : 188.0
         },
-        "nodes" : [ {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl_b1_lFictif",
-          "name" : "b1_lFictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 25.0,
-          "y" : 230.0,
-          "open" : false
+        "nodes" : [ "FICT_vl_b1_l", "FICT_vl_lFictif" ]
+      }, {
+        "type" : "FEEDERPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
         }, {
-          "type" : "FEEDER",
-          "id" : "l",
-          "name" : "l",
-          "componentType" : "LOAD",
-          "fictitious" : false,
-          "x" : 25.0,
-          "y" : -20.0,
-          "open" : false,
-          "order" : 1,
-          "direction" : "TOP"
-        } ]
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 2,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "UP"
+        },
+        "coord" : {
+          "x" : 125.0,
+          "y" : 42.0,
+          "xSpan" : 50.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "FICT_vl_lFictif", "l" ]
       } ]
     }
   } ],
   "edges" : [ {
     "node1" : "b1",
-    "node2" : "b1_l"
+    "node2" : "FICT_vl_b1_l"
   }, {
-    "node1" : "l",
-    "node2" : "FICT_vl_b1_lFictif"
+    "node1" : "FICT_vl_b2_sw",
+    "node2" : "sw"
   }, {
-    "node1" : "b1_l",
-    "node2" : "FICT_vl_b1_lFictif"
-  } ]
+    "node1" : "b1",
+    "node2" : "FICT_vl_b2_sw"
+  }, {
+    "node1" : "FICT_vl_b1_l",
+    "node2" : "FICT_vl_lFictif"
+  }, {
+    "node1" : "FICT_vl_lFictif",
+    "node2" : "l"
+  }, {
+    "node1" : "b2",
+    "node2" : "swfSwitch"
+  }, {
+    "node1" : "swfSwitch",
+    "node2" : "FICT_vl_swfNode"
+  }, {
+    "node1" : "FICT_vl_swfNode",
+    "node2" : "sw"
+  } ],
+  "multitermNodes" : [ ],
+  "twtEdges" : [ ],
+  "lineEdges" : [ ]
 }

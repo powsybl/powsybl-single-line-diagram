@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="965.22" height="600.00" xmlns="http://www.w3.org/2000/svg">
+<style>
+<![CDATA[
+circle {fill: purple;}
+line {stroke: purple; stroke-width: 2}
+]]>
+</style>
+<g>
+<title>NeoYokio</title>
+<circle cx="955.22" cy="10.00" r="10"/>
+</g>
+<g>
+<title>Tokyo</title>
+<circle cx="491.64" cy="213.17" r="10"/>
+</g>
+<g>
+<title>Kyoto</title>
+<circle cx="189.68" cy="590.00" r="10"/>
+</g>
+<g>
+<title>Osaka</title>
+<circle cx="10.00" cy="179.69" r="10"/>
+</g>
+<line x1="491.64" y1="213.17" x2="955.22" y2="10.00"/>
+<line x1="189.68" y1="590.00" x2="491.64" y2="213.17"/>
+<line x1="10.00" y1="179.69" x2="189.68" y2="590.00"/>
+<line x1="491.64" y1="213.17" x2="10.00" y2="179.69"/>
+</svg>

@@ -6,49 +6,27 @@
  */
 package com.powsybl.sld.iidm.extensions;
 
-import com.powsybl.commons.extensions.AbstractExtension;
+import com.powsybl.commons.extensions.Extension;
 import com.powsybl.iidm.network.BusbarSection;
 
 /**
- * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * @author Jon Harper <jon.harper at rte-france.com>
  */
-public class BusbarSectionPosition extends AbstractExtension<BusbarSection> {
+public interface BusbarSectionPosition extends Extension<BusbarSection> {
 
-    private int busbarIndex;
-
-    private int sectionIndex;
-
-    private static int checkIndex(int index) {
-        if (index < 0) {
-            throw new IllegalArgumentException("Busbar index has to be greater or equals to zero");
-        }
-        return index;
-    }
-
-    public BusbarSectionPosition(BusbarSection busbarSection, int busbarIndex, int sectionIndex) {
-        super(busbarSection);
-        this.busbarIndex = checkIndex(busbarIndex);
-        this.sectionIndex = checkIndex(sectionIndex);
-    }
+    static final String NAME = "busbarSectionPosition";
 
     @Override
-    public String getName() {
-        return "busbarSectionPosition";
+    default String getName() {
+        return NAME;
     }
 
-    public int getBusbarIndex() {
-        return busbarIndex;
-    }
+    int getBusbarIndex();
 
-    public void setBusbarIndex(int busbarIndex) {
-        this.busbarIndex = checkIndex(busbarIndex);
-    }
+    BusbarSectionPosition setBusbarIndex(int busbarIndex);
 
-    public int getSectionIndex() {
-        return sectionIndex;
-    }
+    int getSectionIndex();
 
-    public void setSectionIndex(int sectionIndex) {
-        this.sectionIndex = checkIndex(sectionIndex);
-    }
+    BusbarSectionPosition setSectionIndex(int sectionIndex);
+
 }

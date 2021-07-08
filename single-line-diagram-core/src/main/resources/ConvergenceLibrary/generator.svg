@@ -1,6 +1,6 @@
 <?xml version="1.0" standalone="no"?>
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="12" height="12">
     <circle cx="6" cy="6" r="6"/>
-    <path d="M6,6 A 6 20 0 0 0 0,6"/>
-    <path d="M6,6 A 6 20 0 0 0 12,6"/>
+    <path d="M6,6 A 6 40 0 0 0 2,6"/>
+    <path d="M6,6 A 6 40 0 0 0 10,6"/>
 </svg> 

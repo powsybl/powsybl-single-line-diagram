@@ -6,21 +6,16 @@
  */
 package com.powsybl.sld.model;
 
-import static com.powsybl.sld.library.ComponentTypeName.NODE;
-
 /**
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
  * @author Nicolas Duchene
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * @author Franck Lecuyer <franck.lecuyer@rte-france.com>
  */
 public class FictitiousNode extends Node {
 
-    public FictitiousNode(Graph graph, String id) {
-        super(NodeType.FICTITIOUS, id, id, NODE, true, graph);
-    }
-
-    public FictitiousNode(Graph graph, String id, String componentType) {
-        super(NodeType.FICTITIOUS, id, id, componentType, true, graph);
+    protected FictitiousNode(VoltageLevelGraph graph, String id, String componentType) {
+        super(NodeType.FICTITIOUS, id, id, id, componentType, true, graph);
     }
 
     public int getCardinality() {

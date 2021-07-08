@@ -14,40 +14,43 @@ import java.io.IOException;
 import java.util.Objects;
 
 import static com.powsybl.sld.library.ComponentTypeName.BUSBAR_SECTION;
+import static com.powsybl.sld.model.Position.Dimension.*;
 
 /**
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
  * @author Nicolas Duchene
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 public class BusNode extends Node {
 
     private double pxWidth = 1;
 
-    private Position structuralPosition;
+    private int busbarIndex;
+    private int sectionIndex;
 
     private Position position = new Position(-1, -1);
 
-    protected BusNode(String id, String name, boolean fictitious, Graph graph) {
-        super(NodeType.BUS, id, name, BUSBAR_SECTION, fictitious, graph);
+    protected BusNode(String id, String name, boolean fictitious, VoltageLevelGraph graph) {
+        super(NodeType.BUS, id, name, id, BUSBAR_SECTION, fictitious, graph);
     }
 
-    public static BusNode create(Graph graph, String id, String name) {
+    public static BusNode create(VoltageLevelGraph graph, String id, String name) {
         Objects.requireNonNull(graph);
         return new BusNode(id, name, false, graph);
     }
 
-    public static BusNode createFictitious(Graph graph, String id) {
+    public static BusNode createFictitious(VoltageLevelGraph graph, String id) {
         return new BusNode(id, id, true, graph);
     }
 
     public void calculateCoord(LayoutParameters layoutParameters) {
         setY(layoutParameters.getInitialYBus() +
-                (position.getV() - 1) * layoutParameters.getVerticalSpaceBus());
+                (position.get(V) - 1) * layoutParameters.getVerticalSpaceBus());
         setX(layoutParameters.getInitialXBus()
-                + position.getH() * layoutParameters.getCellWidth()
+                + (double) position.get(H) / 2 * layoutParameters.getCellWidth()
                 + layoutParameters.getHorizontalBusPadding() / 2);
-        setPxWidth(position.getHSpan() * layoutParameters.getCellWidth() - layoutParameters.getHorizontalBusPadding());
+        setPxWidth(position.getSpan(H) * layoutParameters.getCellWidth() / 2 - layoutParameters.getHorizontalBusPadding());
     }
 
     @Override
@@ -74,25 +77,36 @@ public class BusNode extends Node {
         this.position = position;
     }
 
-    public Position getStructuralPosition() {
-        return structuralPosition;
+    public void setBusBarIndexSectionIndex(int busbarIndex, int sectionIndex) {
+        this.busbarIndex = busbarIndex;
+        this.sectionIndex = sectionIndex;
     }
 
-    public void setStructuralPosition(Position structuralPosition) {
-        this.structuralPosition = structuralPosition;
+    public int getBusbarIndex() {
+        return busbarIndex;
+    }
+
+    public void setBusbarIndex(int busbarIndex) {
+        this.busbarIndex = busbarIndex;
+    }
+
+    public int getSectionIndex() {
+        return sectionIndex;
+    }
+
+    public void setSectionIndex(int sectionIndex) {
+        this.sectionIndex = sectionIndex;
     }
 
     @Override
     protected void writeJsonContent(JsonGenerator generator) throws IOException {
         super.writeJsonContent(generator);
         generator.writeNumberField("pxWidth", pxWidth);
-        if (structuralPosition != null) {
-            generator.writeFieldName("structuralPosition");
-            structuralPosition.writeJsonContent(generator);
-        }
+        generator.writeNumberField("busbarIndex", busbarIndex);
+        generator.writeNumberField("sectionIndex", sectionIndex);
         if (position != null) {
             generator.writeFieldName("position");
-            position.writeJsonContent(generator);
+            position.writeJsonContent(generator, true);
         }
     }
 }

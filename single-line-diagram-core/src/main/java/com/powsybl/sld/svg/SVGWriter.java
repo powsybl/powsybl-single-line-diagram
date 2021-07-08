@@ -11,7 +11,7 @@ import java.nio.file.Path;
 
 import com.powsybl.sld.layout.LayoutParameters;
 import com.powsybl.sld.library.ComponentLibrary;
-import com.powsybl.sld.model.Graph;
+import com.powsybl.sld.model.VoltageLevelGraph;
 import com.powsybl.sld.model.SubstationGraph;
 import com.powsybl.sld.model.ZoneGraph;
 
@@ -22,45 +22,39 @@ import com.powsybl.sld.model.ZoneGraph;
 public interface SVGWriter {
 
     GraphMetadata write(String prefixId,
-                        Graph graph,
-                        DiagramInitialValueProvider initProvider,
+                        VoltageLevelGraph graph,
+                        DiagramLabelProvider initProvider,
                         DiagramStyleProvider styleProvider,
-                        NodeLabelConfiguration nodeLabelConfiguration,
                         Path svgFile);
 
     GraphMetadata write(String prefixId,
-                        Graph graph,
-                        DiagramInitialValueProvider initProvider,
+                        VoltageLevelGraph graph,
+                        DiagramLabelProvider initProvider,
                         DiagramStyleProvider styleProvider,
-                        NodeLabelConfiguration nodeLabelConfiguration,
                         Writer writer);
 
     GraphMetadata write(String prefixId,
                         SubstationGraph graph,
-                        DiagramInitialValueProvider initProvider,
+                        DiagramLabelProvider initProvider,
                         DiagramStyleProvider styleProvider,
-                        NodeLabelConfiguration nodeLabelConfiguration,
                         Path svgFile);
 
     GraphMetadata write(String prefixId,
                         SubstationGraph graph,
-                        DiagramInitialValueProvider initProvider,
+                        DiagramLabelProvider initProvider,
                         DiagramStyleProvider styleProvider,
-                        NodeLabelConfiguration nodeLabelConfiguration,
                         Writer writer);
 
     GraphMetadata write(String prefixId,
                         ZoneGraph graph,
-                        DiagramInitialValueProvider initProvider,
+                        DiagramLabelProvider initProvider,
                         DiagramStyleProvider styleProvider,
-                        NodeLabelConfiguration nodeLabelConfiguration,
                         Path svgFile);
 
     GraphMetadata write(String prefixId,
                         ZoneGraph graph,
-                        DiagramInitialValueProvider initProvider,
+                        DiagramLabelProvider initProvider,
                         DiagramStyleProvider styleProvider,
-                        NodeLabelConfiguration nodeLabelConfiguration,
                         Writer writer);
 
     LayoutParameters getLayoutParameters();

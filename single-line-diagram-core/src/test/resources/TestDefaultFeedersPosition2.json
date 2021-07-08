@@ -1,91 +1,467 @@
-[ {
-  "id" : "vl1",
-  "x" : 50.0,
-  "y" : 50.0,
-  "cells" : [ ],
-  "edges" : [ {
-    "node1" : "bbs1",
-    "node2" : "dsect11"
-  }, {
-    "node1" : "dsect11",
-    "node2" : "FICT_vl1_14"
-  }, {
-    "node1" : "FICT_vl1_14",
-    "node2" : "dtrct11"
-  }, {
-    "node1" : "dtrct11",
-    "node2" : "FICT_vl1_15"
-  }, {
-    "node1" : "FICT_vl1_15",
-    "node2" : "dsect12"
-  }, {
-    "node1" : "dsect12",
-    "node2" : "bbs2"
-  }, {
-    "node1" : "bbs3",
-    "node2" : "dsect21"
-  }, {
-    "node1" : "dsect21",
-    "node2" : "FICT_vl1_16"
-  }, {
-    "node1" : "FICT_vl1_16",
-    "node2" : "dtrct21"
-  }, {
-    "node1" : "dtrct21",
-    "node2" : "FICT_vl1_17"
-  }, {
-    "node1" : "FICT_vl1_17",
-    "node2" : "dsect22"
-  }, {
-    "node1" : "dsect22",
-    "node2" : "bbs4"
-  }, {
-    "node1" : "bbs1",
-    "node2" : "dload1"
-  }, {
-    "node1" : "dload1",
-    "node2" : "FICT_vl1_5"
-  }, {
-    "node1" : "load1",
-    "node2" : "bload1"
-  }, {
-    "node1" : "bload1",
-    "node2" : "FICT_vl1_5"
-  }, {
-    "node1" : "bbs3",
-    "node2" : "dgen1"
-  }, {
-    "node1" : "dgen1",
-    "node2" : "FICT_vl1_7"
-  }, {
-    "node1" : "gen1",
-    "node2" : "bgen1"
-  }, {
-    "node1" : "bgen1",
-    "node2" : "FICT_vl1_7"
-  }, {
-    "node1" : "bbs2",
-    "node2" : "dload2"
-  }, {
-    "node1" : "dload2",
-    "node2" : "FICT_vl1_9"
-  }, {
-    "node1" : "load2",
-    "node2" : "bload2"
-  }, {
-    "node1" : "bload2",
-    "node2" : "FICT_vl1_9"
-  }, {
-    "node1" : "bbs4",
-    "node2" : "dgen2"
-  }, {
-    "node1" : "dgen2",
-    "node2" : "FICT_vl1_11"
-  }, {
-    "node1" : "gen2",
-    "node2" : "bgen2"
-  }, {
-    "node1" : "bgen2",
-    "node2" : "FICT_vl1_11"
-  } ]
-} ]
+{
+  "substationId" : "subst",
+  "voltageLevels" : [ {
+    "voltageLevelInfos" : {
+      "id" : "vl1",
+      "name" : "vl1",
+      "nominalVoltage" : 380.0
+    },
+    "x" : 50.0,
+    "y" : 50.0,
+    "nodes" : [ {
+      "type" : "FICTITIOUS",
+      "id" : "FICT_vl1_11",
+      "name" : "11",
+      "equipmentId" : "11",
+      "componentType" : "NODE",
+      "fictitious" : true,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false
+    }, {
+      "type" : "FICTITIOUS",
+      "id" : "FICT_vl1_14",
+      "name" : "14",
+      "equipmentId" : "14",
+      "componentType" : "NODE",
+      "fictitious" : true,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false
+    }, {
+      "type" : "FICTITIOUS",
+      "id" : "FICT_vl1_15",
+      "name" : "15",
+      "equipmentId" : "15",
+      "componentType" : "NODE",
+      "fictitious" : true,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false
+    }, {
+      "type" : "FICTITIOUS",
+      "id" : "FICT_vl1_16",
+      "name" : "16",
+      "equipmentId" : "16",
+      "componentType" : "NODE",
+      "fictitious" : true,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false
+    }, {
+      "type" : "FICTITIOUS",
+      "id" : "FICT_vl1_17",
+      "name" : "17",
+      "equipmentId" : "17",
+      "componentType" : "NODE",
+      "fictitious" : true,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false
+    }, {
+      "type" : "FICTITIOUS",
+      "id" : "FICT_vl1_5",
+      "name" : "5",
+      "equipmentId" : "5",
+      "componentType" : "NODE",
+      "fictitious" : true,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false
+    }, {
+      "type" : "FICTITIOUS",
+      "id" : "FICT_vl1_7",
+      "name" : "7",
+      "equipmentId" : "7",
+      "componentType" : "NODE",
+      "fictitious" : true,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false
+    }, {
+      "type" : "FICTITIOUS",
+      "id" : "FICT_vl1_9",
+      "name" : "9",
+      "equipmentId" : "9",
+      "componentType" : "NODE",
+      "fictitious" : true,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false
+    }, {
+      "type" : "BUS",
+      "id" : "bbs1",
+      "name" : "bbs1",
+      "equipmentId" : "bbs1",
+      "componentType" : "BUSBAR_SECTION",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "pxWidth" : 1.0,
+      "busbarIndex" : 1,
+      "sectionIndex" : 1,
+      "position" : {
+        "h" : -1,
+        "v" : -1,
+        "hSpan" : 0,
+        "vSpan" : 0
+      }
+    }, {
+      "type" : "BUS",
+      "id" : "bbs2",
+      "name" : "bbs2",
+      "equipmentId" : "bbs2",
+      "componentType" : "BUSBAR_SECTION",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "pxWidth" : 1.0,
+      "busbarIndex" : 1,
+      "sectionIndex" : 2,
+      "position" : {
+        "h" : -1,
+        "v" : -1,
+        "hSpan" : 0,
+        "vSpan" : 0
+      }
+    }, {
+      "type" : "BUS",
+      "id" : "bbs3",
+      "name" : "bbs3",
+      "equipmentId" : "bbs3",
+      "componentType" : "BUSBAR_SECTION",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "pxWidth" : 1.0,
+      "busbarIndex" : 2,
+      "sectionIndex" : 1,
+      "position" : {
+        "h" : -1,
+        "v" : -1,
+        "hSpan" : 0,
+        "vSpan" : 0
+      }
+    }, {
+      "type" : "BUS",
+      "id" : "bbs4",
+      "name" : "bbs4",
+      "equipmentId" : "bbs4",
+      "componentType" : "BUSBAR_SECTION",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "pxWidth" : 1.0,
+      "busbarIndex" : 2,
+      "sectionIndex" : 2,
+      "position" : {
+        "h" : -1,
+        "v" : -1,
+        "hSpan" : 0,
+        "vSpan" : 0
+      }
+    }, {
+      "type" : "SWITCH",
+      "id" : "bgen1",
+      "name" : "bgen1",
+      "equipmentId" : "bgen1",
+      "componentType" : "BREAKER",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "kind" : "BREAKER"
+    }, {
+      "type" : "SWITCH",
+      "id" : "bgen2",
+      "name" : "bgen2",
+      "equipmentId" : "bgen2",
+      "componentType" : "BREAKER",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "kind" : "BREAKER"
+    }, {
+      "type" : "SWITCH",
+      "id" : "bload1",
+      "name" : "bload1",
+      "equipmentId" : "bload1",
+      "componentType" : "BREAKER",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "kind" : "BREAKER"
+    }, {
+      "type" : "SWITCH",
+      "id" : "bload2",
+      "name" : "bload2",
+      "equipmentId" : "bload2",
+      "componentType" : "BREAKER",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "kind" : "BREAKER"
+    }, {
+      "type" : "SWITCH",
+      "id" : "dgen1",
+      "name" : "dgen1",
+      "equipmentId" : "dgen1",
+      "componentType" : "DISCONNECTOR",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "kind" : "DISCONNECTOR"
+    }, {
+      "type" : "SWITCH",
+      "id" : "dgen2",
+      "name" : "dgen2",
+      "equipmentId" : "dgen2",
+      "componentType" : "DISCONNECTOR",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "kind" : "DISCONNECTOR"
+    }, {
+      "type" : "SWITCH",
+      "id" : "dload1",
+      "name" : "dload1",
+      "equipmentId" : "dload1",
+      "componentType" : "DISCONNECTOR",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "kind" : "DISCONNECTOR"
+    }, {
+      "type" : "SWITCH",
+      "id" : "dload2",
+      "name" : "dload2",
+      "equipmentId" : "dload2",
+      "componentType" : "DISCONNECTOR",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "kind" : "DISCONNECTOR"
+    }, {
+      "type" : "SWITCH",
+      "id" : "dsect11",
+      "name" : "dsect11",
+      "equipmentId" : "dsect11",
+      "componentType" : "DISCONNECTOR",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "kind" : "DISCONNECTOR"
+    }, {
+      "type" : "SWITCH",
+      "id" : "dsect12",
+      "name" : "dsect12",
+      "equipmentId" : "dsect12",
+      "componentType" : "DISCONNECTOR",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "kind" : "DISCONNECTOR"
+    }, {
+      "type" : "SWITCH",
+      "id" : "dsect21",
+      "name" : "dsect21",
+      "equipmentId" : "dsect21",
+      "componentType" : "DISCONNECTOR",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "kind" : "DISCONNECTOR"
+    }, {
+      "type" : "SWITCH",
+      "id" : "dsect22",
+      "name" : "dsect22",
+      "equipmentId" : "dsect22",
+      "componentType" : "DISCONNECTOR",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "kind" : "DISCONNECTOR"
+    }, {
+      "type" : "SWITCH",
+      "id" : "dtrct11",
+      "name" : "dtrct11",
+      "equipmentId" : "dtrct11",
+      "componentType" : "BREAKER",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "kind" : "BREAKER"
+    }, {
+      "type" : "SWITCH",
+      "id" : "dtrct21",
+      "name" : "dtrct21",
+      "equipmentId" : "dtrct21",
+      "componentType" : "BREAKER",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "kind" : "BREAKER"
+    }, {
+      "type" : "FEEDER",
+      "id" : "gen1",
+      "name" : "gen1",
+      "equipmentId" : "gen1",
+      "componentType" : "GENERATOR",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "label" : "gen1",
+      "feederType" : "INJECTION",
+      "order" : 1,
+      "direction" : "BOTTOM"
+    }, {
+      "type" : "FEEDER",
+      "id" : "gen2",
+      "name" : "gen2",
+      "equipmentId" : "gen2",
+      "componentType" : "GENERATOR",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "label" : "gen2",
+      "feederType" : "INJECTION",
+      "order" : 3,
+      "direction" : "BOTTOM"
+    }, {
+      "type" : "FEEDER",
+      "id" : "load1",
+      "name" : "load1",
+      "equipmentId" : "load1",
+      "componentType" : "LOAD",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "label" : "load1",
+      "feederType" : "INJECTION",
+      "order" : 0,
+      "direction" : "TOP"
+    }, {
+      "type" : "FEEDER",
+      "id" : "load2",
+      "name" : "load2",
+      "equipmentId" : "load2",
+      "componentType" : "LOAD",
+      "fictitious" : false,
+      "x" : -1.0,
+      "y" : -1.0,
+      "open" : false,
+      "label" : "load2",
+      "feederType" : "INJECTION",
+      "order" : 2,
+      "direction" : "TOP"
+    } ],
+    "cells" : [ ],
+    "edges" : [ {
+      "node1" : "bbs1",
+      "node2" : "dsect11"
+    }, {
+      "node1" : "dsect11",
+      "node2" : "FICT_vl1_14"
+    }, {
+      "node1" : "FICT_vl1_14",
+      "node2" : "dtrct11"
+    }, {
+      "node1" : "dtrct11",
+      "node2" : "FICT_vl1_15"
+    }, {
+      "node1" : "FICT_vl1_15",
+      "node2" : "dsect12"
+    }, {
+      "node1" : "dsect12",
+      "node2" : "bbs2"
+    }, {
+      "node1" : "bbs3",
+      "node2" : "dsect21"
+    }, {
+      "node1" : "dsect21",
+      "node2" : "FICT_vl1_16"
+    }, {
+      "node1" : "FICT_vl1_16",
+      "node2" : "dtrct21"
+    }, {
+      "node1" : "dtrct21",
+      "node2" : "FICT_vl1_17"
+    }, {
+      "node1" : "FICT_vl1_17",
+      "node2" : "dsect22"
+    }, {
+      "node1" : "dsect22",
+      "node2" : "bbs4"
+    }, {
+      "node1" : "bbs1",
+      "node2" : "dload1"
+    }, {
+      "node1" : "dload1",
+      "node2" : "FICT_vl1_5"
+    }, {
+      "node1" : "load1",
+      "node2" : "bload1"
+    }, {
+      "node1" : "bload1",
+      "node2" : "FICT_vl1_5"
+    }, {
+      "node1" : "bbs3",
+      "node2" : "dgen1"
+    }, {
+      "node1" : "dgen1",
+      "node2" : "FICT_vl1_7"
+    }, {
+      "node1" : "gen1",
+      "node2" : "bgen1"
+    }, {
+      "node1" : "bgen1",
+      "node2" : "FICT_vl1_7"
+    }, {
+      "node1" : "bbs2",
+      "node2" : "dload2"
+    }, {
+      "node1" : "dload2",
+      "node2" : "FICT_vl1_9"
+    }, {
+      "node1" : "load2",
+      "node2" : "bload2"
+    }, {
+      "node1" : "bload2",
+      "node2" : "FICT_vl1_9"
+    }, {
+      "node1" : "bbs4",
+      "node2" : "dgen2"
+    }, {
+      "node1" : "dgen2",
+      "node2" : "FICT_vl1_11"
+    }, {
+      "node1" : "gen2",
+      "node2" : "bgen2"
+    }, {
+      "node1" : "bgen2",
+      "node2" : "FICT_vl1_11"
+    } ]
+  } ],
+  "multitermNodes" : [ ],
+  "twtEdges" : [ ]
+}

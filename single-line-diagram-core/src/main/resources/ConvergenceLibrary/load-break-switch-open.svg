@@ -1,0 +1,4 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10">
+    <path d ="M0,0 V10 H10 V0z M2,5 H8 M0,10 10,0"/>
+</svg>

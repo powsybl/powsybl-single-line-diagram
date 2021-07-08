@@ -6,21 +6,10 @@
  */
 package com.powsybl.sld;
 
-import com.powsybl.sld.layout.HorizontalSubstationLayoutFactory;
-import com.powsybl.sld.layout.LayoutParameters;
-import com.powsybl.sld.layout.PositionVoltageLevelLayoutFactory;
-import com.powsybl.sld.layout.SubstationLayout;
-import com.powsybl.sld.layout.SubstationLayoutFactory;
-import com.powsybl.sld.layout.VoltageLevelLayoutFactory;
+import com.powsybl.sld.layout.*;
 import com.powsybl.sld.library.ComponentLibrary;
 import com.powsybl.sld.model.SubstationGraph;
-import com.powsybl.sld.svg.DefaultNodeLabelConfiguration;
-import com.powsybl.sld.svg.GraphMetadata;
-import com.powsybl.sld.svg.DefaultSVGWriter;
-import com.powsybl.sld.svg.NodeLabelConfiguration;
-import com.powsybl.sld.svg.SVGWriter;
-import com.powsybl.sld.svg.DiagramInitialValueProvider;
-import com.powsybl.sld.svg.DiagramStyleProvider;
+import com.powsybl.sld.svg.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +43,10 @@ public final class SubstationDiagram {
                      new PositionVoltageLevelLayoutFactory(), false);
     }
 
+    public SubstationGraph getSubGraph() {
+        return subGraph;
+    }
+
     public static SubstationDiagram build(GraphBuilder graphBuilder, String substationId,
                                           SubstationLayoutFactory sLayoutFactory,
                                           VoltageLevelLayoutFactory vLayoutFactory,
@@ -71,12 +64,12 @@ public final class SubstationDiagram {
     }
 
     public void writeSvg(String prefixId, ComponentLibrary componentLibrary, LayoutParameters layoutParameters,
-                         DiagramInitialValueProvider initProvider, DiagramStyleProvider styleProvider, Path svgFile) {
+                         DiagramLabelProvider initProvider, DiagramStyleProvider styleProvider, Path svgFile) {
         SVGWriter writer = new DefaultSVGWriter(componentLibrary, layoutParameters);
         writeSvg(prefixId, writer, svgFile, initProvider, styleProvider);
     }
 
-    public void writeSvg(String prefixId, SVGWriter writer, Path svgFile, DiagramInitialValueProvider initProvider,
+    public void writeSvg(String prefixId, SVGWriter writer, Path svgFile, DiagramLabelProvider initProvider,
                          DiagramStyleProvider styleProvider) {
         Path dir = svgFile.toAbsolutePath().getParent();
         String svgFileName = svgFile.getFileName().toString();
@@ -93,21 +86,19 @@ public final class SubstationDiagram {
     }
 
     public void writeSvg(String prefixId, SVGWriter writer, Writer svgWriter, Writer metadataWriter,
-                         DiagramInitialValueProvider initProvider,
+                         DiagramLabelProvider initProvider,
                          DiagramStyleProvider styleProvider) {
         writeSvg(prefixId, writer,
                 initProvider,
                 styleProvider,
-                new DefaultNodeLabelConfiguration(writer.getComponentLibrary()),
                 svgWriter,
                 metadataWriter);
     }
 
     public void writeSvg(String prefixId,
                          SVGWriter writer,
-                         DiagramInitialValueProvider initProvider,
+                         DiagramLabelProvider initProvider,
                          DiagramStyleProvider styleProvider,
-                         NodeLabelConfiguration nodeLabelConfiguration,
                          Writer svgWriter, Writer metadataWriter) {
         Objects.requireNonNull(writer);
         Objects.requireNonNull(writer.getLayoutParameters());
@@ -119,7 +110,7 @@ public final class SubstationDiagram {
         // write SVG file
         LOGGER.info("Writing SVG and JSON metadata files...");
 
-        GraphMetadata metadata = writer.write(prefixId, subGraph, initProvider, styleProvider, nodeLabelConfiguration, svgWriter);
+        GraphMetadata metadata = writer.write(prefixId, subGraph, initProvider, styleProvider, svgWriter);
 
         // write metadata file
         metadata.writeJson(metadataWriter);

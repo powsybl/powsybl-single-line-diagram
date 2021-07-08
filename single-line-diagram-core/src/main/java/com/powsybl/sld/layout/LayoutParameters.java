@@ -7,8 +7,11 @@
 package com.powsybl.sld.layout;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.powsybl.sld.library.ComponentSize;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -16,6 +19,7 @@ import java.util.Objects;
  * @author Nicolas Duchene
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
+ * @author Jacques Borsenberger <jacques.borsenberger at rte-france.com>
  */
 public class LayoutParameters {
 
@@ -49,13 +53,30 @@ public class LayoutParameters {
     private double horizontalSnakeLinePadding = 20;
     private double verticalSnakeLinePadding = 25;
     private double arrowDistance = 20;
+    private double minSpaceForFeederArrows = 50;
 
-    private boolean showInductorFor3WT = false;
-
-    private boolean shiftFeedersPosition = false;
-
-    private double scaleShiftFeedersPosition = 1;
     private boolean avoidSVGComponentsDuplication = false;
+
+    private boolean adaptCellHeightToContent = false;
+    private double maxComponentHeight = 12;
+    private double minSpaceBetweenComponents = 15;
+    private double minExternCellHeight = 80;
+
+    private double angleLabelShift = 15.;
+    private boolean labelCentered = false;
+    private boolean labelDiagonal = false;
+
+    private boolean highlightLineState = true;
+    private boolean tooltipEnabled = false;
+
+    private boolean addNodesInfos = false;
+
+    private boolean feederArrowSymmetry = false;
+
+    private boolean cssInternal = false;
+
+    @JsonIgnore
+    private Map<String, ComponentSize> componentsSize;
 
     @JsonCreator
     public LayoutParameters() {
@@ -73,6 +94,7 @@ public class LayoutParameters {
                             @JsonProperty("internCellHeight") double internCellHeight,
                             @JsonProperty("stackHeight") double stackHeight,
                             @JsonProperty("showGrid") boolean showGrid,
+                            @JsonProperty("tooltipEnabled") boolean tooltipEnabled,
                             @JsonProperty("showInternalNodes") boolean showInternalNodes,
                             @JsonProperty("scaleFactor") double scaleFactor,
                             @JsonProperty("horizontalSubstationPadding") double horizontalSubstationPadding,
@@ -81,11 +103,19 @@ public class LayoutParameters {
                             @JsonProperty("horizontalSnakeLinePadding") double horizontalSnakeLinePadding,
                             @JsonProperty("verticalSnakeLinePadding") double verticalSnakeLinePadding,
                             @JsonProperty("arrowDistance") double arrowDistance,
-                            @JsonProperty("showInductorFor3WT") boolean showInductorFor3WT,
+                            @JsonProperty("minSpaceForFeederArrows") double minSpaceForFeederArrows,
                             @JsonProperty("diagramName") String diagramName,
-                            @JsonProperty("shiftFeedersPosition") boolean shiftFeedersPosition,
-                            @JsonProperty("scaleShiftFeedersPosition") double scaleShiftFeedersPosition,
-                            @JsonProperty("avoidSVGComponentsDuplication") boolean avoidSVGComponentsDuplication) {
+                            @JsonProperty("avoidSVGComponentsDuplication") boolean avoidSVGComponentsDuplication,
+                            @JsonProperty("adaptCellHeightToContent") boolean adaptCellHeightToContent,
+                            @JsonProperty("maxComponentHeight") double maxComponentHeight,
+                            @JsonProperty("minSpaceBetweenComponents") double minSpaceBetweenComponents,
+                            @JsonProperty("minExternCellHeight") double minExternCellHeight,
+                            @JsonProperty("labelCentered") boolean labelCentered,
+                            @JsonProperty("labelDiagonal") boolean labelDiagonal,
+                            @JsonProperty("angleLabelShift") double angleLabelShift,
+                            @JsonProperty("highlightLineState") boolean highlightLineState,
+                            @JsonProperty("addNodesInfos") boolean addNodesInfos,
+                            @JsonProperty("feederArrowSymmetry") boolean feederArrowSymmetry) {
         this.translateX = translateX;
         this.translateY = translateY;
         this.initialXBus = initialXBus;
@@ -97,6 +127,7 @@ public class LayoutParameters {
         this.internCellHeight = internCellHeight;
         this.stackHeight = stackHeight;
         this.showGrid = showGrid;
+        this.tooltipEnabled = tooltipEnabled;
         this.showInternalNodes = showInternalNodes;
         this.scaleFactor = scaleFactor;
         this.horizontalSubstationPadding = horizontalSubstationPadding;
@@ -105,11 +136,19 @@ public class LayoutParameters {
         this.horizontalSnakeLinePadding = horizontalSnakeLinePadding;
         this.verticalSnakeLinePadding = verticalSnakeLinePadding;
         this.arrowDistance = arrowDistance;
-        this.showInductorFor3WT = showInductorFor3WT;
+        this.minSpaceForFeederArrows = minSpaceForFeederArrows;
         this.diagramName = diagramName;
-        this.shiftFeedersPosition = shiftFeedersPosition;
-        this.scaleShiftFeedersPosition = scaleShiftFeedersPosition;
         this.avoidSVGComponentsDuplication = avoidSVGComponentsDuplication;
+        this.adaptCellHeightToContent = adaptCellHeightToContent;
+        this.maxComponentHeight = maxComponentHeight;
+        this.minSpaceBetweenComponents = minSpaceBetweenComponents;
+        this.minExternCellHeight = minExternCellHeight;
+        this.labelCentered = labelCentered;
+        this.labelDiagonal = labelDiagonal;
+        this.angleLabelShift = angleLabelShift;
+        this.highlightLineState = highlightLineState;
+        this.addNodesInfos = addNodesInfos;
+        this.feederArrowSymmetry = feederArrowSymmetry;
     }
 
     public LayoutParameters(LayoutParameters other) {
@@ -125,6 +164,7 @@ public class LayoutParameters {
         internCellHeight = other.internCellHeight;
         stackHeight = other.stackHeight;
         showGrid = other.showGrid;
+        tooltipEnabled = other.tooltipEnabled;
         showInternalNodes = other.showInternalNodes;
         scaleFactor = other.scaleFactor;
         horizontalSubstationPadding = other.horizontalSubstationPadding;
@@ -133,11 +173,20 @@ public class LayoutParameters {
         horizontalSnakeLinePadding = other.horizontalSnakeLinePadding;
         verticalSnakeLinePadding = other.verticalSnakeLinePadding;
         arrowDistance = other.arrowDistance;
-        showInductorFor3WT = other.showInductorFor3WT;
+        minSpaceForFeederArrows = other.minSpaceForFeederArrows;
         diagramName = other.diagramName;
-        shiftFeedersPosition = other.shiftFeedersPosition;
-        scaleShiftFeedersPosition = other.scaleShiftFeedersPosition;
         avoidSVGComponentsDuplication = other.avoidSVGComponentsDuplication;
+        adaptCellHeightToContent = other.adaptCellHeightToContent;
+        maxComponentHeight = other.maxComponentHeight;
+        minSpaceBetweenComponents = other.minSpaceBetweenComponents;
+        minExternCellHeight = other.minExternCellHeight;
+        componentsSize = other.componentsSize;
+        angleLabelShift = other.angleLabelShift;
+        labelDiagonal = other.labelDiagonal;
+        labelCentered = other.labelCentered;
+        highlightLineState = other.highlightLineState;
+        addNodesInfos = other.addNodesInfos;
+        feederArrowSymmetry = other.feederArrowSymmetry;
     }
 
     public double getTranslateX() {
@@ -320,39 +369,137 @@ public class LayoutParameters {
         return this;
     }
 
-    public boolean isShowInductorFor3WT() {
-        return showInductorFor3WT;
-    }
-
-    public LayoutParameters setShowInductorFor3WT(boolean showInductorFor3WT) {
-        this.showInductorFor3WT = showInductorFor3WT;
-        return this;
-    }
-
-    public boolean isShiftFeedersPosition() {
-        return shiftFeedersPosition;
-    }
-
-    public LayoutParameters setShiftFeedersPosition(boolean shiftFeedersPosition) {
-        this.shiftFeedersPosition = shiftFeedersPosition;
-        return this;
-    }
-
-    public double getScaleShiftFeedersPosition() {
-        return scaleShiftFeedersPosition;
-    }
-
-    public LayoutParameters setScaleShiftFeedersPosition(double scaleShiftFeedersPosition) {
-        this.scaleShiftFeedersPosition = scaleShiftFeedersPosition;
-        return this;
-    }
-
     public boolean isAvoidSVGComponentsDuplication() {
         return avoidSVGComponentsDuplication;
     }
 
     public LayoutParameters setAvoidSVGComponentsDuplication(boolean avoidSVGComponentsDuplication) {
         this.avoidSVGComponentsDuplication = avoidSVGComponentsDuplication;
+        return this;
+    }
+
+    public boolean isAdaptCellHeightToContent() {
+        return adaptCellHeightToContent;
+    }
+
+    public LayoutParameters setAdaptCellHeightToContent(boolean adaptCellHeightToContent) {
+        this.adaptCellHeightToContent = adaptCellHeightToContent;
+        return this;
+    }
+
+    public double getMaxComponentHeight() {
+        return maxComponentHeight;
+    }
+
+    public LayoutParameters setMaxComponentHeight(double maxComponentHeight) {
+        this.maxComponentHeight = maxComponentHeight;
+        return this;
+    }
+
+    public double getMinSpaceBetweenComponents() {
+        return minSpaceBetweenComponents;
+    }
+
+    public LayoutParameters setMinSpaceBetweenComponents(double minSpaceBetweenComponents) {
+        this.minSpaceBetweenComponents = minSpaceBetweenComponents;
+        return this;
+    }
+
+    public double getMinExternCellHeight() {
+        return minExternCellHeight;
+    }
+
+    public LayoutParameters setMinExternCellHeight(double minExternCellHeight) {
+        this.minExternCellHeight = minExternCellHeight;
+        return this;
+    }
+
+    public void setComponentsSize(Map<String, ComponentSize> componentsSize) {
+        this.componentsSize = componentsSize;
+    }
+
+    public Map<String, ComponentSize> getComponentsSize() {
+        return componentsSize;
+    }
+
+    public double getAngleLabelShift() {
+        return angleLabelShift;
+    }
+
+    public LayoutParameters setAngleLabelShift(double angleLabelShift) {
+        this.angleLabelShift = angleLabelShift;
+        return this;
+    }
+
+    public boolean isLabelCentered() {
+        return labelCentered;
+    }
+
+    public LayoutParameters setLabelCentered(boolean labelCentered) {
+        this.labelCentered = labelCentered;
+        return this;
+    }
+
+    public boolean isLabelDiagonal() {
+        return labelDiagonal;
+    }
+
+    public LayoutParameters setLabelDiagonal(boolean labelDiagonal) {
+        this.labelDiagonal = labelDiagonal;
+        return this;
+    }
+
+    public boolean isHighlightLineState() {
+        return highlightLineState;
+    }
+
+    public LayoutParameters setHighlightLineState(boolean highlightLineState) {
+        this.highlightLineState = highlightLineState;
+        return this;
+    }
+
+    public boolean isTooltipEnabled() {
+        return tooltipEnabled;
+    }
+
+    public LayoutParameters setTooltipEnabled(boolean tooltipEnabled) {
+        this.tooltipEnabled = tooltipEnabled;
+        return this;
+    }
+
+    public boolean isAddNodesInfos() {
+        return addNodesInfos;
+    }
+
+    public LayoutParameters setAddNodesInfos(boolean addNodesInfos) {
+        this.addNodesInfos = addNodesInfos;
+        return this;
+    }
+
+    public double getMinSpaceForFeederArrows() {
+        return minSpaceForFeederArrows;
+    }
+
+    public LayoutParameters setMinSpaceForFeederArrows(double minSpaceForFeederArrows) {
+        this.minSpaceForFeederArrows = minSpaceForFeederArrows;
+        return this;
+    }
+
+    public boolean isFeederArrowSymmetry() {
+        return feederArrowSymmetry;
+    }
+
+    public LayoutParameters setFeederArrowSymmetry(boolean feederArrowSymmetry) {
+        this.feederArrowSymmetry = feederArrowSymmetry;
+        return this;
+    }
+
+    public boolean isCssInternal() {
+        return cssInternal;
+    }
+
+    public LayoutParameters setCssInternal(boolean cssInternal) {
+        this.cssInternal = cssInternal;
         return this;
     }
 }

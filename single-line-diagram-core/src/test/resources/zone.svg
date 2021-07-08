@@ -1,294 +1,175 @@
-<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg">
-    <style><![CDATA[.BUSBAR_SECTION {
-    stroke: rgb(0,0,0);
-    stroke-width: 3;
-}
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg">
+    <style>
+        <![CDATA[
+.sld-up .sld-arrow-down {visibility: hidden}
+.sld-down .sld-arrow-up {visibility: hidden}
+.sld-closed .sld-sw-open {visibility: hidden}
+.sld-open .sld-sw-closed {visibility: hidden}
+.sld-hidden-node {visibility: hidden}
+polyline {fill: none}
+.sld-top-feeder .sld-label {dominant-baseline: auto}
+.sld-bottom-feeder .sld-label {dominant-baseline: hanging}
+.sld-arrow-p .sld-label {dominant-baseline: middle}
+.sld-arrow-q .sld-label {dominant-baseline: middle}
+.sld-constant-color {stroke: blue; fill: none}
+.sld-wire.sld-constant-color {stroke: #c80000}
+.sld-node.sld-constant-color {stroke: none; fill: black}
+.sld-busbreaker-connection.sld-constant-color {stroke: black}
+.sld-busbar-section.sld-constant-color {stroke: black}
+.sld-disconnector.sld-constant-color {stroke: black}
+.sld-label {stroke: none; fill: black}
+.sld-busbar-section {stroke-width: 3}
+.sld-breaker {stroke-width: 2; fill:white}
+.sld-disconnector {stroke-width: 3}
+.sld-busbreaker-connection {stroke-width: 4}
+.sld-vsc {font-size: 7.43px}
+.sld-grid {stroke: #003700; stroke-dasharray: 1,10}
+.sld-arrow-p {fill:black}
+.sld-arrow-q {fill:blue}
+.sld-label {font: 8px "Verdana"}
+.sld-graph-label {font: 12px "Verdana"}
+.sld-flash {stroke: none; fill: black}
+.sld-lock {stroke: none; fill: black}
 
-.BREAKER {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 2;
-    fill: rgb(255, 255, 255);
-}
-
-.DISCONNECTOR {
-    stroke: rgb(0, 0, 0);
-    stroke-width: 3
-}
-
-.GENERATOR {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill: rgb(255, 255, 255);
-}
-
-.LOAD {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill: rgb(255, 255, 255);
-}
-
-.LOAD_BREAK_SWITCH {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill: rgb(255, 255, 255);
-}
-
-.NODE {
-    stroke: rgb(0, 0, 0);
-    fill: rgb(0, 0, 0);
-    fill-opacity: 1;
-}
-
-.CAPACITOR {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill-opacity: 0;
-}
-
-.INDUCTOR {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill-opacity: 0;
-}
-
-.STATIC_VAR_COMPENSATOR {
-    stroke: rgb(0, 0, 255);
-}
-
-.TWO_WINDINGS_TRANSFORMER {
-    stroke: rgb(0, 0, 255);
-    fill-opacity: 0;
-}
-
-.THREE_WINDINGS_TRANSFORMER {
-    stroke: rgb(0, 0, 255);
-    fill-opacity: 0;
-}
-
-.VSC_CONVERTER_STATION {
-    stroke: rgb(0, 0, 255);
-    font-size: 7.4314661px;
-    line-height: 1.25;
-    font-family: sans-serif;
-    font-variant-ligatures: normal;
-    font-variant-caps: normal;
-    font-variant-numeric: normal;
-    font-feature-settings: normal;
-    text-align: start;
-    letter-spacing: 0px;
-    word-spacing: 0px;
-    writing-mode: lr-tb;
-    text-anchor: start;
-    stroke-miterlimit: 4;
-}
-
-.PHASE_SHIFT_TRANSFORMER {
-    stroke: rgb(0, 0, 255);
-    stroke-linecap: butt;
-    stroke-linejoin: miter;
-    stroke-miterlimit: 4;
-    stroke-width: 1;
-    fill: rgb(255, 255, 255);
-}
-
-.wire {
-    stroke: rgb(200,0,0);
-    stroke-width: 1;
-    fill-opacity: 0;
-}
-
-.grid {
-    stroke: rgb(0,55,0);
-    stroke-width: 1;
-    stroke-dasharray: 1,10;
-}
-
-.component-label {
-    fill: black;
-    color: black;
-    stroke: none;
-    fill-opacity: 1;
-}
-
-.LINE {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill-opacity: 0;
-}
-.ARROW1_Load_UP .arrow-up {stroke: black; fill: black; fill-opacity:1; visibility: visible;}.ARROW1_Load_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW1_Load_DOWN .arrow-down {stroke: black; fill: black; fill-opacity:1;  visibility: visible;}.ARROW1_Load_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_Load_UP .arrow-up {stroke: blue; fill: blue; fill-opacity:1; visibility: visible;}.ARROW2_Load_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_Load_DOWN .arrow-down {stroke: blue; fill: blue; fill-opacity:1;  visibility: visible;}.ARROW2_Load_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}
-.ARROW1_Transformer_95_ONE_UP .arrow-up {stroke: black; fill: black; fill-opacity:1; visibility: visible;}.ARROW1_Transformer_95_ONE_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW1_Transformer_95_ONE_DOWN .arrow-down {stroke: black; fill: black; fill-opacity:1;  visibility: visible;}.ARROW1_Transformer_95_ONE_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_Transformer_95_ONE_UP .arrow-up {stroke: blue; fill: blue; fill-opacity:1; visibility: visible;}.ARROW2_Transformer_95_ONE_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_Transformer_95_ONE_DOWN .arrow-down {stroke: blue; fill: blue; fill-opacity:1;  visibility: visible;}.ARROW2_Transformer_95_ONE_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}
-.ARROW1_Transformer_95_TWO_UP .arrow-up {stroke: black; fill: black; fill-opacity:1; visibility: visible;}.ARROW1_Transformer_95_TWO_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW1_Transformer_95_TWO_DOWN .arrow-down {stroke: black; fill: black; fill-opacity:1;  visibility: visible;}.ARROW1_Transformer_95_TWO_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_Transformer_95_TWO_UP .arrow-up {stroke: blue; fill: blue; fill-opacity:1; visibility: visible;}.ARROW2_Transformer_95_TWO_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_Transformer_95_TWO_DOWN .arrow-down {stroke: blue; fill: blue; fill-opacity:1;  visibility: visible;}.ARROW2_Transformer_95_TWO_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}
-.ARROW1_Line_95_ONE_UP .arrow-up {stroke: black; fill: black; fill-opacity:1; visibility: visible;}.ARROW1_Line_95_ONE_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW1_Line_95_ONE_DOWN .arrow-down {stroke: black; fill: black; fill-opacity:1;  visibility: visible;}.ARROW1_Line_95_ONE_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_Line_95_ONE_UP .arrow-up {stroke: blue; fill: blue; fill-opacity:1; visibility: visible;}.ARROW2_Line_95_ONE_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_Line_95_ONE_DOWN .arrow-down {stroke: blue; fill: blue; fill-opacity:1;  visibility: visible;}.ARROW2_Line_95_ONE_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}
-.ARROW1_Generator_UP .arrow-up {stroke: black; fill: black; fill-opacity:1; visibility: visible;}.ARROW1_Generator_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW1_Generator_DOWN .arrow-down {stroke: black; fill: black; fill-opacity:1;  visibility: visible;}.ARROW1_Generator_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_Generator_UP .arrow-up {stroke: blue; fill: blue; fill-opacity:1; visibility: visible;}.ARROW2_Generator_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_Generator_DOWN .arrow-down {stroke: blue; fill: blue; fill-opacity:1;  visibility: visible;}.ARROW2_Generator_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}
-.ARROW1_Line_95_TWO_UP .arrow-up {stroke: black; fill: black; fill-opacity:1; visibility: visible;}.ARROW1_Line_95_TWO_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW1_Line_95_TWO_DOWN .arrow-down {stroke: black; fill: black; fill-opacity:1;  visibility: visible;}.ARROW1_Line_95_TWO_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_Line_95_TWO_UP .arrow-up {stroke: blue; fill: blue; fill-opacity:1; visibility: visible;}.ARROW2_Line_95_TWO_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_Line_95_TWO_DOWN .arrow-down {stroke: blue; fill: blue; fill-opacity:1;  visibility: visible;}.ARROW2_Line_95_TWO_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}
-]]></style>
+]]>
+    </style>
     <g>
-        <g class="BUSBAR_SECTION idBus11" id="idBus11" transform="translate(50.0,250.0)">
-            <line y2="0" x1="0" x2="40.0" y1="0"/>
-            <text x="-5.0" font-size="8" y="-5.0" transform="rotate(0,0,0)" font-family="Verdana" class="component-label" id="Bus11_NW_LABEL">Bus11</text>
+        <g class="sld-busbar-section sld-constant-color" id="idBus11" transform="translate(50.0,250.0)">
+            <line x1="0" x2="40.0" y1="0" y2="0"/>
+            <text class="sld-label" id="Bus11_NW_LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">Bus11</text>
         </g>
-        <g class="LOAD idLoad" id="idLoad" transform="translate(62.0,95.5)">
-    <rect height="9" width="16"/>
-    <line y2="9" x1="0" x2="16" y1="0"/>
-    <line y2="9" x1="16" x2="0" y1="0"/>
-<text x="-5.0" font-size="8" y="-5.0" transform="rotate(0,0,0)" font-family="Verdana" class="component-label" id="Load__LABEL">Load</text>
+        <g class="sld-wire sld-constant-color" id="_95_VoltageLevel11_95_Bus11_95_Load">
+            <polyline points="50.0,250.0,70.0,250.0,70.0,104.5"/>
         </g>
-        <g class="LINE idTransformer_95_ONE" id="idTransformer_95_ONE" transform="translate(70.0,350.0)">
-            <text x="-5.0" font-size="8" y="-5.0" transform="rotate(0,0,0)" font-family="Verdana" class="component-label" id="Transformer_ONE__LABEL">Transformer</text>
+        <g class="sld-arrow-q sld-down" id="_95_VoltageLevel11_95_Bus11_95_Load_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,65.0,119.5)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">20</text>
         </g>
-        <polyline class="wire wire_VoltageLevel11" points="50.0,250.0,70.0,250.0,70.0,104.0" id="idVoltageLevel11_95_Wire0"/>
-        <g class="ARROW1_Load_UP" id="idVoltageLevel11_95_Wire0_ARROW1" transform="matrix(1.0,-0.0,0.0,1.0,65.0,225.0)">
-     <g class="arrow-up" id="idVoltageLevel11_95_Wire0_ARROW1_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idVoltageLevel11_95_Wire0_ARROW1_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">10</text>
+        <g class="sld-arrow-p sld-up" id="_95_VoltageLevel11_95_Bus11_95_Load_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,65.0,139.5)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">10</text>
         </g>
-        <g class="ARROW2_Load_DOWN" id="idVoltageLevel11_95_Wire0_ARROW2" transform="matrix(1.0,-0.0,0.0,1.0,65.0,205.0)">
-     <g class="arrow-up" id="idVoltageLevel11_95_Wire0_ARROW2_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idVoltageLevel11_95_Wire0_ARROW2_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">20</text>
+        <g class="sld-wire sld-constant-color" id="_95_VoltageLevel11_95_Bus11_95_Transformer_95_ONE">
+            <polyline points="50.0,250.0,70.0,250.0,70.0,350.0"/>
         </g>
-        <polyline class="wire wire_VoltageLevel11" points="50.0,250.0,70.0,250.0,70.0,350.0" id="idVoltageLevel11_95_Wire1"/>
-        <g class="ARROW1_Transformer_95_ONE_UP" id="idVoltageLevel11_95_Wire1_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,65.0,265.0)">
-     <g class="arrow-up" id="idVoltageLevel11_95_Wire1_ARROW1_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idVoltageLevel11_95_Wire1_ARROW1_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">10</text>
+        <g class="sld-arrow-q sld-down" id="_95_VoltageLevel11_95_Bus11_95_Transformer_95_ONE_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,65.0,325.0)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10" transform="rotate(180.0,5.0,5.0)"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10" transform="rotate(180.0,5.0,5.0)"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">20</text>
         </g>
-        <g class="ARROW2_Transformer_95_ONE_DOWN" id="idVoltageLevel11_95_Wire1_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,65.0,285.0)">
-     <g class="arrow-up" id="idVoltageLevel11_95_Wire1_ARROW2_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idVoltageLevel11_95_Wire1_ARROW2_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">20</text>
+        <g class="sld-arrow-p sld-up" id="_95_VoltageLevel11_95_Bus11_95_Transformer_95_ONE_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,65.0,305.0)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10" transform="rotate(180.0,5.0,5.0)"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10" transform="rotate(180.0,5.0,5.0)"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">10</text>
         </g>
-        <g class="BUSBAR_SECTION idBus12" id="idBus12" transform="translate(50.0,550.0)">
-            <line y2="0" x1="0" x2="40.0" y1="0"/>
-            <text x="-5.0" font-size="8" y="-5.0" transform="rotate(0,0,0)" font-family="Verdana" class="component-label" id="Bus12_NW_LABEL">Bus12</text>
+        <g class="sld-load sld-constant-color" id="idLoad" transform="translate(62.0,95.5)">
+            <rect height="9" width="16"/>
+            <line x1="0" x2="16" y1="0" y2="9"/>
+            <line x1="16" x2="0" y1="0" y2="9"/>
+            <text class="sld-label" id="Load__LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">Load</text>
         </g>
-        <g class="LINE idTransformer_95_TWO" id="idTransformer_95_TWO" transform="translate(70.0,450.0)">
-            <text x="-5.0" font-size="8" y="-5.0" transform="rotate(0,0,0)" font-family="Verdana" class="component-label" id="Transformer_TWO__LABEL">Transformer</text>
+        <g class="sld-constant-color" id="idTransformer_95_ONE" transform="translate(70.0,350.0)">
+            <text class="sld-label" id="Transformer_ONE__LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">Transformer</text>
         </g>
-        <g class="LINE idLine_95_ONE" id="idLine_95_ONE" transform="translate(70.0,700.0)">
-            <text x="-5.0" font-size="8" y="-5.0" transform="rotate(0,0,0)" font-family="Verdana" class="component-label" id="Line_ONE__LABEL">Line_ONE</text>
+        <g class="sld-busbar-section sld-constant-color" id="idBus12" transform="translate(50.0,550.0)">
+            <line x1="0" x2="40.0" y1="0" y2="0"/>
+            <text class="sld-label" id="Bus12_NW_LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">Bus12</text>
         </g>
-        <polyline class="wire wire_VoltageLevel12" points="50.0,550.0,70.0,550.0,70.0,450.0" id="idVoltageLevel12_95_Wire0"/>
-        <g class="ARROW1_Transformer_95_TWO_UP" id="idVoltageLevel12_95_Wire0_ARROW1" transform="matrix(1.0,-0.0,0.0,1.0,65.0,525.0)">
-     <g class="arrow-up" id="idVoltageLevel12_95_Wire0_ARROW1_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idVoltageLevel12_95_Wire0_ARROW1_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">10</text>
+        <g class="sld-wire sld-constant-color" id="_95_VoltageLevel12_95_Bus12_95_Transformer_95_TWO">
+            <polyline points="50.0,550.0,70.0,550.0,70.0,450.0"/>
         </g>
-        <g class="ARROW2_Transformer_95_TWO_DOWN" id="idVoltageLevel12_95_Wire0_ARROW2" transform="matrix(1.0,-0.0,0.0,1.0,65.0,505.0)">
-     <g class="arrow-up" id="idVoltageLevel12_95_Wire0_ARROW2_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idVoltageLevel12_95_Wire0_ARROW2_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">20</text>
+        <g class="sld-arrow-q sld-down" id="_95_VoltageLevel12_95_Bus12_95_Transformer_95_TWO_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,65.0,465.0)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">20</text>
         </g>
-        <polyline class="wire wire_VoltageLevel12" points="50.0,550.0,70.0,550.0,70.0,700.0" id="idVoltageLevel12_95_Wire1"/>
-        <g class="ARROW1_Line_95_ONE_UP" id="idVoltageLevel12_95_Wire1_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,65.0,565.0)">
-     <g class="arrow-up" id="idVoltageLevel12_95_Wire1_ARROW1_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idVoltageLevel12_95_Wire1_ARROW1_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">10</text>
+        <g class="sld-arrow-p sld-up" id="_95_VoltageLevel12_95_Bus12_95_Transformer_95_TWO_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,65.0,485.0)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">10</text>
         </g>
-        <g class="ARROW2_Line_95_ONE_DOWN" id="idVoltageLevel12_95_Wire1_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,65.0,585.0)">
-     <g class="arrow-up" id="idVoltageLevel12_95_Wire1_ARROW2_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idVoltageLevel12_95_Wire1_ARROW2_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">20</text>
+        <g class="sld-wire sld-constant-color" id="_95_VoltageLevel12_95_Bus12_95_Line_95_ONE">
+            <polyline points="50.0,550.0,70.0,550.0,70.0,700.0"/>
         </g>
-        <g class="TWO_WINDINGS_TRANSFORMER idTransformer_95_ONE_95_Transformer_95_TWO" id="idTransformer_95_ONE_95_Transformer_95_TWO" transform="translate(63.5,396.0)">
-    <circle r="4" id="idTransformer_95_ONE_95_Transformer_95_TWO_TWO_WINDINGS_TRANSFORMER-WINDING1" cx="4" cy="4"/>
-
-    <circle r="4" id="idTransformer_95_ONE_95_Transformer_95_TWO_TWO_WINDINGS_TRANSFORMER-WINDING2" cx="9" cy="4"/>
-</g>
-        <polyline class="wire wire_VoltageLevel11" points="70.0,350.0,70.0,396.0" id="idVoltageLevel11_95__95_Wire0"/>
-        <polyline class="wire wire_VoltageLevel12" points="70.0,404.0,70.0,450.0" id="id_95_VoltageLevel12_95_Wire1"/>
-        <g class="BUSBAR_SECTION idBus21" id="idBus21" transform="translate(150.0,1150.0)">
-            <line y2="0" x1="0" x2="40.0" y1="0"/>
-            <text x="-5.0" font-size="8" y="-5.0" transform="rotate(0,0,0)" font-family="Verdana" class="component-label" id="Bus21_NW_LABEL">Bus21</text>
+        <g class="sld-arrow-q sld-down" id="_95_VoltageLevel12_95_Bus12_95_Line_95_ONE_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,65.0,675.0)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10" transform="rotate(180.0,5.0,5.0)"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10" transform="rotate(180.0,5.0,5.0)"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">20</text>
         </g>
-        <g class="GENERATOR idGenerator" id="idGenerator" transform="translate(164.0,1294.0)">
-    <circle r="6" cx="6" cy="6"/>
-    <path d="M6,6 A 6 20 0 0 0 0,6"/>
-    <path d="M6,6 A 6 20 0 0 0 12,6"/>
-<text x="-5.0" font-size="8" y="-5.0" transform="rotate(0,0,0)" font-family="Verdana" class="component-label" id="Generator__LABEL">Generator</text>
+        <g class="sld-arrow-p sld-up" id="_95_VoltageLevel12_95_Bus12_95_Line_95_ONE_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,65.0,655.0)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10" transform="rotate(180.0,5.0,5.0)"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10" transform="rotate(180.0,5.0,5.0)"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">10</text>
         </g>
-        <g class="LINE idLine_95_TWO" id="idLine_95_TWO" transform="translate(170.0,1000.0)">
-            <text x="-5.0" font-size="8" y="-5.0" transform="rotate(0,0,0)" font-family="Verdana" class="component-label" id="Line_TWO__LABEL">Line_TWO</text>
+        <g class="sld-constant-color" id="idTransformer_95_TWO" transform="translate(70.0,450.0)">
+            <text class="sld-label" id="Transformer_TWO__LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">Transformer</text>
         </g>
-        <polyline class="wire wire_VoltageLevel21" points="150.0,1150.0,170.0,1150.0,170.0,1294.0" id="idVoltageLevel21_95_Wire0"/>
-        <g class="ARROW1_Generator_UP" id="idVoltageLevel21_95_Wire0_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,165.0,1165.0)">
-     <g class="arrow-up" id="idVoltageLevel21_95_Wire0_ARROW1_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idVoltageLevel21_95_Wire0_ARROW1_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">10</text>
+        <g class="sld-constant-color" id="idLine_95_ONE" transform="translate(70.0,700.0)">
+            <text class="sld-label" id="Line_ONE__LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">Line</text>
         </g>
-        <g class="ARROW2_Generator_DOWN" id="idVoltageLevel21_95_Wire0_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,165.0,1185.0)">
-     <g class="arrow-up" id="idVoltageLevel21_95_Wire0_ARROW2_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idVoltageLevel21_95_Wire0_ARROW2_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">20</text>
+        <g class="sld-two-wt sld-constant-color" id="idTransformer_95_ONE_95_Transformer_95_TWO" transform="translate(65.0,392.5)">
+            <circle cx="5" cy="10" r="5" transform="rotate(180.0,5.0,7.5)"/>
+            <circle cx="5" cy="5" r="5" transform="rotate(180.0,5.0,7.5)"/>
         </g>
-        <polyline class="wire wire_VoltageLevel21" points="150.0,1150.0,170.0,1150.0,170.0,1000.0" id="idVoltageLevel21_95_Wire1"/>
-        <g class="ARROW1_Line_95_TWO_UP" id="idVoltageLevel21_95_Wire1_ARROW1" transform="matrix(1.0,-0.0,0.0,1.0,165.0,1125.0)">
-     <g class="arrow-up" id="idVoltageLevel21_95_Wire1_ARROW1_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idVoltageLevel21_95_Wire1_ARROW1_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">10</text>
+        <g class="sld-wire sld-constant-color" id="_95_Substation1_95_Transformer_95_ONE_95_Transformer_95_ONE_95_Transformer_95_TWO">
+            <polyline points="70.0,350.0,70.0,370.0,70.0,392.0"/>
         </g>
-        <g class="ARROW2_Line_95_TWO_DOWN" id="idVoltageLevel21_95_Wire1_ARROW2" transform="matrix(1.0,-0.0,0.0,1.0,165.0,1105.0)">
-     <g class="arrow-up" id="idVoltageLevel21_95_Wire1_ARROW2_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idVoltageLevel21_95_Wire1_ARROW2_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">20</text>
+        <g class="sld-wire sld-constant-color" id="_95_Substation1_95_Transformer_95_ONE_95_Transformer_95_TWO_95_Transformer_95_TWO">
+            <polyline points="70.0,408.0,70.0,430.0,70.0,450.0"/>
         </g>
-        <polyline class="LINE Line" points="70.0,700.0,70.0,850.0,170.0,850.0,170.0,1000.0" id="idLine"/>
+        <g class="sld-busbar-section sld-constant-color" id="idBus21" transform="translate(150.0,1150.0)">
+            <line x1="0" x2="40.0" y1="0" y2="0"/>
+            <text class="sld-label" id="Bus21_NW_LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">Bus21</text>
+        </g>
+        <g class="sld-wire sld-constant-color" id="_95_VoltageLevel21_95_Bus21_95_Generator">
+            <polyline points="150.0,1150.0,170.0,1150.0,170.0,1294.0"/>
+        </g>
+        <g class="sld-arrow-q sld-down" id="_95_VoltageLevel21_95_Bus21_95_Generator_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,165.0,1269.0)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10" transform="rotate(180.0,5.0,5.0)"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10" transform="rotate(180.0,5.0,5.0)"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">20</text>
+        </g>
+        <g class="sld-arrow-p sld-up" id="_95_VoltageLevel21_95_Bus21_95_Generator_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,165.0,1249.0)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10" transform="rotate(180.0,5.0,5.0)"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10" transform="rotate(180.0,5.0,5.0)"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">10</text>
+        </g>
+        <g class="sld-wire sld-constant-color" id="_95_VoltageLevel21_95_Bus21_95_Line_95_TWO">
+            <polyline points="150.0,1150.0,170.0,1150.0,170.0,1000.0"/>
+        </g>
+        <g class="sld-arrow-q sld-down" id="_95_VoltageLevel21_95_Bus21_95_Line_95_TWO_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,165.0,1015.0)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">20</text>
+        </g>
+        <g class="sld-arrow-p sld-up" id="_95_VoltageLevel21_95_Bus21_95_Line_95_TWO_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,165.0,1035.0)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">10</text>
+        </g>
+        <g class="sld-generator sld-constant-color" id="idGenerator" transform="translate(164.0,1294.0)">
+            <circle cx="6" cy="6" r="6"/>
+            <path d="M6,6 A 6 40 0 0 0 2,6"/>
+            <path d="M6,6 A 6 40 0 0 0 10,6"/>
+            <text class="sld-label" id="Generator__LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">Generator</text>
+        </g>
+        <g class="sld-constant-color" id="idLine_95_TWO" transform="translate(170.0,1000.0)">
+            <text class="sld-label" id="Line_TWO__LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">Line</text>
+        </g>
+        <g class="sld-wire sld-constant-color" id="idLine">
+            <polyline points="70.0,700.0,70.0,850.0,170.0,850.0,170.0,1000.0"/>
+        </g>
         <g id="LABEL_VL_VoltageLevel11">
-            <text x="0.0" font-size="12" y="0.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">VoltageLevel11</text>
+            <text class="sld-graph-label" transform="rotate(0,0,0)" x="0.0" y="-10.0">VoltageLevel11</text>
         </g>
         <g id="LABEL_VL_VoltageLevel12">
-            <text x="0.0" font-size="12" y="0.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">VoltageLevel12</text>
+            <text class="sld-graph-label" transform="rotate(0,0,0)" x="0.0" y="-10.0">VoltageLevel12</text>
         </g>
         <g id="LABEL_VL_VoltageLevel21">
-            <text x="0.0" font-size="12" y="0.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">VoltageLevel21</text>
+            <text class="sld-graph-label" transform="rotate(0,0,0)" x="0.0" y="-10.0">VoltageLevel21</text>
         </g>
     </g>
 </svg>

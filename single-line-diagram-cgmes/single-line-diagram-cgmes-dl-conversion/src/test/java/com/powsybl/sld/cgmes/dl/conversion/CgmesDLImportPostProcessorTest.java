@@ -6,13 +6,11 @@
  */
 package com.powsybl.sld.cgmes.dl.conversion;
 
-import org.junit.Test;
-
-import com.powsybl.cgmes.conversion.Profiling;
-import com.powsybl.sld.cgmes.dl.iidm.extensions.Networks;
-import com.powsybl.sld.cgmes.dl.iidm.extensions.NodeDiagramData;
 import com.powsybl.iidm.network.BusbarSection;
 import com.powsybl.iidm.network.Network;
+import com.powsybl.sld.cgmes.dl.iidm.extensions.Networks;
+import com.powsybl.sld.cgmes.dl.iidm.extensions.NodeDiagramData;
+import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
@@ -29,7 +27,7 @@ public class CgmesDLImportPostProcessorTest extends CgmesDLModelTest  {
     @Test
     public void process() throws Exception {
         Network network = Networks.createNetworkWithBusbar();
-        new CgmesDLImportPostProcessor(queryCatalog).process(network, tripleStore, new Profiling());
+        new CgmesDLImportPostProcessor(queryCatalog).process(network, tripleStore);
 
         BusbarSection busbar = network.getBusbarSection("Busbar");
         NodeDiagramData<BusbarSection> busDiagramData = busbar.getExtension(NodeDiagramData.class);
@@ -48,7 +46,7 @@ public class CgmesDLImportPostProcessorTest extends CgmesDLModelTest  {
     public void processNoDlContext() {
         Network network = Networks.createNetworkWithBusbar();
         Mockito.when(tripleStore.contextNames()).thenReturn(new HashSet<>(Arrays.asList("Network_EQ.xml", "Network_SV.xml", "Network_TP.xml")));
-        new CgmesDLImportPostProcessor(queryCatalog).process(network, tripleStore, new Profiling());
+        new CgmesDLImportPostProcessor(queryCatalog).process(network, tripleStore);
         assertNull(network.getBusbarSection("Busbar").getExtension(NodeDiagramData.class));
     }
 }

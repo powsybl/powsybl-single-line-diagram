@@ -10,14 +10,22 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.powsybl.sld.layout.LayoutParameters;
 
 import java.io.IOException;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+
+import static com.powsybl.sld.model.Block.Extremity.END;
+import static com.powsybl.sld.model.Block.Extremity.START;
+import static com.powsybl.sld.model.Cell.CellType.INTERN;
+import static com.powsybl.sld.model.Coord.Dimension.X;
+import static com.powsybl.sld.model.Coord.Dimension.Y;
+import static com.powsybl.sld.model.InternCell.Shape.FLAT;
+import static com.powsybl.sld.model.Position.Dimension.H;
+import static com.powsybl.sld.model.Position.Dimension.V;
 
 /**
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
  * @author Nicolas Duchene
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 public abstract class AbstractBlock implements Block {
 
@@ -39,8 +47,8 @@ public abstract class AbstractBlock implements Block {
      */
     AbstractBlock(Type type) {
         cardinality = new EnumMap<>(Extremity.class);
-        cardinality.put(Extremity.START, 0);
-        cardinality.put(Extremity.END, 0);
+        cardinality.put(START, 0);
+        cardinality.put(END, 0);
         this.type = Objects.requireNonNull(type);
         position = new Position(-1, -1);
         coord = new Coord(-1, -1);
@@ -48,28 +56,29 @@ public abstract class AbstractBlock implements Block {
 
     @Override
     public Node getStartingNode() {
-        return getExtremityNode(Extremity.START);
+        return getExtremityNode(START);
     }
 
     @Override
     public Node getEndingNode() {
-        return getExtremityNode(Extremity.END);
+        return getExtremityNode(END);
     }
 
     @Override
-    public Extremity getExtremity(Node node) {
-        if (node.equals(getExtremityNode(Extremity.START))) {
-            return Extremity.START;
+    public Optional<Extremity> getExtremity(Node node) {
+        if (node.equals(getExtremityNode(START))) {
+            return Optional.of(START);
         }
-        if (node.equals(getExtremityNode(Extremity.END))) {
-            return Extremity.END;
+        if (node.equals(getExtremityNode(END))) {
+            return Optional.of(END);
         }
-        return Extremity.NONE;
+        return Optional.empty();
     }
 
     @Override
     public int getCardinality(Node node) {
-        return getCardinality(getExtremity(node));
+        Optional<Extremity> extremity = getExtremity(node);
+        return extremity.map(this::getCardinality).orElse(0);
     }
 
     @Override
@@ -103,9 +112,7 @@ public abstract class AbstractBlock implements Block {
             return;
         }
         if (cell.getType() == Cell.CellType.SHUNT) {
-            setOrientation(Orientation.HORIZONTAL);
-        } else {
-            setOrientation(Orientation.VERTICAL);
+            setOrientation(Orientation.RIGHT);
         }
     }
 
@@ -120,74 +127,98 @@ public abstract class AbstractBlock implements Block {
     }
 
     @Override
+    public void setOrientation(Orientation orientation, boolean recursively) {
+        setOrientation(orientation);
+    }
+
+    @Override
+    public Orientation getOrientation() {
+        return getPosition().getOrientation();
+    }
+
+    @Override
     public Coord getCoord() {
         return coord;
     }
 
     @Override
-    public void setXSpan(double xSpan) {
-        getCoord().setXSpan(xSpan);
-    }
-
-    @Override
-    public void setYSpan(double ySpan) {
-        getCoord().setYSpan(ySpan);
-    }
-
-    @Override
-    public void setX(double x) {
-        getCoord().setX(x);
-    }
-
-    @Override
-    public void setY(double y) {
-        getCoord().setY(y);
-    }
-
-    @Override
     public void calculateCoord(LayoutParameters layoutParam) {
-        if (getPosition().getOrientation() == Orientation.VERTICAL) {
+        if (getPosition().getOrientation().isVertical()) {
             coordVerticalCase(layoutParam);
         } else {
             coordHorizontalCase(layoutParam);
         }
     }
 
+    double hToX(LayoutParameters layoutParameters, int h) {
+        return layoutParameters.getInitialXBus() + layoutParameters.getCellWidth() * h / 2;
+    }
+
     @Override
     public void calculateRootCoord(LayoutParameters layoutParam) {
+
+        double spanX = position.getSpan(H) / 2. * layoutParam.getCellWidth();
+        coord.setSpan(X, spanX);
+        coord.set(X, hToX(layoutParam, position.get(H)) + spanX / 2);
+
+        double spanY = getRootSpanYCoord(layoutParam);
+        coord.setSpan(Y, spanY);
+        coord.set(Y, getRootYCoord(spanY, layoutParam));
+
+        calculateCoord(layoutParam);
+    }
+
+    private double getRootSpanYCoord(LayoutParameters layoutParam) {
+        double ySpan;
+        if (cell.getType() == INTERN) {
+            ySpan = position.getSpan(V) / 2. * layoutParam.getInternCellHeight();
+        } else {
+            // The Y span of root block does not consider the space needed for the FeederPrimaryBlock
+            // nor the one needed for the LegPrimaryBlock.
+            if (layoutParam.isAdaptCellHeightToContent()) {
+                // In this case, corresponds to the previously calculated maximum height of all extern cells having the same direction
+                ySpan = getGraph().getMaxCalculatedCellHeight(((BusCell) cell).getDirection());
+            } else {
+                ySpan = layoutParam.getExternCellHeight() - getFeederSpan(layoutParam);
+            }
+        }
+        return ySpan;
+    }
+
+    public static double getFeederSpan(LayoutParameters layoutParam) {
+        // The space needed between the feeder and the node connected to it corresponds to the space for feeder arrows
+        // + half the height of the feeder component + half the height of that node component
+        return layoutParam.getMinSpaceForFeederArrows() + layoutParam.getMaxComponentHeight();
+    }
+
+    private double getRootYCoord(double spanY, LayoutParameters layoutParam) {
         double dyToBus = 0;
-        coord.setXSpan((double) position.getHSpan() * layoutParam.getCellWidth());
-        if (cell.getType() == Cell.CellType.INTERN) {
-            coord.setYSpan(0);
-            if (((InternCell) cell).getDirection() != BusCell.Direction.FLAT) {
-                dyToBus = layoutParam.getInternCellHeight() * position.getV();
+        if (cell.getType() == INTERN) {
+            if (((InternCell) cell).getShape().checkIsNotShape(FLAT)) {
+                dyToBus = spanY / 2 + layoutParam.getInternCellHeight() * (1 + position.get(V)) / 2.;
             }
         } else {
-            coord.setYSpan(layoutParam.getExternCellHeight());
-            dyToBus = layoutParam.getExternCellHeight() / 2 + layoutParam.getStackHeight();
+            dyToBus = spanY / 2 + layoutParam.getStackHeight();
         }
-
-        coord.setX(layoutParam.getInitialXBus()
-                + layoutParam.getCellWidth() * position.getH()
-                + coord.getXSpan() / 2);
-
         switch (((BusCell) cell).getDirection()) {
             case BOTTOM:
-                coord.setY(layoutParam.getInitialYBus()
-                        + (((BusCell) cell).getMaxBusPosition().getV() - 1) * layoutParam.getVerticalSpaceBus()
-                        + dyToBus);
-                break;
+                return layoutParam.getInitialYBus()
+                    + (cell.getGraph().getMaxVerticalBusPosition() - 1) * layoutParam.getVerticalSpaceBus()
+                    + dyToBus;
             case TOP:
-                coord.setY(layoutParam.getInitialYBus()
-                        - dyToBus);
-                break;
-            case FLAT:
-                coord.setY(layoutParam.getInitialYBus()
-                        + (getPosition().getV() - 1) * layoutParam.getVerticalSpaceBus());
-                break;
+                return layoutParam.getInitialYBus() - dyToBus;
+            case MIDDLE:
+                return layoutParam.getInitialYBus()
+                    + (getPosition().get(V) - 1) * layoutParam.getVerticalSpaceBus();
             default:
+                return 0;
         }
-        calculateCoord(layoutParam);
+    }
+
+    @Override
+    public double calculateRootHeight(LayoutParameters layoutParam) {
+        Set<Node> encounteredNodes = new HashSet<>();
+        return calculateHeight(encounteredNodes, layoutParam);
     }
 
     @Override
@@ -209,10 +240,14 @@ public abstract class AbstractBlock implements Block {
         }
         generator.writeEndArray();
         generator.writeFieldName("position");
-        position.writeJsonContent(generator);
-        generator.writeFieldName("coord");
-        coord.writeJsonContent(generator);
+        position.writeJsonContent(generator, getGraph().isGenerateCoordsInJson());
+
+        if (getGraph().isGenerateCoordsInJson()) {
+            generator.writeFieldName("coord");
+            coord.writeJsonContent(generator);
+        }
         writeJsonContent(generator);
         generator.writeEndObject();
     }
+
 }

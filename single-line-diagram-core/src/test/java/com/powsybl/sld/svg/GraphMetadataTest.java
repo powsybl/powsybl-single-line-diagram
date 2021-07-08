@@ -6,23 +6,6 @@
  */
 package com.powsybl.sld.svg;
 
-import static com.powsybl.sld.library.ComponentTypeName.BREAKER;
-import static com.powsybl.sld.library.ComponentTypeName.BUSBAR_SECTION;
-import static com.powsybl.sld.library.ComponentTypeName.LINE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-
-import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.jimfs.Configuration;
@@ -34,6 +17,18 @@ import com.powsybl.sld.library.ComponentMetadata;
 import com.powsybl.sld.library.ComponentSize;
 import com.powsybl.sld.model.BusCell;
 import com.powsybl.sld.svg.GraphMetadata.ArrowMetadata;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static com.powsybl.sld.library.ComponentTypeName.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
@@ -60,13 +55,14 @@ public class GraphMetadataTest {
     @Test
     public void test() throws IOException {
         GraphMetadata metadata = new GraphMetadata();
-        metadata.addComponentMetadata(new ComponentMetadata(BREAKER,
-                                                            "br1",
-                                                            ImmutableList.of(new AnchorPoint(5, 4, AnchorOrientation.NONE)),
-                                                            new ComponentSize(10, 12), true, null));
+        metadata.addComponentMetadata(new ComponentMetadata(
+            BREAKER,
+            "br1",
+            ImmutableList.of(new AnchorPoint(5, 4, AnchorOrientation.NONE)),
+            new ComponentSize(10, 12), "breaker", true, null));
 
-        metadata.addNodeMetadata(new GraphMetadata.NodeMetadata("id1", "vid1", null, BREAKER, null, false, BusCell.Direction.UNDEFINED, false));
-        metadata.addNodeMetadata(new GraphMetadata.NodeMetadata("id2", "vid2", null, BUSBAR_SECTION, null, false, BusCell.Direction.UNDEFINED, false));
+        metadata.addNodeMetadata(new GraphMetadata.NodeMetadata("id1", "vid1", null, BREAKER, null, false, BusCell.Direction.UNDEFINED, false, null));
+        metadata.addNodeMetadata(new GraphMetadata.NodeMetadata("id2", "vid2", null, BUSBAR_SECTION, null, false, BusCell.Direction.UNDEFINED, false, null));
         metadata.addWireMetadata(new GraphMetadata.WireMetadata("id3", "id1", "id2", false, false));
         metadata.addArrowMetadata(new ArrowMetadata("id1", "id3", 20));
 
@@ -135,11 +131,11 @@ public class GraphMetadataTest {
     @Test
     public void testGraphMetadataWithLine() throws IOException {
         GraphMetadata metadata = new GraphMetadata();
-        metadata.addNodeMetadata(new GraphMetadata.NodeMetadata("bid1", "vid1", null, BUSBAR_SECTION, null, false, BusCell.Direction.UNDEFINED, false));
-        metadata.addNodeMetadata(new GraphMetadata.NodeMetadata("lid1", "vid1", null, LINE, null, false, BusCell.Direction.UNDEFINED, false));
+        metadata.addNodeMetadata(new GraphMetadata.NodeMetadata("bid1", "vid1", null, BUSBAR_SECTION, null, false, BusCell.Direction.UNDEFINED, false, null));
+        metadata.addNodeMetadata(new GraphMetadata.NodeMetadata("lid1", "vid1", null, LINE, null, false, BusCell.Direction.UNDEFINED, false, null));
         metadata.addWireMetadata(new GraphMetadata.WireMetadata("wid1", "bid1", "lid1", false, false));
-        metadata.addNodeMetadata(new GraphMetadata.NodeMetadata("bid2", "vid2", null, BUSBAR_SECTION, null, false, BusCell.Direction.UNDEFINED, false));
-        metadata.addNodeMetadata(new GraphMetadata.NodeMetadata("lid2", "vid2", null, LINE, null, false, BusCell.Direction.UNDEFINED, false));
+        metadata.addNodeMetadata(new GraphMetadata.NodeMetadata("bid2", "vid2", null, BUSBAR_SECTION, null, false, BusCell.Direction.UNDEFINED, false, null));
+        metadata.addNodeMetadata(new GraphMetadata.NodeMetadata("lid2", "vid2", null, LINE, null, false, BusCell.Direction.UNDEFINED, false, null));
         metadata.addWireMetadata(new GraphMetadata.WireMetadata("wid2", "bid2", "lid2", false, false));
         metadata.addLineMetadata(new GraphMetadata.LineMetadata("lid", "lid1", "lid2"));
 

@@ -6,8 +6,6 @@
  */
 package com.powsybl.sld.library;
 
-import com.powsybl.commons.exceptions.UncheckedJaxbException;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -43,6 +41,17 @@ public class Components {
             return (Components) unmarshaller.unmarshal(is);
         } catch (JAXBException e) {
             throw new UncheckedJaxbException(e);
+        }
+    }
+
+    private static class UncheckedJaxbException extends RuntimeException {
+        public UncheckedJaxbException(JAXBException cause) {
+            super(cause);
+        }
+
+        @Override
+        public synchronized JAXBException getCause() {
+            return (JAXBException) super.getCause();
         }
     }
 }

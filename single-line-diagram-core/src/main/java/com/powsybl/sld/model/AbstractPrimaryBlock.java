@@ -18,12 +18,11 @@ import java.util.List;
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
  * @author Nicolas Duchene
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 public abstract class AbstractPrimaryBlock extends AbstractBlock implements PrimaryBlock {
 
     protected final List<Node> nodes;
-
-    protected final List<PrimaryBlock> stackableBlocks;
 
     /**
      * Constructor.
@@ -36,26 +35,46 @@ public abstract class AbstractPrimaryBlock extends AbstractBlock implements Prim
      * @param nodes nodes
      */
 
-    AbstractPrimaryBlock(List<Node> nodes, Cell cell) {
-        super(Type.PRIMARY);
+    AbstractPrimaryBlock(Type type, List<Node> nodes, Cell cell) {
+        super(type);
         if (nodes.isEmpty()) {
             throw new PowsyblException("Empty node list");
         }
-        this.stackableBlocks = new ArrayList<>();
         this.nodes = new ArrayList<>(nodes);
         setCardinality(Extremity.START, 1);
         setCardinality(Extremity.END, 1);
         setCell(cell);
     }
 
+    public static PrimaryBlock createPrimaryBlock(List<Node> primaryPattern, Cell cell) {
+        Node.NodeType firstNodeType = primaryPattern.get(0).getType();
+        Node.NodeType lastNodeType = primaryPattern.get(primaryPattern.size() - 1).getType();
+        if (firstNodeType == Node.NodeType.BUS || lastNodeType == Node.NodeType.BUS) {
+            return new LegPrimaryBlock(primaryPattern, cell);
+        }
+        if (firstNodeType == Node.NodeType.FEEDER || lastNodeType == Node.NodeType.FEEDER) {
+            return new FeederPrimaryBlock(primaryPattern, cell);
+        }
+        return new BodyPrimaryBlock(primaryPattern, cell);
+    }
+
     @Override
-    public Graph getGraph() {
+    public VoltageLevelGraph getGraph() {
         return nodes.get(0).getGraph();
     }
 
     @Override
-    public boolean isEmbedingNodeType(Node.NodeType type) {
+    public boolean isEmbeddingNodeType(Node.NodeType type) {
         return nodes.stream().anyMatch(n -> n.getType() == type);
+    }
+
+    @Override
+    public List<Block> findBlockEmbeddingNode(Node node) {
+        List<Block> result = new ArrayList<>();
+        if (nodes.contains(node)) {
+            result.add(this);
+        }
+        return result;
     }
 
     public List<Node> getNodes() {
@@ -79,32 +98,17 @@ public abstract class AbstractPrimaryBlock extends AbstractBlock implements Prim
     }
 
     @Override
-    public int getOrder() {
-        return getExtremityNode(Extremity.START).getType() == Node.NodeType.FEEDER ?
-                ((FeederNode) getExtremityNode(Extremity.START)).getOrder() : 0;
-    }
-
-    // TODO : this should be LegPrimaryBlock
-    public void addStackableBlock(PrimaryBlock block) {
-        stackableBlocks.add(block);
-    }
-
-    public List<PrimaryBlock> getStackableBlocks() {
-        return new ArrayList<>(stackableBlocks);
-    }
-
-    @Override
     protected void writeJsonContent(JsonGenerator generator) throws IOException {
         generator.writeFieldName("nodes");
         generator.writeStartArray();
-        for (Node node : nodes) {
-            node.writeJson(generator);
+        for (int i = 1; i <= nodes.size(); ++i) {
+            generator.writeString(nodes.get(i - 1).getId());
         }
         generator.writeEndArray();
     }
 
     @Override
     public String toString() {
-        return "PrimaryBlock(nodes=" + nodes + ")";
+        return getClass().getSimpleName() + " " + nodes;
     }
 }

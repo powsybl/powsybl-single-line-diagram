@@ -1,11 +1,760 @@
 {
-  "id" : "vl2",
+  "voltageLevelInfos" : {
+    "id" : "vl2",
+    "name" : "vl2",
+    "nominalVoltage" : 225.0
+  },
   "x" : 0.0,
   "y" : 0.0,
+  "nodes" : [ {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_dgen4Fictif",
+    "name" : "dgen4Fictif",
+    "equipmentId" : "dgen4Fictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 360.0,
+    "y" : 315.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_dload3Fictif",
+    "name" : "dload3Fictif",
+    "equipmentId" : "dload3Fictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 200.0,
+    "y" : 230.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_dscpl1Fictif",
+    "name" : "dscpl1Fictif",
+    "equipmentId" : "dscpl1Fictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 120.0,
+    "y" : 220.0,
+    "rotationAngle" : 90.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_dscpl2Fictif",
+    "name" : "dscpl2Fictif",
+    "equipmentId" : "dscpl2Fictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 40.0,
+    "y" : 220.0,
+    "rotationAngle" : 90.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_dtrf21Fictif",
+    "name" : "dtrf21Fictif",
+    "equipmentId" : "dtrf21Fictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 280.0,
+    "y" : 230.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_dtrf22Fictif",
+    "name" : "dtrf22Fictif",
+    "equipmentId" : "dtrf22Fictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 1000.0,
+    "y" : 315.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_dtrf23Fictif",
+    "name" : "dtrf23Fictif",
+    "equipmentId" : "dtrf23Fictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 1080.0,
+    "y" : 315.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_dtrf24Fictif",
+    "name" : "dtrf24Fictif",
+    "equipmentId" : "dtrf24Fictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 440.0,
+    "y" : 230.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_dtrf26Fictif",
+    "name" : "dtrf26Fictif",
+    "equipmentId" : "dtrf26Fictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 720.0,
+    "y" : 230.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_dtrf27Fictif",
+    "name" : "dtrf27Fictif",
+    "equipmentId" : "dtrf27Fictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 560.0,
+    "y" : 230.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_dtrf28Fictif",
+    "name" : "dtrf28Fictif",
+    "equipmentId" : "dtrf28Fictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 880.0,
+    "y" : 315.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_gen4Fictif",
+    "name" : "gen4Fictif",
+    "equipmentId" : "gen4Fictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 360.0,
+    "y" : 503.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_load3Fictif",
+    "name" : "load3Fictif",
+    "equipmentId" : "load3Fictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 200.0,
+    "y" : 42.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_trf1_TWOFictif",
+    "name" : "trf1_TWOFictif",
+    "equipmentId" : "trf1_TWOFictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 280.0,
+    "y" : 42.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_trf2_TWOFictif",
+    "name" : "trf2_TWOFictif",
+    "equipmentId" : "trf2_TWOFictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 1000.0,
+    "y" : 503.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_trf3_TWOFictif",
+    "name" : "trf3_TWOFictif",
+    "equipmentId" : "trf3_TWOFictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 1080.0,
+    "y" : 503.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_trf4_TWOFictif",
+    "name" : "trf4_TWOFictif",
+    "equipmentId" : "trf4_TWOFictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 440.0,
+    "y" : 42.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_trf6_fictif",
+    "name" : "trf6_fictif",
+    "equipmentId" : "trf6_fictif",
+    "componentType" : "THREE_WINDINGS_TRANSFORMER",
+    "fictitious" : true,
+    "x" : 720.0,
+    "y" : 42.0,
+    "open" : false,
+    "voltageLevelInfosLeg1" : {
+      "id" : "vl1",
+      "name" : "vl1",
+      "nominalVoltage" : 380.0
+    },
+    "voltageLevelInfosLeg2" : {
+      "id" : "vl2",
+      "name" : "vl2",
+      "nominalVoltage" : 225.0
+    },
+    "voltageLevelInfosLeg3" : {
+      "id" : "vl3",
+      "name" : "vl3",
+      "nominalVoltage" : 63.0
+    }
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_trf7_fictif",
+    "name" : "trf7_fictif",
+    "equipmentId" : "trf7_fictif",
+    "componentType" : "THREE_WINDINGS_TRANSFORMER",
+    "fictitious" : true,
+    "x" : 560.0,
+    "y" : 42.0,
+    "open" : false,
+    "voltageLevelInfosLeg1" : {
+      "id" : "vl1",
+      "name" : "vl1",
+      "nominalVoltage" : 380.0
+    },
+    "voltageLevelInfosLeg2" : {
+      "id" : "vl2",
+      "name" : "vl2",
+      "nominalVoltage" : 225.0
+    },
+    "voltageLevelInfosLeg3" : {
+      "id" : "vl3",
+      "name" : "vl3",
+      "nominalVoltage" : 63.0
+    }
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl2_trf8_fictif",
+    "name" : "trf8_fictif",
+    "equipmentId" : "trf8_fictif",
+    "componentType" : "THREE_WINDINGS_TRANSFORMER",
+    "fictitious" : true,
+    "x" : 880.0,
+    "y" : 503.0,
+    "open" : false,
+    "voltageLevelInfosLeg1" : {
+      "id" : "vl1",
+      "name" : "vl1",
+      "nominalVoltage" : 380.0
+    },
+    "voltageLevelInfosLeg2" : {
+      "id" : "vl2",
+      "name" : "vl2",
+      "nominalVoltage" : 225.0
+    },
+    "voltageLevelInfosLeg3" : {
+      "id" : "vl3",
+      "name" : "vl3",
+      "nominalVoltage" : 63.0
+    }
+  }, {
+    "type" : "BUS",
+    "id" : "bbs5",
+    "name" : "bbs5",
+    "equipmentId" : "bbs5",
+    "componentType" : "BUSBAR_SECTION",
+    "fictitious" : false,
+    "x" : 10.0,
+    "y" : 260.0,
+    "open" : false,
+    "pxWidth" : 1100.0,
+    "busbarIndex" : 1,
+    "sectionIndex" : 1,
+    "position" : {
+      "h" : 0,
+      "v" : 1,
+      "hSpan" : 28,
+      "vSpan" : 0
+    }
+  }, {
+    "type" : "BUS",
+    "id" : "bbs6",
+    "name" : "bbs6",
+    "equipmentId" : "bbs6",
+    "componentType" : "BUSBAR_SECTION",
+    "fictitious" : false,
+    "x" : 10.0,
+    "y" : 285.0,
+    "open" : false,
+    "pxWidth" : 1100.0,
+    "busbarIndex" : 2,
+    "sectionIndex" : 1,
+    "position" : {
+      "h" : 0,
+      "v" : 2,
+      "hSpan" : 28,
+      "vSpan" : 0
+    }
+  }, {
+    "type" : "SWITCH",
+    "id" : "bgen4",
+    "name" : "bgen4",
+    "equipmentId" : "bgen4",
+    "componentType" : "BREAKER",
+    "fictitious" : false,
+    "x" : 360.0,
+    "y" : 409.0,
+    "open" : false,
+    "kind" : "BREAKER"
+  }, {
+    "type" : "SWITCH",
+    "id" : "bload3",
+    "name" : "bload3",
+    "equipmentId" : "bload3",
+    "componentType" : "BREAKER",
+    "fictitious" : false,
+    "x" : 200.0,
+    "y" : 136.0,
+    "open" : false,
+    "kind" : "BREAKER"
+  }, {
+    "type" : "SWITCH",
+    "id" : "btrf21",
+    "name" : "btrf21",
+    "equipmentId" : "btrf21",
+    "componentType" : "BREAKER",
+    "fictitious" : false,
+    "x" : 280.0,
+    "y" : 136.0,
+    "open" : false,
+    "kind" : "BREAKER"
+  }, {
+    "type" : "SWITCH",
+    "id" : "btrf22",
+    "name" : "btrf22",
+    "equipmentId" : "btrf22",
+    "componentType" : "BREAKER",
+    "fictitious" : false,
+    "x" : 1000.0,
+    "y" : 409.0,
+    "open" : false,
+    "kind" : "BREAKER"
+  }, {
+    "type" : "SWITCH",
+    "id" : "btrf23",
+    "name" : "btrf23",
+    "equipmentId" : "btrf23",
+    "componentType" : "BREAKER",
+    "fictitious" : false,
+    "x" : 1080.0,
+    "y" : 409.0,
+    "open" : false,
+    "kind" : "BREAKER"
+  }, {
+    "type" : "SWITCH",
+    "id" : "btrf24",
+    "name" : "btrf24",
+    "equipmentId" : "btrf24",
+    "componentType" : "BREAKER",
+    "fictitious" : false,
+    "x" : 440.0,
+    "y" : 136.0,
+    "open" : false,
+    "kind" : "BREAKER"
+  }, {
+    "type" : "SWITCH",
+    "id" : "btrf26",
+    "name" : "btrf26",
+    "equipmentId" : "btrf26",
+    "componentType" : "BREAKER",
+    "fictitious" : false,
+    "x" : 720.0,
+    "y" : 136.0,
+    "open" : false,
+    "kind" : "BREAKER"
+  }, {
+    "type" : "SWITCH",
+    "id" : "btrf27",
+    "name" : "btrf27",
+    "equipmentId" : "btrf27",
+    "componentType" : "BREAKER",
+    "fictitious" : false,
+    "x" : 560.0,
+    "y" : 136.0,
+    "open" : false,
+    "kind" : "BREAKER"
+  }, {
+    "type" : "SWITCH",
+    "id" : "btrf28",
+    "name" : "btrf28",
+    "equipmentId" : "btrf28",
+    "componentType" : "BREAKER",
+    "fictitious" : false,
+    "x" : 880.0,
+    "y" : 409.0,
+    "open" : false,
+    "kind" : "BREAKER"
+  }, {
+    "type" : "SWITCH",
+    "id" : "ddcpl1",
+    "name" : "ddcpl1",
+    "equipmentId" : "ddcpl1",
+    "componentType" : "BREAKER",
+    "fictitious" : false,
+    "x" : 80.0,
+    "y" : 220.0,
+    "rotationAngle" : 90.0,
+    "open" : false,
+    "kind" : "BREAKER"
+  }, {
+    "type" : "SWITCH",
+    "id" : "dgen4",
+    "name" : "dgen4",
+    "equipmentId" : "dgen4",
+    "componentType" : "DISCONNECTOR",
+    "fictitious" : false,
+    "x" : 360.0,
+    "y" : 285.0,
+    "open" : false,
+    "kind" : "DISCONNECTOR"
+  }, {
+    "type" : "SWITCH",
+    "id" : "dload3",
+    "name" : "dload3",
+    "equipmentId" : "dload3",
+    "componentType" : "DISCONNECTOR",
+    "fictitious" : false,
+    "x" : 200.0,
+    "y" : 260.0,
+    "open" : false,
+    "kind" : "DISCONNECTOR"
+  }, {
+    "type" : "SWITCH",
+    "id" : "dscpl1",
+    "name" : "dscpl1",
+    "equipmentId" : "dscpl1",
+    "componentType" : "DISCONNECTOR",
+    "fictitious" : false,
+    "x" : 120.0,
+    "y" : 260.0,
+    "open" : false,
+    "kind" : "DISCONNECTOR"
+  }, {
+    "type" : "SWITCH",
+    "id" : "dscpl2",
+    "name" : "dscpl2",
+    "equipmentId" : "dscpl2",
+    "componentType" : "DISCONNECTOR",
+    "fictitious" : false,
+    "x" : 40.0,
+    "y" : 285.0,
+    "open" : false,
+    "kind" : "DISCONNECTOR"
+  }, {
+    "type" : "SWITCH",
+    "id" : "dtrf21",
+    "name" : "dtrf21",
+    "equipmentId" : "dtrf21",
+    "componentType" : "DISCONNECTOR",
+    "fictitious" : false,
+    "x" : 280.0,
+    "y" : 260.0,
+    "open" : false,
+    "kind" : "DISCONNECTOR"
+  }, {
+    "type" : "SWITCH",
+    "id" : "dtrf22",
+    "name" : "dtrf22",
+    "equipmentId" : "dtrf22",
+    "componentType" : "DISCONNECTOR",
+    "fictitious" : false,
+    "x" : 1000.0,
+    "y" : 285.0,
+    "open" : false,
+    "kind" : "DISCONNECTOR"
+  }, {
+    "type" : "SWITCH",
+    "id" : "dtrf23",
+    "name" : "dtrf23",
+    "equipmentId" : "dtrf23",
+    "componentType" : "DISCONNECTOR",
+    "fictitious" : false,
+    "x" : 1080.0,
+    "y" : 285.0,
+    "open" : false,
+    "kind" : "DISCONNECTOR"
+  }, {
+    "type" : "SWITCH",
+    "id" : "dtrf24",
+    "name" : "dtrf24",
+    "equipmentId" : "dtrf24",
+    "componentType" : "DISCONNECTOR",
+    "fictitious" : false,
+    "x" : 440.0,
+    "y" : 260.0,
+    "open" : false,
+    "kind" : "DISCONNECTOR"
+  }, {
+    "type" : "SWITCH",
+    "id" : "dtrf26",
+    "name" : "dtrf26",
+    "equipmentId" : "dtrf26",
+    "componentType" : "DISCONNECTOR",
+    "fictitious" : false,
+    "x" : 720.0,
+    "y" : 285.0,
+    "open" : false,
+    "kind" : "DISCONNECTOR"
+  }, {
+    "type" : "SWITCH",
+    "id" : "dtrf27",
+    "name" : "dtrf27",
+    "equipmentId" : "dtrf27",
+    "componentType" : "DISCONNECTOR",
+    "fictitious" : false,
+    "x" : 560.0,
+    "y" : 260.0,
+    "open" : false,
+    "kind" : "DISCONNECTOR"
+  }, {
+    "type" : "SWITCH",
+    "id" : "dtrf28",
+    "name" : "dtrf28",
+    "equipmentId" : "dtrf28",
+    "componentType" : "DISCONNECTOR",
+    "fictitious" : false,
+    "x" : 880.0,
+    "y" : 285.0,
+    "open" : false,
+    "kind" : "DISCONNECTOR"
+  }, {
+    "type" : "FEEDER",
+    "id" : "gen4",
+    "name" : "gen4",
+    "equipmentId" : "gen4",
+    "componentType" : "GENERATOR",
+    "fictitious" : false,
+    "x" : 360.0,
+    "y" : 565.0,
+    "open" : false,
+    "label" : "gen4",
+    "feederType" : "INJECTION",
+    "order" : 2,
+    "direction" : "BOTTOM"
+  }, {
+    "type" : "FEEDER",
+    "id" : "load3",
+    "name" : "load3",
+    "equipmentId" : "load3",
+    "componentType" : "LOAD",
+    "fictitious" : false,
+    "x" : 200.0,
+    "y" : -20.0,
+    "open" : false,
+    "label" : "load3",
+    "feederType" : "INJECTION",
+    "order" : 0,
+    "direction" : "TOP"
+  }, {
+    "type" : "FEEDER",
+    "id" : "trf1_TWO",
+    "name" : "trf1",
+    "equipmentId" : "trf1",
+    "componentType" : "TWO_WINDINGS_TRANSFORMER",
+    "fictitious" : false,
+    "x" : 280.0,
+    "y" : -20.0,
+    "open" : false,
+    "label" : "trf1",
+    "feederType" : "BRANCH",
+    "order" : 1,
+    "direction" : "TOP",
+    "side" : "TWO",
+    "otherSideVoltageLevelInfos" : {
+      "id" : "vl1",
+      "name" : "vl1",
+      "nominalVoltage" : 380.0
+    }
+  }, {
+    "type" : "FEEDER",
+    "id" : "trf2_TWO",
+    "name" : "trf2",
+    "equipmentId" : "trf2",
+    "componentType" : "TWO_WINDINGS_TRANSFORMER",
+    "fictitious" : false,
+    "x" : 1000.0,
+    "y" : 565.0,
+    "open" : false,
+    "label" : "trf2",
+    "feederType" : "BRANCH",
+    "order" : 7,
+    "direction" : "BOTTOM",
+    "side" : "TWO",
+    "otherSideVoltageLevelInfos" : {
+      "id" : "vl1",
+      "name" : "vl1",
+      "nominalVoltage" : 380.0
+    }
+  }, {
+    "type" : "FEEDER",
+    "id" : "trf3_TWO",
+    "name" : "trf3",
+    "equipmentId" : "trf3",
+    "componentType" : "TWO_WINDINGS_TRANSFORMER",
+    "fictitious" : false,
+    "x" : 1080.0,
+    "y" : 565.0,
+    "open" : false,
+    "label" : "trf3",
+    "feederType" : "BRANCH",
+    "order" : 8,
+    "direction" : "BOTTOM",
+    "side" : "TWO",
+    "otherSideVoltageLevelInfos" : {
+      "id" : "vl1",
+      "name" : "vl1",
+      "nominalVoltage" : 380.0
+    }
+  }, {
+    "type" : "FEEDER",
+    "id" : "trf4_TWO",
+    "name" : "trf4",
+    "equipmentId" : "trf4",
+    "componentType" : "TWO_WINDINGS_TRANSFORMER",
+    "fictitious" : false,
+    "x" : 440.0,
+    "y" : -20.0,
+    "open" : false,
+    "label" : "trf4",
+    "feederType" : "BRANCH",
+    "order" : 3,
+    "direction" : "TOP",
+    "side" : "TWO",
+    "otherSideVoltageLevelInfos" : {
+      "id" : "vl1",
+      "name" : "vl1",
+      "nominalVoltage" : 380.0
+    }
+  }, {
+    "type" : "FEEDER",
+    "id" : "trf6_ONE",
+    "name" : "trf6",
+    "equipmentId" : "trf6",
+    "componentType" : "THREE_WINDINGS_TRANSFORMER_LEG",
+    "fictitious" : false,
+    "x" : 680.0,
+    "y" : -20.0,
+    "open" : false,
+    "label" : "trf62",
+    "feederType" : "THREE_WINDINGS_TRANSFORMER_LEG",
+    "order" : 5,
+    "direction" : "TOP",
+    "side" : "ONE",
+    "otherSideVoltageLevelInfos" : {
+      "id" : "vl1",
+      "name" : "vl1",
+      "nominalVoltage" : 380.0
+    }
+  }, {
+    "type" : "FEEDER",
+    "id" : "trf6_THREE",
+    "name" : "trf6",
+    "equipmentId" : "trf6",
+    "componentType" : "THREE_WINDINGS_TRANSFORMER_LEG",
+    "fictitious" : false,
+    "x" : 760.0,
+    "y" : -20.0,
+    "open" : false,
+    "label" : "trf62",
+    "feederType" : "THREE_WINDINGS_TRANSFORMER_LEG",
+    "order" : 6,
+    "direction" : "TOP",
+    "side" : "THREE",
+    "otherSideVoltageLevelInfos" : {
+      "id" : "vl3",
+      "name" : "vl3",
+      "nominalVoltage" : 63.0
+    }
+  }, {
+    "type" : "FEEDER",
+    "id" : "trf7_ONE",
+    "name" : "trf7",
+    "equipmentId" : "trf7",
+    "componentType" : "THREE_WINDINGS_TRANSFORMER_LEG",
+    "fictitious" : false,
+    "x" : 520.0,
+    "y" : -20.0,
+    "open" : false,
+    "label" : "trf72",
+    "feederType" : "THREE_WINDINGS_TRANSFORMER_LEG",
+    "order" : 4,
+    "direction" : "TOP",
+    "side" : "ONE",
+    "otherSideVoltageLevelInfos" : {
+      "id" : "vl1",
+      "name" : "vl1",
+      "nominalVoltage" : 380.0
+    }
+  }, {
+    "type" : "FEEDER",
+    "id" : "trf7_THREE",
+    "name" : "trf7",
+    "equipmentId" : "trf7",
+    "componentType" : "THREE_WINDINGS_TRANSFORMER_LEG",
+    "fictitious" : false,
+    "x" : 600.0,
+    "y" : -20.0,
+    "open" : false,
+    "label" : "trf72",
+    "feederType" : "THREE_WINDINGS_TRANSFORMER_LEG",
+    "order" : 5,
+    "direction" : "TOP",
+    "side" : "THREE",
+    "otherSideVoltageLevelInfos" : {
+      "id" : "vl3",
+      "name" : "vl3",
+      "nominalVoltage" : 63.0
+    }
+  }, {
+    "type" : "FEEDER",
+    "id" : "trf8_ONE",
+    "name" : "trf8",
+    "equipmentId" : "trf8",
+    "componentType" : "THREE_WINDINGS_TRANSFORMER_LEG",
+    "fictitious" : false,
+    "x" : 840.0,
+    "y" : 565.0,
+    "open" : false,
+    "label" : "trf82",
+    "feederType" : "THREE_WINDINGS_TRANSFORMER_LEG",
+    "order" : 6,
+    "direction" : "BOTTOM",
+    "side" : "ONE",
+    "otherSideVoltageLevelInfos" : {
+      "id" : "vl1",
+      "name" : "vl1",
+      "nominalVoltage" : 380.0
+    }
+  }, {
+    "type" : "FEEDER",
+    "id" : "trf8_THREE",
+    "name" : "trf8",
+    "equipmentId" : "trf8",
+    "componentType" : "THREE_WINDINGS_TRANSFORMER_LEG",
+    "fictitious" : false,
+    "x" : 920.0,
+    "y" : 565.0,
+    "open" : false,
+    "label" : "trf82",
+    "feederType" : "THREE_WINDINGS_TRANSFORMER_LEG",
+    "order" : 7,
+    "direction" : "BOTTOM",
+    "side" : "THREE",
+    "otherSideVoltageLevelInfos" : {
+      "id" : "vl3",
+      "name" : "vl3",
+      "nominalVoltage" : 63.0
+    }
+  } ],
   "cells" : [ {
     "type" : "INTERN",
     "number" : 0,
-    "direction" : "TOP",
     "direction" : "TOP",
     "rootBlock" : {
       "type" : "SERIAL",
@@ -18,8 +767,7 @@
         "h" : -1,
         "v" : -1,
         "hSpan" : 0,
-        "vSpan" : 0,
-        "orientation" : "VERTICAL"
+        "vSpan" : 0
       },
       "coord" : {
         "x" : -1.0,
@@ -28,7 +776,28 @@
         "ySpan" : 0.0
       },
       "subBlocks" : [ {
-        "type" : "PRIMARY",
+        "type" : "LEGPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
+        }, {
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : -1,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "UP"
+        },
+        "coord" : {
+          "x" : 40.0,
+          "y" : 260.0,
+          "xSpan" : 80.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "bbs6", "dscpl2", "FICT_vl2_dscpl2Fictif" ]
+      }, {
+        "type" : "BODYPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -37,180 +806,43 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
-          "vSpan" : 0,
-          "orientation" : "VERTICAL"
+          "hSpan" : 2,
+          "vSpan" : 2,
+          "orientation" : "RIGHT"
         },
         "coord" : {
           "x" : 40.0,
-          "y" : 260.0,
-          "xSpan" : 80.0,
-          "ySpan" : 0.0
-        },
-        "nodes" : [ {
-          "type" : "BUS",
-          "id" : "bbs5",
-          "name" : "bbs5",
-          "componentType" : "BUSBAR_SECTION",
-          "fictitious" : false,
-          "x" : 10.0,
-          "y" : 260.0,
-          "open" : false,
-          "pxWidth" : 1100.0,
-          "structuralPosition" : {
-            "h" : 1,
-            "v" : 1,
-            "hSpan" : 1,
-            "vSpan" : 0
-          },
-          "position" : {
-            "h" : 0,
-            "v" : 1,
-            "hSpan" : 14,
-            "vSpan" : 0
-          }
-        }, {
-          "type" : "SWITCH",
-          "id" : "dscpl1",
-          "name" : "dscpl1",
-          "componentType" : "DISCONNECTOR",
-          "fictitious" : false,
-          "x" : 40.0,
-          "y" : 260.0,
-          "open" : false,
-          "kind" : "DISCONNECTOR"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dscpl1Fictif",
-          "name" : "dscpl1Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 40.0,
           "y" : 220.0,
-          "rotationAngle" : 90.0,
-          "open" : false
-        } ]
+          "xSpan" : 80.0,
+          "ySpan" : 40.0
+        },
+        "nodes" : [ "FICT_vl2_dscpl2Fictif", "ddcpl1", "FICT_vl2_dscpl1Fictif" ]
       }, {
-        "type" : "PRIMARY",
+        "type" : "LEGPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
           "END" : 1
         } ],
         "position" : {
-          "h" : 0,
-          "v" : 1,
-          "hSpan" : 0,
+          "h" : 2,
+          "v" : -1,
+          "hSpan" : 2,
           "vSpan" : 0,
-          "orientation" : "VERTICAL"
-        },
-        "coord" : {
-          "x" : -1.0,
-          "y" : -1.0,
-          "xSpan" : 0.0,
-          "ySpan" : 0.0
-        },
-        "nodes" : [ {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dscpl1Fictif",
-          "name" : "dscpl1Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 40.0,
-          "y" : 220.0,
-          "rotationAngle" : 90.0,
-          "open" : false
-        }, {
-          "type" : "SWITCH",
-          "id" : "ddcpl1",
-          "name" : "ddcpl1",
-          "componentType" : "BREAKER",
-          "fictitious" : false,
-          "x" : 80.0,
-          "y" : 220.0,
-          "rotationAngle" : 90.0,
-          "open" : false,
-          "kind" : "BREAKER"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dscpl2Fictif",
-          "name" : "dscpl2Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 120.0,
-          "y" : 220.0,
-          "rotationAngle" : 90.0,
-          "open" : false
-        } ]
-      }, {
-        "type" : "PRIMARY",
-        "cardinalities" : [ {
-          "START" : 1
-        }, {
-          "END" : 1
-        } ],
-        "position" : {
-          "h" : 1,
-          "v" : 2,
-          "hSpan" : 1,
-          "vSpan" : 0,
-          "orientation" : "VERTICAL"
+          "orientation" : "UP"
         },
         "coord" : {
           "x" : 120.0,
-          "y" : 180.0,
+          "y" : 260.0,
           "xSpan" : 80.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ {
-          "type" : "BUS",
-          "id" : "bbs6",
-          "name" : "bbs6",
-          "componentType" : "BUSBAR_SECTION",
-          "fictitious" : false,
-          "x" : 10.0,
-          "y" : 285.0,
-          "open" : false,
-          "pxWidth" : 1100.0,
-          "structuralPosition" : {
-            "h" : 1,
-            "v" : 2,
-            "hSpan" : 1,
-            "vSpan" : 0
-          },
-          "position" : {
-            "h" : 0,
-            "v" : 2,
-            "hSpan" : 14,
-            "vSpan" : 0
-          }
-        }, {
-          "type" : "SWITCH",
-          "id" : "dscpl2",
-          "name" : "dscpl2",
-          "componentType" : "DISCONNECTOR",
-          "fictitious" : false,
-          "x" : 120.0,
-          "y" : 285.0,
-          "open" : false,
-          "kind" : "DISCONNECTOR"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dscpl2Fictif",
-          "name" : "dscpl2Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 120.0,
-          "y" : 220.0,
-          "rotationAngle" : 90.0,
-          "open" : false
-        } ]
+        "nodes" : [ "bbs5", "dscpl1", "FICT_vl2_dscpl1Fictif" ]
       } ]
     }
   }, {
     "type" : "EXTERN",
     "number" : 1,
-    "direction" : "TOP",
     "direction" : "TOP",
     "order" : 0,
     "rootBlock" : {
@@ -221,20 +853,20 @@
         "END" : 1
       } ],
       "position" : {
-        "h" : 2,
+        "h" : 4,
         "v" : 0,
-        "hSpan" : 1,
-        "vSpan" : 2,
-        "orientation" : "VERTICAL"
+        "hSpan" : 2,
+        "vSpan" : 4,
+        "orientation" : "UP"
       },
       "coord" : {
         "x" : 200.0,
-        "y" : 105.0,
+        "y" : 136.0,
         "xSpan" : 80.0,
-        "ySpan" : 250.0
+        "ySpan" : 188.0
       },
       "subBlocks" : [ {
-        "type" : "PRIMARY",
+        "type" : "LEGPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -243,9 +875,9 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
+          "hSpan" : 2,
           "vSpan" : 0,
-          "orientation" : "VERTICAL"
+          "orientation" : "UP"
         },
         "coord" : {
           "x" : 200.0,
@@ -253,50 +885,9 @@
           "xSpan" : 80.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ {
-          "type" : "BUS",
-          "id" : "bbs5",
-          "name" : "bbs5",
-          "componentType" : "BUSBAR_SECTION",
-          "fictitious" : false,
-          "x" : 10.0,
-          "y" : 260.0,
-          "open" : false,
-          "pxWidth" : 1100.0,
-          "structuralPosition" : {
-            "h" : 1,
-            "v" : 1,
-            "hSpan" : 1,
-            "vSpan" : 0
-          },
-          "position" : {
-            "h" : 0,
-            "v" : 1,
-            "hSpan" : 14,
-            "vSpan" : 0
-          }
-        }, {
-          "type" : "SWITCH",
-          "id" : "dload3",
-          "name" : "dload3",
-          "componentType" : "DISCONNECTOR",
-          "fictitious" : false,
-          "x" : 200.0,
-          "y" : 260.0,
-          "open" : false,
-          "kind" : "DISCONNECTOR"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dload3Fictif",
-          "name" : "dload3Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 200.0,
-          "y" : 230.0,
-          "open" : false
-        } ]
+        "nodes" : [ "bbs5", "dload3", "FICT_vl2_dload3Fictif" ]
       }, {
-        "type" : "PRIMARY",
+        "type" : "BODYPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -305,55 +896,44 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
-          "vSpan" : 2,
-          "orientation" : "VERTICAL"
+          "hSpan" : 2,
+          "vSpan" : 4,
+          "orientation" : "UP"
         },
         "coord" : {
           "x" : 200.0,
-          "y" : 105.0,
+          "y" : 136.0,
           "xSpan" : 80.0,
-          "ySpan" : 250.0
+          "ySpan" : 188.0
         },
-        "nodes" : [ {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dload3Fictif",
-          "name" : "dload3Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 200.0,
-          "y" : 230.0,
-          "open" : false
+        "nodes" : [ "FICT_vl2_dload3Fictif", "bload3", "FICT_vl2_load3Fictif" ]
+      }, {
+        "type" : "FEEDERPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
         }, {
-          "type" : "SWITCH",
-          "id" : "bload3",
-          "name" : "bload3",
-          "componentType" : "BREAKER",
-          "fictitious" : false,
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 4,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "UP"
+        },
+        "coord" : {
           "x" : 200.0,
-          "y" : 105.0,
-          "open" : false,
-          "kind" : "BREAKER"
-        }, {
-          "type" : "FEEDER",
-          "id" : "load3",
-          "name" : "load3",
-          "componentType" : "LOAD",
-          "fictitious" : false,
-          "x" : 200.0,
-          "y" : -20.0,
-          "open" : false,
-          "label" : "load3",
-          "order" : 0,
-          "direction" : "TOP"
-        } ]
+          "y" : 42.0,
+          "xSpan" : 80.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "FICT_vl2_load3Fictif", "load3" ]
       } ]
     }
   }, {
     "type" : "EXTERN",
     "number" : 2,
     "direction" : "TOP",
-    "direction" : "TOP",
     "order" : 1,
     "rootBlock" : {
       "type" : "SERIAL",
@@ -363,20 +943,20 @@
         "END" : 1
       } ],
       "position" : {
-        "h" : 3,
+        "h" : 6,
         "v" : 0,
-        "hSpan" : 1,
-        "vSpan" : 2,
-        "orientation" : "VERTICAL"
+        "hSpan" : 2,
+        "vSpan" : 4,
+        "orientation" : "UP"
       },
       "coord" : {
         "x" : 280.0,
-        "y" : 105.0,
+        "y" : 136.0,
         "xSpan" : 80.0,
-        "ySpan" : 250.0
+        "ySpan" : 188.0
       },
       "subBlocks" : [ {
-        "type" : "PRIMARY",
+        "type" : "LEGPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -385,9 +965,9 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
+          "hSpan" : 2,
           "vSpan" : 0,
-          "orientation" : "VERTICAL"
+          "orientation" : "UP"
         },
         "coord" : {
           "x" : 280.0,
@@ -395,50 +975,9 @@
           "xSpan" : 80.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ {
-          "type" : "BUS",
-          "id" : "bbs5",
-          "name" : "bbs5",
-          "componentType" : "BUSBAR_SECTION",
-          "fictitious" : false,
-          "x" : 10.0,
-          "y" : 260.0,
-          "open" : false,
-          "pxWidth" : 1100.0,
-          "structuralPosition" : {
-            "h" : 1,
-            "v" : 1,
-            "hSpan" : 1,
-            "vSpan" : 0
-          },
-          "position" : {
-            "h" : 0,
-            "v" : 1,
-            "hSpan" : 14,
-            "vSpan" : 0
-          }
-        }, {
-          "type" : "SWITCH",
-          "id" : "dtrf21",
-          "name" : "dtrf21",
-          "componentType" : "DISCONNECTOR",
-          "fictitious" : false,
-          "x" : 280.0,
-          "y" : 260.0,
-          "open" : false,
-          "kind" : "DISCONNECTOR"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dtrf21Fictif",
-          "name" : "dtrf21Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 280.0,
-          "y" : 230.0,
-          "open" : false
-        } ]
+        "nodes" : [ "bbs5", "dtrf21", "FICT_vl2_dtrf21Fictif" ]
       }, {
-        "type" : "PRIMARY",
+        "type" : "BODYPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -447,588 +986,44 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
-          "vSpan" : 2,
-          "orientation" : "VERTICAL"
+          "hSpan" : 2,
+          "vSpan" : 4,
+          "orientation" : "UP"
         },
         "coord" : {
           "x" : 280.0,
-          "y" : 105.0,
+          "y" : 136.0,
           "xSpan" : 80.0,
-          "ySpan" : 250.0
+          "ySpan" : 188.0
         },
-        "nodes" : [ {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dtrf21Fictif",
-          "name" : "dtrf21Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 280.0,
-          "y" : 230.0,
-          "open" : false
+        "nodes" : [ "FICT_vl2_dtrf21Fictif", "btrf21", "FICT_vl2_trf1_TWOFictif" ]
+      }, {
+        "type" : "FEEDERPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
         }, {
-          "type" : "SWITCH",
-          "id" : "btrf21",
-          "name" : "btrf21",
-          "componentType" : "BREAKER",
-          "fictitious" : false,
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 4,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "UP"
+        },
+        "coord" : {
           "x" : 280.0,
-          "y" : 105.0,
-          "open" : false,
-          "kind" : "BREAKER"
-        }, {
-          "type" : "FEEDER",
-          "id" : "trf1_TWO",
-          "name" : "trf1_TWO",
-          "componentType" : "TWO_WINDINGS_TRANSFORMER",
-          "fictitious" : false,
-          "x" : 280.0,
-          "y" : -20.0,
-          "open" : false,
-          "label" : "trf1",
-          "order" : 1,
-          "direction" : "TOP",
-          "otherSideVlId" : "vl1"
-        } ]
+          "y" : 42.0,
+          "xSpan" : 80.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "FICT_vl2_trf1_TWOFictif", "trf1_TWO" ]
       } ]
     }
   }, {
     "type" : "EXTERN",
     "number" : 3,
     "direction" : "TOP",
-    "direction" : "TOP",
-    "order" : 2,
-    "rootBlock" : {
-      "type" : "SERIAL",
-      "cardinalities" : [ {
-        "START" : 1
-      }, {
-        "END" : 1
-      } ],
-      "position" : {
-        "h" : 5,
-        "v" : 0,
-        "hSpan" : 1,
-        "vSpan" : 2,
-        "orientation" : "VERTICAL"
-      },
-      "coord" : {
-        "x" : 440.0,
-        "y" : 105.0,
-        "xSpan" : 80.0,
-        "ySpan" : 250.0
-      },
-      "subBlocks" : [ {
-        "type" : "PRIMARY",
-        "cardinalities" : [ {
-          "START" : 1
-        }, {
-          "END" : 1
-        } ],
-        "position" : {
-          "h" : 0,
-          "v" : 0,
-          "hSpan" : 1,
-          "vSpan" : 0,
-          "orientation" : "VERTICAL"
-        },
-        "coord" : {
-          "x" : 440.0,
-          "y" : 230.0,
-          "xSpan" : 80.0,
-          "ySpan" : 0.0
-        },
-        "nodes" : [ {
-          "type" : "BUS",
-          "id" : "bbs5",
-          "name" : "bbs5",
-          "componentType" : "BUSBAR_SECTION",
-          "fictitious" : false,
-          "x" : 10.0,
-          "y" : 260.0,
-          "open" : false,
-          "pxWidth" : 1100.0,
-          "structuralPosition" : {
-            "h" : 1,
-            "v" : 1,
-            "hSpan" : 1,
-            "vSpan" : 0
-          },
-          "position" : {
-            "h" : 0,
-            "v" : 1,
-            "hSpan" : 14,
-            "vSpan" : 0
-          }
-        }, {
-          "type" : "SWITCH",
-          "id" : "dtrf24",
-          "name" : "dtrf24",
-          "componentType" : "DISCONNECTOR",
-          "fictitious" : false,
-          "x" : 440.0,
-          "y" : 260.0,
-          "open" : false,
-          "kind" : "DISCONNECTOR"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dtrf24Fictif",
-          "name" : "dtrf24Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 440.0,
-          "y" : 230.0,
-          "open" : false
-        } ]
-      }, {
-        "type" : "PRIMARY",
-        "cardinalities" : [ {
-          "START" : 1
-        }, {
-          "END" : 1
-        } ],
-        "position" : {
-          "h" : 0,
-          "v" : 0,
-          "hSpan" : 1,
-          "vSpan" : 2,
-          "orientation" : "VERTICAL"
-        },
-        "coord" : {
-          "x" : 440.0,
-          "y" : 105.0,
-          "xSpan" : 80.0,
-          "ySpan" : 250.0
-        },
-        "nodes" : [ {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dtrf24Fictif",
-          "name" : "dtrf24Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 440.0,
-          "y" : 230.0,
-          "open" : false
-        }, {
-          "type" : "SWITCH",
-          "id" : "btrf24",
-          "name" : "btrf24",
-          "componentType" : "BREAKER",
-          "fictitious" : false,
-          "x" : 440.0,
-          "y" : 105.0,
-          "open" : false,
-          "kind" : "BREAKER"
-        }, {
-          "type" : "FEEDER",
-          "id" : "trf4_TWO",
-          "name" : "trf4_TWO",
-          "componentType" : "TWO_WINDINGS_TRANSFORMER",
-          "fictitious" : false,
-          "x" : 440.0,
-          "y" : -20.0,
-          "open" : false,
-          "label" : "trf4",
-          "order" : 2,
-          "direction" : "TOP",
-          "otherSideVlId" : "vl1"
-        } ]
-      } ]
-    }
-  }, {
-    "type" : "EXTERN",
-    "number" : 4,
-    "direction" : "TOP",
-    "direction" : "TOP",
-    "order" : 2,
-    "rootBlock" : {
-      "type" : "SERIAL",
-      "cardinalities" : [ {
-        "START" : 1
-      }, {
-        "END" : 2
-      } ],
-      "position" : {
-        "h" : 6,
-        "v" : 0,
-        "hSpan" : 2,
-        "vSpan" : 3,
-        "orientation" : "VERTICAL"
-      },
-      "coord" : {
-        "x" : 560.0,
-        "y" : 105.0,
-        "xSpan" : 160.0,
-        "ySpan" : 250.0
-      },
-      "subBlocks" : [ {
-        "type" : "PRIMARY",
-        "cardinalities" : [ {
-          "START" : 1
-        }, {
-          "END" : 1
-        } ],
-        "position" : {
-          "h" : 0,
-          "v" : 0,
-          "hSpan" : 1,
-          "vSpan" : 0,
-          "orientation" : "VERTICAL"
-        },
-        "coord" : {
-          "x" : 560.0,
-          "y" : 230.0,
-          "xSpan" : 160.0,
-          "ySpan" : 0.0
-        },
-        "nodes" : [ {
-          "type" : "BUS",
-          "id" : "bbs5",
-          "name" : "bbs5",
-          "componentType" : "BUSBAR_SECTION",
-          "fictitious" : false,
-          "x" : 10.0,
-          "y" : 260.0,
-          "open" : false,
-          "pxWidth" : 1100.0,
-          "structuralPosition" : {
-            "h" : 1,
-            "v" : 1,
-            "hSpan" : 1,
-            "vSpan" : 0
-          },
-          "position" : {
-            "h" : 0,
-            "v" : 1,
-            "hSpan" : 14,
-            "vSpan" : 0
-          }
-        }, {
-          "type" : "SWITCH",
-          "id" : "dtrf27",
-          "name" : "dtrf27",
-          "componentType" : "DISCONNECTOR",
-          "fictitious" : false,
-          "x" : 560.0,
-          "y" : 260.0,
-          "open" : false,
-          "kind" : "DISCONNECTOR"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dtrf27Fictif",
-          "name" : "dtrf27Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 560.0,
-          "y" : 230.0,
-          "open" : false
-        } ]
-      }, {
-        "type" : "PRIMARY",
-        "cardinalities" : [ {
-          "START" : 1
-        }, {
-          "END" : 1
-        } ],
-        "position" : {
-          "h" : 0,
-          "v" : 0,
-          "hSpan" : 1,
-          "vSpan" : 2,
-          "orientation" : "VERTICAL"
-        },
-        "coord" : {
-          "x" : 560.0,
-          "y" : 146.66666666666669,
-          "xSpan" : 160.0,
-          "ySpan" : 166.66666666666666
-        },
-        "nodes" : [ {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dtrf27Fictif",
-          "name" : "dtrf27Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 560.0,
-          "y" : 230.0,
-          "open" : false
-        }, {
-          "type" : "SWITCH",
-          "id" : "btrf27",
-          "name" : "btrf27",
-          "componentType" : "BREAKER",
-          "fictitious" : false,
-          "x" : 560.0,
-          "y" : 146.66666666666669,
-          "open" : false,
-          "kind" : "BREAKER"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_trf72_fictif",
-          "name" : "trf72_fictif",
-          "componentType" : "THREE_WINDINGS_TRANSFORMER",
-          "fictitious" : true,
-          "x" : 560.0,
-          "y" : 63.33333333333335,
-          "open" : false,
-          "transformerId" : "trf7"
-        } ]
-      }, {
-        "type" : "PARALLEL",
-        "cardinalities" : [ {
-          "START" : 2
-        }, {
-          "END" : 2
-        } ],
-        "position" : {
-          "h" : 0,
-          "v" : 2,
-          "hSpan" : 2,
-          "vSpan" : 1,
-          "orientation" : "VERTICAL"
-        },
-        "coord" : {
-          "x" : 560.0,
-          "y" : 21.666666666666686,
-          "xSpan" : 160.0,
-          "ySpan" : 83.33333333333333
-        },
-        "subBlocks" : [ {
-          "type" : "PRIMARY",
-          "cardinalities" : [ {
-            "START" : 1
-          }, {
-            "END" : 1
-          } ],
-          "position" : {
-            "h" : 0,
-            "v" : 0,
-            "hSpan" : 1,
-            "vSpan" : 1,
-            "orientation" : "VERTICAL"
-          },
-          "coord" : {
-            "x" : 520.0,
-            "y" : 21.666666666666686,
-            "xSpan" : 80.0,
-            "ySpan" : 83.33333333333333
-          },
-          "nodes" : [ {
-            "type" : "FICTITIOUS",
-            "id" : "FICT_vl2_trf72_fictif",
-            "name" : "trf72_fictif",
-            "componentType" : "THREE_WINDINGS_TRANSFORMER",
-            "fictitious" : true,
-            "x" : 560.0,
-            "y" : 63.33333333333335,
-            "open" : false,
-            "transformerId" : "trf7"
-          }, {
-            "type" : "FEEDER",
-            "id" : "self4",
-            "name" : "self4",
-            "componentType" : "INDUCTOR",
-            "fictitious" : false,
-            "x" : 520.0,
-            "y" : -19.99999999999998,
-            "open" : false,
-            "order" : 3,
-            "direction" : "TOP",
-            "otherSideVlId" : "vl3"
-          } ]
-        }, {
-          "type" : "PRIMARY",
-          "cardinalities" : [ {
-            "START" : 1
-          }, {
-            "END" : 1
-          } ],
-          "position" : {
-            "h" : 1,
-            "v" : 0,
-            "hSpan" : 1,
-            "vSpan" : 1,
-            "orientation" : "VERTICAL"
-          },
-          "coord" : {
-            "x" : 600.0,
-            "y" : 21.666666666666686,
-            "xSpan" : 80.0,
-            "ySpan" : 83.33333333333333
-          },
-          "nodes" : [ {
-            "type" : "FICTITIOUS",
-            "id" : "FICT_vl2_trf72_fictif",
-            "name" : "trf72_fictif",
-            "componentType" : "THREE_WINDINGS_TRANSFORMER",
-            "fictitious" : true,
-            "x" : 560.0,
-            "y" : 63.33333333333335,
-            "open" : false,
-            "transformerId" : "trf7"
-          }, {
-            "type" : "FEEDER",
-            "id" : "trf7_TWO_ONE",
-            "name" : "trf7_TWO_ONE",
-            "componentType" : "LINE",
-            "fictitious" : false,
-            "x" : 600.0,
-            "y" : -19.99999999999998,
-            "open" : false,
-            "order" : 2,
-            "direction" : "TOP",
-            "otherSideVlId" : "vl1"
-          } ]
-        } ]
-      } ]
-    }
-  }, {
-    "type" : "EXTERN",
-    "number" : 5,
-    "direction" : "BOTTOM",
-    "direction" : "BOTTOM",
-    "order" : 1,
-    "rootBlock" : {
-      "type" : "SERIAL",
-      "cardinalities" : [ {
-        "START" : 1
-      }, {
-        "END" : 1
-      } ],
-      "position" : {
-        "h" : 4,
-        "v" : 0,
-        "hSpan" : 1,
-        "vSpan" : 2,
-        "orientation" : "VERTICAL"
-      },
-      "coord" : {
-        "x" : 360.0,
-        "y" : 440.0,
-        "xSpan" : 80.0,
-        "ySpan" : 250.0
-      },
-      "subBlocks" : [ {
-        "type" : "PRIMARY",
-        "cardinalities" : [ {
-          "START" : 1
-        }, {
-          "END" : 1
-        } ],
-        "position" : {
-          "h" : 0,
-          "v" : 0,
-          "hSpan" : 1,
-          "vSpan" : 0,
-          "orientation" : "VERTICAL"
-        },
-        "coord" : {
-          "x" : 360.0,
-          "y" : 315.0,
-          "xSpan" : 80.0,
-          "ySpan" : 0.0
-        },
-        "nodes" : [ {
-          "type" : "BUS",
-          "id" : "bbs6",
-          "name" : "bbs6",
-          "componentType" : "BUSBAR_SECTION",
-          "fictitious" : false,
-          "x" : 10.0,
-          "y" : 285.0,
-          "open" : false,
-          "pxWidth" : 1100.0,
-          "structuralPosition" : {
-            "h" : 1,
-            "v" : 2,
-            "hSpan" : 1,
-            "vSpan" : 0
-          },
-          "position" : {
-            "h" : 0,
-            "v" : 2,
-            "hSpan" : 14,
-            "vSpan" : 0
-          }
-        }, {
-          "type" : "SWITCH",
-          "id" : "dgen4",
-          "name" : "dgen4",
-          "componentType" : "DISCONNECTOR",
-          "fictitious" : false,
-          "x" : 360.0,
-          "y" : 285.0,
-          "open" : false,
-          "kind" : "DISCONNECTOR"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dgen4Fictif",
-          "name" : "dgen4Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 360.0,
-          "y" : 315.0,
-          "open" : false
-        } ]
-      }, {
-        "type" : "PRIMARY",
-        "cardinalities" : [ {
-          "START" : 1
-        }, {
-          "END" : 1
-        } ],
-        "position" : {
-          "h" : 0,
-          "v" : 0,
-          "hSpan" : 1,
-          "vSpan" : 2,
-          "orientation" : "VERTICAL"
-        },
-        "coord" : {
-          "x" : 360.0,
-          "y" : 440.0,
-          "xSpan" : 80.0,
-          "ySpan" : 250.0
-        },
-        "nodes" : [ {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dgen4Fictif",
-          "name" : "dgen4Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 360.0,
-          "y" : 315.0,
-          "open" : false
-        }, {
-          "type" : "SWITCH",
-          "id" : "bgen4",
-          "name" : "bgen4",
-          "componentType" : "BREAKER",
-          "fictitious" : false,
-          "x" : 360.0,
-          "y" : 440.0,
-          "open" : false,
-          "kind" : "BREAKER"
-        }, {
-          "type" : "FEEDER",
-          "id" : "gen4",
-          "name" : "gen4",
-          "componentType" : "GENERATOR",
-          "fictitious" : false,
-          "x" : 360.0,
-          "y" : 565.0,
-          "open" : false,
-          "label" : "gen4",
-          "order" : 1,
-          "direction" : "BOTTOM"
-        } ]
-      } ]
-    }
-  }, {
-    "type" : "EXTERN",
-    "number" : 6,
-    "direction" : "BOTTOM",
-    "direction" : "BOTTOM",
     "order" : 3,
     "rootBlock" : {
       "type" : "SERIAL",
@@ -1038,20 +1033,20 @@
         "END" : 1
       } ],
       "position" : {
-        "h" : 12,
+        "h" : 10,
         "v" : 0,
-        "hSpan" : 1,
-        "vSpan" : 2,
-        "orientation" : "VERTICAL"
+        "hSpan" : 2,
+        "vSpan" : 4,
+        "orientation" : "UP"
       },
       "coord" : {
-        "x" : 1000.0,
-        "y" : 440.0,
+        "x" : 440.0,
+        "y" : 136.0,
         "xSpan" : 80.0,
-        "ySpan" : 250.0
+        "ySpan" : 188.0
       },
       "subBlocks" : [ {
-        "type" : "PRIMARY",
+        "type" : "LEGPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -1060,60 +1055,19 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
+          "hSpan" : 2,
           "vSpan" : 0,
-          "orientation" : "VERTICAL"
+          "orientation" : "UP"
         },
         "coord" : {
-          "x" : 1000.0,
-          "y" : 315.0,
+          "x" : 440.0,
+          "y" : 230.0,
           "xSpan" : 80.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ {
-          "type" : "BUS",
-          "id" : "bbs6",
-          "name" : "bbs6",
-          "componentType" : "BUSBAR_SECTION",
-          "fictitious" : false,
-          "x" : 10.0,
-          "y" : 285.0,
-          "open" : false,
-          "pxWidth" : 1100.0,
-          "structuralPosition" : {
-            "h" : 1,
-            "v" : 2,
-            "hSpan" : 1,
-            "vSpan" : 0
-          },
-          "position" : {
-            "h" : 0,
-            "v" : 2,
-            "hSpan" : 14,
-            "vSpan" : 0
-          }
-        }, {
-          "type" : "SWITCH",
-          "id" : "dtrf22",
-          "name" : "dtrf22",
-          "componentType" : "DISCONNECTOR",
-          "fictitious" : false,
-          "x" : 1000.0,
-          "y" : 285.0,
-          "open" : false,
-          "kind" : "DISCONNECTOR"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dtrf22Fictif",
-          "name" : "dtrf22Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 1000.0,
-          "y" : 315.0,
-          "open" : false
-        } ]
+        "nodes" : [ "bbs5", "dtrf24", "FICT_vl2_dtrf24Fictif" ]
       }, {
-        "type" : "PRIMARY",
+        "type" : "BODYPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -1122,57 +1076,177 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
-          "vSpan" : 2,
-          "orientation" : "VERTICAL"
+          "hSpan" : 2,
+          "vSpan" : 4,
+          "orientation" : "UP"
         },
         "coord" : {
-          "x" : 1000.0,
-          "y" : 440.0,
+          "x" : 440.0,
+          "y" : 136.0,
           "xSpan" : 80.0,
-          "ySpan" : 250.0
+          "ySpan" : 188.0
         },
-        "nodes" : [ {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dtrf22Fictif",
-          "name" : "dtrf22Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 1000.0,
-          "y" : 315.0,
-          "open" : false
+        "nodes" : [ "FICT_vl2_dtrf24Fictif", "btrf24", "FICT_vl2_trf4_TWOFictif" ]
+      }, {
+        "type" : "FEEDERPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
         }, {
-          "type" : "SWITCH",
-          "id" : "btrf22",
-          "name" : "btrf22",
-          "componentType" : "BREAKER",
-          "fictitious" : false,
-          "x" : 1000.0,
-          "y" : 440.0,
-          "open" : false,
-          "kind" : "BREAKER"
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 4,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "UP"
+        },
+        "coord" : {
+          "x" : 440.0,
+          "y" : 42.0,
+          "xSpan" : 80.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "FICT_vl2_trf4_TWOFictif", "trf4_TWO" ]
+      } ]
+    }
+  }, {
+    "type" : "EXTERN",
+    "number" : 4,
+    "direction" : "TOP",
+    "order" : 4,
+    "rootBlock" : {
+      "type" : "SERIAL",
+      "cardinalities" : [ {
+        "START" : 1
+      }, {
+        "END" : 2
+      } ],
+      "position" : {
+        "h" : 12,
+        "v" : 0,
+        "hSpan" : 4,
+        "vSpan" : 4,
+        "orientation" : "UP"
+      },
+      "coord" : {
+        "x" : 560.0,
+        "y" : 136.0,
+        "xSpan" : 160.0,
+        "ySpan" : 188.0
+      },
+      "subBlocks" : [ {
+        "type" : "LEGPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
         }, {
-          "type" : "FEEDER",
-          "id" : "trf2_TWO",
-          "name" : "trf2_TWO",
-          "componentType" : "TWO_WINDINGS_TRANSFORMER",
-          "fictitious" : false,
-          "x" : 1000.0,
-          "y" : 565.0,
-          "open" : false,
-          "label" : "trf2",
-          "order" : 3,
-          "direction" : "BOTTOM",
-          "otherSideVlId" : "vl1"
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 0,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "UP"
+        },
+        "coord" : {
+          "x" : 560.0,
+          "y" : 230.0,
+          "xSpan" : 160.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "bbs5", "dtrf27", "FICT_vl2_dtrf27Fictif" ]
+      }, {
+        "type" : "BODYPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
+        }, {
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 0,
+          "hSpan" : 2,
+          "vSpan" : 4,
+          "orientation" : "UP"
+        },
+        "coord" : {
+          "x" : 560.0,
+          "y" : 136.0,
+          "xSpan" : 160.0,
+          "ySpan" : 188.0
+        },
+        "nodes" : [ "FICT_vl2_dtrf27Fictif", "btrf27", "FICT_vl2_trf7_fictif" ]
+      }, {
+        "type" : "BODYPARALLEL",
+        "cardinalities" : [ {
+          "START" : 2
+        }, {
+          "END" : 2
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 4,
+          "hSpan" : 4,
+          "vSpan" : 0,
+          "orientation" : "UP"
+        },
+        "coord" : {
+          "x" : 560.0,
+          "y" : 42.0,
+          "xSpan" : 160.0,
+          "ySpan" : 0.0
+        },
+        "subBlocks" : [ {
+          "type" : "FEEDERPRIMARY",
+          "cardinalities" : [ {
+            "START" : 1
+          }, {
+            "END" : 1
+          } ],
+          "position" : {
+            "h" : 0,
+            "v" : 0,
+            "hSpan" : 2,
+            "vSpan" : 0,
+            "orientation" : "UP"
+          },
+          "coord" : {
+            "x" : 520.0,
+            "y" : 42.0,
+            "xSpan" : 80.0,
+            "ySpan" : 0.0
+          },
+          "nodes" : [ "FICT_vl2_trf7_fictif", "trf7_ONE" ]
+        }, {
+          "type" : "FEEDERPRIMARY",
+          "cardinalities" : [ {
+            "START" : 1
+          }, {
+            "END" : 1
+          } ],
+          "position" : {
+            "h" : 2,
+            "v" : 0,
+            "hSpan" : 2,
+            "vSpan" : 0,
+            "orientation" : "UP"
+          },
+          "coord" : {
+            "x" : 600.0,
+            "y" : 42.0,
+            "xSpan" : 80.0,
+            "ySpan" : 0.0
+          },
+          "nodes" : [ "FICT_vl2_trf7_fictif", "trf7_THREE" ]
         } ]
       } ]
     }
   }, {
     "type" : "EXTERN",
-    "number" : 7,
+    "number" : 5,
     "direction" : "BOTTOM",
-    "direction" : "BOTTOM",
-    "order" : 4,
+    "order" : 2,
     "rootBlock" : {
       "type" : "SERIAL",
       "cardinalities" : [ {
@@ -1181,20 +1255,20 @@
         "END" : 1
       } ],
       "position" : {
-        "h" : 13,
+        "h" : 8,
         "v" : 0,
-        "hSpan" : 1,
-        "vSpan" : 2,
-        "orientation" : "VERTICAL"
+        "hSpan" : 2,
+        "vSpan" : 4,
+        "orientation" : "DOWN"
       },
       "coord" : {
-        "x" : 1080.0,
-        "y" : 440.0,
+        "x" : 360.0,
+        "y" : 409.0,
         "xSpan" : 80.0,
-        "ySpan" : 250.0
+        "ySpan" : 188.0
       },
       "subBlocks" : [ {
-        "type" : "PRIMARY",
+        "type" : "LEGPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -1203,9 +1277,189 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
+          "hSpan" : 2,
           "vSpan" : 0,
-          "orientation" : "VERTICAL"
+          "orientation" : "DOWN"
+        },
+        "coord" : {
+          "x" : 360.0,
+          "y" : 315.0,
+          "xSpan" : 80.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "bbs6", "dgen4", "FICT_vl2_dgen4Fictif" ]
+      }, {
+        "type" : "BODYPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
+        }, {
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 0,
+          "hSpan" : 2,
+          "vSpan" : 4,
+          "orientation" : "DOWN"
+        },
+        "coord" : {
+          "x" : 360.0,
+          "y" : 409.0,
+          "xSpan" : 80.0,
+          "ySpan" : 188.0
+        },
+        "nodes" : [ "FICT_vl2_dgen4Fictif", "bgen4", "FICT_vl2_gen4Fictif" ]
+      }, {
+        "type" : "FEEDERPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
+        }, {
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 4,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "DOWN"
+        },
+        "coord" : {
+          "x" : 360.0,
+          "y" : 503.0,
+          "xSpan" : 80.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "FICT_vl2_gen4Fictif", "gen4" ]
+      } ]
+    }
+  }, {
+    "type" : "EXTERN",
+    "number" : 6,
+    "direction" : "BOTTOM",
+    "order" : 7,
+    "rootBlock" : {
+      "type" : "SERIAL",
+      "cardinalities" : [ {
+        "START" : 1
+      }, {
+        "END" : 1
+      } ],
+      "position" : {
+        "h" : 24,
+        "v" : 0,
+        "hSpan" : 2,
+        "vSpan" : 4,
+        "orientation" : "DOWN"
+      },
+      "coord" : {
+        "x" : 1000.0,
+        "y" : 409.0,
+        "xSpan" : 80.0,
+        "ySpan" : 188.0
+      },
+      "subBlocks" : [ {
+        "type" : "LEGPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
+        }, {
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 0,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "DOWN"
+        },
+        "coord" : {
+          "x" : 1000.0,
+          "y" : 315.0,
+          "xSpan" : 80.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "bbs6", "dtrf22", "FICT_vl2_dtrf22Fictif" ]
+      }, {
+        "type" : "BODYPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
+        }, {
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 0,
+          "hSpan" : 2,
+          "vSpan" : 4,
+          "orientation" : "DOWN"
+        },
+        "coord" : {
+          "x" : 1000.0,
+          "y" : 409.0,
+          "xSpan" : 80.0,
+          "ySpan" : 188.0
+        },
+        "nodes" : [ "FICT_vl2_dtrf22Fictif", "btrf22", "FICT_vl2_trf2_TWOFictif" ]
+      }, {
+        "type" : "FEEDERPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
+        }, {
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 4,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "DOWN"
+        },
+        "coord" : {
+          "x" : 1000.0,
+          "y" : 503.0,
+          "xSpan" : 80.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "FICT_vl2_trf2_TWOFictif", "trf2_TWO" ]
+      } ]
+    }
+  }, {
+    "type" : "EXTERN",
+    "number" : 7,
+    "direction" : "BOTTOM",
+    "order" : 8,
+    "rootBlock" : {
+      "type" : "SERIAL",
+      "cardinalities" : [ {
+        "START" : 1
+      }, {
+        "END" : 1
+      } ],
+      "position" : {
+        "h" : 26,
+        "v" : 0,
+        "hSpan" : 2,
+        "vSpan" : 4,
+        "orientation" : "DOWN"
+      },
+      "coord" : {
+        "x" : 1080.0,
+        "y" : 409.0,
+        "xSpan" : 80.0,
+        "ySpan" : 188.0
+      },
+      "subBlocks" : [ {
+        "type" : "LEGPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
+        }, {
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 0,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "DOWN"
         },
         "coord" : {
           "x" : 1080.0,
@@ -1213,50 +1467,9 @@
           "xSpan" : 80.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ {
-          "type" : "BUS",
-          "id" : "bbs6",
-          "name" : "bbs6",
-          "componentType" : "BUSBAR_SECTION",
-          "fictitious" : false,
-          "x" : 10.0,
-          "y" : 285.0,
-          "open" : false,
-          "pxWidth" : 1100.0,
-          "structuralPosition" : {
-            "h" : 1,
-            "v" : 2,
-            "hSpan" : 1,
-            "vSpan" : 0
-          },
-          "position" : {
-            "h" : 0,
-            "v" : 2,
-            "hSpan" : 14,
-            "vSpan" : 0
-          }
-        }, {
-          "type" : "SWITCH",
-          "id" : "dtrf23",
-          "name" : "dtrf23",
-          "componentType" : "DISCONNECTOR",
-          "fictitious" : false,
-          "x" : 1080.0,
-          "y" : 285.0,
-          "open" : false,
-          "kind" : "DISCONNECTOR"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dtrf23Fictif",
-          "name" : "dtrf23Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 1080.0,
-          "y" : 315.0,
-          "open" : false
-        } ]
+        "nodes" : [ "bbs6", "dtrf23", "FICT_vl2_dtrf23Fictif" ]
       }, {
-        "type" : "PRIMARY",
+        "type" : "BODYPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -1265,57 +1478,45 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
-          "vSpan" : 2,
-          "orientation" : "VERTICAL"
+          "hSpan" : 2,
+          "vSpan" : 4,
+          "orientation" : "DOWN"
         },
         "coord" : {
           "x" : 1080.0,
-          "y" : 440.0,
+          "y" : 409.0,
           "xSpan" : 80.0,
-          "ySpan" : 250.0
+          "ySpan" : 188.0
         },
-        "nodes" : [ {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dtrf23Fictif",
-          "name" : "dtrf23Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 1080.0,
-          "y" : 315.0,
-          "open" : false
+        "nodes" : [ "FICT_vl2_dtrf23Fictif", "btrf23", "FICT_vl2_trf3_TWOFictif" ]
+      }, {
+        "type" : "FEEDERPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
         }, {
-          "type" : "SWITCH",
-          "id" : "btrf23",
-          "name" : "btrf23",
-          "componentType" : "BREAKER",
-          "fictitious" : false,
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 4,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "DOWN"
+        },
+        "coord" : {
           "x" : 1080.0,
-          "y" : 440.0,
-          "open" : false,
-          "kind" : "BREAKER"
-        }, {
-          "type" : "FEEDER",
-          "id" : "trf3_TWO",
-          "name" : "trf3_TWO",
-          "componentType" : "TWO_WINDINGS_TRANSFORMER",
-          "fictitious" : false,
-          "x" : 1080.0,
-          "y" : 565.0,
-          "open" : false,
-          "label" : "trf3",
-          "order" : 4,
-          "direction" : "BOTTOM",
-          "otherSideVlId" : "vl1"
-        } ]
+          "y" : 503.0,
+          "xSpan" : 80.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "FICT_vl2_trf3_TWOFictif", "trf3_TWO" ]
       } ]
     }
   }, {
     "type" : "EXTERN",
     "number" : 8,
     "direction" : "TOP",
-    "direction" : "TOP",
-    "order" : 2,
+    "order" : 5,
     "rootBlock" : {
       "type" : "SERIAL",
       "cardinalities" : [ {
@@ -1324,20 +1525,20 @@
         "END" : 2
       } ],
       "position" : {
-        "h" : 8,
+        "h" : 16,
         "v" : 0,
-        "hSpan" : 2,
-        "vSpan" : 3,
-        "orientation" : "VERTICAL"
+        "hSpan" : 4,
+        "vSpan" : 4,
+        "orientation" : "UP"
       },
       "coord" : {
         "x" : 720.0,
-        "y" : 105.0,
+        "y" : 136.0,
         "xSpan" : 160.0,
-        "ySpan" : 250.0
+        "ySpan" : 188.0
       },
       "subBlocks" : [ {
-        "type" : "PRIMARY",
+        "type" : "LEGPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -1346,9 +1547,9 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
+          "hSpan" : 2,
           "vSpan" : 0,
-          "orientation" : "VERTICAL"
+          "orientation" : "UP"
         },
         "coord" : {
           "x" : 720.0,
@@ -1356,50 +1557,9 @@
           "xSpan" : 160.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ {
-          "type" : "BUS",
-          "id" : "bbs6",
-          "name" : "bbs6",
-          "componentType" : "BUSBAR_SECTION",
-          "fictitious" : false,
-          "x" : 10.0,
-          "y" : 285.0,
-          "open" : false,
-          "pxWidth" : 1100.0,
-          "structuralPosition" : {
-            "h" : 1,
-            "v" : 2,
-            "hSpan" : 1,
-            "vSpan" : 0
-          },
-          "position" : {
-            "h" : 0,
-            "v" : 2,
-            "hSpan" : 14,
-            "vSpan" : 0
-          }
-        }, {
-          "type" : "SWITCH",
-          "id" : "dtrf26",
-          "name" : "dtrf26",
-          "componentType" : "DISCONNECTOR",
-          "fictitious" : false,
-          "x" : 720.0,
-          "y" : 285.0,
-          "open" : false,
-          "kind" : "DISCONNECTOR"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dtrf26Fictif",
-          "name" : "dtrf26Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 720.0,
-          "y" : 230.0,
-          "open" : false
-        } ]
+        "nodes" : [ "bbs6", "dtrf26", "FICT_vl2_dtrf26Fictif" ]
       }, {
-        "type" : "PRIMARY",
+        "type" : "BODYPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -1408,48 +1568,19 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
-          "vSpan" : 2,
-          "orientation" : "VERTICAL"
+          "hSpan" : 2,
+          "vSpan" : 4,
+          "orientation" : "UP"
         },
         "coord" : {
           "x" : 720.0,
-          "y" : 146.66666666666669,
+          "y" : 136.0,
           "xSpan" : 160.0,
-          "ySpan" : 166.66666666666666
+          "ySpan" : 188.0
         },
-        "nodes" : [ {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dtrf26Fictif",
-          "name" : "dtrf26Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 720.0,
-          "y" : 230.0,
-          "open" : false
-        }, {
-          "type" : "SWITCH",
-          "id" : "btrf26",
-          "name" : "btrf26",
-          "componentType" : "BREAKER",
-          "fictitious" : false,
-          "x" : 720.0,
-          "y" : 146.66666666666669,
-          "open" : false,
-          "kind" : "BREAKER"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_trf62_fictif",
-          "name" : "trf62_fictif",
-          "componentType" : "THREE_WINDINGS_TRANSFORMER",
-          "fictitious" : true,
-          "x" : 720.0,
-          "y" : 63.33333333333335,
-          "open" : false,
-          "transformerId" : "trf6"
-        } ]
+        "nodes" : [ "FICT_vl2_dtrf26Fictif", "btrf26", "FICT_vl2_trf6_fictif" ]
       }, {
-        "type" : "PARALLEL",
+        "type" : "BODYPARALLEL",
         "cardinalities" : [ {
           "START" : 2
         }, {
@@ -1457,19 +1588,19 @@
         } ],
         "position" : {
           "h" : 0,
-          "v" : 2,
-          "hSpan" : 2,
-          "vSpan" : 1,
-          "orientation" : "VERTICAL"
+          "v" : 4,
+          "hSpan" : 4,
+          "vSpan" : 0,
+          "orientation" : "UP"
         },
         "coord" : {
           "x" : 720.0,
-          "y" : 21.666666666666686,
+          "y" : 42.0,
           "xSpan" : 160.0,
-          "ySpan" : 83.33333333333333
+          "ySpan" : 0.0
         },
         "subBlocks" : [ {
-          "type" : "PRIMARY",
+          "type" : "FEEDERPRIMARY",
           "cardinalities" : [ {
             "START" : 1
           }, {
@@ -1478,82 +1609,38 @@
           "position" : {
             "h" : 0,
             "v" : 0,
-            "hSpan" : 1,
-            "vSpan" : 1,
-            "orientation" : "VERTICAL"
+            "hSpan" : 2,
+            "vSpan" : 0,
+            "orientation" : "UP"
           },
           "coord" : {
             "x" : 680.0,
-            "y" : 21.666666666666686,
+            "y" : 42.0,
             "xSpan" : 80.0,
-            "ySpan" : 83.33333333333333
+            "ySpan" : 0.0
           },
-          "nodes" : [ {
-            "type" : "FICTITIOUS",
-            "id" : "FICT_vl2_trf62_fictif",
-            "name" : "trf62_fictif",
-            "componentType" : "THREE_WINDINGS_TRANSFORMER",
-            "fictitious" : true,
-            "x" : 720.0,
-            "y" : 63.33333333333335,
-            "open" : false,
-            "transformerId" : "trf6"
-          }, {
-            "type" : "FEEDER",
-            "id" : "self4",
-            "name" : "self4",
-            "componentType" : "INDUCTOR",
-            "fictitious" : false,
-            "x" : 680.0,
-            "y" : -19.99999999999998,
-            "open" : false,
-            "order" : 3,
-            "direction" : "TOP",
-            "otherSideVlId" : "vl3"
-          } ]
+          "nodes" : [ "FICT_vl2_trf6_fictif", "trf6_ONE" ]
         }, {
-          "type" : "PRIMARY",
+          "type" : "FEEDERPRIMARY",
           "cardinalities" : [ {
             "START" : 1
           }, {
             "END" : 1
           } ],
           "position" : {
-            "h" : 1,
+            "h" : 2,
             "v" : 0,
-            "hSpan" : 1,
-            "vSpan" : 1,
-            "orientation" : "VERTICAL"
+            "hSpan" : 2,
+            "vSpan" : 0,
+            "orientation" : "UP"
           },
           "coord" : {
             "x" : 760.0,
-            "y" : 21.666666666666686,
+            "y" : 42.0,
             "xSpan" : 80.0,
-            "ySpan" : 83.33333333333333
+            "ySpan" : 0.0
           },
-          "nodes" : [ {
-            "type" : "FICTITIOUS",
-            "id" : "FICT_vl2_trf62_fictif",
-            "name" : "trf62_fictif",
-            "componentType" : "THREE_WINDINGS_TRANSFORMER",
-            "fictitious" : true,
-            "x" : 720.0,
-            "y" : 63.33333333333335,
-            "open" : false,
-            "transformerId" : "trf6"
-          }, {
-            "type" : "FEEDER",
-            "id" : "trf6_TWO_ONE",
-            "name" : "trf6_TWO_ONE",
-            "componentType" : "LINE",
-            "fictitious" : false,
-            "x" : 760.0,
-            "y" : -19.99999999999998,
-            "open" : false,
-            "order" : 2,
-            "direction" : "TOP",
-            "otherSideVlId" : "vl1"
-          } ]
+          "nodes" : [ "FICT_vl2_trf6_fictif", "trf6_THREE" ]
         } ]
       } ]
     }
@@ -1561,8 +1648,7 @@
     "type" : "EXTERN",
     "number" : 9,
     "direction" : "BOTTOM",
-    "direction" : "BOTTOM",
-    "order" : 2,
+    "order" : 6,
     "rootBlock" : {
       "type" : "SERIAL",
       "cardinalities" : [ {
@@ -1571,20 +1657,20 @@
         "END" : 2
       } ],
       "position" : {
-        "h" : 10,
+        "h" : 20,
         "v" : 0,
-        "hSpan" : 2,
-        "vSpan" : 3,
-        "orientation" : "VERTICAL"
+        "hSpan" : 4,
+        "vSpan" : 4,
+        "orientation" : "DOWN"
       },
       "coord" : {
         "x" : 880.0,
-        "y" : 440.0,
+        "y" : 409.0,
         "xSpan" : 160.0,
-        "ySpan" : 250.0
+        "ySpan" : 188.0
       },
       "subBlocks" : [ {
-        "type" : "PRIMARY",
+        "type" : "LEGPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -1593,9 +1679,9 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
+          "hSpan" : 2,
           "vSpan" : 0,
-          "orientation" : "VERTICAL"
+          "orientation" : "DOWN"
         },
         "coord" : {
           "x" : 880.0,
@@ -1603,50 +1689,9 @@
           "xSpan" : 160.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ {
-          "type" : "BUS",
-          "id" : "bbs6",
-          "name" : "bbs6",
-          "componentType" : "BUSBAR_SECTION",
-          "fictitious" : false,
-          "x" : 10.0,
-          "y" : 285.0,
-          "open" : false,
-          "pxWidth" : 1100.0,
-          "structuralPosition" : {
-            "h" : 1,
-            "v" : 2,
-            "hSpan" : 1,
-            "vSpan" : 0
-          },
-          "position" : {
-            "h" : 0,
-            "v" : 2,
-            "hSpan" : 14,
-            "vSpan" : 0
-          }
-        }, {
-          "type" : "SWITCH",
-          "id" : "dtrf28",
-          "name" : "dtrf28",
-          "componentType" : "DISCONNECTOR",
-          "fictitious" : false,
-          "x" : 880.0,
-          "y" : 285.0,
-          "open" : false,
-          "kind" : "DISCONNECTOR"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dtrf28Fictif",
-          "name" : "dtrf28Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 880.0,
-          "y" : 315.0,
-          "open" : false
-        } ]
+        "nodes" : [ "bbs6", "dtrf28", "FICT_vl2_dtrf28Fictif" ]
       }, {
-        "type" : "PRIMARY",
+        "type" : "BODYPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -1655,48 +1700,19 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
-          "vSpan" : 2,
-          "orientation" : "VERTICAL"
+          "hSpan" : 2,
+          "vSpan" : 4,
+          "orientation" : "DOWN"
         },
         "coord" : {
           "x" : 880.0,
-          "y" : 398.3333333333333,
+          "y" : 409.0,
           "xSpan" : 160.0,
-          "ySpan" : 166.66666666666666
+          "ySpan" : 188.0
         },
-        "nodes" : [ {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_dtrf28Fictif",
-          "name" : "dtrf28Fictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 880.0,
-          "y" : 315.0,
-          "open" : false
-        }, {
-          "type" : "SWITCH",
-          "id" : "btrf28",
-          "name" : "btrf28",
-          "componentType" : "BREAKER",
-          "fictitious" : false,
-          "x" : 880.0,
-          "y" : 398.3333333333333,
-          "open" : false,
-          "kind" : "BREAKER"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl2_trf82_fictif",
-          "name" : "trf82_fictif",
-          "componentType" : "THREE_WINDINGS_TRANSFORMER",
-          "fictitious" : true,
-          "x" : 880.0,
-          "y" : 481.6666666666666,
-          "open" : false,
-          "transformerId" : "trf8"
-        } ]
+        "nodes" : [ "FICT_vl2_dtrf28Fictif", "btrf28", "FICT_vl2_trf8_fictif" ]
       }, {
-        "type" : "PARALLEL",
+        "type" : "BODYPARALLEL",
         "cardinalities" : [ {
           "START" : 2
         }, {
@@ -1704,19 +1720,19 @@
         } ],
         "position" : {
           "h" : 0,
-          "v" : 2,
-          "hSpan" : 2,
-          "vSpan" : 1,
-          "orientation" : "VERTICAL"
+          "v" : 4,
+          "hSpan" : 4,
+          "vSpan" : 0,
+          "orientation" : "DOWN"
         },
         "coord" : {
           "x" : 880.0,
-          "y" : 523.3333333333333,
+          "y" : 503.0,
           "xSpan" : 160.0,
-          "ySpan" : 83.33333333333333
+          "ySpan" : 0.0
         },
         "subBlocks" : [ {
-          "type" : "PRIMARY",
+          "type" : "FEEDERPRIMARY",
           "cardinalities" : [ {
             "START" : 1
           }, {
@@ -1725,87 +1741,61 @@
           "position" : {
             "h" : 0,
             "v" : 0,
-            "hSpan" : 1,
-            "vSpan" : 1,
-            "orientation" : "VERTICAL"
+            "hSpan" : 2,
+            "vSpan" : 0,
+            "orientation" : "DOWN"
           },
           "coord" : {
             "x" : 840.0,
-            "y" : 523.3333333333333,
+            "y" : 503.0,
             "xSpan" : 80.0,
-            "ySpan" : 83.33333333333333
+            "ySpan" : 0.0
           },
-          "nodes" : [ {
-            "type" : "FICTITIOUS",
-            "id" : "FICT_vl2_trf82_fictif",
-            "name" : "trf82_fictif",
-            "componentType" : "THREE_WINDINGS_TRANSFORMER",
-            "fictitious" : true,
-            "x" : 880.0,
-            "y" : 481.6666666666666,
-            "open" : false,
-            "transformerId" : "trf8"
-          }, {
-            "type" : "FEEDER",
-            "id" : "self4",
-            "name" : "self4",
-            "componentType" : "INDUCTOR",
-            "fictitious" : false,
-            "x" : 840.0,
-            "y" : 564.9999999999999,
-            "open" : false,
-            "order" : 3,
-            "direction" : "BOTTOM",
-            "otherSideVlId" : "vl3"
-          } ]
+          "nodes" : [ "FICT_vl2_trf8_fictif", "trf8_ONE" ]
         }, {
-          "type" : "PRIMARY",
+          "type" : "FEEDERPRIMARY",
           "cardinalities" : [ {
             "START" : 1
           }, {
             "END" : 1
           } ],
           "position" : {
-            "h" : 1,
+            "h" : 2,
             "v" : 0,
-            "hSpan" : 1,
-            "vSpan" : 1,
-            "orientation" : "VERTICAL"
+            "hSpan" : 2,
+            "vSpan" : 0,
+            "orientation" : "DOWN"
           },
           "coord" : {
             "x" : 920.0,
-            "y" : 523.3333333333333,
+            "y" : 503.0,
             "xSpan" : 80.0,
-            "ySpan" : 83.33333333333333
+            "ySpan" : 0.0
           },
-          "nodes" : [ {
-            "type" : "FICTITIOUS",
-            "id" : "FICT_vl2_trf82_fictif",
-            "name" : "trf82_fictif",
-            "componentType" : "THREE_WINDINGS_TRANSFORMER",
-            "fictitious" : true,
-            "x" : 880.0,
-            "y" : 481.6666666666666,
-            "open" : false,
-            "transformerId" : "trf8"
-          }, {
-            "type" : "FEEDER",
-            "id" : "trf8_TWO_ONE",
-            "name" : "trf8_TWO_ONE",
-            "componentType" : "LINE",
-            "fictitious" : false,
-            "x" : 920.0,
-            "y" : 564.9999999999999,
-            "open" : false,
-            "order" : 2,
-            "direction" : "BOTTOM",
-            "otherSideVlId" : "vl1"
-          } ]
+          "nodes" : [ "FICT_vl2_trf8_fictif", "trf8_THREE" ]
         } ]
       } ]
     }
   } ],
   "edges" : [ {
+    "node1" : "FICT_vl2_trf6_fictif",
+    "node2" : "trf6_ONE"
+  }, {
+    "node1" : "FICT_vl2_trf6_fictif",
+    "node2" : "trf6_THREE"
+  }, {
+    "node1" : "FICT_vl2_trf7_fictif",
+    "node2" : "trf7_ONE"
+  }, {
+    "node1" : "FICT_vl2_trf7_fictif",
+    "node2" : "trf7_THREE"
+  }, {
+    "node1" : "FICT_vl2_trf8_fictif",
+    "node2" : "trf8_ONE"
+  }, {
+    "node1" : "FICT_vl2_trf8_fictif",
+    "node2" : "trf8_THREE"
+  }, {
     "node1" : "bbs5",
     "node2" : "dscpl1"
   }, {
@@ -1815,74 +1805,74 @@
     "node1" : "bbs5",
     "node2" : "dload3"
   }, {
-    "node1" : "load3",
-    "node2" : "bload3"
-  }, {
     "node1" : "bbs6",
     "node2" : "dgen4"
-  }, {
-    "node1" : "gen4",
-    "node2" : "bgen4"
   }, {
     "node1" : "bbs5",
     "node2" : "dtrf21"
   }, {
-    "node1" : "btrf21",
-    "node2" : "trf1_TWO"
-  }, {
     "node1" : "bbs6",
     "node2" : "dtrf22"
-  }, {
-    "node1" : "btrf22",
-    "node2" : "trf2_TWO"
   }, {
     "node1" : "bbs6",
     "node2" : "dtrf23"
   }, {
-    "node1" : "btrf23",
-    "node2" : "trf3_TWO"
-  }, {
     "node1" : "bbs5",
     "node2" : "dtrf24"
-  }, {
-    "node1" : "btrf24",
-    "node2" : "trf4_TWO"
   }, {
     "node1" : "bbs6",
     "node2" : "dtrf26"
   }, {
+    "node1" : "btrf26",
+    "node2" : "FICT_vl2_trf6_fictif"
+  }, {
     "node1" : "bbs5",
     "node2" : "dtrf27"
+  }, {
+    "node1" : "btrf27",
+    "node2" : "FICT_vl2_trf7_fictif"
   }, {
     "node1" : "bbs6",
     "node2" : "dtrf28"
   }, {
-    "node1" : "btrf26",
-    "node2" : "FICT_vl2_trf62_fictif"
-  }, {
-    "node1" : "FICT_vl2_trf62_fictif",
-    "node2" : "trf6_TWO_ONE"
-  }, {
-    "node1" : "FICT_vl2_trf62_fictif",
-    "node2" : "self4"
-  }, {
-    "node1" : "btrf27",
-    "node2" : "FICT_vl2_trf72_fictif"
-  }, {
-    "node1" : "FICT_vl2_trf72_fictif",
-    "node2" : "trf7_TWO_ONE"
-  }, {
-    "node1" : "FICT_vl2_trf72_fictif",
-    "node2" : "self4"
-  }, {
     "node1" : "btrf28",
-    "node2" : "FICT_vl2_trf82_fictif"
+    "node2" : "FICT_vl2_trf8_fictif"
   }, {
-    "node1" : "FICT_vl2_trf82_fictif",
-    "node2" : "trf8_TWO_ONE"
+    "node1" : "bload3",
+    "node2" : "FICT_vl2_load3Fictif"
   }, {
-    "node1" : "FICT_vl2_trf82_fictif",
-    "node2" : "self4"
+    "node1" : "FICT_vl2_load3Fictif",
+    "node2" : "load3"
+  }, {
+    "node1" : "bgen4",
+    "node2" : "FICT_vl2_gen4Fictif"
+  }, {
+    "node1" : "FICT_vl2_gen4Fictif",
+    "node2" : "gen4"
+  }, {
+    "node1" : "btrf21",
+    "node2" : "FICT_vl2_trf1_TWOFictif"
+  }, {
+    "node1" : "FICT_vl2_trf1_TWOFictif",
+    "node2" : "trf1_TWO"
+  }, {
+    "node1" : "btrf22",
+    "node2" : "FICT_vl2_trf2_TWOFictif"
+  }, {
+    "node1" : "FICT_vl2_trf2_TWOFictif",
+    "node2" : "trf2_TWO"
+  }, {
+    "node1" : "btrf23",
+    "node2" : "FICT_vl2_trf3_TWOFictif"
+  }, {
+    "node1" : "FICT_vl2_trf3_TWOFictif",
+    "node2" : "trf3_TWO"
+  }, {
+    "node1" : "btrf24",
+    "node2" : "FICT_vl2_trf4_TWOFictif"
+  }, {
+    "node1" : "FICT_vl2_trf4_TWOFictif",
+    "node2" : "trf4_TWO"
   }, {
     "node1" : "ddcpl1",
     "node2" : "FICT_vl2_dscpl1Fictif"
@@ -1949,5 +1939,8 @@
   }, {
     "node1" : "dtrf28",
     "node2" : "FICT_vl2_dtrf28Fictif"
-  } ]
+  } ],
+  "multitermNodes" : [ ],
+  "twtEdges" : [ ],
+  "lineEdges" : [ ]
 }

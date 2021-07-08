@@ -1,11 +1,90 @@
 {
-  "id" : "vl",
+  "voltageLevelInfos" : {
+    "id" : "vl",
+    "name" : "vl",
+    "nominalVoltage" : 380.0
+  },
   "x" : 0.0,
   "y" : 0.0,
+  "nodes" : [ {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl_dFictif",
+    "name" : "dFictif",
+    "equipmentId" : "dFictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 25.0,
+    "y" : 230.0,
+    "open" : false
+  }, {
+    "type" : "FICTITIOUS",
+    "id" : "FICT_vl_lFictif",
+    "name" : "lFictif",
+    "equipmentId" : "lFictif",
+    "componentType" : "NODE",
+    "fictitious" : true,
+    "x" : 25.0,
+    "y" : 42.0,
+    "open" : false
+  }, {
+    "type" : "SWITCH",
+    "id" : "b",
+    "name" : "b",
+    "equipmentId" : "b",
+    "componentType" : "BREAKER",
+    "fictitious" : false,
+    "x" : 25.0,
+    "y" : 136.0,
+    "open" : false,
+    "kind" : "BREAKER"
+  }, {
+    "type" : "BUS",
+    "id" : "bbs",
+    "name" : "bbs",
+    "equipmentId" : "bbs",
+    "componentType" : "BUSBAR_SECTION",
+    "fictitious" : false,
+    "x" : 10.0,
+    "y" : 260.0,
+    "open" : false,
+    "pxWidth" : 30.0,
+    "busbarIndex" : 1,
+    "sectionIndex" : 1,
+    "position" : {
+      "h" : 0,
+      "v" : 1,
+      "hSpan" : 2,
+      "vSpan" : 0
+    }
+  }, {
+    "type" : "SWITCH",
+    "id" : "d",
+    "name" : "d",
+    "equipmentId" : "d",
+    "componentType" : "DISCONNECTOR",
+    "fictitious" : false,
+    "x" : 25.0,
+    "y" : 260.0,
+    "open" : false,
+    "kind" : "DISCONNECTOR"
+  }, {
+    "type" : "FEEDER",
+    "id" : "l",
+    "name" : "l",
+    "equipmentId" : "l",
+    "componentType" : "LOAD",
+    "fictitious" : false,
+    "x" : 25.0,
+    "y" : -20.0,
+    "open" : false,
+    "label" : "l",
+    "feederType" : "INJECTION",
+    "order" : 0,
+    "direction" : "TOP"
+  } ],
   "cells" : [ {
     "type" : "EXTERN",
     "number" : 0,
-    "direction" : "TOP",
     "direction" : "TOP",
     "order" : 0,
     "rootBlock" : {
@@ -18,18 +97,18 @@
       "position" : {
         "h" : 0,
         "v" : 0,
-        "hSpan" : 1,
-        "vSpan" : 2,
-        "orientation" : "VERTICAL"
+        "hSpan" : 2,
+        "vSpan" : 4,
+        "orientation" : "UP"
       },
       "coord" : {
         "x" : 25.0,
-        "y" : 105.0,
+        "y" : 136.0,
         "xSpan" : 50.0,
-        "ySpan" : 250.0
+        "ySpan" : 188.0
       },
       "subBlocks" : [ {
-        "type" : "PRIMARY",
+        "type" : "LEGPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -38,9 +117,9 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
+          "hSpan" : 2,
           "vSpan" : 0,
-          "orientation" : "VERTICAL"
+          "orientation" : "UP"
         },
         "coord" : {
           "x" : 25.0,
@@ -48,50 +127,9 @@
           "xSpan" : 50.0,
           "ySpan" : 0.0
         },
-        "nodes" : [ {
-          "type" : "BUS",
-          "id" : "bbs",
-          "name" : "bbs",
-          "componentType" : "BUSBAR_SECTION",
-          "fictitious" : false,
-          "x" : 10.0,
-          "y" : 260.0,
-          "open" : false,
-          "pxWidth" : 30.0,
-          "structuralPosition" : {
-            "h" : 1,
-            "v" : 1,
-            "hSpan" : 1,
-            "vSpan" : 0
-          },
-          "position" : {
-            "h" : 0,
-            "v" : 1,
-            "hSpan" : 1,
-            "vSpan" : 0
-          }
-        }, {
-          "type" : "SWITCH",
-          "id" : "d",
-          "name" : "d",
-          "componentType" : "DISCONNECTOR",
-          "fictitious" : false,
-          "x" : 25.0,
-          "y" : 260.0,
-          "open" : false,
-          "kind" : "DISCONNECTOR"
-        }, {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl_dFictif",
-          "name" : "dFictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 25.0,
-          "y" : 230.0,
-          "open" : false
-        } ]
+        "nodes" : [ "bbs", "d", "FICT_vl_dFictif" ]
       }, {
-        "type" : "PRIMARY",
+        "type" : "BODYPRIMARY",
         "cardinalities" : [ {
           "START" : 1
         }, {
@@ -100,48 +138,38 @@
         "position" : {
           "h" : 0,
           "v" : 0,
-          "hSpan" : 1,
-          "vSpan" : 2,
-          "orientation" : "VERTICAL"
+          "hSpan" : 2,
+          "vSpan" : 4,
+          "orientation" : "UP"
         },
         "coord" : {
           "x" : 25.0,
-          "y" : 105.0,
+          "y" : 136.0,
           "xSpan" : 50.0,
-          "ySpan" : 250.0
+          "ySpan" : 188.0
         },
-        "nodes" : [ {
-          "type" : "FICTITIOUS",
-          "id" : "FICT_vl_dFictif",
-          "name" : "dFictif",
-          "componentType" : "NODE",
-          "fictitious" : true,
-          "x" : 25.0,
-          "y" : 230.0,
-          "open" : false
+        "nodes" : [ "FICT_vl_dFictif", "b", "FICT_vl_lFictif" ]
+      }, {
+        "type" : "FEEDERPRIMARY",
+        "cardinalities" : [ {
+          "START" : 1
         }, {
-          "type" : "SWITCH",
-          "id" : "b",
-          "name" : "b",
-          "componentType" : "BREAKER",
-          "fictitious" : false,
+          "END" : 1
+        } ],
+        "position" : {
+          "h" : 0,
+          "v" : 4,
+          "hSpan" : 2,
+          "vSpan" : 0,
+          "orientation" : "UP"
+        },
+        "coord" : {
           "x" : 25.0,
-          "y" : 105.0,
-          "open" : false,
-          "kind" : "BREAKER"
-        }, {
-          "type" : "FEEDER",
-          "id" : "l",
-          "name" : "l",
-          "componentType" : "LOAD",
-          "fictitious" : false,
-          "x" : 25.0,
-          "y" : -20.0,
-          "open" : false,
-          "label" : "l",
-          "order" : 0,
-          "direction" : "TOP"
-        } ]
+          "y" : 42.0,
+          "xSpan" : 50.0,
+          "ySpan" : 0.0
+        },
+        "nodes" : [ "FICT_vl_lFictif", "l" ]
       } ]
     }
   } ],
@@ -150,6 +178,9 @@
     "node2" : "d"
   }, {
     "node1" : "b",
+    "node2" : "FICT_vl_lFictif"
+  }, {
+    "node1" : "FICT_vl_lFictif",
     "node2" : "l"
   }, {
     "node1" : "b",
@@ -157,5 +188,8 @@
   }, {
     "node1" : "d",
     "node2" : "FICT_vl_dFictif"
-  } ]
+  } ],
+  "multitermNodes" : [ ],
+  "twtEdges" : [ ],
+  "lineEdges" : [ ]
 }

@@ -6,12 +6,14 @@
  */
 package com.powsybl.sld.layout;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Giovanni Ferrari <giovanni.ferrari at techrain.eu>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
+ * @author Jacques Borsenberger <jacques.borsenberger at rte-france.com>
  */
 public class LayoutParametersTest {
 
@@ -37,11 +39,20 @@ public class LayoutParametersTest {
                 .setHorizontalSnakeLinePadding(25)
                 .setVerticalSnakeLinePadding(40)
                 .setArrowDistance(25)
-                .setShowInductorFor3WT(true)
                 .setDiagramName("diag")
-                .setShiftFeedersPosition(false)
-                .setScaleShiftFeedersPosition(2)
-                .setAvoidSVGComponentsDuplication(true);
+                .setAvoidSVGComponentsDuplication(true)
+                .setAdaptCellHeightToContent(true)
+                .setMaxComponentHeight(10)
+                .setMinSpaceBetweenComponents(30)
+                .setMinExternCellHeight(150)
+                .setAngleLabelShift(42)
+                .setLabelCentered(true)
+                .setLabelDiagonal(true)
+                .setHighlightLineState(false)
+                .setTooltipEnabled(true)
+                .setAddNodesInfos(true)
+                .setMinSpaceForFeederArrows(70)
+                .setFeederArrowSymmetry(true);
         LayoutParameters layoutParameters2 = new LayoutParameters(layoutParameters);
 
         assertEquals(layoutParameters.getTranslateX(), layoutParameters2.getTranslateX(), 0);
@@ -63,10 +74,19 @@ public class LayoutParametersTest {
         assertEquals(layoutParameters.getHorizontalSnakeLinePadding(), layoutParameters2.getHorizontalSnakeLinePadding(), 0);
         assertEquals(layoutParameters.getVerticalSnakeLinePadding(), layoutParameters2.getVerticalSnakeLinePadding(), 0);
         assertEquals(layoutParameters.getArrowDistance(), layoutParameters2.getArrowDistance(), 0);
-        assertEquals(layoutParameters.isShiftFeedersPosition(), layoutParameters2.isShiftFeedersPosition());
-        assertEquals(layoutParameters.getScaleShiftFeedersPosition(), layoutParameters2.getScaleShiftFeedersPosition(), 0);
-        assertEquals(layoutParameters.isShowInductorFor3WT(), layoutParameters2.isShowInductorFor3WT());
         assertEquals(layoutParameters.getDiagramName(), layoutParameters2.getDiagramName());
         assertEquals(layoutParameters.isAvoidSVGComponentsDuplication(), layoutParameters2.isAvoidSVGComponentsDuplication());
+        assertEquals(layoutParameters.isAdaptCellHeightToContent(), layoutParameters2.isAdaptCellHeightToContent());
+        assertEquals(layoutParameters.getMaxComponentHeight(), layoutParameters2.getMaxComponentHeight(), 0);
+        assertEquals(layoutParameters.getMinSpaceBetweenComponents(), layoutParameters2.getMinSpaceBetweenComponents(), 0);
+        assertEquals(layoutParameters.getMinExternCellHeight(), layoutParameters2.getMinExternCellHeight(), 0);
+        assertEquals(layoutParameters.getAngleLabelShift(), layoutParameters2.getAngleLabelShift(), 0);
+        assertEquals(layoutParameters.isLabelCentered(), layoutParameters2.isLabelCentered());
+        assertEquals(layoutParameters.isLabelDiagonal(), layoutParameters2.isLabelDiagonal());
+        assertEquals(layoutParameters.isHighlightLineState(), layoutParameters2.isHighlightLineState());
+        assertEquals(layoutParameters.isTooltipEnabled(), layoutParameters2.isTooltipEnabled());
+        assertEquals(layoutParameters.isAddNodesInfos(), layoutParameters2.isAddNodesInfos());
+        assertEquals(layoutParameters.getMinSpaceForFeederArrows(), layoutParameters2.getMinSpaceForFeederArrows(), 0);
+        assertEquals(layoutParameters.isFeederArrowSymmetry(), layoutParameters2.isFeederArrowSymmetry());
     }
 }

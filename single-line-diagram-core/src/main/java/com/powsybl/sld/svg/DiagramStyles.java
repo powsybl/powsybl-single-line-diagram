@@ -6,23 +6,38 @@
  */
 package com.powsybl.sld.svg;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.UncheckedIOException;
 import java.util.Objects;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  */
 public final class DiagramStyles {
 
-    public static final String WIRE_STYLE_CLASS = "wire";
-    public static final String GRID_STYLE_CLASS = "grid";
-    public static final String BUS_STYLE_CLASS = "busbar-section";
-    public static final String LABEL_STYLE_CLASS = "component-label";
-    public static final String LINE_STYLE_CLASS = "LINE";
+    private static final String STYLE_PREFIX = "sld-";
+    public static final String WIRE_STYLE_CLASS = STYLE_PREFIX + "wire";
+    public static final String GRID_STYLE_CLASS = STYLE_PREFIX + "grid";
+    public static final String LABEL_STYLE_CLASS = STYLE_PREFIX + "label";
+    public static final String GRAPH_LABEL_STYLE_CLASS = STYLE_PREFIX + "graph-label";
+    public static final String ARROW_ACTIVE_CLASS = STYLE_PREFIX + "arrow-p";
+    public static final String ARROW_REACTIVE_CLASS = STYLE_PREFIX + "arrow-q";
+    public static final String UP_CLASS = STYLE_PREFIX + "up";
+    public static final String DOWN_CLASS = STYLE_PREFIX + "down";
+    public static final String HIDDEN_NODE_CLASS = STYLE_PREFIX + "hidden-node";
+    public static final String DISCONNECTED_STYLE_CLASS = STYLE_PREFIX + "disconnected";
+    public static final String OPEN_SWITCH_STYLE_CLASS = STYLE_PREFIX + "open";
+    public static final String CLOSED_SWITCH_STYLE_CLASS = STYLE_PREFIX + "closed";
+    public static final String FEEDER_DISCONNECTED = STYLE_PREFIX + "feeder-disconnected";
+    public static final String FEEDER_CONNECTED_DISCONNECTED = STYLE_PREFIX + "feeder-connected-disconnected";
+    public static final String FEEDER_DISCONNECTED_CONNECTED = STYLE_PREFIX + "feeder-disconnected-connected";
+    public static final String BOTTOM_FEEDER = STYLE_PREFIX + "bottom-feeder";
+    public static final String TOP_FEEDER = STYLE_PREFIX + "top-feeder";
+    public static final String CONSTANT_COLOR_CLASS = STYLE_PREFIX + "constant-color";
+
     private static final String ID_PREFIX = "id";
 
     private DiagramStyles() {

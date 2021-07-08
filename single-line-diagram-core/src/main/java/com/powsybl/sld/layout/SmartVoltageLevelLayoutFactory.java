@@ -8,7 +8,7 @@ package com.powsybl.sld.layout;
 
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.Network;
-import com.powsybl.sld.model.Graph;
+import com.powsybl.sld.model.VoltageLevelGraph;
 
 import java.util.Objects;
 
@@ -24,8 +24,8 @@ public class SmartVoltageLevelLayoutFactory implements VoltageLevelLayoutFactory
     }
 
     @Override
-    public VoltageLevelLayout create(Graph graph) {
-        return VoltageLevelLayoutFactorySmartSelector.findBest(network.getVoltageLevel(graph.getVoltageLevelId()))
+    public VoltageLevelLayout create(VoltageLevelGraph graph) {
+        return VoltageLevelLayoutFactorySmartSelector.findBest(network.getVoltageLevel(graph.getVoltageLevelInfos().getId()))
                 .orElseThrow(() -> new PowsyblException("Voltage level layout factory not found"))
                 .createFactory(network)
                 .create(graph);

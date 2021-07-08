@@ -6,11 +6,16 @@
  */
 package com.powsybl.sld.layout;
 
+import com.powsybl.sld.layout.positionfromextension.PositionFromExtension;
+import com.powsybl.sld.layout.positionbyclustering.PositionByClustering;
 import com.powsybl.sld.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+
+import static com.powsybl.sld.model.Block.Extremity.*;
+import static com.powsybl.sld.model.Cell.CellType.*;
 
 /**
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
@@ -25,12 +30,16 @@ public class BlockOrganizer {
 
     private final boolean stack;
 
+    private final boolean handleShunt;
+
+    private final boolean exceptionIfPatternNotHandled;
+
     public BlockOrganizer() {
         this(new PositionFromExtension(), true);
     }
 
     public BlockOrganizer(boolean stack) {
-        this(new PositionFree(), stack);
+        this(new PositionByClustering(), stack);
     }
 
     public BlockOrganizer(PositionFinder positionFinder) {
@@ -38,62 +47,69 @@ public class BlockOrganizer {
     }
 
     public BlockOrganizer(PositionFinder positionFinder, boolean stack) {
+        this(positionFinder, stack, false);
+    }
+
+    public BlockOrganizer(PositionFinder positionFinder, boolean stack, boolean exceptionIfPatternNotHandled) {
+        this(positionFinder, stack, exceptionIfPatternNotHandled, false);
+    }
+
+    public BlockOrganizer(PositionFinder positionFinder, boolean stack, boolean exceptionIfPatternNotHandled, boolean handleShunt) {
         this.positionFinder = Objects.requireNonNull(positionFinder);
         this.stack = stack;
+        this.exceptionIfPatternNotHandled = exceptionIfPatternNotHandled;
+        this.handleShunt = handleShunt;
     }
 
     /**
      * Organize cells into blocks and call the layout resolvers
      */
-    public void organize(Graph graph) {
+    public void organize(VoltageLevelGraph graph) {
         LOGGER.info("Organizing graph cells into blocks");
         graph.getCells().stream()
-                .filter(cell -> cell.getType().equals(Cell.CellType.EXTERN)
-                        || cell.getType().equals(Cell.CellType.INTERN))
+                .filter(cell -> cell.getType().isBusCell())
+                .map(BusCell.class::cast)
                 .forEach(cell -> {
-                    new CellBlockDecomposer().determineBlocks(cell);
-                    if (cell.getType() == Cell.CellType.INTERN) {
+                    CellBlockDecomposer.determineBlocks(cell, exceptionIfPatternNotHandled);
+                    if (cell.getType() == INTERN) {
                         ((InternCell) cell).organizeBlocks();
                     }
                 });
         graph.getCells().stream()
-                .filter(cell -> cell.getType() == Cell.CellType.SHUNT)
-                .forEach(cell -> new CellBlockDecomposer().determineBlocks(cell));
+                .filter(cell -> cell.getType() == SHUNT)
+                .forEach(cell -> CellBlockDecomposer.determineBlocks(cell, exceptionIfPatternNotHandled));
 
         if (stack) {
             determineStackableBlocks(graph);
         }
-        positionFinder.buildLayout(graph);
+
+        List<Subsection> subsections = positionFinder.buildLayout(graph, handleShunt);
+        //TODO introduce a stackable Blocks check after positionFinder (case of externCell jumping over subSections)
 
         graph.getCells().stream()
-                .filter(c -> c.getType() == Cell.CellType.INTERN)
-                .forEach(c -> ((InternCell) c).postPositioningSettings());
+                .filter(cell -> cell.getType() == EXTERN).map(ExternCell.class::cast)
+                .forEach(ExternCell::organizeBlockDirections);
 
-        SubSections subSections = new SubSections(graph);
-        subSections.handleSpanningBusBar();
-        LOGGER.debug("Subsections {}", subSections);
+        graph.getCells().forEach(Cell::blockSizing);
 
-        graph.getCells().stream()
-                .filter(cell -> cell instanceof BusCell)
-                .forEach(cell -> ((BusCell) cell).blockSizing());
-        new BlockPositionner().determineBlockPositions(graph, subSections);
+        new BlockPositionner().determineBlockPositions(graph, subsections);
     }
 
     /**
      * Determines blocks connected to busbar that are stackable
      */
-    private void determineStackableBlocks(Graph graph) {
+    private void determineStackableBlocks(VoltageLevelGraph graph) {
         LOGGER.info("Determining stackable Blocks");
         graph.getBusCells().forEach(cell -> {
-            List<LegPrimaryBlock> blocks = cell.getPrimaryLegBlocks();
+            List<LegPrimaryBlock> blocks = cell.getLegPrimaryBlocks();
             for (int i = 0; i < blocks.size(); i++) {
                 LegPrimaryBlock block1 = blocks.get(i);
                 if (block1.getNodes().size() == 3) {
                     for (int j = i + 1; j < blocks.size(); j++) {
                         LegPrimaryBlock block2 = blocks.get(j);
                         if (block2.getNodes().size() == 3
-                                && block1.getExtremityNode(Block.Extremity.END).equals(block2.getExtremityNode(Block.Extremity.END))
-                                && !block1.getExtremityNode(Block.Extremity.START).equals(block2.getExtremityNode(Block.Extremity.START))) {
+                                && block1.getExtremityNode(END).equals(block2.getExtremityNode(END))
+                                && !block1.getExtremityNode(START).equals(block2.getExtremityNode(START))) {
                             block1.addStackableBlock(block2);
                             block2.addStackableBlock(block1);
                         }

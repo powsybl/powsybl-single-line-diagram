@@ -1,116 +1,12 @@
-.BUSBAR_SECTION {
-    stroke: rgb(0,0,0);
-    stroke-width: 3;
-}
-
-.BREAKER {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 2;
-    fill: rgb(255, 255, 255);
-}
-
-.DISCONNECTOR {
-    stroke: rgb(0, 0, 0);
-    stroke-width: 3
-}
-
-.GENERATOR {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill: rgb(255, 255, 255);
-}
-
-.LOAD {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill: rgb(255, 255, 255);
-}
-
-.LOAD_BREAK_SWITCH {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill: rgb(255, 255, 255);
-}
-
-.NODE {
-    stroke: rgb(0, 0, 0);
-    fill: rgb(0, 0, 0);
-    fill-opacity: 1;
-}
-
-.CAPACITOR {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill-opacity: 0;
-}
-
-.INDUCTOR {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill-opacity: 0;
-}
-
-.STATIC_VAR_COMPENSATOR {
-    stroke: rgb(0, 0, 255);
-}
-
-.TWO_WINDINGS_TRANSFORMER {
-    stroke: rgb(0, 0, 255);
-    fill-opacity: 0;
-}
-
-.THREE_WINDINGS_TRANSFORMER {
-    stroke: rgb(0, 0, 255);
-    fill-opacity: 0;
-}
-
-.VSC_CONVERTER_STATION {
-    stroke: rgb(0, 0, 255);
-    font-size: 7.4314661px;
-    line-height: 1.25;
-    font-family: sans-serif;
-    font-variant-ligatures: normal;
-    font-variant-caps: normal;
-    font-variant-numeric: normal;
-    font-feature-settings: normal;
-    text-align: start;
-    letter-spacing: 0px;
-    word-spacing: 0px;
-    writing-mode: lr-tb;
-    text-anchor: start;
-    stroke-miterlimit: 4;
-}
-
-.PHASE_SHIFT_TRANSFORMER {
-    stroke: rgb(0, 0, 255);
-    stroke-linecap: butt;
-    stroke-linejoin: miter;
-    stroke-miterlimit: 4;
-    stroke-width: 1;
-    fill: rgb(255, 255, 255);
-}
-
-.wire {
-    stroke: rgb(200,0,0);
-    stroke-width: 1;
-    fill-opacity: 0;
-}
-
-.grid {
-    stroke: rgb(0,55,0);
-    stroke-width: 1;
-    stroke-dasharray: 1,10;
-}
-
-.component-label {
-    fill: black;
-    color: black;
-    stroke: none;
-    fill-opacity: 1;
-}
-
-.LINE {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill-opacity: 0;
-}
+.sld-busbar-section {stroke-width: 3}
+.sld-breaker {stroke-width: 2; fill:white}
+.sld-disconnector {stroke-width: 3}
+.sld-busbreaker-connection {stroke-width: 4}
+.sld-vsc {font-size: 7.43px}
+.sld-grid {stroke: #003700; stroke-dasharray: 1,10}
+.sld-arrow-p {fill:black}
+.sld-arrow-q {fill:blue}
+.sld-label {font: 8px "Verdana"}
+.sld-graph-label {font: 12px "Verdana"}
+.sld-flash {stroke: none; fill: black}
+.sld-lock {stroke: none; fill: black}

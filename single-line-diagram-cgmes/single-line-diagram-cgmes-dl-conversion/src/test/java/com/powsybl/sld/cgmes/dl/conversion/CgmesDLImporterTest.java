@@ -24,11 +24,14 @@ import static org.junit.Assert.*;
  */
 public class CgmesDLImporterTest extends AbstractCgmesDLTest {
 
+    protected static String OTHER_DIAGRAM_NAME = "diagram-1";
+
     private CgmesDLModel cgmesDLModel;
 
     @Before
     public void setUp() {
         super.setUp();
+        addOtherDiagram();
         cgmesDLModel = Mockito.mock(CgmesDLModel.class);
         Mockito.when(cgmesDLModel.getTerminalsDiagramData()).thenReturn(terminalsPropertyBags);
         Mockito.when(cgmesDLModel.getBusesDiagramData()).thenReturn(busesPropertyBags);
@@ -44,14 +47,57 @@ public class CgmesDLImporterTest extends AbstractCgmesDLTest {
         Mockito.when(cgmesDLModel.getVoltageLevelDiagramData()).thenReturn(voltageLevels);
     }
 
-    private <T> void checkDiagramData(NodeDiagramData.NodeDiagramDataDetails diagramDetails) {
+    private void addOtherDiagram() {
+        terminalsPropertyBags.addAll(Arrays.asList(createTerminalPropertyBag(NAMESPACE + "Generator", "1", 4, 20, 1, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Generator", "1", 12, 20, 2, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Load", "1", 4, 20, 1, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Load", "1", 12, 20, 2, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Shunt", "1", 4, 20, 1, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Shunt", "1", 12, 20, 2, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Switch", "1", 4, 20, 1, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Switch", "1", 12, 20, 2, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Switch", "2", 28, 20, 1, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Switch", "2", 36, 20, 2, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Transformer", "1", 4, 20, 1, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Transformer", "1", 12, 20, 2, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Transformer", "2", 28, 20, 1, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Transformer", "2", 36, 20, 2, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Transformer3w", "1", 4, 20, 1, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Transformer3w", "1", 12, 20, 2, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Transformer3w", "2", 28, 20, 1, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Transformer3w", "2", 36, 20, 2, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Transformer3w", "3", 20, 32, 1, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Transformer3w", "3", 20, 40, 2, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Svc", "1", 4, 20, 1, OTHER_DIAGRAM_NAME),
+                                                   createTerminalPropertyBag(NAMESPACE + "Svc", "1", 12, 20, 2, OTHER_DIAGRAM_NAME)));
+        busesPropertyBags.addAll(Arrays.asList(createBusPropertyBag(NAMESPACE + "Bus", "Bus", NAMESPACE + "VoltageLevel", "VoltageLevel", 40, 10, 1, OTHER_DIAGRAM_NAME),
+                                               createBusPropertyBag(NAMESPACE + "Bus", "Bus", NAMESPACE + "VoltageLevel", "VoltageLevel", 40, 80, 2, OTHER_DIAGRAM_NAME)));
+        busbarsPropertyBags.addAll(Arrays.asList(createBusbarPropertyBag(NAMESPACE + "Busbar", "Busbar", 40, 10, 1, OTHER_DIAGRAM_NAME),
+                                                 createBusbarPropertyBag(NAMESPACE + "Busbar", "Busbar", 40, 80, 2, OTHER_DIAGRAM_NAME)));
+        linesPropertyBags.addAll(Arrays.asList(createPropertyBag(NAMESPACE + "Line", "Line", 40, 10, 1, OTHER_DIAGRAM_NAME),
+                                               createPropertyBag(NAMESPACE + "Line", "Line", 40, 80, 2, OTHER_DIAGRAM_NAME)));
+        danglingLinesPropertyBags.addAll(Arrays.asList(createPropertyBag(NAMESPACE + "DanglingLine", "DanglingLine", 40, 10, 1, OTHER_DIAGRAM_NAME),
+                                                       createPropertyBag(NAMESPACE + "DanglingLine", "DanglingLine", 40, 80, 2, OTHER_DIAGRAM_NAME)));
+        generatorsPropertyBags.addAll(Arrays.asList(createPropertyBag(NAMESPACE + "Generator", "Generator", 20, 20, 0, 90, OTHER_DIAGRAM_NAME)));
+        loadsPropertyBags.addAll(Arrays.asList(createPropertyBag(NAMESPACE + "Load", "Load", 20, 20, 0, 90, OTHER_DIAGRAM_NAME)));
+        shuntsPropertyBags.addAll(Arrays.asList(createPropertyBag(NAMESPACE + "Shunt", "Shunt", 20, 20, 0, 90, OTHER_DIAGRAM_NAME)));
+        switchesPropertyBags.addAll(Arrays.asList(createSwitchPropertyBag(NAMESPACE + "Switch", "Switch", 20, 20, 90, OTHER_DIAGRAM_NAME)));
+        tranformersPropertyBags.addAll(Arrays.asList(createPropertyBag(NAMESPACE + "Transformer", "Transformer", 20, 20, 0, 90, OTHER_DIAGRAM_NAME)));
+        tranformers3wPropertyBags.addAll(Arrays.asList(createPropertyBag(NAMESPACE + "Transformer3w", "Transformer3w", 20, 26, 0, 90, OTHER_DIAGRAM_NAME)));
+        hvdcLinesPropertyBags.addAll(Arrays.asList(createPropertyBag(NAMESPACE + "HvdcLine", "HvdcLine", 40, 10, 1, OTHER_DIAGRAM_NAME),
+                                                   createPropertyBag(NAMESPACE + "HvdcLine", "HvdcLine", 40, 80, 2, OTHER_DIAGRAM_NAME)));
+        svcsPropertyBags.addAll(Arrays.asList(createPropertyBag(NAMESPACE + "Svc", "Svc", 20, 20, 0, 90, OTHER_DIAGRAM_NAME)));
+    }
+
+    private <T> void checkDiagramData(NodeDiagramData.NodeDiagramDataDetails diagramDetails, double x1, double y1,
+                                      double x2, double y2) {
         assertNotNull(diagramDetails);
         assertEquals(1, diagramDetails.getPoint1().getSeq(), 0);
-        assertEquals(20, diagramDetails.getPoint1().getX(), 0);
-        assertEquals(5, diagramDetails.getPoint1().getY(), 0);
+        assertEquals(x1, diagramDetails.getPoint1().getX(), 0);
+        assertEquals(y1, diagramDetails.getPoint1().getY(), 0);
         assertEquals(2, diagramDetails.getPoint2().getSeq(), 0);
-        assertEquals(20, diagramDetails.getPoint2().getX(), 0);
-        assertEquals(40, diagramDetails.getPoint2().getY(), 0);
+        assertEquals(x2, diagramDetails.getPoint2().getX(), 0);
+        assertEquals(y2, diagramDetails.getPoint2().getY(), 0);
     }
 
     @Test
@@ -62,7 +108,8 @@ public class CgmesDLImporterTest extends AbstractCgmesDLTest {
         Bus bus = network.getVoltageLevel("VoltageLevel").getBusBreakerView().getBus("Bus");
         NodeDiagramData<Bus> busDiagramData = bus.getExtension(NodeDiagramData.class);
 
-        checkDiagramData(busDiagramData.getData(DEFAULT_DIAGRAM_NAME));
+        checkDiagramData(busDiagramData.getData(DEFAULT_DIAGRAM_NAME), 20, 5, 20, 40);
+        checkDiagramData(busDiagramData.getData(OTHER_DIAGRAM_NAME), 40, 10, 40, 80);
     }
 
     @Test
@@ -73,23 +120,24 @@ public class CgmesDLImporterTest extends AbstractCgmesDLTest {
         BusbarSection busbar = network.getBusbarSection("Busbar");
         NodeDiagramData<BusbarSection> busbarDiagramData = busbar.getExtension(NodeDiagramData.class);
 
-        checkDiagramData(busbarDiagramData.getData(DEFAULT_DIAGRAM_NAME));
+        checkDiagramData(busbarDiagramData.getData(DEFAULT_DIAGRAM_NAME), 20, 5, 20, 40);
+        checkDiagramData(busbarDiagramData.getData(OTHER_DIAGRAM_NAME), 40, 10, 40, 80);
     }
 
-    private <T> void checkDiagramData(LineDiagramData<?> diagramData) {
+    private <T> void checkDiagramData(LineDiagramData<?> diagramData, String diagram, double x1, double y1, double x2, double y2) {
         assertNotNull(diagramData);
-        assertEquals(1, diagramData.getPoints(DEFAULT_DIAGRAM_NAME).get(0).getSeq(), 0);
-        assertEquals(20, diagramData.getPoints(DEFAULT_DIAGRAM_NAME).get(0).getX(), 0);
-        assertEquals(5, diagramData.getPoints(DEFAULT_DIAGRAM_NAME).get(0).getY(), 0);
-        assertEquals(2, diagramData.getPoints(DEFAULT_DIAGRAM_NAME).get(1).getSeq(), 0);
-        assertEquals(20, diagramData.getPoints(DEFAULT_DIAGRAM_NAME).get(1).getX(), 0);
-        assertEquals(40, diagramData.getPoints(DEFAULT_DIAGRAM_NAME).get(1).getY(), 0);
-        assertEquals(1, diagramData.getFirstPoint(DEFAULT_DIAGRAM_NAME).getSeq(), 0);
-        assertEquals(20, diagramData.getFirstPoint(DEFAULT_DIAGRAM_NAME).getX(), 0);
-        assertEquals(5, diagramData.getFirstPoint(DEFAULT_DIAGRAM_NAME).getY(), 0);
-        assertEquals(2, diagramData.getLastPoint(DEFAULT_DIAGRAM_NAME).getSeq(), 0);
-        assertEquals(20, diagramData.getLastPoint(DEFAULT_DIAGRAM_NAME).getX(), 0);
-        assertEquals(40, diagramData.getLastPoint(DEFAULT_DIAGRAM_NAME).getY(), 0);
+        assertEquals(1, diagramData.getPoints(diagram).get(0).getSeq(), 0);
+        assertEquals(x1, diagramData.getPoints(diagram).get(0).getX(), 0);
+        assertEquals(y1, diagramData.getPoints(diagram).get(0).getY(), 0);
+        assertEquals(2, diagramData.getPoints(diagram).get(1).getSeq(), 0);
+        assertEquals(x2, diagramData.getPoints(diagram).get(1).getX(), 0);
+        assertEquals(y2, diagramData.getPoints(diagram).get(1).getY(), 0);
+        assertEquals(1, diagramData.getFirstPoint(diagram).getSeq(), 0);
+        assertEquals(x1, diagramData.getFirstPoint(diagram).getX(), 0);
+        assertEquals(y1, diagramData.getFirstPoint(diagram).getY(), 0);
+        assertEquals(2, diagramData.getLastPoint(diagram).getSeq(), 0);
+        assertEquals(x2, diagramData.getLastPoint(diagram).getX(), 0);
+        assertEquals(y2, diagramData.getLastPoint(diagram).getY(), 0);
     }
 
     @Test
@@ -100,7 +148,8 @@ public class CgmesDLImporterTest extends AbstractCgmesDLTest {
         Line line = network.getLine("Line");
         LineDiagramData<Line> lineDiagramData = line.getExtension(LineDiagramData.class);
 
-        checkDiagramData(lineDiagramData);
+        checkDiagramData(lineDiagramData, DEFAULT_DIAGRAM_NAME, 20, 5, 20, 40);
+        checkDiagramData(lineDiagramData, OTHER_DIAGRAM_NAME, 40, 10, 40, 80);
     }
 
     @Test
@@ -112,7 +161,8 @@ public class CgmesDLImporterTest extends AbstractCgmesDLTest {
         DanglingLine danglingLine = network.getDanglingLine("DanglingLine");
         LineDiagramData<DanglingLine> danglingLineDiagramData = danglingLine.getExtension(LineDiagramData.class);
 
-        checkDiagramData(danglingLineDiagramData);
+        checkDiagramData(danglingLineDiagramData, DEFAULT_DIAGRAM_NAME, 20, 5, 20, 40);
+        checkDiagramData(danglingLineDiagramData, OTHER_DIAGRAM_NAME, 40, 10, 40, 80);
     }
 
     @Test
@@ -123,23 +173,25 @@ public class CgmesDLImporterTest extends AbstractCgmesDLTest {
         HvdcLine hdcvLine = network.getHvdcLine("HvdcLine");
         LineDiagramData<HvdcLine> hvdcLineDiagramData = hdcvLine.getExtension(LineDiagramData.class);
 
-        checkDiagramData(hvdcLineDiagramData);
+        checkDiagramData(hvdcLineDiagramData, DEFAULT_DIAGRAM_NAME, 20, 5, 20, 40);
+        checkDiagramData(hvdcLineDiagramData, OTHER_DIAGRAM_NAME, 40, 10, 40, 80);
     }
 
-    private <T> void checkDiagramData(InjectionDiagramData.InjectionDiagramDetails diagramDetails) {
+    private <T> void checkDiagramData(InjectionDiagramData.InjectionDiagramDetails diagramDetails, double x, double y,
+                                      double tx1, double ty1, double tx2, double ty2) {
         assertNotNull(diagramDetails);
         assertEquals(0, diagramDetails.getPoint().getSeq(), 0);
-        assertEquals(10, diagramDetails.getPoint().getX(), 0);
-        assertEquals(10, diagramDetails.getPoint().getY(), 0);
+        assertEquals(x, diagramDetails.getPoint().getX(), 0);
+        assertEquals(y, diagramDetails.getPoint().getY(), 0);
         assertEquals(90, diagramDetails.getRotation(), 0);
 
         List<DiagramPoint> points = diagramDetails.getTerminalPoints();
         assertEquals(1, points.get(0).getSeq(), 0);
-        assertEquals(2, points.get(0).getX(), 0);
-        assertEquals(10, points.get(0).getY(), 0);
+        assertEquals(tx1, points.get(0).getX(), 0);
+        assertEquals(ty1, points.get(0).getY(), 0);
         assertEquals(2, points.get(1).getSeq(), 0);
-        assertEquals(6, points.get(1).getX(), 0);
-        assertEquals(10, points.get(1).getY(), 0);
+        assertEquals(tx2, points.get(1).getX(), 0);
+        assertEquals(ty2, points.get(1).getY(), 0);
     }
 
     @Test
@@ -150,7 +202,8 @@ public class CgmesDLImporterTest extends AbstractCgmesDLTest {
         Generator generator = network.getGenerator("Generator");
         InjectionDiagramData<Generator> generatorDiagramData = generator.getExtension(InjectionDiagramData.class);
 
-        checkDiagramData(generatorDiagramData.getData(DEFAULT_DIAGRAM_NAME));
+        checkDiagramData(generatorDiagramData.getData(DEFAULT_DIAGRAM_NAME), 10, 10, 2, 10, 6, 10);
+        checkDiagramData(generatorDiagramData.getData(OTHER_DIAGRAM_NAME), 20, 20, 4, 20, 12, 20);
     }
 
     @Test
@@ -161,7 +214,8 @@ public class CgmesDLImporterTest extends AbstractCgmesDLTest {
         Load load = network.getLoad("Load");
         InjectionDiagramData<Load> loadDiagramData = load.getExtension(InjectionDiagramData.class);
 
-        checkDiagramData(loadDiagramData.getData(DEFAULT_DIAGRAM_NAME));
+        checkDiagramData(loadDiagramData.getData(DEFAULT_DIAGRAM_NAME), 10, 10, 2, 10, 6, 10);
+        checkDiagramData(loadDiagramData.getData(OTHER_DIAGRAM_NAME), 20, 20, 4, 20, 12, 20);
     }
 
     @Test
@@ -172,7 +226,8 @@ public class CgmesDLImporterTest extends AbstractCgmesDLTest {
         ShuntCompensator shunt = network.getShuntCompensator("Shunt");
         InjectionDiagramData<ShuntCompensator> shuntDiagramData = shunt.getExtension(InjectionDiagramData.class);
 
-        checkDiagramData(shuntDiagramData.getData(DEFAULT_DIAGRAM_NAME));
+        checkDiagramData(shuntDiagramData.getData(DEFAULT_DIAGRAM_NAME), 10, 10, 2, 10, 6, 10);
+        checkDiagramData(shuntDiagramData.getData(OTHER_DIAGRAM_NAME), 20, 20, 4, 20, 12, 20);
     }
 
     @Test
@@ -183,30 +238,32 @@ public class CgmesDLImporterTest extends AbstractCgmesDLTest {
         StaticVarCompensator svc = network.getStaticVarCompensator("Svc");
         InjectionDiagramData<StaticVarCompensator> svcDiagramData = svc.getExtension(InjectionDiagramData.class);
 
-        checkDiagramData(svcDiagramData.getData(DEFAULT_DIAGRAM_NAME));
+        checkDiagramData(svcDiagramData.getData(DEFAULT_DIAGRAM_NAME), 10, 10, 2, 10, 6, 10);
+        checkDiagramData(svcDiagramData.getData(OTHER_DIAGRAM_NAME), 20, 20, 4, 20, 12, 20);
     }
 
-    private <T> void checkDiagramData(CouplingDeviceDiagramData.CouplingDeviceDiagramDetails diagramDataDetails) {
+    private <T> void checkDiagramData(CouplingDeviceDiagramData.CouplingDeviceDiagramDetails diagramDataDetails, double x, double y,
+                                      double tx1, double ty1, double tx2, double ty2, double tx3, double ty3, double tx4, double ty4) {
         assertNotNull(diagramDataDetails);
         assertEquals(0, diagramDataDetails.getPoint().getSeq(), 0);
-        assertEquals(10, diagramDataDetails.getPoint().getX(), 0);
-        assertEquals(10, diagramDataDetails.getPoint().getY(), 0);
+        assertEquals(x, diagramDataDetails.getPoint().getX(), 0);
+        assertEquals(y, diagramDataDetails.getPoint().getY(), 0);
         assertEquals(90, diagramDataDetails.getRotation(), 0);
 
         List<DiagramPoint> pointsT1 = diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL1);
         List<DiagramPoint> pointsT2 = diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL2);
         assertEquals(1, pointsT1.get(0).getSeq(), 0);
-        assertEquals(2, pointsT1.get(0).getX(), 0);
-        assertEquals(10, pointsT1.get(0).getY(), 0);
+        assertEquals(tx1, pointsT1.get(0).getX(), 0);
+        assertEquals(ty1, pointsT1.get(0).getY(), 0);
         assertEquals(2, pointsT1.get(1).getSeq(), 0);
-        assertEquals(6, pointsT1.get(1).getX(), 0);
-        assertEquals(10, pointsT1.get(1).getY(), 0);
+        assertEquals(tx2, pointsT1.get(1).getX(), 0);
+        assertEquals(ty2, pointsT1.get(1).getY(), 0);
         assertEquals(1, pointsT2.get(0).getSeq(), 0);
-        assertEquals(14, pointsT2.get(0).getX(), 0);
-        assertEquals(10, pointsT2.get(0).getY(), 0);
+        assertEquals(tx3, pointsT2.get(0).getX(), 0);
+        assertEquals(ty3, pointsT2.get(0).getY(), 0);
         assertEquals(2, pointsT2.get(1).getSeq(), 0);
-        assertEquals(18, pointsT2.get(1).getX(), 0);
-        assertEquals(10, pointsT2.get(1).getY(), 0);
+        assertEquals(tx4, pointsT2.get(1).getX(), 0);
+        assertEquals(ty4, pointsT2.get(1).getY(), 0);
     }
 
     @Test
@@ -217,7 +274,8 @@ public class CgmesDLImporterTest extends AbstractCgmesDLTest {
         Switch sw = network.getSwitch("Switch");
         CouplingDeviceDiagramData<Switch> shuntDiagramData = sw.getExtension(CouplingDeviceDiagramData.class);
 
-        checkDiagramData(shuntDiagramData.getData(DEFAULT_DIAGRAM_NAME));
+        checkDiagramData(shuntDiagramData.getData(DEFAULT_DIAGRAM_NAME), 10, 10, 2, 10, 6, 10, 14, 10, 18, 10);
+        checkDiagramData(shuntDiagramData.getData(OTHER_DIAGRAM_NAME), 20, 20, 4, 20, 12, 20, 28, 20, 36, 20);
     }
 
     @Test
@@ -228,33 +286,36 @@ public class CgmesDLImporterTest extends AbstractCgmesDLTest {
         TwoWindingsTransformer transformer = network.getTwoWindingsTransformer("Transformer");
         CouplingDeviceDiagramData<TwoWindingsTransformer> transformerDiagramData = transformer.getExtension(CouplingDeviceDiagramData.class);
 
-        checkDiagramData(transformerDiagramData.getData(DEFAULT_DIAGRAM_NAME));
+        checkDiagramData(transformerDiagramData.getData(DEFAULT_DIAGRAM_NAME), 10, 10, 2, 10, 6, 10, 14, 10, 18, 10);
+        checkDiagramData(transformerDiagramData.getData(OTHER_DIAGRAM_NAME), 20, 20, 4, 20, 12, 20, 28, 20, 36, 20);
     }
 
-    private <T> void checkDiagramData(ThreeWindingsTransformerDiagramData.ThreeWindingsTransformerDiagramDataDetails diagramDataDetails) {
+    private <T> void checkDiagramData(ThreeWindingsTransformerDiagramData.ThreeWindingsTransformerDiagramDataDetails diagramDataDetails, double x, double y,
+                                      double tx1, double ty1, double tx2, double ty2, double tx3, double ty3, double tx4, double ty4, double tx5,
+                                      double ty5, double tx6, double ty6) {
         assertNotNull(diagramDataDetails);
         assertEquals(0, diagramDataDetails.getPoint().getSeq(), 0);
-        assertEquals(10, diagramDataDetails.getPoint().getX(), 0);
-        assertEquals(13, diagramDataDetails.getPoint().getY(), 0);
+        assertEquals(x, diagramDataDetails.getPoint().getX(), 0);
+        assertEquals(y, diagramDataDetails.getPoint().getY(), 0);
         assertEquals(90, diagramDataDetails.getRotation(), 0);
         assertEquals(1, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL1).get(0).getSeq(), 0);
-        assertEquals(2, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL1).get(0).getX(), 0);
-        assertEquals(10, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL1).get(0).getY(), 0);
+        assertEquals(tx1, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL1).get(0).getX(), 0);
+        assertEquals(ty1, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL1).get(0).getY(), 0);
         assertEquals(2, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL1).get(1).getSeq(), 0);
-        assertEquals(6, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL1).get(1).getX(), 0);
-        assertEquals(10, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL1).get(1).getY(), 0);
+        assertEquals(tx2, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL1).get(1).getX(), 0);
+        assertEquals(ty2, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL1).get(1).getY(), 0);
         assertEquals(1, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL2).get(0).getSeq(), 0);
-        assertEquals(14, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL2).get(0).getX(), 0);
-        assertEquals(10, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL2).get(0).getY(), 0);
+        assertEquals(tx3, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL2).get(0).getX(), 0);
+        assertEquals(ty3, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL2).get(0).getY(), 0);
         assertEquals(2, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL2).get(1).getSeq(), 0);
-        assertEquals(18, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL2).get(1).getX(), 0);
-        assertEquals(10, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL2).get(1).getY(), 0);
+        assertEquals(tx4, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL2).get(1).getX(), 0);
+        assertEquals(ty4, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL2).get(1).getY(), 0);
         assertEquals(1, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL3).get(0).getSeq(), 0);
-        assertEquals(10, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL3).get(0).getX(), 0);
-        assertEquals(16, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL3).get(0).getY(), 0);
+        assertEquals(tx5, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL3).get(0).getX(), 0);
+        assertEquals(ty5, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL3).get(0).getY(), 0);
         assertEquals(2, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL3).get(1).getSeq(), 0);
-        assertEquals(10, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL3).get(1).getX(), 0);
-        assertEquals(20, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL3).get(1).getY(), 0);
+        assertEquals(tx6, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL3).get(1).getX(), 0);
+        assertEquals(ty6, diagramDataDetails.getTerminalPoints(DiagramTerminal.TERMINAL3).get(1).getY(), 0);
     }
 
     @Test
@@ -266,7 +327,8 @@ public class CgmesDLImporterTest extends AbstractCgmesDLTest {
         ThreeWindingsTransformer transformer = network.getThreeWindingsTransformer("Transformer3w");
         ThreeWindingsTransformerDiagramData transformerDiagramData = transformer.getExtension(ThreeWindingsTransformerDiagramData.class);
 
-        checkDiagramData(transformerDiagramData.getData(DEFAULT_DIAGRAM_NAME));
+        checkDiagramData(transformerDiagramData.getData(DEFAULT_DIAGRAM_NAME), 10, 13, 2, 10, 6, 10, 14, 10, 18, 10, 10, 16, 10, 20);
+        checkDiagramData(transformerDiagramData.getData(OTHER_DIAGRAM_NAME), 20, 26, 4, 20, 12, 20, 28, 20, 36, 20, 20, 32, 20, 40);
     }
 
     @Test

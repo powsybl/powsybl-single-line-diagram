@@ -13,7 +13,7 @@ import java.util.List;
 import com.powsybl.iidm.network.VoltageLevel;
 import com.powsybl.sld.NetworkGraphBuilder;
 import com.powsybl.sld.layout.LayoutParameters;
-import com.powsybl.sld.model.Graph;
+import com.powsybl.sld.model.VoltageLevelGraph;
 import com.powsybl.sld.model.Node;
 
 /**
@@ -24,10 +24,8 @@ public abstract class AbstractCgmesVoltageLevelLayoutTest {
 
     protected static final String DIAGRAM_NAME = "default";
 
-    protected NetworkGraphBuilder graphBuilder;
-
     protected void test(VoltageLevel vl) {
-        Graph graph = new NetworkGraphBuilder(vl.getNetwork()).buildVoltageLevelGraph(vl.getId(), false, true, false);
+        VoltageLevelGraph graph = new NetworkGraphBuilder(vl.getNetwork()).buildVoltageLevelGraph(vl.getId(), false, true);
         LayoutParameters layoutParameters = new LayoutParameters();
         layoutParameters.setScaleFactor(2);
         layoutParameters.setDiagramName(DIAGRAM_NAME);
@@ -36,7 +34,7 @@ public abstract class AbstractCgmesVoltageLevelLayoutTest {
         checkCoordinates(graph);
     }
 
-    protected abstract void checkGraph(Graph graph);
+    protected abstract void checkGraph(VoltageLevelGraph graph);
 
     protected void checkAdjacentNodes(Node node, List<String> expectedAdjacentNodes) {
         node.getAdjacentNodes().forEach(adjacentNode -> {
@@ -44,6 +42,6 @@ public abstract class AbstractCgmesVoltageLevelLayoutTest {
         });
     }
 
-    protected abstract void checkCoordinates(Graph graph);
+    protected abstract void checkCoordinates(VoltageLevelGraph graph);
 
 }

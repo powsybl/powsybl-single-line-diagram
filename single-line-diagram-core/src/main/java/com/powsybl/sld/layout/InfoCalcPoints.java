@@ -8,8 +8,6 @@ package com.powsybl.sld.layout;
 
 import com.powsybl.sld.model.BusCell;
 
-import java.util.Map;
-
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
@@ -17,8 +15,6 @@ public class InfoCalcPoints {
     private LayoutParameters layoutParam;
     private BusCell.Direction dNode1;
     private BusCell.Direction dNode2;
-    private Map<BusCell.Direction, Integer> nbSnakeLinesTopBottom;
-    private Map<String, Integer> nbSnakeLinesBetween;
     private double x1;
     private double x2;
     private double y1;
@@ -51,22 +47,6 @@ public class InfoCalcPoints {
 
     public void setdNode2(BusCell.Direction dNode2) {
         this.dNode2 = dNode2;
-    }
-
-    public Map<BusCell.Direction, Integer> getNbSnakeLinesTopBottom() {
-        return nbSnakeLinesTopBottom;
-    }
-
-    public void setNbSnakeLinesTopBottom(Map<BusCell.Direction, Integer> nbSnakeLinesTopBottom) {
-        this.nbSnakeLinesTopBottom = nbSnakeLinesTopBottom;
-    }
-
-    public Map<String, Integer> getNbSnakeLinesBetween() {
-        return nbSnakeLinesBetween;
-    }
-
-    public void setNbSnakeLinesBetween(Map<String, Integer> nbSnakeLinesBetween) {
-        this.nbSnakeLinesBetween = nbSnakeLinesBetween;
     }
 
     public double getX1() {

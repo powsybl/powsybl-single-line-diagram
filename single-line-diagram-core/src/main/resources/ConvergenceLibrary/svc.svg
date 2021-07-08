@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg" id="svg53" height="12" width="12" version="1.0">
-  <line id="line45" y2="3" x2="6" y1="0" x1="6" />
-  <line id="line47" y2="3" x2="12" y1="3" x1="0" />
-  <line id="line49" y2="6" x2="12" y1="6" x1="0" />
-  <line id="line51" y2="9" x2="6" y1="6" x1="6" />
-  <path id="path5227" d="M 0.23047375,8.9270166 11.723431,0.30729834" style="fill:none;stroke:#0000ff;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:1.39999998;stroke-dasharray:none" />
-  <path id="path5229" d="M 11.723431,0.30729834 9.4207823,0.57177914" style="fill:none;stroke:#0000ff;stroke-width:0.384;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-  <path id="path5231" d="M 11.723431,0.30729834 11.370038,1.9820743" style="fill:none;stroke:#0000ff;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" height="12" width="12">
+  <path d="M 6,0 V 4.5 M 0,4.5 H 12 M 0,7.5 H 12 M 6,7.5 V 12"/>
+  <path d="M 0.2556,10.611 11.671,1.448 M 9.329,2.045 11.671,1.448 10.581,3.6046" style="fill:none;stroke:#0000ff;stroke-width:0.5;stroke-linejoin:miter"/>
 </svg>

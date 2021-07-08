@@ -33,8 +33,8 @@ public abstract class AbstractInjectionDiagramDataImporter {
         this.terminalsDiagramData = Objects.requireNonNull(terminalsDiagramData);
     }
 
-    protected void addTerminalPoints(String equipmentId, String equipmentName, InjectionDiagramData.InjectionDiagramDetails diagramDetails) {
-        String terminalKey = equipmentId + "_1";
+    protected void addTerminalPoints(String equipmentId, String equipmentName, String diagram, InjectionDiagramData.InjectionDiagramDetails diagramDetails) {
+        String terminalKey = diagram + "_" + equipmentId + "_1";
         if (terminalsDiagramData.containsKey(terminalKey)) {
             PropertyBags equipmentTerminalsDiagramData = terminalsDiagramData.get(terminalKey);
             equipmentTerminalsDiagramData.forEach(terminalDiagramData ->

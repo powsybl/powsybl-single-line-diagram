@@ -6,15 +6,13 @@
  */
 package com.powsybl.sld.iidm.extensions;
 
-import com.powsybl.commons.extensions.AbstractExtension;
+import com.powsybl.commons.extensions.Extension;
 import com.powsybl.iidm.network.Connectable;
-
-import java.util.Objects;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  */
-public class ConnectablePosition<C extends Connectable<C>> extends AbstractExtension<C> {
+public interface ConnectablePosition<C extends Connectable<C>> extends Extension<C> {
 
     static final String NAME = "position";
 
@@ -24,54 +22,34 @@ public class ConnectablePosition<C extends Connectable<C>> extends AbstractExten
         UNDEFINED
     }
 
-    public static class Feeder {
-
-        private String name;
-
-        private int order;
-
-        private Direction direction;
-
-        public Feeder(String name, int order, Direction direction) {
-            this.name = Objects.requireNonNull(name);
-            this.order = order;
-            this.direction = Objects.requireNonNull(direction);
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public Feeder setName(String name) {
-            this.name = Objects.requireNonNull(name);
-            return this;
-        }
-
-        public int getOrder() {
-            return order;
-        }
-
-        public Feeder setOrder(int order) {
-            this.order = order;
-            return this;
-        }
-
-        public Direction getDirection() {
-            return direction;
-        }
-
-        public Feeder setDirection(Direction direction) {
-            this.direction = Objects.requireNonNull(direction);
-            return this;
-        }
+    @Override
+    default String getName() {
+        return NAME;
     }
 
-    private Feeder feeder;
-    private Feeder feeder1;
-    private Feeder feeder2;
-    private Feeder feeder3;
+    public interface Feeder {
+        String getName();
 
-    private static void check(Feeder feeder, Feeder feeder1, Feeder feeder2, Feeder feeder3) {
+        Feeder setName(String name);
+
+        int getOrder();
+
+        Feeder setOrder(int order);
+
+        Direction getDirection();
+
+        Feeder setDirection(Direction direction);
+    }
+
+    public Feeder getFeeder();
+
+    public Feeder getFeeder1();
+
+    public Feeder getFeeder2();
+
+    public Feeder getFeeder3();
+
+    public static void check(Feeder feeder, Feeder feeder1, Feeder feeder2, Feeder feeder3) {
         if (feeder == null && feeder1 == null && feeder2 == null && feeder3 == null) {
             throw new IllegalArgumentException("invalid feeder");
         }
@@ -93,42 +71,4 @@ public class ConnectablePosition<C extends Connectable<C>> extends AbstractExten
         }
     }
 
-    public ConnectablePosition(C connectable, Feeder feeder, Feeder feeder1, Feeder feeder2, Feeder feeder3) {
-        super(connectable);
-        check(feeder, feeder1, feeder2, feeder3);
-        this.feeder = feeder;
-        this.feeder1 = feeder1;
-        this.feeder2 = feeder2;
-        this.feeder3 = feeder3;
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
-    }
-
-    public Feeder getFeeder() {
-        return feeder;
-    }
-
-    public Feeder getFeeder1() {
-        return feeder1;
-    }
-
-    public Feeder getFeeder2() {
-        return feeder2;
-    }
-
-    public Feeder getFeeder3() {
-        return feeder3;
-    }
-
-    public ConnectablePosition setFeeders(Feeder feeder, Feeder feeder1, Feeder feeder2, Feeder feeder3) {
-        check(feeder, feeder1, feeder2, feeder3);
-        this.feeder = feeder;
-        this.feeder1 = feeder1;
-        this.feeder2 = feeder2;
-        this.feeder3 = feeder3;
-        return this;
-    }
 }

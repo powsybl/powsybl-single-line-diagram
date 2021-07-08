@@ -19,7 +19,7 @@ public class ComponentMetadataAdapter extends XmlAdapter<AdaptedComponentMetadat
     @Override
     public ComponentMetadata unmarshal(AdaptedComponentMetadata adapted) {
         return new ComponentMetadata(adapted.getType(), adapted.getId(),
-                adapted.getAnchorPoints(), adapted.getSize(), adapted.isAllowRotation(),
+                adapted.getAnchorPoints(), adapted.getSize(), adapted.getStyleClass(), adapted.isAllowRotation(),
                 adapted.getSubComponents());
     }
 
@@ -30,6 +30,7 @@ public class ComponentMetadataAdapter extends XmlAdapter<AdaptedComponentMetadat
         adapted.setId(componentMetadata.getId());
         adapted.setSize(componentMetadata.getSize());
         adapted.setAnchorPoints(componentMetadata.getAnchorPoints());
+        adapted.setStyleClass(componentMetadata.getStyleClass());
         adapted.setAllowRotation(componentMetadata.isAllowRotation());
         adapted.setSubComponents(componentMetadata.getSubComponents());
         return adapted;

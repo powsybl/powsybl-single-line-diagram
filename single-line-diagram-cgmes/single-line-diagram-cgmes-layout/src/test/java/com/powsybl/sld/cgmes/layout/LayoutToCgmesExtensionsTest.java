@@ -6,16 +6,15 @@
  */
 package com.powsybl.sld.cgmes.layout;
 
-import com.powsybl.sld.cgmes.dl.iidm.extensions.*;
 import com.powsybl.iidm.network.*;
+import com.powsybl.sld.cgmes.dl.iidm.extensions.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * @author Christian Biasuzzi <christian.biasuzzi@techrain.eu>
@@ -189,4 +188,24 @@ public class LayoutToCgmesExtensionsTest {
         checkExtensionsUnset(network);
     }
 
+    @Test
+    public void testCgmesDlExtensionsBridgePatternNetwork() {
+        Network network = Networks.createNetworkWithBridge();
+
+        LayoutToCgmesExtensionsConverter lconv = new LayoutToCgmesExtensionsConverter();
+        lconv.convertLayout(network);
+
+        checkExtensionsSet(network);
+
+        VoltageLevel vl1 = network.getVoltageLevel("V1");
+        assertTrue(VoltageLevelDiagramData.checkDiagramData(vl1));
+
+        VoltageLevel vl2 = network.getVoltageLevel("V2");
+        assertFalse(VoltageLevelDiagramData.checkDiagramData(vl2));
+
+        VoltageLevel vl3 = network.getVoltageLevel("V3");
+        assertFalse(VoltageLevelDiagramData.checkDiagramData(vl3));
+
+        assertEquals(2, VoltageLevelDiagramData.getInternalNodeDiagramPoints(vl1, vl1.getSubstation().getId()).length);
+    }
 }

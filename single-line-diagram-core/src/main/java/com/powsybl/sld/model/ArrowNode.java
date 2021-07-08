@@ -10,11 +10,12 @@ import static com.powsybl.sld.library.ComponentTypeName.ARROW;
 
 /**
  * @author Giovanni Ferrari <giovanni.ferrari at techrain.eu>
+ * @author Franck Lecuyer <franck.lecuyer@rte-france.com>
  */
 public class ArrowNode extends Node {
 
-    public ArrowNode(Graph graph) {
-        super(NodeType.OTHER, "", "", ARROW, false, graph);
+    public ArrowNode(VoltageLevelGraph graph) {
+        super(NodeType.OTHER, "", "", "", ARROW, false, graph);
     }
 
 }

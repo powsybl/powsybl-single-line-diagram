@@ -8,7 +8,7 @@ package com.powsybl.sld.svg;
 
 import java.util.Optional;
 
-import com.powsybl.sld.svg.DiagramInitialValueProvider.Direction;
+import com.powsybl.sld.svg.DiagramLabelProvider.Direction;
 
 /**
  * @author Giovanni Ferrari <giovanni.ferrari at techrain.eu>

@@ -6,38 +6,13 @@
  */
 package com.powsybl.sld.model;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-
-import java.io.IOException;
-
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
-public class FeederBranchNode extends FeederNode {
+public class FeederBranchNode extends FeederWithSideNode {
 
-    private final String vIdOtherSide;
-
-    private final double nominalVOtherSide;
-
-    protected FeederBranchNode(String id, String name, String componentType,
-                               boolean fictitious, Graph graph,
-                               String vIdOtherSide, double nominalVOtherSide) {
-        super(id, name, componentType, fictitious, graph);
-        this.vIdOtherSide = vIdOtherSide;
-        this.nominalVOtherSide = nominalVOtherSide;
-    }
-
-    public String getVIdOtherSide() {
-        return vIdOtherSide;
-    }
-
-    public double getNominalVOtherSide() {
-        return nominalVOtherSide;
-    }
-
-    @Override
-    protected void writeJsonContent(JsonGenerator generator) throws IOException {
-        super.writeJsonContent(generator);
-        generator.writeStringField("otherSideVlId", vIdOtherSide);
+    protected FeederBranchNode(String id, String name, String equipmentId, String componentType, VoltageLevelGraph graph,
+                               Side side, VoltageLevelInfos otherSideVoltageLevelInfos) {
+        super(id, name, equipmentId, componentType, graph, side, otherSideVoltageLevelInfos, FeederType.BRANCH);
     }
 }

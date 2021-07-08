@@ -29,15 +29,15 @@ import com.powsybl.sld.NetworkGraphBuilder;
  */
 public class ZoneGraphTest {
 
-    private static final String SUBSTATION_ID_1 = "Substation1";
-    private static final String SUBSTATION_ID_2 = "Substation2";
+    public static final String SUBSTATION_ID_1 = "Substation1";
+    public static final String SUBSTATION_ID_2 = "Substation2";
     private static final String VOLTAGELEVEL_ID_1 = "VoltageLevel1";
     private static final String VOLTAGELEVEL_ID_2 = "VoltageLevel2";
     private static final String BUS_ID_1 = "Bus1";
     private static final String BUS_ID_2 = "Bus2";
     private static final String LINE_ID = "Line";
 
-    private Network createNetwork() {
+    public static Network createNetwork() {
         Network network = Network.create("Network", "test");
         network.setCaseDate(DateTime.parse("2018-01-01T00:30:00.000+01:00"));
         Substation substation1 = network.newSubstation()
@@ -46,7 +46,7 @@ public class ZoneGraphTest {
                 .add();
         VoltageLevel voltageLevel1 = substation1.newVoltageLevel()
                 .setId(VOLTAGELEVEL_ID_1)
-                .setNominalV(400)
+                .setNominalV(380)
                 .setTopologyKind(TopologyKind.BUS_BREAKER)
                 .add();
         voltageLevel1.getBusBreakerView().newBus()
@@ -58,7 +58,7 @@ public class ZoneGraphTest {
                 .add();
         VoltageLevel voltageLevel2 = substation2.newVoltageLevel()
                 .setId(VOLTAGELEVEL_ID_2)
-                .setNominalV(400)
+                .setNominalV(380)
                 .setTopologyKind(TopologyKind.BUS_BREAKER)
                 .add();
         voltageLevel2.getBusBreakerView().newBus()
@@ -89,8 +89,8 @@ public class ZoneGraphTest {
         assertEquals(2, graph.getNodes().size());
         assertEquals(SUBSTATION_ID_1, graph.getNodes().get(0).getSubstationId());
         assertEquals(SUBSTATION_ID_2, graph.getNodes().get(1).getSubstationId());
-        assertEquals(1, graph.getEdges().size());
-        LineEdge edge = graph.getEdges().get(0);
+        assertEquals(1, graph.getLineEdges().size());
+        LineEdge edge = graph.getLineEdges().get(0);
         assertEquals(LINE_ID, edge.getLineId());
         String lineNodeId1 = getLineNodeId(graph, SUBSTATION_ID_1, VOLTAGELEVEL_ID_1, Branch.Side.ONE);
         String lineNodeId2 = getLineNodeId(graph, SUBSTATION_ID_2, VOLTAGELEVEL_ID_2, Branch.Side.TWO);
@@ -101,7 +101,7 @@ public class ZoneGraphTest {
     private String getLineNodeId(ZoneGraph graph, String substationId, String voltageLevelId, Branch.Side side) {
         SubstationGraph substationGraph1 = graph.getNode(substationId);
         assertNotNull(substationGraph1);
-        Graph voltageLevelGraph1 = substationGraph1.getNode(voltageLevelId);
+        VoltageLevelGraph voltageLevelGraph1 = substationGraph1.getNode(voltageLevelId);
         assertNotNull(voltageLevelGraph1);
         Node lineNode = voltageLevelGraph1.getNode(LINE_ID + "_" + side);
         assertNotNull(lineNode);

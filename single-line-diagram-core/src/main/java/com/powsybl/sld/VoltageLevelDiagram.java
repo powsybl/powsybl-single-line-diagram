@@ -10,14 +10,8 @@ import com.powsybl.sld.layout.LayoutParameters;
 import com.powsybl.sld.layout.VoltageLevelLayout;
 import com.powsybl.sld.layout.VoltageLevelLayoutFactory;
 import com.powsybl.sld.library.ComponentLibrary;
-import com.powsybl.sld.model.Graph;
-import com.powsybl.sld.svg.DefaultNodeLabelConfiguration;
-import com.powsybl.sld.svg.GraphMetadata;
-import com.powsybl.sld.svg.DefaultSVGWriter;
-import com.powsybl.sld.svg.NodeLabelConfiguration;
-import com.powsybl.sld.svg.SVGWriter;
-import com.powsybl.sld.svg.DiagramInitialValueProvider;
-import com.powsybl.sld.svg.DiagramStyleProvider;
+import com.powsybl.sld.model.VoltageLevelGraph;
+import com.powsybl.sld.svg.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,48 +33,50 @@ public final class VoltageLevelDiagram {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VoltageLevelDiagram.class);
 
-    private final Graph graph;
+    private final VoltageLevelGraph graph;
 
     private final VoltageLevelLayout vlLayout;
 
-    private VoltageLevelDiagram(Graph graph, VoltageLevelLayout layout) {
+    private VoltageLevelDiagram(VoltageLevelGraph graph, VoltageLevelLayout layout) {
         this.graph = Objects.requireNonNull(graph);
         this.vlLayout = Objects.requireNonNull(layout);
     }
 
     public static VoltageLevelDiagram build(GraphBuilder graphBuilder, String voltageLevelId,
                                             VoltageLevelLayoutFactory layoutFactory,
-                                            boolean useName, boolean showInductorFor3WT) {
+                                            boolean useName) {
         Objects.requireNonNull(graphBuilder);
         Objects.requireNonNull(voltageLevelId);
         Objects.requireNonNull(layoutFactory);
 
-        Graph graph = graphBuilder.buildVoltageLevelGraph(voltageLevelId, useName, true, showInductorFor3WT);
+        VoltageLevelGraph graph = graphBuilder.buildVoltageLevelGraph(voltageLevelId, useName, true);
 
         VoltageLevelLayout layout = layoutFactory.create(graph);
 
         return new VoltageLevelDiagram(graph, layout);
     }
 
+    public VoltageLevelGraph getGraph() {
+        return graph;
+    }
+
     public void writeSvg(String prefixId,
                          ComponentLibrary componentLibrary,
                          LayoutParameters layoutParameters,
-                         DiagramInitialValueProvider initialValueProvider,
+                         DiagramLabelProvider initialValueProvider,
                          DiagramStyleProvider styleProvider,
                          Path svgFile) {
         SVGWriter writer = new DefaultSVGWriter(componentLibrary, layoutParameters);
         writeSvg(prefixId, writer,
                 initialValueProvider,
                 styleProvider,
-                new DefaultNodeLabelConfiguration(writer.getComponentLibrary()),
                 svgFile);
     }
 
     public void writeSvg(String prefixId,
                          SVGWriter writer,
-                         DiagramInitialValueProvider initProvider,
+                         DiagramLabelProvider initProvider,
                          DiagramStyleProvider styleProvider,
-                         NodeLabelConfiguration nodeLabelConfiguration,
                          Path svgFile) {
         Path dir = svgFile.toAbsolutePath().getParent();
         String svgFileName = svgFile.getFileName().toString();
@@ -89,7 +85,7 @@ public final class VoltageLevelDiagram {
         }
         try (Writer svgWriter = Files.newBufferedWriter(svgFile, StandardCharsets.UTF_8);
                 Writer metadataWriter = Files.newBufferedWriter(dir.resolve(svgFileName.replace(".svg", "_metadata.json")), StandardCharsets.UTF_8)) {
-            writeSvg(prefixId, writer, initProvider, styleProvider, nodeLabelConfiguration, svgWriter, metadataWriter);
+            writeSvg(prefixId, writer, initProvider, styleProvider, svgWriter, metadataWriter);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -97,9 +93,8 @@ public final class VoltageLevelDiagram {
 
     public void writeSvg(String prefixId,
                          SVGWriter writer,
-                         DiagramInitialValueProvider initProvider,
+                         DiagramLabelProvider initProvider,
                          DiagramStyleProvider styleProvider,
-                         NodeLabelConfiguration nodeLabelConfiguration,
                          Writer svgWriter,
                          Writer metadataWriter) {
         Objects.requireNonNull(writer);
@@ -113,7 +108,7 @@ public final class VoltageLevelDiagram {
         // write SVG file
         LOGGER.info("Writing SVG and JSON metadata files...");
 
-        GraphMetadata metadata = writer.write(prefixId, graph, initProvider, styleProvider, nodeLabelConfiguration, svgWriter);
+        GraphMetadata metadata = writer.write(prefixId, graph, initProvider, styleProvider, svgWriter);
 
         // write metadata file
         metadata.writeJson(metadataWriter);

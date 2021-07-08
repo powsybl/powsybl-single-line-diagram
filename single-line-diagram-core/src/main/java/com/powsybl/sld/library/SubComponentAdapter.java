@@ -15,7 +15,7 @@ public class SubComponentAdapter extends XmlAdapter<AdaptedSubComponent, SubComp
 
     @Override
     public SubComponent unmarshal(AdaptedSubComponent adapted) {
-        return new SubComponent(adapted.getName(), adapted.getFileName());
+        return new SubComponent(adapted.getName(), adapted.getFileName(), adapted.getStyleClass());
     }
 
     @Override

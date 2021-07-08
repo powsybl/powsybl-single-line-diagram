@@ -6,7 +6,8 @@
  */
 package com.powsybl.sld.layout;
 
-import com.powsybl.sld.model.Graph;
+import com.powsybl.sld.layout.positionfromextension.PositionFromExtension;
+import com.powsybl.sld.model.VoltageLevelGraph;
 
 import java.util.Objects;
 
@@ -27,6 +28,8 @@ public class PositionVoltageLevelLayoutFactory implements VoltageLevelLayoutFact
 
     private boolean exceptionIfPatternNotHandled = false;
 
+    private boolean handleShunts = false;
+
     public PositionVoltageLevelLayoutFactory() {
         this(new PositionFromExtension());
     }
@@ -41,6 +44,15 @@ public class PositionVoltageLevelLayoutFactory implements VoltageLevelLayoutFact
 
     public PositionVoltageLevelLayoutFactory setFeederStacked(boolean feederStacked) {
         this.feederStacked = feederStacked;
+        return this;
+    }
+
+    public boolean isExceptionIfPatternNotHandled() {
+        return exceptionIfPatternNotHandled;
+    }
+
+    public PositionVoltageLevelLayoutFactory setExceptionIfPatternNotHandled(boolean exceptionIfPatternNotHandled) {
+        this.exceptionIfPatternNotHandled = exceptionIfPatternNotHandled;
         return this;
     }
 
@@ -62,14 +74,23 @@ public class PositionVoltageLevelLayoutFactory implements VoltageLevelLayoutFact
         return this;
     }
 
+    public boolean isHandleShunts() {
+        return handleShunts;
+    }
+
+    public PositionVoltageLevelLayoutFactory setHandleShunts(boolean handleShunts) {
+        this.handleShunts = handleShunts;
+        return this;
+    }
+
     @Override
-    public VoltageLevelLayout create(Graph graph) {
+    public VoltageLevelLayout create(VoltageLevelGraph graph) {
         // detect cells
         new ImplicitCellDetector(removeUnnecessaryFictitiousNodes, substituteSingularFictitiousByFeederNode, exceptionIfPatternNotHandled)
                 .detectCells(graph);
 
         // build blocks from cells
-        new BlockOrganizer(positionFinder, feederStacked).organize(graph);
+        new BlockOrganizer(positionFinder, feederStacked, exceptionIfPatternNotHandled, handleShunts).organize(graph);
 
         return new PositionVoltageLevelLayout(graph);
     }

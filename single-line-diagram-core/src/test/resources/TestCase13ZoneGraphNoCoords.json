@@ -1,0 +1,140 @@
+{
+  "substations" : [ {
+    "substationId" : "Substation1",
+    "voltageLevels" : [ {
+      "voltageLevelInfos" : {
+        "id" : "VoltageLevel1",
+        "name" : "VoltageLevel1",
+        "nominalVoltage" : 380.0
+      },
+      "nodes" : [ {
+        "type" : "BUS",
+        "id" : "Bus1",
+        "name" : "Bus1",
+        "equipmentId" : "Bus1",
+        "componentType" : "BUSBAR_SECTION",
+        "fictitious" : false,
+        "open" : false,
+        "pxWidth" : 1.0,
+        "busbarIndex" : 1,
+        "sectionIndex" : 1,
+        "position" : {
+          "h" : -1,
+          "v" : -1,
+          "hSpan" : 0,
+          "vSpan" : 0
+        }
+      }, {
+        "type" : "FICTITIOUS",
+        "id" : "FICT_VoltageLevel1_Bus1_Line",
+        "name" : "Bus1_Line",
+        "equipmentId" : "Bus1_Line",
+        "componentType" : "BUSBREAKER_CONNECTION",
+        "fictitious" : true,
+        "open" : false
+      }, {
+        "type" : "FEEDER",
+        "id" : "Line_ONE",
+        "name" : "Line",
+        "equipmentId" : "Line",
+        "componentType" : "LINE",
+        "fictitious" : false,
+        "open" : false,
+        "feederType" : "BRANCH",
+        "order" : 1,
+        "side" : "ONE",
+        "otherSideVoltageLevelInfos" : {
+          "id" : "VoltageLevel2",
+          "name" : "VoltageLevel2",
+          "nominalVoltage" : 380.0
+        }
+      } ],
+      "cells" : [ ],
+      "edges" : [ {
+        "node1" : "Bus1",
+        "node2" : "FICT_VoltageLevel1_Bus1_Line"
+      }, {
+        "node1" : "FICT_VoltageLevel1_Bus1_Line",
+        "node2" : "Line_ONE"
+      } ],
+      "multitermNodes" : [ ],
+      "twtEdges" : [ ],
+      "lineEdges" : [ ]
+    } ],
+    "multitermNodes" : [ ],
+    "twtEdges" : [ ],
+    "lineEdges" : [ ]
+  }, {
+    "substationId" : "Substation2",
+    "voltageLevels" : [ {
+      "voltageLevelInfos" : {
+        "id" : "VoltageLevel2",
+        "name" : "VoltageLevel2",
+        "nominalVoltage" : 380.0
+      },
+      "nodes" : [ {
+        "type" : "BUS",
+        "id" : "Bus2",
+        "name" : "Bus2",
+        "equipmentId" : "Bus2",
+        "componentType" : "BUSBAR_SECTION",
+        "fictitious" : false,
+        "open" : false,
+        "pxWidth" : 1.0,
+        "busbarIndex" : 1,
+        "sectionIndex" : 1,
+        "position" : {
+          "h" : -1,
+          "v" : -1,
+          "hSpan" : 0,
+          "vSpan" : 0
+        }
+      }, {
+        "type" : "FICTITIOUS",
+        "id" : "FICT_VoltageLevel2_Bus2_Line",
+        "name" : "Bus2_Line",
+        "equipmentId" : "Bus2_Line",
+        "componentType" : "BUSBREAKER_CONNECTION",
+        "fictitious" : true,
+        "open" : false
+      }, {
+        "type" : "FEEDER",
+        "id" : "Line_TWO",
+        "name" : "Line",
+        "equipmentId" : "Line",
+        "componentType" : "LINE",
+        "fictitious" : false,
+        "open" : false,
+        "feederType" : "BRANCH",
+        "order" : 1,
+        "side" : "TWO",
+        "otherSideVoltageLevelInfos" : {
+          "id" : "VoltageLevel1",
+          "name" : "VoltageLevel1",
+          "nominalVoltage" : 380.0
+        }
+      } ],
+      "cells" : [ ],
+      "edges" : [ {
+        "node1" : "Bus2",
+        "node2" : "FICT_VoltageLevel2_Bus2_Line"
+      }, {
+        "node1" : "FICT_VoltageLevel2_Bus2_Line",
+        "node2" : "Line_TWO"
+      } ],
+      "multitermNodes" : [ ],
+      "twtEdges" : [ ],
+      "lineEdges" : [ ]
+    } ],
+    "multitermNodes" : [ ],
+    "twtEdges" : [ ],
+    "lineEdges" : [ ]
+  } ],
+  "lineEdges" : [ {
+    "lineId" : "Line",
+    "nodes" : [ {
+      "node1" : "Line_ONE",
+      "node2" : "Line_TWO"
+    } ]
+  } ]
+}

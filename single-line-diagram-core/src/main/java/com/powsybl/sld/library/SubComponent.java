@@ -18,9 +18,12 @@ public class SubComponent {
 
     private String fileName;
 
-    public SubComponent(String name, String fileName) {
+    private final String styleClass;
+
+    public SubComponent(String name, String fileName, String styleClass) {
         this.name = name;
         this.fileName = fileName;
+        this.styleClass = styleClass;
     }
 
     public String getName() {
@@ -29,5 +32,9 @@ public class SubComponent {
 
     public String getFileName() {
         return fileName;
+    }
+
+    public String getStyleClass() {
+        return styleClass;
     }
 }

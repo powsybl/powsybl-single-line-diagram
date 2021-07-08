@@ -1,16 +1,17 @@
 /**
- * Copyright (c) 2019, RTE (http://www.rte-france.com)
+ * Copyright (c) 2019-2020, RTE (http://www.rte-france.com)
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 package com.powsybl.sld.cgmes.layout;
 
+import com.powsybl.iidm.network.*;
 import com.powsybl.sld.NetworkGraphBuilder;
 import com.powsybl.sld.cgmes.dl.conversion.CgmesDLUtils;
 import com.powsybl.sld.cgmes.dl.iidm.extensions.*;
-import com.powsybl.iidm.network.*;
 import com.powsybl.sld.layout.*;
+import com.powsybl.sld.layout.positionbyclustering.PositionByClustering;
 import com.powsybl.sld.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ import static com.powsybl.sld.library.ComponentTypeName.*;
 
 /**
  * @author Christian Biasuzzi <christian.biasuzzi@techrain.eu>
+ * @author Franck Lecuyer <franck.lecuyer@rte-france.com>
  */
 public class LayoutToCgmesExtensionsConverter {
 
@@ -44,15 +46,11 @@ public class LayoutToCgmesExtensionsConverter {
     }
 
     public LayoutToCgmesExtensionsConverter() {
-        this(new HorizontalSubstationLayoutFactory(), new PositionVoltageLevelLayoutFactory(new PositionFree()), new LayoutParameters(), true);
+        this(new HorizontalSubstationLayoutFactory(), new PositionVoltageLevelLayoutFactory(new PositionByClustering()), new LayoutParameters(), true);
     }
 
     private boolean isLineNode(Node node) {
         return Arrays.asList(LINE, DANGLING_LINE, VSC_CONVERTER_STATION).contains(node.getComponentType());
-    }
-
-    private String getBranchId(String branchNodeId) {
-        return branchNodeId.substring(0, branchNodeId.lastIndexOf('_'));
     }
 
     private int getMaxSeq(List<DiagramPoint> diagramPoints) {
@@ -82,8 +80,8 @@ public class LayoutToCgmesExtensionsConverter {
         return diagramData;
     }
 
-    private boolean isNodeSurroundedbySwitches(Node node) {
-        return node.isFictitious() && node.getAdjacentNodes().stream().allMatch(n -> Node.NodeType.SWITCH.equals(n.getType()));
+    private boolean isNodeSurroundedbySwitchesOrFeeders(Node node) {
+        return node.getAdjacentNodes().stream().allMatch(n -> Node.NodeType.SWITCH.equals(n.getType()) || Node.NodeType.FEEDER.equals(n.getType()));
     }
 
     private LayoutInfo applyLayout(Network network, String substationId, double xoffset, double yoffset, String diagramName) {
@@ -98,15 +96,19 @@ public class LayoutToCgmesExtensionsConverter {
         LayoutInfo subsBoundary = new LayoutInfo(0.0, 0.0);
         Substation substation = network.getSubstation(substationId);
         substation.getVoltageLevelStream().forEach(voltageLevel -> {
-            Graph vlGraph = sgraph.getNode(voltageLevel.getId());
+            VoltageLevelGraph vlGraph = sgraph.getNode(voltageLevel.getId());
 
             // remove fictitious nodes&switches (no CGMES DL data available for them)
             vlGraph.removeUnnecessaryFictitiousNodes();
             AbstractCgmesLayout.removeFictitiousSwitchNodes(vlGraph, voltageLevel);
 
-            //retrieve fictitious nodes surrounded by switches, to be exported to DL
-            List<Node> nodesSurroundedBySwitches = vlGraph.getNodes().stream().filter(this::isNodeSurroundedbySwitches).collect(Collectors.toList());
-            nodesSurroundedBySwitches.stream().filter(fNode -> StringUtils.isNumeric(fNode.getName())).forEach(fNode ->
+            //retrieve fictitious nodes surrounded by switches or feeders, to be exported to DL
+            List<Node> fictitiousNodes = vlGraph.getNodes()
+                    .stream()
+                    .filter(Node::isFictitious)
+                    .filter(this::isNodeSurroundedbySwitchesOrFeeders)
+                    .collect(Collectors.toList());
+            fictitiousNodes.stream().filter(fNode -> StringUtils.isNumeric(fNode.getName())).forEach(fNode ->
                 VoltageLevelDiagramData.addInternalNodeDiagramPoint(voltageLevel, diagramName, Integer.parseInt(fNode.getName()), new DiagramPoint(fNode.getX(), fNode.getY(), 0))
             );
 
@@ -158,34 +160,11 @@ public class LayoutToCgmesExtensionsConverter {
                 staticVarCompensator.addExtension(InjectionDiagramData.class, svcDiagramData);
             });
 
-            substation.getTwoWindingsTransformerStream().forEach(twoWindingsTransformer -> vlGraph.getNodes().stream()
-                    .filter(node -> checkNode(twoWindingsTransformer, node)).findFirst().ifPresent(node -> {
-                        FeederNode transformerNode = (FeederNode) node;
-                        DiagramPoint tDiagramPoint = offsetPoint.newDiagramPoint(transformerNode.getX(), transformerNode.getY(), transformerNode.getOrder());
-                        CouplingDeviceDiagramData<TwoWindingsTransformer> transformerIidmDiagramData = new CouplingDeviceDiagramData<>(twoWindingsTransformer);
-                        CouplingDeviceDiagramData.CouplingDeviceDiagramDetails diagramDetails = transformerIidmDiagramData.new CouplingDeviceDiagramDetails(tDiagramPoint, rotationValue(transformerNode));
-                        transformerIidmDiagramData.addData(diagramName, diagramDetails);
-                        LOG.debug("setting CGMES DL IIDM extensions for TwoWindingTransformer: {}, {}", twoWindingsTransformer.getId(), tDiagramPoint);
-                        twoWindingsTransformer.addExtension(CouplingDeviceDiagramData.class, transformerIidmDiagramData);
-                    })
-            );
-
-            substation.getThreeWindingsTransformerStream().forEach(threeWindingsTransformer -> vlGraph.getNodes().stream()
-                    .filter(node -> checkNode(threeWindingsTransformer, node)).findFirst().ifPresent(node -> {
-                        DiagramPoint tDiagramPoint = offsetPoint.newDiagramPoint(node.getX(), node.getY(), 0);
-                        ThreeWindingsTransformerDiagramData transformerIidmDiagramData = new ThreeWindingsTransformerDiagramData(threeWindingsTransformer);
-                        ThreeWindingsTransformerDiagramData.ThreeWindingsTransformerDiagramDataDetails diagramDetails = transformerIidmDiagramData.new ThreeWindingsTransformerDiagramDataDetails(tDiagramPoint, rotationValue(node));
-                        transformerIidmDiagramData.addData(diagramName, diagramDetails);
-                        LOG.debug("setting CGMES DL IIDM extensions for ThreeWindingTransformer: {}, {}", threeWindingsTransformer.getId(), tDiagramPoint);
-                        threeWindingsTransformer.addExtension(ThreeWindingsTransformerDiagramData.class, transformerIidmDiagramData);
-                    })
-            );
-
             vlGraph.getNodes().stream().filter(this::isLineNode).forEach(node -> {
                 switch (node.getComponentType()) {
                     case LINE:
                         FeederNode lineNode = (FeederNode) node;
-                        Line line = voltageLevel.getConnectable(getBranchId(lineNode.getId()), Line.class);
+                        Line line = voltageLevel.getConnectable(lineNode.getEquipmentId(), Line.class);
                         if (line != null) {
                             LineDiagramData<Line> lineDiagramData = LineDiagramData.getOrCreateDiagramData(line);
                             int lineSeq = getMaxSeq(lineDiagramData.getPoints(diagramName)) + 1;
@@ -247,6 +226,28 @@ public class LayoutToCgmesExtensionsConverter {
             }
         });
 
+        substation.getTwoWindingsTransformerStream().forEach(twoWindingsTransformer -> sgraph.getMultiTermNodes().stream()
+                .filter(node -> checkNode(twoWindingsTransformer, node)).findFirst().ifPresent(node -> {
+                    DiagramPoint tDiagramPoint = offsetPoint.newDiagramPoint(node.getX(), node.getY(), 0);
+                    CouplingDeviceDiagramData<TwoWindingsTransformer> transformerIidmDiagramData = new CouplingDeviceDiagramData<>(twoWindingsTransformer);
+                    CouplingDeviceDiagramData.CouplingDeviceDiagramDetails diagramDetails = transformerIidmDiagramData.new CouplingDeviceDiagramDetails(tDiagramPoint, rotationValue(node));
+                    transformerIidmDiagramData.addData(diagramName, diagramDetails);
+                    LOG.info("setting CGMES DL IIDM extensions for TwoWindingTransformer: {}, {}", twoWindingsTransformer.getId(), tDiagramPoint);
+                    twoWindingsTransformer.addExtension(CouplingDeviceDiagramData.class, transformerIidmDiagramData);
+                })
+        );
+
+        substation.getThreeWindingsTransformerStream().forEach(threeWindingsTransformer -> sgraph.getMultiTermNodes().stream()
+                .filter(node -> checkNode(threeWindingsTransformer, node)).findFirst().ifPresent(node -> {
+                    DiagramPoint tDiagramPoint = offsetPoint.newDiagramPoint(node.getX(), node.getY(), 0);
+                    ThreeWindingsTransformerDiagramData transformerIidmDiagramData = new ThreeWindingsTransformerDiagramData(threeWindingsTransformer);
+                    ThreeWindingsTransformerDiagramData.ThreeWindingsTransformerDiagramDataDetails diagramDetails = transformerIidmDiagramData.new ThreeWindingsTransformerDiagramDataDetails(tDiagramPoint, rotationValue(node));
+                    transformerIidmDiagramData.addData(diagramName, diagramDetails);
+                    LOG.debug("setting CGMES DL IIDM extensions for ThreeWindingTransformer: {}, {}", threeWindingsTransformer.getId(), tDiagramPoint);
+                    threeWindingsTransformer.addExtension(ThreeWindingsTransformerDiagramData.class, transformerIidmDiagramData);
+                })
+        );
+
         return subsBoundary;
     }
 
@@ -255,17 +256,13 @@ public class LayoutToCgmesExtensionsConverter {
     }
 
     private boolean checkNode(ThreeWindingsTransformer threeWindingsTransformer, Node node) {
-        return (node.getComponentType().equals(THREE_WINDINGS_TRANSFORMER)
-                || node.getComponentType().equals(LINE)) &&
-            (((node instanceof Fictitious3WTNode) && ((Fictitious3WTNode) node).getTransformerId().equals(threeWindingsTransformer.getId()))
-                || ((node instanceof Feeder3WTNode) && ((Feeder3WTNode) node).getTransformerId().equals(threeWindingsTransformer.getId())));
+        return node.getComponentType().equals(THREE_WINDINGS_TRANSFORMER)
+                && node.getAdjacentNodes().stream().allMatch(n -> (n instanceof Feeder3WTLegNode) && n.getEquipmentId().equals(threeWindingsTransformer.getId()));
     }
 
     private boolean checkNode(TwoWindingsTransformer twoWindingsTransformer, Node node) {
-        return (node.getComponentType().equals(TWO_WINDINGS_TRANSFORMER)
-                || node.getComponentType().equals(PHASE_SHIFT_TRANSFORMER)
-                || node.getComponentType().equals(LINE))
-                && node.getId().startsWith(twoWindingsTransformer.getId());
+        return (node.getComponentType().equals(TWO_WINDINGS_TRANSFORMER) || node.getComponentType().equals(PHASE_SHIFT_TRANSFORMER))
+                && node.getAdjacentNodes().stream().allMatch(n -> n.getId().startsWith(twoWindingsTransformer.getId()));
     }
 
     private double rotationValue(Node node) {
@@ -278,10 +275,10 @@ public class LayoutToCgmesExtensionsConverter {
 
     private void convertLayoutSingleDiagram(Network network, Stream<Substation> subsStream, String diagramName) {
         //creates a single CGMES-DL diagram (named diagramName), where each substation
-        NetworkDiagramData.addDiagramName(network, diagramName);
         final double[] xoffset = {0.0};
         subsStream.forEach(s -> {
             LOG.debug("Substation {}({} offset: {})", s.getId(), s.getName(), xoffset[0]);
+            NetworkDiagramData.addDiagramName(network, diagramName, s.getId());
             LayoutInfo li = applyLayout(network, s.getId(), xoffset[0], 0.0, diagramName);
             xoffset[0] += OFFSET_MULTIPLIER_X * li.getMaxX();
         });
@@ -291,7 +288,7 @@ public class LayoutToCgmesExtensionsConverter {
         // creates one CGMES-DL diagram for each substation (where each diagram name is the substation's name)
         subsStream.forEach(s -> {
             String subDiagramName = StringUtils.isEmpty(s.getName()) ? s.getId() : s.getName();
-            NetworkDiagramData.addDiagramName(network, subDiagramName);
+            NetworkDiagramData.addDiagramName(network, subDiagramName, s.getId());
             LOG.debug("Substation {}", subDiagramName);
             applyLayout(network, s.getId(), 0.0, 0.0, subDiagramName);
         });

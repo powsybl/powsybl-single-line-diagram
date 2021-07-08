@@ -6,7 +6,7 @@
  */
 package com.powsybl.sld.layout;
 
-import com.powsybl.sld.model.Graph;
+import com.powsybl.sld.model.VoltageLevelGraph;
 
 /**
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
@@ -15,5 +15,5 @@ import com.powsybl.sld.model.Graph;
  */
 public interface VoltageLevelLayoutFactory {
 
-    VoltageLevelLayout create(Graph graph);
+    VoltageLevelLayout create(VoltageLevelGraph graph);
 }

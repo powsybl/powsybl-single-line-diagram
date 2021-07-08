@@ -3,8 +3,14 @@
     <component>
         <metadata type="BREAKER">
             <size width="20" height="20" />
-            <subComponent name="BREAKER">
-                <fileName>breaker.svg</fileName>
+            <styleClass>sld-breaker</styleClass>
+            <subComponent name="CLOSED">
+                <fileName>breaker-closed.svg</fileName>
+                <styleClass>sld-sw-closed</styleClass>
+            </subComponent>
+            <subComponent name="OPEN">
+                <fileName>breaker-open.svg</fileName>
+                <styleClass>sld-sw-open</styleClass>
             </subComponent>
             <anchorPoint x="0" y="-10" orientation="VERTICAL"/>
             <anchorPoint x="0" y="10" orientation="VERTICAL"/>
@@ -14,8 +20,14 @@
     <component>
         <metadata type="LOAD_BREAK_SWITCH">
             <size width="10" height="10"/>
-            <subComponent name="LOAD_BREAK_SWITCH">
-                <fileName>load-break-switch.svg</fileName>
+            <styleClass>sld-load-break-switch</styleClass>
+            <subComponent name="CLOSED">
+                <fileName>load-break-switch-closed.svg</fileName>
+                <styleClass>sld-sw-closed</styleClass>
+            </subComponent>
+            <subComponent name="OPEN">
+                <fileName>load-break-switch-open.svg</fileName>
+                <styleClass>sld-sw-open</styleClass>
             </subComponent>
             <anchorPoint x="0" y="-5" orientation="VERTICAL"/>
             <anchorPoint x="0" y="5" orientation="VERTICAL"/>
@@ -25,17 +37,19 @@
     <component>
         <metadata type="LOAD">
             <size width="16" height="9"/>
+            <styleClass>sld-load</styleClass>
             <subComponent name="LOAD">
                 <fileName>load.svg</fileName>
             </subComponent>
-            <anchorPoint x="0" y="-4" orientation="VERTICAL"/>
-            <anchorPoint x="0" y="4" orientation="VERTICAL"/>
+            <anchorPoint x="0" y="-4.5" orientation="VERTICAL"/>
+            <anchorPoint x="0" y="4.5" orientation="VERTICAL"/>
             <allowRotation>true</allowRotation>
         </metadata>
     </component>
     <component>
         <metadata type="GENERATOR">
             <size width="12" height="12"/>
+            <styleClass>sld-generator</styleClass>
             <subComponent name="GENERATOR">
                 <fileName>generator.svg</fileName>
             </subComponent>
@@ -48,23 +62,25 @@
     </component>
     <component>
         <metadata type="TWO_WINDINGS_TRANSFORMER">
-            <size width="13" height="8"/>
+            <size width="10" height="15"/>
+            <styleClass>sld-two-wt</styleClass>
             <subComponent name="WINDING1">
                 <fileName>2-windings-transformer-winding1.svg</fileName>
             </subComponent>
             <subComponent name="WINDING2">
                 <fileName>2-windings-transformer-winding2.svg</fileName>
             </subComponent>
-            <anchorPoint x="0" y="-4" orientation="VERTICAL"/>
-            <anchorPoint x="0" y="4" orientation="VERTICAL"/>
-            <anchorPoint x="-6.5" y="0" orientation="HORIZONTAL"/>
-            <anchorPoint x="6.5" y="0" orientation="HORIZONTAL"/>
+            <anchorPoint x="0" y="-8" orientation="VERTICAL"/>
+            <anchorPoint x="0" y="8" orientation="VERTICAL"/>
+            <anchorPoint x="-8" y="0" orientation="HORIZONTAL"/>
+            <anchorPoint x="8" y="0" orientation="HORIZONTAL"/>
             <allowRotation>true</allowRotation>
         </metadata>
     </component>
     <component>
         <metadata type="THREE_WINDINGS_TRANSFORMER">
-            <size width="14" height="12"/>
+            <size width="16" height="14"/>
+            <styleClass>sld-three-wt</styleClass>
             <subComponent name="WINDING1">
                 <fileName>3-windings-transformer-winding1.svg</fileName>
             </subComponent>
@@ -74,15 +90,16 @@
             <subComponent name="WINDING3">
                 <fileName>3-windings-transformer-winding3.svg</fileName>
             </subComponent>
-            <anchorPoint x="-7" y="-4" orientation="HORIZONTAL"/>
-            <anchorPoint x="7" y="-4" orientation="HORIZONTAL"/>
-            <anchorPoint x="0" y="6" orientation="VERTICAL"/>
+            <anchorPoint x="-7" y="-5" orientation="HORIZONTAL"/>
+            <anchorPoint x="7" y="-5" orientation="HORIZONTAL"/>
+            <anchorPoint x="0" y="7" orientation="VERTICAL"/>
             <allowRotation>true</allowRotation>
         </metadata>
     </component>
     <component>
         <metadata type="CAPACITOR">
             <size width="12" height="12"/>
+            <styleClass>sld-capacitor</styleClass>
             <subComponent name="CAPACITOR">
                 <fileName>capacitor.svg</fileName>
             </subComponent>
@@ -94,6 +111,7 @@
     <component>
         <metadata type="INDUCTOR">
             <size width="15" height="9"/>
+            <styleClass>sld-inductor</styleClass>
             <subComponent name="INDUCTOR">
                 <fileName>inductor.svg</fileName>
             </subComponent>
@@ -105,16 +123,37 @@
     <component>
         <metadata type="DISCONNECTOR">
             <size height="8" width="8"/>
-            <subComponent name="DISCONNECTOR">
-                <fileName>disconnector.svg</fileName>
+            <styleClass>sld-disconnector</styleClass>
+            <subComponent name="CLOSED">
+                <fileName>disconnector-closed.svg</fileName>
+                <styleClass>sld-sw-closed</styleClass>
+            </subComponent>
+            <subComponent name="OPEN">
+                <fileName>disconnector-open.svg</fileName>
+                <styleClass>sld-sw-open</styleClass>
             </subComponent>
             <anchorPoint x="0" y="0" orientation="VERTICAL"/>
             <allowRotation>false</allowRotation>
         </metadata>
     </component>
     <component>
+        <metadata type="BUSBREAKER_CONNECTION">
+            <size height="8" width="8"/>
+            <styleClass>sld-busbreaker-connection</styleClass>
+            <subComponent name="BUSBREAKER_CONNECTION">
+                <fileName>busbreaker_connection.svg</fileName>
+            </subComponent>
+            <anchorPoint x="4" y="0" orientation="HORIZONTAL"/>
+            <anchorPoint x="-4" y="0" orientation="HORIZONTAL"/>
+            <anchorPoint x="0" y="-4" orientation="VERTICAL"/>
+            <anchorPoint x="0" y="-4" orientation="VERTICAL"/>
+            <allowRotation>true</allowRotation>
+        </metadata>
+    </component>
+    <component>
         <metadata type="NODE">
             <size height="8" width="8"/>
+            <styleClass>sld-node</styleClass>
             <subComponent name="NODE">
                 <fileName>node.svg</fileName>
             </subComponent>
@@ -124,17 +163,25 @@
     </component>
     <component>
         <metadata type="PHASE_SHIFT_TRANSFORMER">
-            <size width="15" height="15"/>
-            <subComponent name="PHASE_SHIFT_TRANSFORMER">
-                <fileName>phaseShift.svg</fileName>
+            <size width="14" height="17"/>
+            <styleClass>sld-pst</styleClass>
+            <subComponent name="WINDING1">
+                <fileName>phase-shifter-winding1.svg</fileName>
             </subComponent>
-            <anchorPoint x="0" y="0" orientation="NONE"/>
+            <subComponent name="WINDING2">
+                <fileName>phase-shifter-winding2.svg</fileName>
+            </subComponent>
+            <anchorPoint x="0" y="-7" orientation="VERTICAL"/>
+            <anchorPoint x="0" y="9" orientation="VERTICAL"/>
+            <anchorPoint x="-7" y="0" orientation="HORIZONTAL"/>
+            <anchorPoint x="9" y="0" orientation="HORIZONTAL"/>
             <allowRotation>true</allowRotation>
         </metadata>
     </component>
     <component>
         <metadata type="STATIC_VAR_COMPENSATOR">
             <size width="12" height="12"/>
+            <styleClass>sld-svc</styleClass>
             <subComponent name="STATIC_VAR_COMPENSATOR">
                 <fileName>svc.svg</fileName>
             </subComponent>
@@ -146,6 +193,7 @@
     <component>
         <metadata type="VSC_CONVERTER_STATION">
             <size width="16" height="8"/>
+            <styleClass>sld-vsc</styleClass>
             <subComponent name="VSC_CONVERTER_STATION">
                 <fileName>vsc.svg</fileName>
             </subComponent>
@@ -157,17 +205,41 @@
     <component>
         <metadata type="ARROW">
             <size height="10" width="10"/>
-            <subComponent name="ARROW">
-                <fileName>arrow.svg</fileName>
+            <subComponent name="UP">
+                <fileName>arrow-up.svg</fileName>
+                <styleClass>sld-arrow-up</styleClass>
+            </subComponent>
+            <subComponent name="DOWN">
+                <fileName>arrow-down.svg</fileName>
+                <styleClass>sld-arrow-down</styleClass>
             </subComponent>
             <anchorPoint x="0" y="0" orientation="VERTICAL"/>
             <allowRotation>true</allowRotation>
         </metadata>
     </component>
     <component>
-        <metadata type="LINE">
+        <metadata type="BUSBAR_SECTION">
             <size height="0" width="0"/>
-            <anchorPoint x="0" y="0" orientation="VERTICAL"/>
+            <styleClass>sld-busbar-section</styleClass>
+        </metadata>
+    </component>
+    <component>
+        <metadata type="FLASH">
+            <size width="10" height="15"/>
+            <styleClass>sld-flash</styleClass>
+            <subComponent name="FLASH">
+                <fileName>flash.svg</fileName>
+            </subComponent>
+            <allowRotation>false</allowRotation>
+        </metadata>
+    </component>
+    <component>
+        <metadata type="LOCK">
+            <size width="12" height="12"/>
+            <styleClass>sld-lock</styleClass>
+            <subComponent name="LOCK">
+                <fileName>lock.svg</fileName>
+            </subComponent>
             <allowRotation>false</allowRotation>
         </metadata>
     </component>

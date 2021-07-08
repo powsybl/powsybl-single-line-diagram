@@ -6,7 +6,7 @@
  */
 package com.powsybl.sld.layout;
 
-import com.powsybl.sld.model.Graph;
+import com.powsybl.sld.model.VoltageLevelGraph;
 
 /**
  * this interface is implemented by classes determining the cells.
@@ -18,5 +18,5 @@ import com.powsybl.sld.model.Graph;
  */
 public interface CellDetector {
 
-    void detectCells(Graph graph);
+    void detectCells(VoltageLevelGraph graph);
 }

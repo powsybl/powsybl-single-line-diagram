@@ -80,42 +80,40 @@ public class ConnectablePositionXmlSerializer<C extends Connectable<C>> implemen
         }
     }
 
-    private ConnectablePosition.Feeder readPosition(XmlReaderContext context) {
+    private void readPosition(XmlReaderContext context, ConnectablePositionAdder.FeederAdder adder) {
         String name = context.getReader().getAttributeValue(null, "name");
         int order = XmlUtil.readIntAttribute(context.getReader(), "order");
         ConnectablePosition.Direction direction = ConnectablePosition.Direction.valueOf(context.getReader().getAttributeValue(null, "direction"));
-        return new ConnectablePosition.Feeder(name, order, direction);
+        adder.withName(name).withOrder(order).withDirection(direction).add();
     }
 
     @Override
     public ConnectablePosition read(Connectable connectable, XmlReaderContext context) throws XMLStreamException {
-        ConnectablePosition.Feeder[] feeder = new ConnectablePosition.Feeder[1];
-        ConnectablePosition.Feeder[] feeder1 = new ConnectablePosition.Feeder[1];
-        ConnectablePosition.Feeder[] feeder2 = new ConnectablePosition.Feeder[1];
-        ConnectablePosition.Feeder[] feeder3 = new ConnectablePosition.Feeder[1];
+        ConnectablePositionAdder adder = ((Connectable<?>) connectable).newExtension(ConnectablePositionAdder.class);
         XmlUtil.readUntilEndElement(getExtensionName(), context.getReader(), () -> {
 
             switch (context.getReader().getLocalName()) {
                 case "feeder":
-                    feeder[0] = readPosition(context);
+                    readPosition(context, adder.newFeeder());
                     break;
 
                 case "feeder1":
-                    feeder1[0] = readPosition(context);
+                    readPosition(context, adder.newFeeder1());
                     break;
 
                 case "feeder2":
-                    feeder2[0] = readPosition(context);
+                    readPosition(context, adder.newFeeder2());
                     break;
 
                 case "feeder3":
-                    feeder3[0] = readPosition(context);
+                    readPosition(context, adder.newFeeder3());
                     break;
 
                 default:
                     throw new AssertionError();
             }
         });
-        return new ConnectablePosition(connectable, feeder[0], feeder1[0], feeder2[0], feeder3[0]);
+        adder.add();
+        return ((Connectable<?>) connectable).getExtension(ConnectablePosition.class);
     }
 }

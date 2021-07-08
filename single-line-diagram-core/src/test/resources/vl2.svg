@@ -1,313 +1,172 @@
-<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg">
-    <style><![CDATA[.BUSBAR_SECTION {
-    stroke: rgb(0,0,0);
-    stroke-width: 3;
-}
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg">
+    <style>
+        <![CDATA[
+.sld-up .sld-arrow-down {visibility: hidden}
+.sld-down .sld-arrow-up {visibility: hidden}
+.sld-closed .sld-sw-open {visibility: hidden}
+.sld-open .sld-sw-closed {visibility: hidden}
+.sld-hidden-node {visibility: hidden}
+polyline {fill: none}
+.sld-top-feeder .sld-label {dominant-baseline: auto}
+.sld-bottom-feeder .sld-label {dominant-baseline: hanging}
+.sld-arrow-p .sld-label {dominant-baseline: middle}
+.sld-arrow-q .sld-label {dominant-baseline: middle}
+.sld-constant-color {stroke: blue; fill: none}
+.sld-wire.sld-constant-color {stroke: #c80000}
+.sld-node.sld-constant-color {stroke: none; fill: black}
+.sld-busbreaker-connection.sld-constant-color {stroke: black}
+.sld-busbar-section.sld-constant-color {stroke: black}
+.sld-disconnector.sld-constant-color {stroke: black}
+.sld-label {stroke: none; fill: black}
+.sld-busbar-section {stroke-width: 3}
+.sld-breaker {stroke-width: 2; fill:white}
+.sld-disconnector {stroke-width: 3}
+.sld-busbreaker-connection {stroke-width: 4}
+.sld-vsc {font-size: 7.43px}
+.sld-grid {stroke: #003700; stroke-dasharray: 1,10}
+.sld-arrow-p {fill:black}
+.sld-arrow-q {fill:blue}
+.sld-label {font: 8px "Verdana"}
+.sld-graph-label {font: 12px "Verdana"}
+.sld-flash {stroke: none; fill: black}
+.sld-lock {stroke: none; fill: black}
 
-.BREAKER {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 2;
-    fill: rgb(255, 255, 255);
-}
-
-.DISCONNECTOR {
-    stroke: rgb(0, 0, 0);
-    stroke-width: 3
-}
-
-.GENERATOR {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill: rgb(255, 255, 255);
-}
-
-.LOAD {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill: rgb(255, 255, 255);
-}
-
-.LOAD_BREAK_SWITCH {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill: rgb(255, 255, 255);
-}
-
-.NODE {
-    stroke: rgb(0, 0, 0);
-    fill: rgb(0, 0, 0);
-    fill-opacity: 1;
-}
-
-.CAPACITOR {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill-opacity: 0;
-}
-
-.INDUCTOR {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill-opacity: 0;
-}
-
-.STATIC_VAR_COMPENSATOR {
-    stroke: rgb(0, 0, 255);
-}
-
-.TWO_WINDINGS_TRANSFORMER {
-    stroke: rgb(0, 0, 255);
-    fill-opacity: 0;
-}
-
-.THREE_WINDINGS_TRANSFORMER {
-    stroke: rgb(0, 0, 255);
-    fill-opacity: 0;
-}
-
-.VSC_CONVERTER_STATION {
-    stroke: rgb(0, 0, 255);
-    font-size: 7.4314661px;
-    line-height: 1.25;
-    font-family: sans-serif;
-    font-variant-ligatures: normal;
-    font-variant-caps: normal;
-    font-variant-numeric: normal;
-    font-feature-settings: normal;
-    text-align: start;
-    letter-spacing: 0px;
-    word-spacing: 0px;
-    writing-mode: lr-tb;
-    text-anchor: start;
-    stroke-miterlimit: 4;
-}
-
-.PHASE_SHIFT_TRANSFORMER {
-    stroke: rgb(0, 0, 255);
-    stroke-linecap: butt;
-    stroke-linejoin: miter;
-    stroke-miterlimit: 4;
-    stroke-width: 1;
-    fill: rgb(255, 255, 255);
-}
-
-.wire {
-    stroke: rgb(200,0,0);
-    stroke-width: 1;
-    fill-opacity: 0;
-}
-
-.grid {
-    stroke: rgb(0,55,0);
-    stroke-width: 1;
-    stroke-dasharray: 1,10;
-}
-
-.component-label {
-    fill: black;
-    color: black;
-    stroke: none;
-    fill-opacity: 1;
-}
-
-.LINE {
-    stroke: rgb(0, 0, 255);
-    stroke-width: 1;
-    fill-opacity: 0;
-}
-.ARROW1_vl2_95_gen1_UP .arrow-up {stroke: black; fill: black; fill-opacity:1; visibility: visible;}.ARROW1_vl2_95_gen1_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW1_vl2_95_gen1_DOWN .arrow-down {stroke: black; fill: black; fill-opacity:1;  visibility: visible;}.ARROW1_vl2_95_gen1_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_vl2_95_gen1_UP .arrow-up {stroke: blue; fill: blue; fill-opacity:1; visibility: visible;}.ARROW2_vl2_95_gen1_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_vl2_95_gen1_DOWN .arrow-down {stroke: blue; fill: blue; fill-opacity:1;  visibility: visible;}.ARROW2_vl2_95_gen1_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}
-.idvl2_95_bgen1 .open { visibility: hidden;}.idvl2_95_bgen1 .closed { visibility: visible;}
-.idvl2_95_dgen1 .open { visibility: hidden;}.idvl2_95_dgen1 .closed { visibility: visible;}
-.ARROW1_vl2_95_trf1_UP .arrow-up {stroke: black; fill: black; fill-opacity:1; visibility: visible;}.ARROW1_vl2_95_trf1_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW1_vl2_95_trf1_DOWN .arrow-down {stroke: black; fill: black; fill-opacity:1;  visibility: visible;}.ARROW1_vl2_95_trf1_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_vl2_95_trf1_UP .arrow-up {stroke: blue; fill: blue; fill-opacity:1; visibility: visible;}.ARROW2_vl2_95_trf1_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_vl2_95_trf1_DOWN .arrow-down {stroke: blue; fill: blue; fill-opacity:1;  visibility: visible;}.ARROW2_vl2_95_trf1_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}
-.idvl2_95_btrf1 .open { visibility: hidden;}.idvl2_95_btrf1 .closed { visibility: visible;}
-.idvl2_95_dtrf1 .open { visibility: hidden;}.idvl2_95_dtrf1 .closed { visibility: visible;}
-.ARROW1_vl2_95_trf2_95_one_UP .arrow-up {stroke: black; fill: black; fill-opacity:1; visibility: visible;}.ARROW1_vl2_95_trf2_95_one_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW1_vl2_95_trf2_95_one_DOWN .arrow-down {stroke: black; fill: black; fill-opacity:1;  visibility: visible;}.ARROW1_vl2_95_trf2_95_one_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_vl2_95_trf2_95_one_UP .arrow-up {stroke: blue; fill: blue; fill-opacity:1; visibility: visible;}.ARROW2_vl2_95_trf2_95_one_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_vl2_95_trf2_95_one_DOWN .arrow-down {stroke: blue; fill: blue; fill-opacity:1;  visibility: visible;}.ARROW2_vl2_95_trf2_95_one_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}
-.ARROW1_vl2_95_trf2_95_two_UP .arrow-up {stroke: black; fill: black; fill-opacity:1; visibility: visible;}.ARROW1_vl2_95_trf2_95_two_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW1_vl2_95_trf2_95_two_DOWN .arrow-down {stroke: black; fill: black; fill-opacity:1;  visibility: visible;}.ARROW1_vl2_95_trf2_95_two_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_vl2_95_trf2_95_two_UP .arrow-up {stroke: blue; fill: blue; fill-opacity:1; visibility: visible;}.ARROW2_vl2_95_trf2_95_two_UP .arrow-down { stroke-opacity:0; fill-opacity:0; visibility: hidden;}.ARROW2_vl2_95_trf2_95_two_DOWN .arrow-down {stroke: blue; fill: blue; fill-opacity:1;  visibility: visible;}.ARROW2_vl2_95_trf2_95_two_DOWN .arrow-up { stroke-opacity:0; fill-opacity:0; visibility: hidden;}
-.idvl2_95_btrf2 .open { visibility: hidden;}.idvl2_95_btrf2 .closed { visibility: visible;}
-.idvl2_95_dtrf2 .open { visibility: hidden;}.idvl2_95_dtrf2 .closed { visibility: visible;}
-]]></style>
+]]>
+    </style>
     <g>
-        <g class="grid" id="GRID_vl2" transform="translate(20.0,50.0)">
-            <line y2="560.0" x1="550.0" x2="550.0" y1="0.0"/>
-            <line y2="560.0" x1="630.0" x2="630.0" y1="0.0"/>
-            <line y2="560.0" x1="710.0" x2="710.0" y1="0.0"/>
-            <line y2="560.0" x1="790.0" x2="790.0" y1="0.0"/>
-            <line y2="250.0" x1="550.0" x2="790.0" y1="250.0"/>
-            <line y2="310.0" x1="550.0" x2="790.0" y1="310.0"/>
-            <line y2="240.0" x1="550.0" x2="790.0" y1="240.0"/>
-            <line y2="320.0" x1="550.0" x2="790.0" y1="320.0"/>
+        <g class="sld-grid" id="GRID_vl2" transform="translate(20.0,50.0)">
+            <line x1="550.0" x2="550.0" y1="0.0" y2="560.0"/>
+            <line x1="630.0" x2="630.0" y1="0.0" y2="560.0"/>
+            <line x1="710.0" x2="710.0" y1="0.0" y2="560.0"/>
+            <line x1="790.0" x2="790.0" y1="0.0" y2="560.0"/>
+            <line x1="550.0" x2="790.0" y1="250.0" y2="250.0"/>
+            <line x1="550.0" x2="790.0" y1="310.0" y2="310.0"/>
+            <line x1="550.0" x2="790.0" y1="240.0" y2="240.0"/>
+            <line x1="550.0" x2="790.0" y1="320.0" y2="320.0"/>
         </g>
-        <g class="BUSBAR_SECTION idvl2_95_bbs1" id="idvl2_95_bbs1" transform="translate(570.0,370.0)">
-            <line y2="0" x1="0" x2="200.0" y1="0"/>
-            <text x="-5.0" font-size="8" y="-5.0" transform="rotate(0,0,0)" font-family="Verdana" class="component-label" id="vl2_bbs1_NW_LABEL">vl2_bbs1</text>
+        <g class="sld-busbar-section sld-constant-color" id="idvl2_95_bbs1" transform="translate(570.0,370.0)">
+            <line x1="0" x2="200.0" y1="0" y2="0"/>
+            <text class="sld-label" id="vl2_bbs1_NW_LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">vl2_bbs1</text>
         </g>
-        <g class="GENERATOR idvl2_95_gen1" id="idvl2_95_gen1" transform="translate(614.0,144.0)">
-    <circle r="6" cx="6" cy="6"/>
-    <path d="M6,6 A 6 20 0 0 0 0,6"/>
-    <path d="M6,6 A 6 20 0 0 0 12,6"/>
-<text x="-5.0" font-size="8" y="-5.0" transform="rotate(0,0,0)" font-family="Verdana" class="component-label" id="vl2_gen1__LABEL">vl2_gen1</text>
+        <g class="sld-wire sld-constant-color" id="_95_vl2_95_vl2_95_gen1_95_vl2_95_bgen1">
+            <polyline points="620.0,156.0,620.0,240.0"/>
         </g>
-        <g class="TWO_WINDINGS_TRANSFORMER idvl2_95_trf1" id="idvl2_95_trf1" transform="translate(663.5,566.0)">
-    <circle r="4" id="idvl2_95_trf1_TWO_WINDINGS_TRANSFORMER-WINDING1" cx="4" cy="4"/>
-
-    <circle r="4" id="idvl2_95_trf1_TWO_WINDINGS_TRANSFORMER-WINDING2" cx="9" cy="4"/>
-<text x="-5.0" font-size="8" y="-5.0" transform="rotate(0,0,0)" font-family="Verdana" class="component-label" id="vl2_trf1__LABEL">vl2_trf1</text>
+        <g class="sld-arrow-p sld-up" id="_95_vl2_95_vl2_95_gen1_95_vl2_95_bgen1_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,615.0,171.0)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">10</text>
         </g>
-        <g class="LINE idvl2_95_trf2_95_one" id="idvl2_95_trf2_95_one" transform="translate(700.0,150.0)">
-            <text x="-5.0" font-size="8" y="-5.0" transform="rotate(0,0,0)" font-family="Verdana" class="component-label" id="vl2_trf2_one__LABEL">vl2_trf2_one</text>
+        <g class="sld-arrow-q sld-down" id="_95_vl2_95_vl2_95_gen1_95_vl2_95_bgen1_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,615.0,191.0)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">20</text>
         </g>
-        <g class="LINE idvl2_95_trf2_95_two" id="idvl2_95_trf2_95_two" transform="translate(760.0,150.0)">
-            <text x="-5.0" font-size="8" y="-5.0" transform="rotate(0,0,0)" font-family="Verdana" class="component-label" id="vl2_trf2_two__LABEL">vl2_trf2_two</text>
+        <g class="sld-wire sld-constant-color" id="_95_vl2_95_vl2_95_bgen1_95_vl2_95_dgen1">
+            <polyline points="620.0,260.0,620.0,370.0"/>
         </g>
-        <g class="THREE_WINDINGS_TRANSFORMER idFICT_95_vl2_95_vl2_95_trf2" id="idFICT_95_vl2_95_vl2_95_trf2" transform="translate(723.0,204.0)">
-    <circle r="4" id="idFICT_95_vl2_95_vl2_95_trf2_THREE_WINDINGS_TRANSFORMER-WINDING1" cx="4" cy="4"/>
-
-    <circle r="4" id="idFICT_95_vl2_95_vl2_95_trf2_THREE_WINDINGS_TRANSFORMER-WINDING2" cx="10" cy="4"/>
-
-    <circle r="4" id="idFICT_95_vl2_95_vl2_95_trf2_THREE_WINDINGS_TRANSFORMER-WINDING3" cx="7" cy="8"/>
-</g>
-        <polyline class="wire wire_vl2" points="620.0,156.0,620.0,240.0" id="idvl2_95_Wire0"/>
-        <g class="ARROW1_vl2_95_gen1_UP" id="idvl2_95_Wire0_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,615.0,171.0)">
-     <g class="arrow-up" id="idvl2_95_Wire0_ARROW1_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idvl2_95_Wire0_ARROW1_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">10</text>
+        <g class="sld-wire sld-constant-color" id="_95_vl2_95_vl2_95_dgen1_95_vl2_95_bbs1">
+            <polyline points="620.0,370.0,600.0,370.0"/>
         </g>
-        <g class="ARROW2_vl2_95_gen1_DOWN" id="idvl2_95_Wire0_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,615.0,191.0)">
-     <g class="arrow-up" id="idvl2_95_Wire0_ARROW2_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idvl2_95_Wire0_ARROW2_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">20</text>
+        <g class="sld-wire sld-constant-color" id="_95_vl2_95_vl2_95_trf1_95_vl2_95_btrf1">
+            <polyline points="670.0,562.0,670.0,480.0"/>
         </g>
-        <polyline class="wire wire_vl2" points="620.0,260.0,620.0,370.0" id="idvl2_95_Wire1"/>
-        <polyline class="wire wire_vl2" points="620.0,370.0,600.0,370.0" id="idvl2_95_Wire2"/>
-        <polyline class="wire wire_vl2" points="670.0,566.0,670.0,480.0" id="idvl2_95_Wire3"/>
-        <g class="ARROW1_vl2_95_trf1_UP" id="idvl2_95_Wire3_ARROW1" transform="matrix(1.0,-0.0,0.0,1.0,665.0,541.0)">
-     <g class="arrow-up" id="idvl2_95_Wire3_ARROW1_ARROW-arrow-up" transform="rotate(180.0,5.0,5.0)">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idvl2_95_Wire3_ARROW1_ARROW-arrow-down" transform="rotate(180.0,5.0,5.0)">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">10</text>
+        <g class="sld-arrow-q sld-down" id="_95_vl2_95_vl2_95_trf1_95_vl2_95_btrf1_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,665.0,537.0)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10" transform="rotate(180.0,5.0,5.0)"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10" transform="rotate(180.0,5.0,5.0)"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">20</text>
         </g>
-        <g class="ARROW2_vl2_95_trf1_DOWN" id="idvl2_95_Wire3_ARROW2" transform="matrix(1.0,-0.0,0.0,1.0,665.0,521.0)">
-     <g class="arrow-up" id="idvl2_95_Wire3_ARROW2_ARROW-arrow-up" transform="rotate(180.0,5.0,5.0)">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idvl2_95_Wire3_ARROW2_ARROW-arrow-down" transform="rotate(180.0,5.0,5.0)">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">20</text>
+        <g class="sld-arrow-p sld-up" id="_95_vl2_95_vl2_95_trf1_95_vl2_95_btrf1_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,665.0,517.0)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10" transform="rotate(180.0,5.0,5.0)"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10" transform="rotate(180.0,5.0,5.0)"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">10</text>
         </g>
-        <polyline class="wire wire_vl2" points="670.0,460.0,670.0,370.0" id="idvl2_95_Wire4"/>
-        <polyline class="wire wire_vl2" points="670.0,370.0,680.0,370.0" id="idvl2_95_Wire5"/>
-        <polyline class="wire wire_vl2" points="700.0,150.0,700.0,206.0,723.0,206.0" id="idvl2_95_Wire6"/>
-        <g class="ARROW1_vl2_95_trf2_95_one_UP" id="idvl2_95_Wire6_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,695.0,165.0)">
-     <g class="arrow-up" id="idvl2_95_Wire6_ARROW1_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idvl2_95_Wire6_ARROW1_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">10</text>
+        <g class="sld-wire sld-constant-color" id="_95_vl2_95_vl2_95_btrf1_95_vl2_95_dtrf1">
+            <polyline points="670.0,460.0,670.0,370.0"/>
         </g>
-        <g class="ARROW2_vl2_95_trf2_95_one_DOWN" id="idvl2_95_Wire6_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,695.0,185.0)">
-     <g class="arrow-up" id="idvl2_95_Wire6_ARROW2_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idvl2_95_Wire6_ARROW2_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">20</text>
+        <g class="sld-wire sld-constant-color" id="_95_vl2_95_vl2_95_dtrf1_95_vl2_95_bbs1">
+            <polyline points="670.0,370.0,680.0,370.0"/>
         </g>
-        <polyline class="wire wire_vl2" points="760.0,150.0,760.0,206.0,737.0,206.0" id="idvl2_95_Wire7"/>
-        <g class="ARROW1_vl2_95_trf2_95_two_UP" id="idvl2_95_Wire7_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,755.0,165.0)">
-     <g class="arrow-up" id="idvl2_95_Wire7_ARROW1_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idvl2_95_Wire7_ARROW1_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">10</text>
+        <g class="sld-wire sld-constant-color" id="_95_vl2_95_vl2_95_trf2_95_one_95_FICT_95_vl2_95_vl2_95_trf2">
+            <polyline points="700.0,150.0,700.0,205.0,723.0,205.0"/>
         </g>
-        <g class="ARROW2_vl2_95_trf2_95_two_DOWN" id="idvl2_95_Wire7_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,755.0,185.0)">
-     <g class="arrow-up" id="idvl2_95_Wire7_ARROW2_ARROW-arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g class="arrow-down" id="idvl2_95_Wire7_ARROW2_ARROW-arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-<text x="15.0" font-size="8" y="9.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">20</text>
+        <g class="sld-arrow-p sld-up" id="_95_vl2_95_vl2_95_trf2_95_one_95_FICT_95_vl2_95_vl2_95_trf2_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,695.0,162.5)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">10</text>
         </g>
-        <polyline class="wire wire_vl2" points="730.0,216.0,730.0,240.0" id="idvl2_95_Wire8"/>
-        <polyline class="wire wire_vl2" points="730.0,260.0,730.0,370.0" id="idvl2_95_Wire9"/>
-        <polyline class="wire wire_vl2" points="730.0,370.0,720.0,370.0" id="idvl2_95_Wire10"/>
-        <g class="BREAKER idvl2_95_bgen1" id="idvl2_95_bgen1" transform="translate(610.0,240.0)">
-    <g class="closed" id="idvl2_95_bgen1_BREAKER-closed">
-        <rect x="1" width="18" y="1" height="18"/>
-        <line y2="15" x1="10" x2="10" y1="5"/>
-    </g>
-    <g class="open" id="idvl2_95_bgen1_BREAKER-open">
-        <rect x="1" width="18" y="1" height="18"/>
-        <line y2="10" x1="5" x2="15" y1="10"/>
-    </g>
-</g>
-        <g class="DISCONNECTOR idvl2_95_dgen1" id="idvl2_95_dgen1" transform="translate(616.0,366.0)">
-    <g class="closed" id="idvl2_95_dgen1_DISCONNECTOR-closed">
-        <line y2="8" x1="0" x2="8" y1="0"/>
-        <line y2="8" x1="8" x2="0" y1="0"/>
-    </g>
-    <g class="open" id="idvl2_95_dgen1_DISCONNECTOR-open">
-        <line y2="8" x1="8" x2="0" y1="0"/>
-    </g>
-</g>
-        <g class="BREAKER idvl2_95_btrf1" id="idvl2_95_btrf1" transform="translate(660.0,460.0)">
-    <g class="closed" id="idvl2_95_btrf1_BREAKER-closed">
-        <rect x="1" width="18" y="1" height="18"/>
-        <line y2="15" x1="10" x2="10" y1="5"/>
-    </g>
-    <g class="open" id="idvl2_95_btrf1_BREAKER-open">
-        <rect x="1" width="18" y="1" height="18"/>
-        <line y2="10" x1="5" x2="15" y1="10"/>
-    </g>
-</g>
-        <g class="DISCONNECTOR idvl2_95_dtrf1" id="idvl2_95_dtrf1" transform="translate(666.0,366.0)">
-    <g class="closed" id="idvl2_95_dtrf1_DISCONNECTOR-closed">
-        <line y2="8" x1="0" x2="8" y1="0"/>
-        <line y2="8" x1="8" x2="0" y1="0"/>
-    </g>
-    <g class="open" id="idvl2_95_dtrf1_DISCONNECTOR-open">
-        <line y2="8" x1="8" x2="0" y1="0"/>
-    </g>
-</g>
-        <g class="BREAKER idvl2_95_btrf2" id="idvl2_95_btrf2" transform="translate(720.0,240.0)">
-    <g class="closed" id="idvl2_95_btrf2_BREAKER-closed">
-        <rect x="1" width="18" y="1" height="18"/>
-        <line y2="15" x1="10" x2="10" y1="5"/>
-    </g>
-    <g class="open" id="idvl2_95_btrf2_BREAKER-open">
-        <rect x="1" width="18" y="1" height="18"/>
-        <line y2="10" x1="5" x2="15" y1="10"/>
-    </g>
-</g>
-        <g class="DISCONNECTOR idvl2_95_dtrf2" id="idvl2_95_dtrf2" transform="translate(726.0,366.0)">
-    <g class="closed" id="idvl2_95_dtrf2_DISCONNECTOR-closed">
-        <line y2="8" x1="0" x2="8" y1="0"/>
-        <line y2="8" x1="8" x2="0" y1="0"/>
-    </g>
-    <g class="open" id="idvl2_95_dtrf2_DISCONNECTOR-open">
-        <line y2="8" x1="8" x2="0" y1="0"/>
-    </g>
-</g>
-        <g id="LABEL_VL_vl2">
-            <text x="550.0" font-size="12" y="20.0" class="component-label" font-family="Verdana" transform="rotate(0,0,0)">vl2</text>
+        <g class="sld-arrow-q sld-down" id="_95_vl2_95_vl2_95_trf2_95_one_95_FICT_95_vl2_95_vl2_95_trf2_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,695.0,182.5)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">20</text>
+        </g>
+        <g class="sld-wire sld-constant-color" id="_95_vl2_95_vl2_95_trf2_95_two_95_FICT_95_vl2_95_vl2_95_trf2">
+            <polyline points="760.0,150.0,760.0,205.0,737.0,205.0"/>
+        </g>
+        <g class="sld-arrow-p sld-up" id="_95_vl2_95_vl2_95_trf2_95_two_95_FICT_95_vl2_95_vl2_95_trf2_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,755.0,162.5)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">10</text>
+        </g>
+        <g class="sld-arrow-q sld-down" id="_95_vl2_95_vl2_95_trf2_95_two_95_FICT_95_vl2_95_vl2_95_trf2_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,755.0,182.5)">
+            <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
+            <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
+            <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">20</text>
+        </g>
+        <g class="sld-wire sld-constant-color" id="_95_vl2_95_FICT_95_vl2_95_vl2_95_trf2_95_vl2_95_btrf2">
+            <polyline points="730.0,217.0,730.0,240.0"/>
+        </g>
+        <g class="sld-wire sld-constant-color" id="_95_vl2_95_vl2_95_btrf2_95_vl2_95_dtrf2">
+            <polyline points="730.0,260.0,730.0,370.0"/>
+        </g>
+        <g class="sld-wire sld-constant-color" id="_95_vl2_95_vl2_95_dtrf2_95_vl2_95_bbs1">
+            <polyline points="730.0,370.0,720.0,370.0"/>
+        </g>
+        <g class="sld-generator sld-constant-color" id="idvl2_95_gen1" transform="translate(614.0,144.0)">
+            <circle cx="6" cy="6" r="6"/>
+            <path d="M6,6 A 6 40 0 0 0 2,6"/>
+            <path d="M6,6 A 6 40 0 0 0 10,6"/>
+            <text class="sld-label" id="vl2_gen1__LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">vl2_gen1</text>
+        </g>
+        <g class="sld-breaker sld-constant-color sld-closed" id="idvl2_95_bgen1" transform="translate(610.0,240.0)">
+            <path class="sld-sw-closed" d="M1,1 V19 H19 V1z M10,5 V15"/>
+            <path class="sld-sw-open" d="M1,1 V19 H19 V1z M5,10 H15"/>
+        </g>
+        <g class="sld-disconnector sld-constant-color sld-closed" id="idvl2_95_dgen1" transform="translate(616.0,366.0)">
+            <path class="sld-sw-closed" d="M0,0 8,8 M8,0 0,8"/>
+            <path class="sld-sw-open" d="M8,0 0,8"/>
+        </g>
+        <g class="sld-two-wt sld-constant-color" id="idvl2_95_trf1" transform="translate(665.0,562.5)">
+            <circle cx="5" cy="10" r="5"/>
+            <circle cx="5" cy="5" r="5"/>
+            <text class="sld-label" id="vl2_trf1__LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">vl2_trf1</text>
+        </g>
+        <g class="sld-breaker sld-constant-color sld-closed" id="idvl2_95_btrf1" transform="translate(660.0,460.0)">
+            <path class="sld-sw-closed" d="M1,1 V19 H19 V1z M10,5 V15"/>
+            <path class="sld-sw-open" d="M1,1 V19 H19 V1z M5,10 H15"/>
+        </g>
+        <g class="sld-disconnector sld-constant-color sld-closed" id="idvl2_95_dtrf1" transform="translate(666.0,366.0)">
+            <path class="sld-sw-closed" d="M0,0 8,8 M8,0 0,8"/>
+            <path class="sld-sw-open" d="M8,0 0,8"/>
+        </g>
+        <g class="sld-constant-color" id="idvl2_95_trf2_95_one" transform="translate(700.0,150.0)">
+            <text class="sld-label" id="vl2_trf2_one__LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">vl2_trf2</text>
+        </g>
+        <g class="sld-constant-color" id="idvl2_95_trf2_95_two" transform="translate(760.0,150.0)">
+            <text class="sld-label" id="vl2_trf2_two__LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">vl2_trf2</text>
+        </g>
+        <g class="sld-three-wt sld-constant-color" id="idFICT_95_vl2_95_vl2_95_trf2" transform="translate(722.0,203.0)">
+            <circle cx="5" cy="5" r="5"/>
+            <circle cx="11" cy="5" r="5"/>
+            <circle cx="8" cy="9" r="5"/>
+        </g>
+        <g class="sld-breaker sld-constant-color sld-closed" id="idvl2_95_btrf2" transform="translate(720.0,240.0)">
+            <path class="sld-sw-closed" d="M1,1 V19 H19 V1z M10,5 V15"/>
+            <path class="sld-sw-open" d="M1,1 V19 H19 V1z M5,10 H15"/>
+        </g>
+        <g class="sld-disconnector sld-constant-color sld-closed" id="idvl2_95_dtrf2" transform="translate(726.0,366.0)">
+            <path class="sld-sw-closed" d="M0,0 8,8 M8,0 0,8"/>
+            <path class="sld-sw-open" d="M8,0 0,8"/>
         </g>
     </g>
 </svg>

@@ -8,9 +8,10 @@ package com.powsybl.sld.model;
 
 import com.powsybl.sld.layout.LayoutParameters;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.powsybl.sld.model.Position.Dimension.*;
 
 /**
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class LegParralelBlock extends AbstractParallelBlock implements LegBlock {
 
     public LegParralelBlock(List<Block> subBlocks, Cell cell, boolean allowMerge) {
-        super(subBlocks, cell, allowMerge);
+        super(Type.LEGPARALLEL, subBlocks, cell, allowMerge);
     }
 
     @Override
@@ -31,37 +32,33 @@ public class LegParralelBlock extends AbstractParallelBlock implements LegBlock 
     @Override
     public void sizing() {
         subBlocks.forEach(Block::sizing);
-        if (getPosition().getOrientation() == Orientation.VERTICAL) {
-            getPosition().setVSpan(0);
-            List<Block> subBlocksCopy = new ArrayList<>(subBlocks);
+        if (getPosition().getOrientation().isVertical()) {
+            getPosition().setSpan(V, 0);
+            List<LegPrimaryBlock> subBlocksCopy = subBlocks.stream()
+                    .map(LegPrimaryBlock.class::cast).collect(Collectors.toList());
             int h = 0;
             while (!subBlocksCopy.isEmpty()) {
-                Block b = subBlocksCopy.get(0);
-                b.getPosition().setHV(h, 0);
-                if (!((LegPrimaryBlock) b).getStackableBlocks().isEmpty()) {
-                    final int finalH = h;
-                    ((LegPrimaryBlock) b).getStackableBlocks().forEach(sb -> sb.getPosition().setHV(finalH, 0));
-                    h++;
-                    subBlocksCopy.removeAll(((LegPrimaryBlock) b).getStackableBlocks());
+                LegPrimaryBlock b = subBlocksCopy.get(0);
+                Position pos = b.getPosition();
+                pos.set(H, h);
+                pos.set(V, 0);
+                if (b.getStackableBlocks().isEmpty()) {
+                    h += b.getPosition().getSpan(H);
                 } else {
-                    h += b.getPosition().getHSpan();
+                    final int finalH = h;
+                    b.getStackableBlocks().forEach(sb -> {
+                        Position position = sb.getPosition();
+                        position.set(H, finalH);
+                        position.set(V, 0);
+                    });
+                    h += b.getPosition().getSpan(H);
+                    subBlocksCopy.removeAll(b.getStackableBlocks());
                 }
                 subBlocksCopy.remove(b);
             }
-            getPosition().setHSpan(h);
+            getPosition().setSpan(H, h);
         }
         // case HORIZONTAL cannot happen
-    }
-
-    @Override
-    public double initX0() {
-        return getCoord().getX()
-                + (getPosition().getHSpan() == 1 ? 0 : getCoord().getXSpan() / 2);
-    }
-
-    @Override
-    public double intitXStep() {
-        return getPosition().getHSpan() == 1 ? 0 : getCoord().getXSpan() / getPosition().getHSpan();
     }
 
     @Override
@@ -69,8 +66,4 @@ public class LegParralelBlock extends AbstractParallelBlock implements LegBlock 
         // case HORIZONTAL cannot happen
     }
 
-    @Override
-    public String toString() {
-        return "BodyParallelBlock(subBlocks=" + subBlocks + ")";
-    }
 }

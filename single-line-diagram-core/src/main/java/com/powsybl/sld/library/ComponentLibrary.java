@@ -6,10 +6,11 @@
  */
 package com.powsybl.sld.library;
 
-import org.apache.batik.anim.dom.SVGOMDocument;
+import com.google.common.collect.Lists;
+import org.w3c.dom.Element;
 
-import java.util.List;
-import java.util.Map;
+import java.net.URL;
+import java.util.*;
 
 /**
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
@@ -19,13 +20,32 @@ import java.util.Map;
  */
 public interface ComponentLibrary {
 
+    static List<ComponentLibrary> findAll() {
+        return Lists.newArrayList(ServiceLoader.load(ComponentLibrary.class));
+    }
+
+    static Optional<ComponentLibrary> find(String name) {
+        Objects.requireNonNull(name);
+        return findAll().stream().filter(cl -> cl.getName().equals(name)).findFirst();
+    }
+
+    String getName();
+
     List<AnchorPoint> getAnchorPoints(String type);
 
-    Map<String, SVGOMDocument> getSvgDocument(String type);
+    Map<String, List<Element>> getSvgElements(String type);
 
     ComponentSize getSize(String type);
 
     boolean isAllowRotation(String type);
 
-    String getStyleSheet();
+    Map<String, ComponentSize> getComponentsSize();
+
+    List<String> getCssFilenames();
+
+    List<URL> getCssUrls();
+
+    Optional<String> getComponentStyleClass(String componentType);
+
+    Optional<String> getSubComponentStyleClass(String type, String subComponent);
 }

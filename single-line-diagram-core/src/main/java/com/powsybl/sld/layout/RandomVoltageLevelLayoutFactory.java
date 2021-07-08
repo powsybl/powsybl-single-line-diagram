@@ -6,7 +6,7 @@
  */
 package com.powsybl.sld.layout;
 
-import com.powsybl.sld.model.Graph;
+import com.powsybl.sld.model.VoltageLevelGraph;
 
 import java.util.Random;
 
@@ -29,7 +29,7 @@ public class RandomVoltageLevelLayoutFactory implements VoltageLevelLayoutFactor
     }
 
     @Override
-    public VoltageLevelLayout create(Graph graph) {
+    public VoltageLevelLayout create(VoltageLevelGraph graph) {
         return new RandomVoltageLevelLayout(graph, width, height, random);
     }
 }

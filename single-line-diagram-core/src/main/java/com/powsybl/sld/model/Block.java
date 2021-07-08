@@ -10,36 +10,42 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.powsybl.sld.layout.LayoutParameters;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
  * @author Nicolas Duchene
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 public interface Block {
     enum Type {
-        PRIMARY, PARALLEL, SERIAL, UNDEFINED
-    }
+        LEGPRIMARY, BODYPRIMARY, FEEDERPRIMARY, LEGPARALLEL, BODYPARALLEL, SERIAL, UNDEFINED;
 
-    enum Extremity {
-        START, END, NONE;
+        public boolean isPrimary() {
+            return this == LEGPRIMARY || this == BODYPRIMARY || this == FEEDERPRIMARY;
+        }
 
-        public Extremity flip() {
-            if (this.equals(START)) {
-                return END;
-            }
-            if (this.equals(END)) {
-                return START;
-            }
-            return NONE;
+        public boolean isParallel() {
+            return this == LEGPARALLEL || this == BODYPARALLEL;
+        }
+
+        public boolean isLeg() {
+            return this == LEGPRIMARY || this == LEGPARALLEL;
         }
     }
 
-    Graph getGraph();
+    enum Extremity {
+        START, END;
+    }
+
+    VoltageLevelGraph getGraph();
 
     Node getExtremityNode(Extremity extremity);
 
-    Extremity getExtremity(Node node);
+    Optional<Extremity> getExtremity(Node node);
 
     Node getStartingNode();
 
@@ -47,22 +53,15 @@ public interface Block {
 
     void reverseBlock();
 
-    boolean isEmbedingNodeType(Node.NodeType type);
+    boolean isEmbeddingNodeType(Node.NodeType type);
+
+    List<Block> findBlockEmbeddingNode(Node node);
 
     void setParentBlock(Block parentBlock);
 
     Position getPosition();
 
     Coord getCoord();
-
-    void setXSpan(double xSpan);
-
-    void setYSpan(double ySpan);
-
-    void setX(double x);
-
-    void setY(double y);
-
 
     /**
      * Calculate maximal pxWidth that layout.block can use in a cell without modifying
@@ -78,7 +77,13 @@ public interface Block {
 
     void calculateRootCoord(LayoutParameters layoutParam);
 
-    int getOrder();
+    double calculateHeight(Set<Node> encounteredNodes, LayoutParameters layoutParam);
+
+    double calculateRootHeight(LayoutParameters layoutParam);
+
+    default int getOrder() {
+        return 0;
+    }
 
     void coordVerticalCase(LayoutParameters layoutParam);
 
@@ -96,7 +101,12 @@ public interface Block {
 
     void setOrientation(Orientation orientation);
 
+    void setOrientation(Orientation orientation, boolean recursively);
+
+    Orientation getOrientation();
+
     Type getType();
 
     void writeJson(JsonGenerator generator) throws IOException;
+
 }

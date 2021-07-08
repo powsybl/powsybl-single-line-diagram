@@ -18,20 +18,21 @@ import java.util.stream.Collectors;
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
  * @author Nicolas Duchene
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 public abstract class AbstractBusCell extends AbstractCell implements BusCell {
 
-    private List<LegPrimaryBlock> primaryLegBlocks = new ArrayList<>();
+    private List<LegPrimaryBlock> legPrimaryBlocks = new ArrayList<>();
     private Direction direction = Direction.UNDEFINED;
 
-    protected AbstractBusCell(Graph graph, CellType type) {
+    protected AbstractBusCell(VoltageLevelGraph graph, CellType type) {
         super(graph, type);
     }
 
     @Override
     public void blocksSetting(Block rootBlock, List<LegPrimaryBlock> primaryBlocksConnectedToBus) {
         setRootBlock(rootBlock);
-        this.primaryLegBlocks = new ArrayList<>(primaryBlocksConnectedToBus);
+        this.legPrimaryBlocks = new ArrayList<>(primaryBlocksConnectedToBus);
     }
 
     @Override
@@ -43,8 +44,8 @@ public abstract class AbstractBusCell extends AbstractCell implements BusCell {
     }
 
     @Override
-    public List<LegPrimaryBlock> getPrimaryLegBlocks() {
-        return new ArrayList<>(primaryLegBlocks);
+    public List<LegPrimaryBlock> getLegPrimaryBlocks() {
+        return new ArrayList<>(legPrimaryBlocks);
     }
 
     @Override
@@ -58,23 +59,25 @@ public abstract class AbstractBusCell extends AbstractCell implements BusCell {
     }
 
     @Override
-    public Position getMaxBusPosition() {
-        return graph.getMaxBusStructuralPosition();
-    }
-
-    @Override
     public void calculateCoord(LayoutParameters layoutParam) {
         getRootBlock().calculateRootCoord(layoutParam);
     }
 
     @Override
+    public double calculateHeight(LayoutParameters layoutParam) {
+        return getRootBlock().calculateRootHeight(layoutParam);
+    }
+
+    @Override
     protected void writeJsonContent(JsonGenerator generator) throws IOException {
         super.writeJsonContent(generator);
-        generator.writeStringField("direction", getDirection().name());
+        if (graph.isGenerateCoordsInJson()) {
+            generator.writeStringField("direction", getDirection().name());
+        }
     }
 
     @Override
     public String toString() {
-        return "Cell(type=" + getType() + ", direction=" + direction + ", nodes=" + nodes + ")";
+        return getType() + " " + direction + " " + nodes;
     }
 }

@@ -7,7 +7,7 @@
 
 package com.powsybl.sld.postprocessor;
 
-import com.powsybl.sld.model.Graph;
+import com.powsybl.sld.model.VoltageLevelGraph;
 
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
@@ -15,5 +15,5 @@ import com.powsybl.sld.model.Graph;
 public interface GraphBuildPostProcessor {
     String getId();
 
-    void addNode(Graph graph);
+    void addNode(VoltageLevelGraph graph, Object network);
 }

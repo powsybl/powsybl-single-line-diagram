@@ -7,10 +7,10 @@
 package com.powsybl.sld.model;
 
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.powsybl.sld.layout.LayoutParameters;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -19,24 +19,25 @@ import java.util.stream.Collectors;
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
  * @author Nicolas Duchene
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 
 public abstract class AbstractCell implements Cell {
-    final Graph graph;
+    final VoltageLevelGraph graph;
     private CellType type;
     private int number;
     protected final List<Node> nodes = new ArrayList<>();
 
     private Block rootBlock;
 
-    protected AbstractCell(Graph graph, CellType type) {
+    AbstractCell(VoltageLevelGraph graph, CellType type) {
         this.graph = Objects.requireNonNull(graph);
         this.type = Objects.requireNonNull(type);
         number = graph.getNextCellIndex();
         graph.addCell(this);
     }
 
-    public void addNodes(Collection<Node> nodesToAdd) {
+    public void addNodes(List<Node> nodesToAdd) {
         nodes.addAll(nodesToAdd);
     }
 
@@ -94,16 +95,25 @@ public abstract class AbstractCell implements Cell {
         generator.writeEndObject();
     }
 
+    public String getId() {
+        return type + " " + number;
+    }
+
     public String getFullId() {
         return type + nodes.stream().map(Node::getId).sorted().collect(Collectors.toList()).toString();
     }
 
     @Override
     public String toString() {
-        return "Cell(type=" + type + ", nodes=" + nodes + ")";
+        return type + " " + nodes;
     }
 
-    public Graph getGraph() {
+    public VoltageLevelGraph getGraph() {
         return graph;
+    }
+
+    @Override
+    public double calculateHeight(LayoutParameters layoutParam) {
+        return 0.;
     }
 }

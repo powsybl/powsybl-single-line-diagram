@@ -34,7 +34,6 @@ public class BusbarSectionPositionXmlTest extends AbstractConverterTest {
                 .setNominalV(400)
                 .setTopologyKind(TopologyKind.NODE_BREAKER)
                 .add();
-        vl.getNodeBreakerView().setNodeCount(1);
         vl.getNodeBreakerView().newBusbarSection()
                 .setId("BBS")
                 .setNode(0)
@@ -48,7 +47,7 @@ public class BusbarSectionPositionXmlTest extends AbstractConverterTest {
 
         // extends busbar section
         BusbarSection busbarSection = network.getVoltageLevel("VL").getNodeBreakerView().getBusbarSection("BBS");
-        BusbarSectionPosition busbarSectionPosition = new BusbarSectionPosition(busbarSection, 0, 1);
+        BusbarSectionPositionImpl busbarSectionPosition = new BusbarSectionPositionImpl(busbarSection, 0, 1);
         busbarSection.addExtension(BusbarSectionPosition.class, busbarSectionPosition);
 
         Network network2 = roundTripXmlTest(network,
@@ -57,7 +56,7 @@ public class BusbarSectionPositionXmlTest extends AbstractConverterTest {
                                             "/busbarSectionPositionRef.xml");
 
         BusbarSection busbarSection2 = network2.getVoltageLevel("VL").getNodeBreakerView().getBusbarSection("BBS");
-        BusbarSectionPosition busbarSectionPosition2 = busbarSection2.getExtension(BusbarSectionPosition.class);
+        BusbarSectionPositionImpl busbarSectionPosition2 = busbarSection2.getExtension(BusbarSectionPosition.class);
         assertNotNull(busbarSectionPosition2);
         assertEquals(busbarSectionPosition.getBusbarIndex(), busbarSectionPosition2.getBusbarIndex());
         assertEquals(busbarSectionPosition.getSectionIndex(), busbarSectionPosition2.getSectionIndex());

@@ -6,28 +6,22 @@
  */
 package com.powsybl.sld.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import com.fasterxml.jackson.core.JsonGenerator;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
- *
  * @author Massimo Ferraro <massimo.ferraro@techrain.eu>
  */
-public final class ZoneGraph {
+public class ZoneGraph extends AbstractLineGraph {
 
     private List<String> zone;
     private List<SubstationGraph> nodes = new ArrayList<>();
-    private List<LineEdge> edges = new ArrayList<>();
     private Map<String, SubstationGraph> nodesById = new HashMap<>();
     private Map<String, LineEdge> edgesById = new HashMap<>();
 
-    private double width = 0;
-    private double heigth = 0;
-
-    private ZoneGraph(List<String> zone) {
+    protected ZoneGraph(List<String> zone) {
         this.zone = Objects.requireNonNull(zone);
     }
 
@@ -35,15 +29,21 @@ public final class ZoneGraph {
         return new ZoneGraph(zone);
     }
 
+    @Override
+    public String getId() {
+        return String.join("_", zone);
+    }
+
     public void addNode(SubstationGraph sGraph) {
         nodes.add(sGraph);
         nodesById.put(sGraph.getSubstationId(), sGraph);
     }
 
-    public void addEdge(String lineId, Node node1, Node node2) {
-        LineEdge edge = new LineEdge(lineId, node1, node2);
-        edges.add(edge);
+    @Override
+    public LineEdge addLineEdge(String lineId, Node node1, Node node2) {
+        LineEdge edge = super.addLineEdge(lineId, node1, node2);
         edgesById.put(lineId, edge);
+        return edge;
     }
 
     public List<String> getZone() {
@@ -54,24 +54,10 @@ public final class ZoneGraph {
         return nodes;
     }
 
-    public List<LineEdge> getEdges() {
-        return edges;
-    }
-
-    public double getWidth() {
-        return width;
-    }
-
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
-    public double getHeigth() {
-        return heigth;
-    }
-
-    public void setHeigth(double heigth) {
-        this.heigth = heigth;
+    @Override
+    public VoltageLevelGraph getVLGraph(String voltageLevelId) {
+        Objects.requireNonNull(voltageLevelId);
+        return nodes.stream().flatMap(SubstationGraph::getNodeStream).filter(g -> voltageLevelId.equals(g.getVoltageLevelInfos().getId())).findFirst().orElse(null);
     }
 
     public SubstationGraph getNode(String id) {
@@ -79,9 +65,25 @@ public final class ZoneGraph {
         return nodesById.get(id);
     }
 
-    public LineEdge getEdge(String lineId) {
+    public LineEdge getLineEdge(String lineId) {
         Objects.requireNonNull(lineId);
         return edgesById.get(lineId);
+    }
+
+    public void writeJson(JsonGenerator generator) throws IOException {
+        generator.writeStartObject();
+        generator.writeArrayFieldStart("substations");
+        for (SubstationGraph substationGraph : nodes) {
+            substationGraph.setGenerateCoordsInJson(isGenerateCoordsInJson());
+            substationGraph.writeJson(generator);
+        }
+        generator.writeEndArray();
+        generator.writeArrayFieldStart("lineEdges");
+        for (LineEdge edge : getLineEdges()) {
+            edge.writeJson(generator, isGenerateCoordsInJson());
+        }
+        generator.writeEndArray();
+        generator.writeEndObject();
     }
 
 }

@@ -12,7 +12,7 @@ import static org.junit.Assert.assertFalse;
 import com.powsybl.sld.cgmes.dl.iidm.extensions.DiagramPoint;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.sld.model.BusNode;
-import com.powsybl.sld.model.Graph;
+import com.powsybl.sld.model.VoltageLevelGraph;
 
 /**
  *
@@ -35,7 +35,7 @@ public class NodeTopologyHorizontalBusbarTest extends AbstractNodeTopologyTest {
     }
 
     @Override
-    protected void checkCoordinates(Graph graph) {
+    protected void checkCoordinates(VoltageLevelGraph graph) {
         assertEquals(20, graph.getNodes().get(0).getX(), 0);
         assertEquals(140, graph.getNodes().get(0).getY(), 0);
         assertEquals(320, ((BusNode) graph.getNodes().get(0)).getPxWidth(), 0);

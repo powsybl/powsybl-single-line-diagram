@@ -22,4 +22,8 @@ public enum Side {
         }
         return this == Side.RIGHT ? Side.LEFT : Side.RIGHT;
     }
+
+    public static Side[] defined() {
+        return new Side[]{LEFT, RIGHT};
+    }
 }

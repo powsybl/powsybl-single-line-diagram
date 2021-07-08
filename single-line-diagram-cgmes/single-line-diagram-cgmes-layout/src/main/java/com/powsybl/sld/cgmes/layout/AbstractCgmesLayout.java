@@ -23,9 +23,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.powsybl.sld.cgmes.dl.iidm.extensions.*;
+import com.powsybl.sld.model.*;
 import org.apache.commons.lang3.StringUtils;
-import com.powsybl.sld.model.Feeder2WTNode;
-import com.powsybl.sld.model.Feeder3WTNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,16 +42,12 @@ import com.powsybl.iidm.network.ThreeWindingsTransformer;
 import com.powsybl.iidm.network.TopologyKind;
 import com.powsybl.iidm.network.TwoWindingsTransformer;
 import com.powsybl.iidm.network.VoltageLevel;
-import com.powsybl.sld.model.BusNode;
-import com.powsybl.sld.model.FeederNode;
-import com.powsybl.sld.model.Graph;
-import com.powsybl.sld.model.Node;
 import com.powsybl.sld.model.Node.NodeType;
-import com.powsybl.sld.model.SwitchNode;
 
 /**
  *
  * @author Massimo Ferraro <massimo.ferraro@techrain.eu>
+ * @author Franck Lecuyer <franck.lecuyer@rte-france.com>
  */
 public abstract class AbstractCgmesLayout {
 
@@ -79,7 +74,7 @@ public abstract class AbstractCgmesLayout {
         }
     }
 
-    protected Graph removeFictitiousNodes(Graph graph, VoltageLevel vl) {
+    protected VoltageLevelGraph removeFictitiousNodes(VoltageLevelGraph graph, VoltageLevel vl) {
         graph.removeUnnecessaryFictitiousNodes();
         removeFictitiousSwitchNodes(graph, vl);
         return graph;
@@ -97,7 +92,7 @@ public abstract class AbstractCgmesLayout {
         return true;
     }
 
-    protected void setNodeCoordinates(VoltageLevel vl, Graph graph, String diagramName) {
+    protected void setNodeCoordinates(VoltageLevel vl, VoltageLevelGraph graph, String diagramName) {
         isNodeBreaker = TopologyKind.NODE_BREAKER.equals(vl.getTopologyKind());
         // skip line nodes: I need the coordinates of the adjacent node to know which side of the line belongs to this voltage level
         graph.getNodes().stream().filter(node -> !isLineNode(node)).forEach(node -> setNodeCoordinates(vl, graph, node, diagramName));
@@ -106,11 +101,10 @@ public abstract class AbstractCgmesLayout {
     }
 
     protected boolean isLineNode(Node node) {
-        return (!(node instanceof Feeder2WTNode) && !(node instanceof Feeder3WTNode))
-                && Arrays.asList(LINE, DANGLING_LINE, VSC_CONVERTER_STATION).contains(node.getComponentType());
+        return Arrays.asList(LINE, DANGLING_LINE, VSC_CONVERTER_STATION).contains(node.getComponentType());
     }
 
-    protected void setNodeCoordinates(VoltageLevel vl, Graph graph, Node node, String diagramName) {
+    protected void setNodeCoordinates(VoltageLevel vl, VoltageLevelGraph graph, Node node, String diagramName) {
         LOG.info("Setting coordinates of node {}, type {}, component type {}", node.getId(), node.getType(), node.getComponentType());
         switch (node.getType()) {
             case BUS:
@@ -198,11 +192,11 @@ public abstract class AbstractCgmesLayout {
         }
     }
 
-    protected void setFeederNodeCoordinates(VoltageLevel vl, Graph graph, Node node, String diagramName) {
+    protected void setFeederNodeCoordinates(VoltageLevel vl, VoltageLevelGraph graph, Node node, String diagramName) {
         String componentType = node.getComponentType();
-        if (node instanceof Feeder2WTNode) {
+        if (node instanceof Feeder2WTNode || node instanceof Feeder2WTLegNode) {
             componentType = TWO_WINDINGS_TRANSFORMER;
-        } else if (node instanceof Feeder3WTNode) {
+        } else if (node instanceof Feeder3WTLegNode) {
             componentType = THREE_WINDINGS_TRANSFORMER;
         }
         switch (componentType) {
@@ -234,7 +228,7 @@ public abstract class AbstractCgmesLayout {
             case TWO_WINDINGS_TRANSFORMER:
             case PHASE_SHIFT_TRANSFORMER:
                 FeederNode transformerNode = (FeederNode) node;
-                TwoWindingsTransformer transformer = vl.getConnectable(getBranchId(transformerNode.getId()), TwoWindingsTransformer.class);
+                TwoWindingsTransformer transformer = vl.getConnectable(transformerNode.getEquipmentId(), TwoWindingsTransformer.class);
                 CouplingDeviceDiagramData<TwoWindingsTransformer> transformerDiagramData = null;
                 if (transformer != null) {
                     transformerDiagramData = transformer.getExtension(CouplingDeviceDiagramData.class);
@@ -244,7 +238,7 @@ public abstract class AbstractCgmesLayout {
                 break;
             case THREE_WINDINGS_TRANSFORMER:
                 FeederNode transformer3wNode = (FeederNode) node;
-                ThreeWindingsTransformer transformer3w = vl.getConnectable(getBranchId(transformer3wNode.getId()), ThreeWindingsTransformer.class);
+                ThreeWindingsTransformer transformer3w = vl.getConnectable(transformer3wNode.getEquipmentId(), ThreeWindingsTransformer.class);
                 ThreeWindingsTransformerDiagramData transformer3wDiagramData = null;
                 if (transformer3w != null) {
                     transformer3wDiagramData = transformer3w.getExtension(ThreeWindingsTransformerDiagramData.class);
@@ -262,10 +256,6 @@ public abstract class AbstractCgmesLayout {
             String label = useNames ? name : id;
             node.setLabel(label);
         }
-    }
-
-    protected String getBranchId(String branchNodeId) {
-        return branchNodeId.substring(0, branchNodeId.lastIndexOf('_'));
     }
 
     protected void setInjectionNodeCoordinates(FeederNode node, InjectionDiagramData<?> diagramData, boolean rotate, String diagramName) {
@@ -304,7 +294,7 @@ public abstract class AbstractCgmesLayout {
         switch (node.getComponentType()) {
             case LINE:
                 FeederNode lineNode = (FeederNode) node;
-                Line line = vl.getConnectable(getBranchId(lineNode.getId()), Line.class);
+                Line line = vl.getConnectable(lineNode.getEquipmentId(), Line.class);
                 LineDiagramData<Line> lineDiagramData = line != null ? line.getExtension(LineDiagramData.class) : null;
                 setLineNodeCoordinates(lineNode, lineDiagramData, diagramName);
                 break;
@@ -378,7 +368,7 @@ public abstract class AbstractCgmesLayout {
         }
     }
 
-    protected void setVoltageLevelCoord(Graph vlGraph) {
+    protected void setVoltageLevelCoord(VoltageLevelGraph vlGraph) {
         vlGraph.setX(vlGraph.getNodes().stream()
                 .mapToDouble(Node::getX)
                 .min().orElse(0));
@@ -387,7 +377,7 @@ public abstract class AbstractCgmesLayout {
                 .min().orElse(0));
     }
 
-    public static void removeFictitiousSwitchNodes(Graph graph, VoltageLevel vl) {
+    public static void removeFictitiousSwitchNodes(VoltageLevelGraph graph, VoltageLevel vl) {
         List<Node> fictitiousSwithcNodesToRemove = graph.getNodes().stream()
                 .filter(node -> node.getType() == Node.NodeType.SWITCH)
                 .filter(node -> isFictitiousSwitchNode(node, vl))
@@ -396,7 +386,7 @@ public abstract class AbstractCgmesLayout {
         for (Node n : fictitiousSwithcNodesToRemove) {
             Node node1 = n.getAdjacentNodes().get(0);
             Node node2 = n.getAdjacentNodes().get(1);
-            LOG.info("Remove fictitious switch node between {} and {}", node1.getId(), node2.getId());
+            LOG.info("Remove fictitious switch node {} between {} and {}", n.getName(), node1.getId(), node2.getId());
             graph.removeNode(n);
             graph.addEdge(node1, node2);
         }

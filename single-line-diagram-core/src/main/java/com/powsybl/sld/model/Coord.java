@@ -9,7 +9,13 @@ package com.powsybl.sld.model;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 import java.io.IOException;
-import java.util.Objects;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static com.powsybl.sld.model.Coord.Dimension.*;
 
 /**
  * class use to store relatives coordinates of a nodeBus
@@ -19,77 +25,119 @@ import java.util.Objects;
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  */
 public class Coord {
-    private double x;
-    private double y;
 
-    private double xSpan;
-    private double ySpan;
+    public class Segment {
+        private double value;
+        private double span;
+        private double shift;
+
+        Segment(double value, double span, double shift) {
+            this.value = value;
+            this.span = span;
+            this.shift = shift;
+        }
+
+        public void copy(Segment segment) {
+            this.value = segment.value;
+            this.span = segment.span;
+            this.shift = segment.shift;
+        }
+
+        public void replicateMe(Stream<Segment> segments) {
+            segments.forEach(seg -> seg.copy(this));
+        }
+
+        public double getValue() {
+            return value;
+        }
+
+        public void setValue(double value) {
+            this.value = value;
+        }
+
+        public double getSpan() {
+            return span;
+        }
+
+        public void setSpan(double span) {
+            this.span = span;
+        }
+
+        public double getShift() {
+            return shift;
+        }
+
+        public void setShift(double shift) {
+            this.shift = shift;
+        }
+
+        public void mergeEnvelop(Stream<Segment> segStream) {
+            List<Segment> segments = segStream.collect(Collectors.toList());
+            setSpan(segments.stream().mapToDouble(Segment::getSpan).max().orElse(0));
+            segments.forEach(seg -> seg.setValue(0));
+        }
+
+        void glue(Stream<Segment> segStream) {
+            List<Segment> segments = segStream.collect(Collectors.toList());
+            setSpan(segments.stream().mapToDouble(Segment::getSpan).sum());
+            double cumulSpan = 0;
+            for (Segment seg : segments) {
+                seg.setValue(cumulSpan);
+                cumulSpan += seg.getSpan();
+            }
+        }
+    }
+
+    public enum Dimension {
+        X, Y
+    }
+
+    private Map<Dimension, Segment> dim2seg = new EnumMap<>(Dimension.class);
 
     public Coord(double x, double y) {
-        this.x = x;
-        this.y = y;
+        dim2seg.put(X, new Segment(x, 0, 0));
+        dim2seg.put(Y, new Segment(y, 0, 0));
     }
 
-    public double getX() {
-        return x;
+    public double get(Dimension dimension) {
+        return dim2seg.get(dimension).getValue();
     }
 
-    public void setX(double x) {
-        this.x = x;
+    public double getSpan(Dimension dimension) {
+        return dim2seg.get(dimension).getSpan();
     }
 
-    public double getY() {
-        return y;
+    public double getShift(Dimension dimension) {
+        return dim2seg.get(dimension).getShift();
     }
 
-    public void setY(double y) {
-        this.y = y;
+    public Segment getSegment(Dimension dimension) {
+        return dim2seg.get(dimension);
     }
 
-    public double getXSpan() {
-        return xSpan;
+    public void set(Dimension dimension, double value) {
+        dim2seg.get(dimension).setValue(value);
     }
 
-    public void setXSpan(double xSpan) {
-        this.xSpan = xSpan;
+    public void setSpan(Dimension dimension, double span) {
+        dim2seg.get(dimension).setSpan(span);
     }
 
-    public double getYSpan() {
-        return ySpan;
-    }
-
-    public void setYSpan(double ySpan) {
-        this.ySpan = ySpan;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y, xSpan, ySpan);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Coord) {
-            Coord other = (Coord) obj;
-            return other.x == x
-                    && other.y == y
-                    && other.xSpan == xSpan
-                    && other.ySpan == ySpan;
-        }
-        return false;
+    public void setShift(Dimension dimension, double shift) {
+        dim2seg.get(dimension).setShift(shift);
     }
 
     @Override
     public String toString() {
-        return "Coord(x=" + x + ", y=" + y + ", xSpan=" + xSpan + ", ySpan=" + ySpan + ")";
+        return "Coord(x=" + get(X) + ", y=" + get(Y) + ", xSpan=" + getSpan(X) + ", ySpan=" + getSpan(Y) + ")";
     }
 
     public void writeJsonContent(JsonGenerator generator) throws IOException {
         generator.writeStartObject();
-        generator.writeNumberField("x", x);
-        generator.writeNumberField("y", y);
-        generator.writeNumberField("xSpan", xSpan);
-        generator.writeNumberField("ySpan", ySpan);
+        generator.writeNumberField("x", get(X));
+        generator.writeNumberField("y", get(Y));
+        generator.writeNumberField("xSpan", getSpan(X));
+        generator.writeNumberField("ySpan", getSpan(Y));
         generator.writeEndObject();
     }
 }

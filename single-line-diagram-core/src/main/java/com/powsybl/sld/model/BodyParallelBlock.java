@@ -11,6 +11,10 @@ import com.powsybl.sld.layout.LayoutParameters;
 import java.util.Comparator;
 import java.util.List;
 
+import static com.powsybl.sld.model.Block.Type.BODYPARALLEL;
+import static com.powsybl.sld.model.Coord.Dimension.*;
+import static com.powsybl.sld.model.Position.Dimension.*;
+
 /**
  * @author Benoit Jeanson <benoit.jeanson at rte-france.com>
  * @author Nicolas Duchene
@@ -19,55 +23,24 @@ import java.util.List;
 public class BodyParallelBlock extends AbstractParallelBlock {
 
     public BodyParallelBlock(List<Block> subBlocks, Cell cell, boolean allowMerge) {
-        super(subBlocks, cell, allowMerge);
+        super(BODYPARALLEL, subBlocks, cell, allowMerge);
     }
 
     @Override
     public void sizing() {
         subBlocks.forEach(Block::sizing);
-        if (getPosition().getOrientation() == Orientation.VERTICAL) {
-            getPosition().setVSpan(subBlocks.stream().mapToInt(b -> b.getPosition().getVSpan()).max().orElse(0));
+        if (getPosition().getOrientation().isVertical()) {
+            getPosition().getSegment(V).mergeEnvelop(getSegments(V));
             subBlocks.sort(Comparator.comparingInt(Block::getOrder));
-            getPosition().setHSpan(subBlocks.stream().mapToInt(b -> b.getPosition().getHSpan()).sum());
-            int h = 0;
-            for (Block block : subBlocks) {
-                block.getPosition().setHV(h, 0);
-                h += block.getPosition().getHSpan();
-            }
+            getPosition().getSegment(H).glue(getSegments(H));
         } else {
-            getPosition().setVSpan(subBlocks.stream().mapToInt(b -> b.getPosition().getVSpan()).sum());
-            getPosition().setHSpan(subBlocks.stream().mapToInt(b -> b.getPosition().getHSpan()).max().orElse(0));
-            int v = 0;
-            for (Block subBlock : subBlocks) {
-                subBlock.getPosition().setHV(0, v);
-                v += subBlock.getPosition().getVSpan();
-            }
+            getPosition().getSegment(H).mergeEnvelop(getSegments(H));
+            getPosition().getSegment(V).glue(getSegments(V));
         }
     }
 
     @Override
-    public double initX0() {
-        return getCoord().getX() - getCoord().getXSpan() / 2;
-    }
-
-    @Override
-    public double intitXStep() {
-        return getCoord().getXSpan() / getPosition().getHSpan();
-    }
-
-    @Override
     public void coordHorizontalCase(LayoutParameters layoutParam) {
-        subBlocks.forEach(sub -> {
-            sub.setX(getCoord().getX());
-            sub.setXSpan(getCoord().getXSpan());
-            sub.setY(getCoord().getY());
-            sub.setYSpan(getCoord().getYSpan());
-            sub.calculateCoord(layoutParam);
-        });
-    }
-
-    @Override
-    public String toString() {
-        return "BodyParallelBlock(subBlocks=" + subBlocks + ")";
+        translatePosInCoord(layoutParam, X, Y, V, 1);
     }
 }

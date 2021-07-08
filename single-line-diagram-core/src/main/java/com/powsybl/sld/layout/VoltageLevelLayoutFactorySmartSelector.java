@@ -30,7 +30,7 @@ public interface VoltageLevelLayoutFactorySmartSelector {
      */
     static Optional<VoltageLevelLayoutFactorySmartSelector> findBest(VoltageLevel vl) {
         Objects.requireNonNull(vl);
-        return StreamSupport.stream(ServiceLoader.load(VoltageLevelLayoutFactorySmartSelector.class).spliterator(), false)
+        return StreamSupport.stream(ServiceLoader.load(VoltageLevelLayoutFactorySmartSelector.class, VoltageLevelLayoutFactorySmartSelector.class.getClassLoader()).spliterator(), false)
                 .filter(selector -> selector.isSelectable(vl))
                 .max(Comparator.comparingInt(selector -> selector.getPriority(vl)));
     }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2019, RTE (http://www.rte-france.com)
+ * Copyright (c) 2019-2020, RTE (http://www.rte-france.com)
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -45,7 +45,8 @@ public class LineDiagramDataImporter {
             }
             lineIidmDiagramData.addPoint(lineDiagramData.get(CgmesDLModel.DIAGRAM_NAME), new DiagramPoint(lineDiagramData.asDouble("x"), lineDiagramData.asDouble("y"), lineDiagramData.asInt("seq")));
             line.addExtension(LineDiagramData.class, lineIidmDiagramData);
-            NetworkDiagramData.addDiagramName(network, lineDiagramData.get(CgmesDLModel.DIAGRAM_NAME));
+            NetworkDiagramData.addDiagramName(network, lineDiagramData.get(CgmesDLModel.DIAGRAM_NAME), line.getTerminal1().getVoltageLevel().getSubstation().getId());
+            NetworkDiagramData.addDiagramName(network, lineDiagramData.get(CgmesDLModel.DIAGRAM_NAME), line.getTerminal2().getVoltageLevel().getSubstation().getId());
         } else {
             DanglingLine danglingLine = network.getDanglingLine(lineId);
             if (danglingLine != null) {
@@ -56,7 +57,7 @@ public class LineDiagramDataImporter {
 
                 danglingLineDiagramData.addPoint(lineDiagramData.get(CgmesDLModel.DIAGRAM_NAME), new DiagramPoint(lineDiagramData.asDouble("x"), lineDiagramData.asDouble("y"), lineDiagramData.asInt("seq")));
                 danglingLine.addExtension(LineDiagramData.class, danglingLineDiagramData);
-                NetworkDiagramData.addDiagramName(network, lineDiagramData.get(CgmesDLModel.DIAGRAM_NAME));
+                NetworkDiagramData.addDiagramName(network, lineDiagramData.get(CgmesDLModel.DIAGRAM_NAME), danglingLine.getTerminal().getVoltageLevel().getSubstation().getId());
             } else {
                 LOG.warn("Cannot find line/dangling line {}, name {} in network {}: skipping line diagram data", lineId, lineDiagramData.get("name"), network.getId());
             }

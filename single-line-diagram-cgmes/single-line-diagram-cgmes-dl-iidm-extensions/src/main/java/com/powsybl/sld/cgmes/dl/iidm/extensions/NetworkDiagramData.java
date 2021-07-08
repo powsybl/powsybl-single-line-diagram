@@ -1,15 +1,21 @@
 /**
- * Copyright (c) 2019, RTE (http://www.rte-france.com)
+ * Copyright (c) 2019-2020, RTE (http://www.rte-france.com)
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 package com.powsybl.sld.cgmes.dl.iidm.extensions;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import com.powsybl.commons.extensions.AbstractExtension;
 import com.powsybl.iidm.network.Network;
-
-import java.util.*;
 
 /**
  *
@@ -18,7 +24,7 @@ import java.util.*;
 public final class NetworkDiagramData extends AbstractExtension<Network> {
 
     static final String NAME = "network-diagram-data";
-    private Set<String> diagramsNames = new TreeSet<>();
+    private Map<String, Set<String>> diagramsNames = new TreeMap<>();
 
     private NetworkDiagramData() {
     }
@@ -31,11 +37,11 @@ public final class NetworkDiagramData extends AbstractExtension<Network> {
         return networkDiagramData;
     }
 
-    public static void addDiagramName(Network network, String diagramName) {
+    public static void addDiagramName(Network network, String diagramName, String substation) {
         Objects.requireNonNull(network);
         Objects.requireNonNull(diagramName);
         NetworkDiagramData networkDiagramData = getNetworkDiagramData(network);
-        networkDiagramData.addDiagramName(diagramName);
+        networkDiagramData.addDiagramName(diagramName, substation);
         network.addExtension(NetworkDiagramData.class, networkDiagramData);
     }
 
@@ -52,7 +58,13 @@ public final class NetworkDiagramData extends AbstractExtension<Network> {
     public static boolean containsDiagramName(Network network, String diagramName) {
         Objects.requireNonNull(network);
         Objects.requireNonNull(diagramName);
-        return checkNetworkDiagramData(network) && getNetworkDiagramData(network).diagramsNames.contains(diagramName);
+        return checkNetworkDiagramData(network) && getNetworkDiagramData(network).diagramsNames.keySet().contains(diagramName);
+    }
+
+    public static List<String> getSubstations(Network network, String diagramName) {
+        Objects.requireNonNull(network);
+        Objects.requireNonNull(diagramName);
+        return getNetworkDiagramData(network).getSubstations(diagramName);
     }
 
     @Override
@@ -60,11 +72,17 @@ public final class NetworkDiagramData extends AbstractExtension<Network> {
         return NAME;
     }
 
-    private void addDiagramName(String diagramName) {
-        diagramsNames.add(diagramName);
+    private void addDiagramName(String diagramName, String substation) {
+        Set<String> substations = diagramsNames.getOrDefault(diagramName, new TreeSet<>());
+        substations.add(substation);
+        diagramsNames.put(diagramName, substations);
     }
 
     private List<String> getDiagramsNames() {
-        return new ArrayList<>(diagramsNames);
+        return new ArrayList<>(diagramsNames.keySet());
+    }
+
+    private List<String> getSubstations(String diagramName) {
+        return new ArrayList<>(diagramsNames.getOrDefault(diagramName, new TreeSet<>()));
     }
 }

@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-     <g id="ARROW-arrow-up" class="arrow-up">
-        <polygon points="5,0 10,10 0,10"/>
-     </g>
-     <g id="ARROW-arrow-down" class="arrow-down">
-        <polygon points="0,0 10,0 5,10"/>
-     </g>
-</svg>

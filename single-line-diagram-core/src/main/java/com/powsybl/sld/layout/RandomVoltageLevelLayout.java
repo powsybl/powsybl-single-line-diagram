@@ -6,9 +6,9 @@
  */
 package com.powsybl.sld.layout;
 
-import com.powsybl.sld.model.Graph;
-import com.powsybl.sld.model.Node;
 import com.powsybl.sld.model.BusNode;
+import com.powsybl.sld.model.VoltageLevelGraph;
+import com.powsybl.sld.model.Node;
 
 import java.util.Objects;
 import java.util.Random;
@@ -18,9 +18,7 @@ import java.util.Random;
  * @author Nicolas Duchene
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  */
-public class RandomVoltageLevelLayout implements VoltageLevelLayout {
-
-    private final Graph graph;
+public class RandomVoltageLevelLayout extends AbstractVoltageLevelLayout {
 
     private final double width;
 
@@ -28,8 +26,8 @@ public class RandomVoltageLevelLayout implements VoltageLevelLayout {
 
     private final Random random;
 
-    public RandomVoltageLevelLayout(Graph graph, double width, double height, Random random) {
-        this.graph = Objects.requireNonNull(graph);
+    public RandomVoltageLevelLayout(VoltageLevelGraph graph, double width, double height, Random random) {
+        super(graph);
         this.width = width;
         this.height = height;
         this.random = Objects.requireNonNull(random);
@@ -37,14 +35,12 @@ public class RandomVoltageLevelLayout implements VoltageLevelLayout {
 
     @Override
     public void run(LayoutParameters layoutParam) {
-        for (Node node : graph.getNodes()) {
+        for (Node node : getGraph().getNodes()) {
             node.setX(random.nextDouble() * width);
             node.setY(random.nextDouble() * height);
             if (node instanceof BusNode) {
                 ((BusNode) node).setPxWidth(50);
             }
         }
-        graph.setWidth(width);
-        graph.setHeigth(height);
     }
 }

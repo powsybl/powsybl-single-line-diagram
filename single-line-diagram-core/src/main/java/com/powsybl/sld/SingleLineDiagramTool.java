@@ -15,8 +15,8 @@ import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.VoltageLevel;
 import com.powsybl.sld.layout.*;
 import com.powsybl.sld.library.ComponentLibrary;
-import com.powsybl.sld.library.ResourcesComponentLibrary;
-import com.powsybl.sld.svg.DefaultDiagramInitialValueProvider;
+import com.powsybl.sld.library.ConvergenceComponentLibrary;
+import com.powsybl.sld.svg.DefaultDiagramLabelProvider;
 import com.powsybl.sld.svg.DefaultDiagramStyleProvider;
 import com.powsybl.tools.Command;
 import com.powsybl.tools.Tool;
@@ -97,7 +97,7 @@ public class SingleLineDiagramTool implements Tool {
 
     static class SvgGenerationConfig {
 
-        ComponentLibrary componentLibrary = new ResourcesComponentLibrary("/ConvergenceLibrary");
+        ComponentLibrary componentLibrary = new ConvergenceComponentLibrary();
 
         LayoutParameters parameters = new LayoutParameters();
 
@@ -115,10 +115,10 @@ public class SingleLineDiagramTool implements Tool {
         Path svgFile = getSvgFile(outputDir, vl);
         context.getOutputStream().println("Generating '" + svgFile + "' (" + vl.getNominalV() + ")");
         try {
-            VoltageLevelDiagram.build(graphBuilder, vl.getId(), generationConfig.voltageLevelLayoutFactory, true, generationConfig.parameters.isShowInductorFor3WT())
+            VoltageLevelDiagram.build(graphBuilder, vl.getId(), generationConfig.voltageLevelLayoutFactory, true)
                     .writeSvg("", generationConfig.componentLibrary, generationConfig.parameters,
-                            new DefaultDiagramInitialValueProvider(network),
-                            new DefaultDiagramStyleProvider(network),
+                            new DefaultDiagramLabelProvider(network, generationConfig.componentLibrary, generationConfig.parameters),
+                            new DefaultDiagramStyleProvider(),
                             svgFile);
         } catch (Exception e) {
             e.printStackTrace(context.getErrorStream());
@@ -132,8 +132,8 @@ public class SingleLineDiagramTool implements Tool {
         try {
             SubstationDiagram.build(graphBuilder, s.getId(), generationConfig.substationLayoutFactory, generationConfig.voltageLevelLayoutFactory, true)
                     .writeSvg("", generationConfig.componentLibrary, generationConfig.parameters,
-                            new DefaultDiagramInitialValueProvider(network),
-                            new DefaultDiagramStyleProvider(network),
+                            new DefaultDiagramLabelProvider(network, generationConfig.componentLibrary, generationConfig.parameters),
+                            new DefaultDiagramStyleProvider(),
                             svgFile);
         } catch (Exception e) {
             e.printStackTrace(context.getErrorStream());

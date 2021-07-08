@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2019, RTE (http://www.rte-france.com)
+ * Copyright (c) 2019-2020, RTE (http://www.rte-france.com)
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -11,7 +11,7 @@ import com.powsybl.sld.NetworkGraphBuilder;
 import com.powsybl.sld.cgmes.dl.iidm.extensions.*;
 import com.powsybl.sld.layout.LayoutParameters;
 import com.powsybl.sld.model.BusNode;
-import com.powsybl.sld.model.Graph;
+import com.powsybl.sld.model.VoltageLevelGraph;
 import com.powsybl.sld.model.Node;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +49,7 @@ public class DoubleBusbarSectionTest {
         if (isVoltageLevelDataEnabled) {
             VoltageLevelDiagramData.addInternalNodeDiagramPoint(voltageLevel, DIAGRAM_NAME, iNode, new DiagramPoint(80, 45, 0));
         }
-        NetworkDiagramData.addDiagramName(network, DIAGRAM_NAME);
+        NetworkDiagramData.addDiagramName(network, DIAGRAM_NAME, "Substation1");
     }
 
     private void addBusbarSectionDiagramData(BusbarSection busbarSection, DiagramPoint point1, DiagramPoint point2) {
@@ -75,7 +75,7 @@ public class DoubleBusbarSectionTest {
         sw.addExtension(CouplingDeviceDiagramData.class, switchDiagramData);
     }
 
-    private void checkGraph(Graph graph) {
+    private void checkGraph(VoltageLevelGraph graph) {
         assertEquals(7, graph.getNodes().size());
 
         assertEquals(Node.NodeType.BUS, graph.getNodes().get(0).getType());
@@ -97,7 +97,7 @@ public class DoubleBusbarSectionTest {
         assertEquals(6, graph.getEdges().size());
     }
 
-    private void checkNodeCoordinates(Graph graph, boolean isVoltageLevelDataEnabled) {
+    private void checkNodeCoordinates(VoltageLevelGraph graph, boolean isVoltageLevelDataEnabled) {
         assertEquals(20, graph.getNodes().get(0).getX(), 0);
         assertEquals(10, graph.getNodes().get(0).getY(), 0);
         assertEquals(160, ((BusNode) graph.getNodes().get(0)).getPxWidth(), 0);
@@ -128,9 +128,9 @@ public class DoubleBusbarSectionTest {
         assertFalse(graph.getNodes().get(6).isRotated());
     }
 
-    private Graph processCgmesLayout() {
+    private VoltageLevelGraph processCgmesLayout() {
         NetworkGraphBuilder graphBuilder = new NetworkGraphBuilder(voltageLevel.getNetwork());
-        Graph graph = graphBuilder.buildVoltageLevelGraph(voltageLevel.getId(), false, true, false);
+        VoltageLevelGraph graph = graphBuilder.buildVoltageLevelGraph(voltageLevel.getId(), false, true);
         LayoutParameters layoutParameters = new LayoutParameters();
         layoutParameters.setScaleFactor(1);
         layoutParameters.setDiagramName(DIAGRAM_NAME);
@@ -141,7 +141,7 @@ public class DoubleBusbarSectionTest {
     @Test
     public void testVoltageLevelData() {
         addDiagramData(true);
-        Graph graph = processCgmesLayout();
+        VoltageLevelGraph graph = processCgmesLayout();
         checkGraph(graph);
         checkNodeCoordinates(graph, true);
     }
@@ -149,7 +149,7 @@ public class DoubleBusbarSectionTest {
     @Test
     public void testNoVoltageLevelData() {
         addDiagramData(false);
-        Graph graph = processCgmesLayout();
+        VoltageLevelGraph graph = processCgmesLayout();
         checkGraph(graph);
         checkNodeCoordinates(graph, false);
     }
