@@ -57,7 +57,7 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
             infosNbSnakeLinesH.getNbSnakeLinesVerticalBetween().put(graphId, currentNbLeft);
 
             // Calculate the snakeline as an horizontal layout
-            polyline = calculatePolylineSnakeLineForHorizontalLayout(layoutParam, node1, node2, infosNbSnakeLinesH, increment);
+            polyline = calculatePolylineSnakeLineForHorizontalLayout(layoutParam, node1, node2, increment, infosNbSnakeLinesH);
 
             // Update the vertical layout maps
             Integer updatedNbLinesBottom = infosNbSnakeLinesH.getNbSnakeLinesTopBottom().get(BusCell.Direction.BOTTOM);

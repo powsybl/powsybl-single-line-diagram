@@ -68,7 +68,7 @@ public abstract class AbstractLayout {
      * This is a default implementation of 'calculatePolylineSnakeLine' for a horizontal layout
      */
     protected static List<Point> calculatePolylineSnakeLineForHorizontalLayout(LayoutParameters layoutParam, Node node1, Node node2,
-                                                                               InfosNbSnakeLinesHorizontal infosNbSnakeLines, boolean increment) {
+                                                                               boolean increment, InfosNbSnakeLinesHorizontal infosNbSnakeLines) {
         List<Point> pol = new ArrayList<>();
         pol.add(node1.getCoordinates());
         addMiddlePoints(layoutParam, node1, node2, infosNbSnakeLines, increment, pol);
@@ -83,82 +83,44 @@ public abstract class AbstractLayout {
         BusCell.Direction dNode2 = getNodeDirection(node2, 2);
 
         Map<BusCell.Direction, Integer> nbSnakeLinesTopBottom = infosNbSnakeLines.getNbSnakeLinesTopBottom();
-        Map<String, Integer> nbSnakeLinesBetween = infosNbSnakeLines.getNbSnakeLinesVerticalBetween();
 
-        Point coord1 = node1.getCoordinates();
-        Point coord2 = node2.getCoordinates();
+        double x1 = node1.getCoordinates().getX();
+        double x2 = node2.getCoordinates().getX();
+        double y1 = node1.getCoordinates().getY();
+        double y2 = node2.getCoordinates().getY();
 
-        double x1 = coord1.getX();
-        double x2 = coord2.getX();
-        double y1 = coord1.getY();
-        double y2 = coord2.getY();
-
-        double xMaxGraph;
-        String idMaxGraph;
-        if (node1.getGraph().getX() > node2.getGraph().getX()) {
-            xMaxGraph = node1.getGraph().getX();
-            idMaxGraph = node1.getGraph().getVoltageLevelInfos().getId();
+        if (dNode1 == dNode2) {
+            if (increment) {
+                nbSnakeLinesTopBottom.compute(dNode1, (k, v) -> v + 1);
+            }
+            double decalV = getSgn(dNode1) * nbSnakeLinesTopBottom.get(dNode1) * layoutParam.getVerticalSnakeLinePadding();
+            double yDecal = Math.max(y1 + decalV, y2 + decalV);
+            pol.add(new Point(x1, yDecal));
+            pol.add(new Point(x2, yDecal));
         } else {
-            xMaxGraph = node2.getGraph().getX();
-            idMaxGraph = node2.getGraph().getVoltageLevelInfos().getId();
+            if (increment) {
+                nbSnakeLinesTopBottom.compute(dNode1, (k, v) -> v + 1);
+                nbSnakeLinesTopBottom.compute(dNode2, (k, v) -> v + 1);
+            }
+
+            VoltageLevelGraph rightestVoltageLevel = node1.getGraph().getX() > node2.getGraph().getX() ? node1.getGraph() : node2.getGraph();
+            double xMaxGraph = rightestVoltageLevel.getX();
+            String idMaxGraph = rightestVoltageLevel.getId();
+
+            double decal1V = getSgn(dNode1) * nbSnakeLinesTopBottom.get(dNode1) * layoutParam.getVerticalSnakeLinePadding();
+            double decal2V = getSgn(dNode2) * nbSnakeLinesTopBottom.get(dNode2) * layoutParam.getVerticalSnakeLinePadding();
+            double xBetweenGraph = xMaxGraph -
+                (infosNbSnakeLines.getNbSnakeLinesVerticalBetween().compute(idMaxGraph, (k, v) -> v + 1) * layoutParam.getHorizontalSnakeLinePadding());
+
+            pol.addAll(Point.createPointsList(x1, y1 + decal1V,
+                xBetweenGraph, y1 + decal1V,
+                xBetweenGraph, y2 + decal2V,
+                x2, y2 + decal2V));
         }
+    }
 
-        switch (dNode1) {
-            case BOTTOM:
-                if (dNode2 == BusCell.Direction.BOTTOM) {  // BOTTOM to BOTTOM
-                    if (increment) {
-                        nbSnakeLinesTopBottom.compute(dNode1, (k, v) -> v + 1);
-                    }
-                    double decalV = nbSnakeLinesTopBottom.get(dNode1) * layoutParam.getVerticalSnakeLinePadding();
-                    double yDecal = Math.max(y1 + decalV, y2 + decalV);
-                    pol.add(new Point(x1, yDecal));
-                    pol.add(new Point(x2, yDecal));
-                } else {  // BOTTOM to TOP
-                    if (increment) {
-                        nbSnakeLinesTopBottom.compute(dNode1, (k, v) -> v + 1);
-                        nbSnakeLinesTopBottom.compute(dNode2, (k, v) -> v + 1);
-                    }
-                    nbSnakeLinesBetween.compute(idMaxGraph, (k, v) -> v + 1);
-
-                    double decal1V = nbSnakeLinesTopBottom.get(dNode1) * layoutParam.getVerticalSnakeLinePadding();
-                    double decal2V = nbSnakeLinesTopBottom.get(dNode2) * layoutParam.getVerticalSnakeLinePadding();
-                    double xBetweenGraph = xMaxGraph - (nbSnakeLinesBetween.get(idMaxGraph) * layoutParam.getHorizontalSnakeLinePadding());
-
-                    pol.addAll(Point.createPointsList(x1, y1 + decal1V,
-                        xBetweenGraph, y1 + decal1V,
-                        xBetweenGraph, y2 - decal2V,
-                        x2, y2 - decal2V));
-                }
-                break;
-
-            case TOP:
-                if (dNode2 == BusCell.Direction.TOP) {  // TOP to TOP
-                    if (increment) {
-                        nbSnakeLinesTopBottom.compute(dNode1, (k, v) -> v + 1);
-                    }
-                    double decalV = nbSnakeLinesTopBottom.get(dNode1) * layoutParam.getVerticalSnakeLinePadding();
-                    double yDecal = Math.min(y1 - decalV, y2 - decalV);
-                    pol.add(new Point(x1, yDecal));
-                    pol.add(new Point(x2, yDecal));
-                } else {  // TOP to BOTTOM
-                    if (increment) {
-                        nbSnakeLinesTopBottom.compute(dNode1, (k, v) -> v + 1);
-                        nbSnakeLinesTopBottom.compute(dNode2, (k, v) -> v + 1);
-                    }
-                    nbSnakeLinesBetween.compute(idMaxGraph, (k, v) -> v + 1);
-                    double decal1V = nbSnakeLinesTopBottom.get(dNode1) * layoutParam.getVerticalSnakeLinePadding();
-                    double decal2V = nbSnakeLinesTopBottom.get(dNode2) * layoutParam.getVerticalSnakeLinePadding();
-
-                    double xBetweenGraph = xMaxGraph - (nbSnakeLinesBetween.get(idMaxGraph) * layoutParam.getHorizontalSnakeLinePadding());
-
-                    pol.addAll(Point.createPointsList(x1, y1 - decal1V,
-                        xBetweenGraph, y1 - decal1V,
-                        xBetweenGraph, y2 + decal2V,
-                        x2, y2 + decal2V));
-                }
-                break;
-            default:
-        }
+    private static double getSgn(BusCell.Direction direction) {
+        return direction == BusCell.Direction.BOTTOM ? 1 : -1;
     }
 
     protected List<List<Point>> splitPolyline2(List<Point> points, Node multiNode) {

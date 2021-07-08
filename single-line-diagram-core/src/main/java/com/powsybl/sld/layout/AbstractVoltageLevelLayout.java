@@ -31,7 +31,7 @@ public abstract class AbstractVoltageLevelLayout extends AbstractLayout implemen
 
     @Override
     protected List<Point> calculatePolylineSnakeLine(LayoutParameters layoutParam, Node node1, Node node2, boolean increment) {
-        return calculatePolylineSnakeLineForHorizontalLayout(layoutParam, node1, node2, infosNbSnakeLines, increment);
+        return calculatePolylineSnakeLineForHorizontalLayout(layoutParam, node1, node2, increment, infosNbSnakeLines);
     }
 
     @Override
