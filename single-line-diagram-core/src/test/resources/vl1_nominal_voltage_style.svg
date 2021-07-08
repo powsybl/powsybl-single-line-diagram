@@ -49,10 +49,10 @@ polyline {fill: none}
             <text class="sld-label" id="bbs1_NW_LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">bbs1</text>
         </g>
         <g class="sld-wire sld-constant-color sld-vl180to300 sld-feeder-disconnected-connected" id="_95_vl1_95_FICT_95_vl1_95_3WT_95_fictif_95_3WT_95_TWO">
-            <polyline points="19.0,56.0,19.0,49.0"/>
+            <polyline points="12.0,49.0,19.0,49.0"/>
         </g>
         <g class="sld-wire sld-constant-color sld-vl50to70 sld-feeder-disconnected" id="_95_vl1_95_FICT_95_vl1_95_3WT_95_fictif_95_3WT_95_THREE">
-            <polyline points="19.0,56.0,19.0,49.0"/>
+            <polyline points="12.0,49.0,19.0,49.0"/>
         </g>
         <g class="sld-wire sld-constant-color sld-vl300to500" id="_95_vl1_95_bbs1_95_d">
             <polyline points="19.0,49.0,19.0,49.0"/>
@@ -85,7 +85,7 @@ polyline {fill: none}
             <polyline points="19.0,49.0,19.0,49.0"/>
         </g>
         <g class="sld-wire sld-constant-color sld-vl300to500" id="_95_vl1_95_FICT_95_vl1_95_3WT_95_fictif_95_b3WT_95_1">
-            <polyline points="19.0,56.0,19.0,59.0"/>
+            <polyline points="19.0,61.0,19.0,59.0"/>
         </g>
         <g class="sld-wire sld-constant-color sld-vl300to500" id="_95_vl1_95_b3WT_95_1_95_FICT_95_vl1_95_6">
             <polyline points="19.0,39.0,19.0,49.0"/>
@@ -101,10 +101,10 @@ polyline {fill: none}
             <circle class="sld-vl180to300" cx="5" cy="5" r="5"/>
             <text class="sld-label" id="2WT_ONE__LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">2WT_1</text>
         </g>
-        <g class="sld-three-wt sld-constant-color" id="idFICT_95_vl1_95_3WT_95_fictif" transform="translate(11.0,42.0)">
-            <circle class="sld-vl180to300" cx="5" cy="5" r="5"/>
-            <circle class="sld-vl50to70" cx="11" cy="5" r="5"/>
-            <circle class="sld-vl300to500" cx="8" cy="9" r="5"/>
+        <g class="sld-three-wt sld-constant-color" id="idFICT_95_vl1_95_3WT_95_fictif" transform="translate(11.0,37.0)">
+            <circle class="sld-vl180to300" cx="5" cy="15" r="5"/>
+            <circle class="sld-vl50to70" cx="11" cy="15" r="5"/>
+            <circle class="sld-vl300to500" cx="8" cy="19" r="5"/>
         </g>
         <g class="sld-constant-color sld-vl300to500" id="id3WT_95_TWO" transform="translate(19.0,49.0)">
             <text class="sld-label" id="3WT_TWO__LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">3WT_1</text>

@@ -69,33 +69,33 @@ polyline {fill: none}
             <polyline points="910.0,370.0,900.0,370.0"/>
         </g>
         <g class="sld-wire sld-constant-color" id="_95_vl3_95_vl3_95_trf2_95_one_95_FICT_95_vl3_95_vl3_95_trf2">
-            <polyline points="980.0,150.0,980.0,205.0,1013.0,205.0"/>
+            <polyline points="980.0,150.0,980.0,210.0,1013.0,210.0"/>
         </g>
-        <g class="sld-arrow-p sld-up" id="_95_vl3_95_vl3_95_trf2_95_one_95_FICT_95_vl3_95_vl3_95_trf2_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,975.0,162.5)">
+        <g class="sld-arrow-p sld-up" id="_95_vl3_95_vl3_95_trf2_95_one_95_FICT_95_vl3_95_vl3_95_trf2_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,975.0,165.0)">
             <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
             <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
             <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">10</text>
         </g>
-        <g class="sld-arrow-q sld-down" id="_95_vl3_95_vl3_95_trf2_95_one_95_FICT_95_vl3_95_vl3_95_trf2_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,975.0,182.5)">
+        <g class="sld-arrow-q sld-down" id="_95_vl3_95_vl3_95_trf2_95_one_95_FICT_95_vl3_95_vl3_95_trf2_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,975.0,185.0)">
             <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
             <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
             <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">20</text>
         </g>
         <g class="sld-wire sld-constant-color" id="_95_vl3_95_vl3_95_trf2_95_two_95_FICT_95_vl3_95_vl3_95_trf2">
-            <polyline points="1060.0,150.0,1060.0,205.0,1027.0,205.0"/>
+            <polyline points="1060.0,150.0,1060.0,210.0,1027.0,210.0"/>
         </g>
-        <g class="sld-arrow-p sld-up" id="_95_vl3_95_vl3_95_trf2_95_two_95_FICT_95_vl3_95_vl3_95_trf2_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,1055.0,162.5)">
+        <g class="sld-arrow-p sld-up" id="_95_vl3_95_vl3_95_trf2_95_two_95_FICT_95_vl3_95_vl3_95_trf2_ARROW1" transform="matrix(1.0,0.0,-0.0,1.0,1055.0,165.0)">
             <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
             <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
             <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">10</text>
         </g>
-        <g class="sld-arrow-q sld-down" id="_95_vl3_95_vl3_95_trf2_95_two_95_FICT_95_vl3_95_vl3_95_trf2_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,1055.0,182.5)">
+        <g class="sld-arrow-q sld-down" id="_95_vl3_95_vl3_95_trf2_95_two_95_FICT_95_vl3_95_vl3_95_trf2_ARROW2" transform="matrix(1.0,0.0,-0.0,1.0,1055.0,185.0)">
             <polygon class="sld-arrow-down" points="0,0 10,0 5,10"/>
             <polygon class="sld-arrow-up" points="5,0 10,10 0,10"/>
             <text class="sld-label" transform="rotate(0,0,0)" x="15.0" y="5.0">20</text>
         </g>
         <g class="sld-wire sld-constant-color" id="_95_vl3_95_FICT_95_vl3_95_vl3_95_trf2_95_vl3_95_btrf2">
-            <polyline points="1020.0,217.0,1020.0,240.0"/>
+            <polyline points="1020.0,222.0,1020.0,240.0"/>
         </g>
         <g class="sld-wire sld-constant-color" id="_95_vl3_95_vl3_95_btrf2_95_vl3_95_dtrf2">
             <polyline points="1020.0,260.0,1020.0,370.0"/>
@@ -124,10 +124,10 @@ polyline {fill: none}
         <g class="sld-constant-color" id="idvl3_95_trf2_95_two" transform="translate(1060.0,150.0)">
             <text class="sld-label" id="vl3_trf2_two__LABEL" transform="rotate(0,0,0)" x="-5.0" y="-5.0">vl3_trf2</text>
         </g>
-        <g class="sld-three-wt sld-constant-color" id="idFICT_95_vl3_95_vl3_95_trf2" transform="translate(1012.0,203.0)">
-            <circle cx="5" cy="5" r="5"/>
-            <circle cx="11" cy="5" r="5"/>
-            <circle cx="8" cy="9" r="5"/>
+        <g class="sld-three-wt sld-constant-color" id="idFICT_95_vl3_95_vl3_95_trf2" transform="translate(1012.0,198.0)">
+            <circle cx="5" cy="15" r="5"/>
+            <circle cx="11" cy="15" r="5"/>
+            <circle cx="8" cy="19" r="5"/>
         </g>
         <g class="sld-breaker sld-constant-color sld-closed" id="idvl3_95_btrf2" transform="translate(1010.0,240.0)">
             <path class="sld-sw-closed" d="M1,1 V19 H19 V1z M10,5 V15"/>
