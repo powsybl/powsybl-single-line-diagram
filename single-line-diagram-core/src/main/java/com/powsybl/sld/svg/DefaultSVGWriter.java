@@ -394,8 +394,7 @@ public class DefaultSVGWriter implements SVGWriter {
         String gridId = prefixId + "GRID_" + graph.getVoltageLevelInfos().getId();
         gridRoot.setAttribute("id", gridId);
         gridRoot.setAttribute(CLASS, DiagramStyles.GRID_STYLE_CLASS);
-        gridRoot.setAttribute(TRANSFORM,
-                TRANSLATE + "(" + layoutParameters.getPaddingLeft() + "," + layoutParameters.getPaddingTop() + ")");
+
         // vertical lines
         for (int iCell = 0; iCell < maxH / 2 + 1; iCell++) {
             gridRoot.appendChild(drawGridVerticalLine(document, graph, maxV,
@@ -583,8 +582,7 @@ public class DefaultSVGWriter implements SVGWriter {
 
         g.appendChild(line);
 
-        g.setAttribute(TRANSFORM, TRANSLATE + "(" + (layoutParameters.getPaddingLeft() + node.getX()) + ","
-                + (layoutParameters.getPaddingTop() + node.getY()) + ")");
+        g.setAttribute(TRANSFORM, TRANSLATE + "(" + node.getX() + "," + node.getY() + ")");
 
         return line;
     }
@@ -858,8 +856,8 @@ public class DefaultSVGWriter implements SVGWriter {
 
     private double[] getNodeTranslate(Node node) {
         ComponentSize componentSize = componentLibrary.getSize(node.getComponentType());
-        double translateX = layoutParameters.getPaddingLeft() + node.getX() - componentSize.getWidth() / 2;
-        double translateY = layoutParameters.getPaddingTop() + node.getY() - componentSize.getHeight() / 2;
+        double translateX = node.getX() - componentSize.getWidth() / 2;
+        double translateY = node.getY() - componentSize.getHeight() / 2;
         return new double[]{translateX, translateY};
     }
 
@@ -867,7 +865,7 @@ public class DefaultSVGWriter implements SVGWriter {
         ComponentSize componentSize = componentLibrary.getSize(node.getComponentType());
         double[] translateNode = getNodeTranslate(node);
         double[] matrixNode = getTransformMatrix(componentSize.getWidth(), componentSize.getHeight(), node.getRotationAngle() * Math.PI / 180,
-                layoutParameters.getPaddingLeft() + node.getX(), layoutParameters.getPaddingTop() + node.getY());
+                node.getX(), node.getY());
         double translateDecoratorX = translateNode[0] + componentSize.getWidth() / 2 + decoratorPosition.getdX();
         double translateDecoratorY = translateNode[1] + componentSize.getHeight() / 2 + decoratorPosition.getdY();
         if (decoratorPosition.isCentered()) {
@@ -923,10 +921,8 @@ public class DefaultSVGWriter implements SVGWriter {
     }
 
     private String getTransformMatrixString(double centerPosX, double centerPosY, double angle, ComponentSize componentSize) {
-        double centerPosTransX = layoutParameters.getPaddingLeft() + centerPosX;
-        double centerPosTransY = layoutParameters.getPaddingTop() + centerPosY;
         double[] matrix = getTransformMatrix(componentSize.getWidth(), componentSize.getHeight(), angle,
-                centerPosTransX, centerPosTransY);
+                centerPosX, centerPosY);
         return transformMatrixToString(matrix, 4);
     }
 
@@ -1176,7 +1172,7 @@ public class DefaultSVGWriter implements SVGWriter {
 
     protected String pointsListToString(List<Point> polyline) {
         return polyline.stream()
-            .map(pt -> (pt.getX() + layoutParameters.getPaddingLeft()) + "," + (pt.getY() + layoutParameters.getPaddingTop()))
+            .map(pt -> pt.getX() + "," + pt.getY())
             .collect(Collectors.joining(","));
     }
 
@@ -1395,7 +1391,7 @@ public class DefaultSVGWriter implements SVGWriter {
                                 VoltageLevelGraph graph,
                                 DiagramStyleProvider styleProvider) {
 
-        double xInitPos = layoutParameters.getPaddingLeft() + CIRCLE_RADIUS_NODE_INFOS_SIZE;
+        double xInitPos = layoutParameters.getDiagramPadding().getLeft() + CIRCLE_RADIUS_NODE_INFOS_SIZE;
         double yPos = graph.getY() + graph.getHeight();
 
         List<ElectricalNodeInfo> nodes = styleProvider.getElectricalNodesInfos(graph);

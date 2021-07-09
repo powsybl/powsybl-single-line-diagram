@@ -93,7 +93,7 @@ public abstract class AbstractLayout {
             if (increment) {
                 nbSnakeLinesTopBottom.compute(dNode1, (k, v) -> v + 1);
             }
-            double decalV = getSgn(dNode1) * nbSnakeLinesTopBottom.get(dNode1) * layoutParam.getVerticalSnakeLinePadding();
+            double decalV = getVerticalShift(layoutParam, dNode1, nbSnakeLinesTopBottom);
             double yDecal = Math.max(y1 + decalV, y2 + decalV);
             pol.add(new Point(x1, yDecal));
             pol.add(new Point(x2, yDecal));
@@ -107,15 +107,24 @@ public abstract class AbstractLayout {
             double xMaxGraph = rightestVoltageLevel.getX();
             String idMaxGraph = rightestVoltageLevel.getId();
 
-            double decal1V = getSgn(dNode1) * nbSnakeLinesTopBottom.get(dNode1) * layoutParam.getVerticalSnakeLinePadding();
-            double decal2V = getSgn(dNode2) * nbSnakeLinesTopBottom.get(dNode2) * layoutParam.getVerticalSnakeLinePadding();
-            double xBetweenGraph = xMaxGraph -
-                (infosNbSnakeLines.getNbSnakeLinesVerticalBetween().compute(idMaxGraph, (k, v) -> v + 1) * layoutParam.getHorizontalSnakeLinePadding());
+            LayoutParameters.Padding vlPadding = layoutParam.getVoltageLevelPadding();
+            double decal1V = getVerticalShift(layoutParam, dNode1, nbSnakeLinesTopBottom);
+            double decal2V = getVerticalShift(layoutParam, dNode2, nbSnakeLinesTopBottom);
+            double xBetweenGraph = xMaxGraph - vlPadding.getLeft()
+                - (infosNbSnakeLines.getNbSnakeLinesVerticalBetween().compute(idMaxGraph, (k, v) -> v + 1) - 1) * layoutParam.getHorizontalSnakeLinePadding();
 
             pol.addAll(Point.createPointsList(x1, y1 + decal1V,
                 xBetweenGraph, y1 + decal1V,
                 xBetweenGraph, y2 + decal2V,
                 x2, y2 + decal2V));
+        }
+    }
+
+    private static double getVerticalShift(LayoutParameters layoutParam, BusCell.Direction dNode1, Map<BusCell.Direction, Integer> nbSnakeLinesTopBottom) {
+        if (dNode1 == BusCell.Direction.BOTTOM) {
+            return Math.max(nbSnakeLinesTopBottom.get(dNode1) - 1, 0) * layoutParam.getVerticalSnakeLinePadding() + layoutParam.getVoltageLevelPadding().getBottom();
+        } else {
+            return -Math.max(nbSnakeLinesTopBottom.get(dNode1) - 1, 0) * layoutParam.getVerticalSnakeLinePadding() - layoutParam.getVoltageLevelPadding().getTop();
         }
     }
 

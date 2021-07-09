@@ -197,8 +197,7 @@ public class ForceSubstationLayout extends AbstractSubstationLayout {
                 } else {
                     String vlAboveId = vls.get(iVl - 1);
                     VoltageLevelGraph vlAbove = getGraph().getNodeStream().filter(voltageLevelGraph -> voltageLevelGraph.getId().equals(vlAboveId)).findFirst().orElseThrow();
-                    double heightWithoutPaddings = vlAbove.getHeight() - layoutParam.getPaddingBottom() - layoutParam.getPaddingTop();
-                    return vlAbove.getY() + heightWithoutPaddings + decalV;
+                    return vlAbove.getY() + vlAbove.getHeight() + decalV;
                 }
             } else {
                 return node.getCoordinates().getY() - decalV;

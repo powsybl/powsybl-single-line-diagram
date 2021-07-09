@@ -20,7 +20,8 @@ public class LayoutParametersTest {
     @Test
     public void test() {
         LayoutParameters layoutParameters = new LayoutParameters()
-                .setPaddings(20, 60, 20, 60)
+                .setVoltageLevelPadding(15, 35, 25, 45)
+                .setDiagrammPadding(20, 40, 30, 50)
                 .setVerticalSpaceBus(20)
                 .setHorizontalBusPadding(30)
                 .setCellWidth(70)
@@ -52,10 +53,14 @@ public class LayoutParametersTest {
                 .setFeederArrowSymmetry(true);
         LayoutParameters layoutParameters2 = new LayoutParameters(layoutParameters);
 
-        assertEquals(layoutParameters.getPaddingLeft(), layoutParameters2.getPaddingLeft(), 0);
-        assertEquals(layoutParameters.getPaddingTop(), layoutParameters2.getPaddingTop(), 0);
-        assertEquals(layoutParameters.getPaddingRight(), layoutParameters2.getPaddingRight(), 0);
-        assertEquals(layoutParameters.getPaddingBottom(), layoutParameters2.getPaddingBottom(), 0);
+        assertEquals(layoutParameters.getVoltageLevelPadding().getLeft(), layoutParameters2.getVoltageLevelPadding().getLeft(), 0);
+        assertEquals(layoutParameters.getVoltageLevelPadding().getTop(), layoutParameters2.getVoltageLevelPadding().getTop(), 0);
+        assertEquals(layoutParameters.getVoltageLevelPadding().getRight(), layoutParameters2.getVoltageLevelPadding().getRight(), 0);
+        assertEquals(layoutParameters.getVoltageLevelPadding().getBottom(), layoutParameters2.getVoltageLevelPadding().getBottom(), 0);
+        assertEquals(layoutParameters.getDiagramPadding().getLeft(), layoutParameters2.getDiagramPadding().getLeft(), 0);
+        assertEquals(layoutParameters.getDiagramPadding().getTop(), layoutParameters2.getDiagramPadding().getTop(), 0);
+        assertEquals(layoutParameters.getDiagramPadding().getRight(), layoutParameters2.getDiagramPadding().getRight(), 0);
+        assertEquals(layoutParameters.getDiagramPadding().getBottom(), layoutParameters2.getDiagramPadding().getBottom(), 0);
         assertEquals(layoutParameters.getVerticalSpaceBus(), layoutParameters2.getVerticalSpaceBus(), 0);
         assertEquals(layoutParameters.getHorizontalBusPadding(), layoutParameters2.getHorizontalBusPadding(), 0);
         assertEquals(layoutParameters.getCellWidth(), layoutParameters2.getCellWidth(), 0);

@@ -159,7 +159,7 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
         double shiftLeftRight = infosNbSnakeLines.getNbSnakeLinesLeftRight().compute(side, (k, v) -> v + 1) * layoutParam.getHorizontalSnakeLinePadding();
         return side == Side.LEFT
             ? node.getGraph().getX() - shiftLeftRight
-            : node.getGraph().getX() + shiftLeftRight + getGraph().getNodeStream().mapToDouble(VoltageLevelGraph::getWidth).max().orElse(0) - layoutParam.getPaddingRight() - layoutParam.getPaddingLeft();
+            : node.getGraph().getX() + shiftLeftRight + getGraph().getNodeStream().mapToDouble(VoltageLevelGraph::getWidth).max().orElse(0);
     }
 
     private double getYSnakeLine(Node node, BusCell.Direction dNode1, double decalV, LayoutParameters layoutParam) {
@@ -172,8 +172,7 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
                 return node.getCoordinates().getY() - decalV;
             } else {
                 VoltageLevelGraph vlAbove = vls.get(iVl - 1);
-                double heightWithoutPaddings = vlAbove.getHeight() - layoutParam.getPaddingBottom() - layoutParam.getPaddingTop();
-                return vlAbove.getY() + heightWithoutPaddings + decalV;
+                return vlAbove.getY() + vlAbove.getHeight() + decalV;
             }
         }
     }

@@ -35,7 +35,6 @@ public abstract class AbstractTestCase {
 
     protected static LayoutParameters createDefaultLayoutParameters() {
         return new LayoutParameters()
-            .setPaddings(20, 50, 20, 50)
             .setVerticalSpaceBus(25)
             .setHorizontalBusPadding(20)
             .setCellWidth(50)

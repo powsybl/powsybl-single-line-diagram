@@ -42,20 +42,22 @@ public class PositionVoltageLevelLayout extends AbstractVoltageLevelLayout {
         // Calculate all the coordinates for the middle nodes and the snake lines in the voltageLevel graph
         manageSnakeLines(layoutParam);
 
-        Point size = calculateSize(getGraph(), layoutParam);
+        Point size = calculateSize(layoutParam);
         getGraph().setSize(size.getX(), size.getY());
     }
 
-    private Point calculateSize(VoltageLevelGraph graph, LayoutParameters layoutParam) {
+    private Point calculateSize(LayoutParameters layoutParam) {
+        VoltageLevelGraph graph = getGraph();
         double elementaryWidth = layoutParam.getCellWidth() / 2; // the elementary step within a voltageLevel Graph is half a cell width
-        double width = layoutParam.getPaddingLeft()
-            + graph.getMaxH() * elementaryWidth
-            + layoutParam.getPaddingRight();
-        double height = layoutParam.getPaddingTop()
-            + graph.getExternCellHeight(BusCell.Direction.TOP)
+        double width = graph.getMaxH() * elementaryWidth;
+        double height = graph.getExternCellHeight(BusCell.Direction.TOP) //TODO: check there is TOP / BOTTOM cells
             + 2 * layoutParam.getStackHeight() + layoutParam.getVerticalSpaceBus() * graph.getMaxV()
-            + graph.getExternCellHeight(BusCell.Direction.BOTTOM)
-            + layoutParam.getPaddingBottom();
+            + graph.getExternCellHeight(BusCell.Direction.BOTTOM);
+        if (graph.isForVoltageLevelDiagram()) {
+            LayoutParameters.Padding padding = layoutParam.getVoltageLevelPadding();
+            width += padding.getLeft() + padding.getRight();
+            height += padding.getTop() + padding.getBottom();
+        }
         return new Point(width, height);
     }
 

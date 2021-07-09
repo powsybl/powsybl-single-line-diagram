@@ -34,20 +34,32 @@ public class HorizontalSubstationLayout extends AbstractSubstationLayout {
      */
     @Override
     protected void calculateCoordVoltageLevels(LayoutParameters layoutParameters) {
-        double totalWidth = layoutParameters.getHorizontalSubstationPadding();
-        double maxHeight = 0;
+
+        LayoutParameters.Padding diagramPadding = layoutParameters.getDiagramPadding();
+        LayoutParameters.Padding voltageLevelPadding = layoutParameters.getVoltageLevelPadding();
+
+        double yVoltageLevels = diagramPadding.getTop() + voltageLevelPadding.getTop();
+        double totalWidth = diagramPadding.getLeft();
+        double maxVlHeight = 0;
+
         for (VoltageLevelGraph vlGraph : getGraph().getNodes()) {
-            vlGraph.setCoord(totalWidth, 0);
+            totalWidth += voltageLevelPadding.getLeft();
+            vlGraph.setCoord(totalWidth, yVoltageLevels);
 
             // Calculate the objects coordinates inside the voltageLevel graph
             VoltageLevelLayout vLayout = vLayoutFactory.create(vlGraph);
             vLayout.run(layoutParameters);
 
-            totalWidth += vlGraph.getWidth() + layoutParameters.getHorizontalSubstationPadding();
-            maxHeight = Math.max(maxHeight, vlGraph.getHeight());
+            totalWidth += vlGraph.getWidth() + voltageLevelPadding.getRight();
+            maxVlHeight = Math.max(maxVlHeight, vlGraph.getHeight());
         }
 
-        getGraph().setSize(totalWidth, maxHeight);
+        totalWidth += diagramPadding.getRight();
+
+        double substationHeight = maxVlHeight
+            + voltageLevelPadding.getTop() + voltageLevelPadding.getBottom()
+            + diagramPadding.getTop() + diagramPadding.getBottom();
+        getGraph().setSize(totalWidth, substationHeight);
     }
 
     @Override
