@@ -33,7 +33,7 @@ public final class InfosNbSnakeLinesForce {
     static InfosNbSnakeLinesForce create(SubstationGraph substationGraph, ForceSubstationLayoutFactory.CompactionType compactionType) {
         List<String> vlYSorted = substationGraph.getNodeStream().sorted(Comparator.comparingDouble(VoltageLevelGraph::getY)).map(VoltageLevelGraph::getId).collect(Collectors.toList());
         Stream<String> vlXSorted = substationGraph.getNodeStream().sorted(Comparator.comparingDouble(VoltageLevelGraph::getX)).map(VoltageLevelGraph::getId);
-        Map<String, Integer> nbSnakeLinesLeft = vlXSorted.skip(1).collect(Collectors.toMap(Function.identity(), v -> 0));
+        Map<String, Integer> nbSnakeLinesLeft = vlXSorted.collect(Collectors.toMap(Function.identity(), v -> 0));
         int[] nbSnakeLinesHorizontalBetween = new int[(int) substationGraph.getNodeStream().count() + 1];
         Map<String, Map<BusCell.Direction, Integer>> nbSnakeLinesTopBottom = compactionType != ForceSubstationLayoutFactory.CompactionType.VERTICAL
             ? new HashMap<>()
@@ -41,6 +41,10 @@ public final class InfosNbSnakeLinesForce {
                 Collectors.toMap(Function.identity(), v0 -> EnumSet.allOf(BusCell.Direction.class).stream().collect(
                     Collectors.toMap(Function.identity(), v1 -> 0))));
         return new InfosNbSnakeLinesForce(nbSnakeLinesLeft, vlYSorted, nbSnakeLinesHorizontalBetween, nbSnakeLinesTopBottom, compactionType);
+    }
+
+    public int getNbSnakeLinesLeft(String vlId) {
+        return nbSnakeLinesLeft.get(vlId);
     }
 
     public int incrementAndGetNbSnakeLinesLeft(String vlId) {
@@ -70,6 +74,8 @@ public final class InfosNbSnakeLinesForce {
 
     public void reset() {
         nbSnakeLinesLeft.keySet().forEach(vl -> nbSnakeLinesLeft.compute(vl, (k, v) -> 0));
+        nbSnakeLinesTopBottom.keySet().forEach(vl -> nbSnakeLinesTopBottom.put(vl,
+            EnumSet.allOf(BusCell.Direction.class).stream().collect(Collectors.toMap(Function.identity(), v1 -> 0))));
         Arrays.fill(nbSnakeLinesHorizontalBetween, 0);
     }
 

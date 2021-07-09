@@ -32,20 +32,33 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
      */
     @Override
     protected void calculateCoordVoltageLevels(LayoutParameters layoutParameters) {
-        double maxWidth = 0;
-        double totalHeight = layoutParameters.getVerticalSubstationPadding();
+
+        LayoutParameters.Padding diagramPadding = layoutParameters.getDiagramPadding();
+        LayoutParameters.Padding voltageLevelPadding = layoutParameters.getVoltageLevelPadding();
+
+        double xVoltageLevels = diagramPadding.getLeft() + voltageLevelPadding.getLeft();
+        double maxVlWidth = 0;
+        double totalHeight = diagramPadding.getTop();
+
         for (VoltageLevelGraph vlGraph : getGraph().getNodes()) {
-            vlGraph.setCoord(0, totalHeight);
+            totalHeight += voltageLevelPadding.getTop();
+            vlGraph.setCoord(xVoltageLevels, totalHeight);
 
             // Calculate the objects coordinates inside the voltageLevel graph
             VoltageLevelLayout vLayout = vLayoutFactory.create(vlGraph);
             vLayout.run(layoutParameters);
 
-            maxWidth = Math.max(maxWidth, vlGraph.getWidth());
-            totalHeight += vlGraph.getHeight() + layoutParameters.getVerticalSubstationPadding();
+            maxVlWidth = Math.max(maxVlWidth, vlGraph.getWidth());
+            totalHeight += vlGraph.getHeight() + voltageLevelPadding.getBottom();
         }
 
-        getGraph().setSize(maxWidth, totalHeight);
+        getGraph().setSize(maxVlWidth, totalHeight);
+        totalHeight += diagramPadding.getBottom();
+
+        double substationWidth = maxVlWidth
+            + voltageLevelPadding.getLeft() + voltageLevelPadding.getRight()
+            + diagramPadding.getLeft() + diagramPadding.getRight();
+        getGraph().setSize(substationWidth, totalHeight);
     }
 
     @Override
@@ -53,17 +66,40 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
         getGraph().getNodes().forEach(g -> manageSnakeLines(g, layoutParameters));
         manageSnakeLines(getGraph(), layoutParameters);
 
-        double widthSnakeLinesLeft = infosNbSnakeLines.getNbSnakeLinesLeftRight().get(Side.LEFT) * layoutParameters.getHorizontalSnakeLinePadding();
-        double widthSnakeLinesRight = infosNbSnakeLines.getNbSnakeLinesLeftRight().get(Side.RIGHT) * layoutParameters.getHorizontalSnakeLinePadding();
-        getGraph().setSize(getGraph().getWidth() + widthSnakeLinesLeft + widthSnakeLinesRight, getGraph().getHeight());
-
-        if (widthSnakeLinesLeft > 0) {
-            getGraph().getNodes().forEach(g -> g.setCoord(g.getX() + widthSnakeLinesLeft, g.getY()));
-
-            infosNbSnakeLines.reset();
-            getGraph().getNodes().forEach(g -> manageSnakeLines(g, layoutParameters));
-            manageSnakeLines(getGraph(), layoutParameters);
+        if (layoutParameters.isPaddingAdaptedToSnakeLines()) {
+            adaptPaddingToSnakeLines(layoutParameters);
         }
+    }
+
+    private void adaptPaddingToSnakeLines(LayoutParameters layoutParameters) {
+        double widthSnakeLinesLeft = infosNbSnakeLines.getNbSnakeLinesLeftRight().get(Side.LEFT) * layoutParameters.getHorizontalSnakeLinePadding();
+
+        LayoutParameters.Padding diagramPadding = layoutParameters.getDiagramPadding();
+        LayoutParameters.Padding voltageLevelPadding = layoutParameters.getVoltageLevelPadding();
+
+        double xVoltageLevels = widthSnakeLinesLeft + diagramPadding.getLeft() + voltageLevelPadding.getLeft();
+        double totalHeight = diagramPadding.getTop()
+            + getGraph().getNodeStream().findFirst().map(vlg -> getHeightHorizontalSnakeLines(vlg.getId(), BusCell.Direction.BOTTOM, layoutParameters)).orElse(0.);
+
+        for (VoltageLevelGraph vlGraph : getGraph().getNodes()) {
+            totalHeight += voltageLevelPadding.getTop();
+            vlGraph.setCoord(xVoltageLevels, totalHeight);
+            totalHeight += vlGraph.getHeight() + voltageLevelPadding.getBottom()
+                + getHeightHorizontalSnakeLines(vlGraph.getId(), BusCell.Direction.BOTTOM, layoutParameters);
+        }
+
+        totalHeight += diagramPadding.getBottom();
+
+        double widthSnakeLinesRight = infosNbSnakeLines.getNbSnakeLinesLeftRight().get(Side.RIGHT) * layoutParameters.getHorizontalSnakeLinePadding();
+        getGraph().setSize(getGraph().getWidth() + widthSnakeLinesLeft + widthSnakeLinesRight, totalHeight);
+
+        infosNbSnakeLines.reset();
+        getGraph().getNodes().forEach(g -> manageSnakeLines(g, layoutParameters));
+        manageSnakeLines(getGraph(), layoutParameters);
+    }
+
+    private double getHeightHorizontalSnakeLines(String vlGraphId, BusCell.Direction direction, LayoutParameters layoutParameters) {
+        return Math.max(infosNbSnakeLines.getNbSnakeLinesHorizontalBetween(vlGraphId, direction) - 1, 0) * layoutParameters.getHorizontalSnakeLinePadding();
     }
 
     /*
@@ -117,7 +153,7 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
         int nbSnakeLines1 = increment
             ? infosNbSnakeLines.incrementAndGetNbSnakeLinesTopBottom(vl1, dNode1)
             : infosNbSnakeLines.getNbSnakeLinesHorizontalBetween(vl1, dNode1);
-        double decal1V = nbSnakeLines1 * layoutParam.getVerticalSnakeLinePadding();
+        double decal1V = getVerticalShift(layoutParam, dNode1, nbSnakeLines1);
 
         double x1 = node1.getCoordinates().getX();
         double x2 = node2.getCoordinates().getX();
@@ -134,7 +170,7 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
         } else {
             String vl2 = node2.getGraph().getVoltageLevelInfos().getId();
             int nbSnakeLines2 = infosNbSnakeLines.incrementAndGetNbSnakeLinesTopBottom(vl2, dNode2);
-            double decal2V = nbSnakeLines2 * layoutParam.getVerticalSnakeLinePadding();
+            double decal2V = getVerticalShift(layoutParam, dNode2, nbSnakeLines2);
 
             double ySnakeLine1 = getYSnakeLine(node1, dNode1, decal1V, layoutParam);
             double ySnakeLine2 = getYSnakeLine(node2, dNode2, decal2V, layoutParam);
@@ -146,6 +182,11 @@ public class VerticalSubstationLayout extends AbstractSubstationLayout {
                 xSnakeLine, ySnakeLine2,
                 x2, ySnakeLine2));
         }
+    }
+
+    private double getVerticalShift(LayoutParameters layoutParam, BusCell.Direction dNode1, int nbSnakeLines1) {
+        return (nbSnakeLines1 - 1) * layoutParam.getVerticalSnakeLinePadding()
+            + (dNode1 == BusCell.Direction.TOP ? layoutParam.getVoltageLevelPadding().getTop() : layoutParam.getVoltageLevelPadding().getBottom());
     }
 
     /**
